@@ -2,8 +2,9 @@ package pt.ipleiria.estg.dei.ei.dae.prc.dtos;
 
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
-public class BiomedicDataTypeDTO {
+public class BiomedicDataTypeDTO implements Serializable {
     private long code;
     private String name;
     private String unitMeasure;

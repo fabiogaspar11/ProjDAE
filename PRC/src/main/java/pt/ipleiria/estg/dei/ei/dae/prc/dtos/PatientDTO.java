@@ -7,10 +7,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PatientDTO {
+public class PatientDTO implements Serializable {
 
     private String username;
     private String name;
