@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-public class Prescription implements Serializable {
+public class BiomedicDataMeasure implements Serializable {
     @Id
     private long code;
 }

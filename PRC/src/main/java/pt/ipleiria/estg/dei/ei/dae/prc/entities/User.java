@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.entities;
 
+import pt.ipleiria.estg.dei.ei.dae.prc.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -21,20 +23,21 @@ public class User {
     @NotNull
     private String name;
     @Email
+    @NotNull
     private String email;
     @NotNull
     private String password;
     @NotNull
-    private Date birthDate;
+    private String birthDate;
     @NotNull
     private String contact;
 
-    public User(String username, String name, String email, String password, Date bornDate, String contact) {
+    public User(String username, String name, String email, String password, String birthDate, String contact) {
         this.username = username;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.birthDate = bornDate;
+        this.birthDate = birthDate;
         this.contact = contact;
     }
 
@@ -73,12 +76,12 @@ public class User {
         this.password = password;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date bornDate) {
-        this.birthDate = bornDate;
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getContact() {
