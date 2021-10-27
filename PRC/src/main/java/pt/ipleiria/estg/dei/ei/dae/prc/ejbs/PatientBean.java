@@ -6,6 +6,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Stateless
 public class PatientBean {
@@ -17,4 +18,14 @@ public class PatientBean {
         Patient patient = new Patient(username,name,email,password,birthDate,contact,healthUserNumber,weight,height);
         entityManager.persist(patient);
     }
+
+    public List<Patient> getAllPatients() {
+        return (List<Patient>) entityManager.createNamedQuery("getAllPatients").getResultList();
+    }
+
+    public void findPatient(String username){
+        entityManager.find(Patient.class, username);
+    }
+
+
 }

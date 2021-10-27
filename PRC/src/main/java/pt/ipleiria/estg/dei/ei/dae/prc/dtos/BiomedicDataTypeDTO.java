@@ -1,35 +1,16 @@
-package pt.ipleiria.estg.dei.ei.dae.prc.entities;
+package pt.ipleiria.estg.dei.ei.dae.prc.dtos;
 
-import javax.persistence.*;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
-
-
-@NamedQueries({
-        @NamedQuery(
-                name = "getAllBiomedicDataType",
-                query = "SELECT b FROM BiomedicDataType b ORDER BY b.code" // JPQL
-        )
-})
-@Table(
-        name = "BIOMEDICDATATYPES",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"NAME"})
-)
-@Entity
-public class BiomedicDataType implements Serializable {
-    @Id
+public class BiomedicDataTypeDTO {
     private long code;
-    @NotNull
     private String name;
-    @NotNull
     private String unitMeasure;
-    @NotNull
     private float minValue;
-    @NotNull
     private float maxValue;
 
-    public BiomedicDataType(long code, String name, String unitMeasure, float minValue, float maxValue) {
+    public BiomedicDataTypeDTO(long code, String name, String unitMeasure, float minValue, float maxValue) {
         this.code = code;
         this.name = name;
         this.unitMeasure = unitMeasure;
@@ -37,7 +18,7 @@ public class BiomedicDataType implements Serializable {
         this.maxValue = maxValue;
     }
 
-    public BiomedicDataType() {
+    public BiomedicDataTypeDTO() {
     }
 
     public long getCode() {

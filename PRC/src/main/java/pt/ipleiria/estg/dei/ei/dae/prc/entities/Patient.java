@@ -81,4 +81,16 @@ public class Patient extends User implements Serializable {
     public void setBiomedicDataList(List<BiomedicDataMeasure> biomedicDataList) {
         this.biomedicDataList = biomedicDataList;
     }
+
+    public void addPrescription(Prescription prescription){
+        if(prescription!=null){
+            prescriptionList.add(prescription);
+        }
+    }
+
+    public void removePrescription(Prescription prescription){
+        if(prescription!=null){
+            prescriptionList.remove(prescription);
+        }
+    }
 }

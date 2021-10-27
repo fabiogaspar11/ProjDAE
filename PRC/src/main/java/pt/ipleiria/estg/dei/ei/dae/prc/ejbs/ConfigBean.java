@@ -13,9 +13,13 @@ public class ConfigBean {
     @EJB
     PatientBean patientBean;
 
+    @EJB
+    BiomedicDataTypeBean biomedicDataTypeBean;
+
     @PostConstruct
     public void populateDB() {
         patientBean.create("fabiogaspar11","Fábio Gaspar","2191264@my.ipleiria.pt","12345","04/12/2001","916364061",123456789,60,(float)1.68);
+        biomedicDataTypeBean.create(1,"Febre","ºC",30,45);
     }
 }
 
