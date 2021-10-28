@@ -27,12 +27,17 @@ public class Patient extends User implements Serializable {
     @OneToMany //falta fazer as relações
     private List<BiomedicDataMeasure> biomedicDataList;
 
+    @ManyToOne
+    @JoinColumn(name = "HEALTHCAREPROFESSIONAL_NUMBER")
+    @NotNull
+    private HealthcareProfessional healthcareProfessional;
 
-    public Patient(String username, String name, String email, String password, String birthDate, String contact, long healthUserNumber, float weight, float height) {
+    public Patient(String username, String name, String email, String password, String birthDate, String contact, long healthUserNumber, float weight, float height,HealthcareProfessional healthcareProfessional) {
         super(username, name, email, password, birthDate, contact);
         this.healthUserNumber = healthUserNumber;
         this.weight = weight;
         this.height = height;
+        this.healthcareProfessional = healthcareProfessional;
         prescriptionList = new LinkedList<>();
         biomedicDataList = new LinkedList<>();
     }
@@ -40,6 +45,14 @@ public class Patient extends User implements Serializable {
     public Patient() {
         prescriptionList = new LinkedList<>();
         biomedicDataList = new LinkedList<>();
+    }
+
+    public HealthcareProfessional getHealthcareProfessional() {
+        return healthcareProfessional;
+    }
+
+    public void setHealthcareProfessional(HealthcareProfessional healthcareProfessional) {
+        this.healthcareProfessional = healthcareProfessional;
     }
 
     public long getHealthUserNumber() {
