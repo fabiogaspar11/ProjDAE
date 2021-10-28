@@ -24,8 +24,9 @@ public class PatientDTO implements Serializable {
     private float height;
     private List<Prescription> prescriptionList;
     private List<BiomedicDataMeasure> biomedicDataList;
+    private String healthcareProfessionalUername;
 
-    public PatientDTO(String username, String name, String email, String password, String birthDate, String contact, long healthUserNumber, float weight, float height) {
+    public PatientDTO(String username, String name, String email, String password, String birthDate, String contact, long healthUserNumber, float weight, float height, String healthcareProfessionalUername) {
         this.username = username;
         this.name = name;
         this.email = email;
@@ -35,11 +36,20 @@ public class PatientDTO implements Serializable {
         this.healthUserNumber = healthUserNumber;
         this.weight = weight;
         this.height = height;
+        this.healthcareProfessionalUername = healthcareProfessionalUername;
         prescriptionList = new LinkedList<>();
         biomedicDataList = new LinkedList<>();
     }
 
     public PatientDTO() {
+    }
+
+    public String getHealthcareProfessionalUername() {
+        return healthcareProfessionalUername;
+    }
+
+    public void setHealthcareProfessionalUername(String healthcareProfessionalUername) {
+        this.healthcareProfessionalUername = healthcareProfessionalUername;
     }
 
     public String getUsername() {

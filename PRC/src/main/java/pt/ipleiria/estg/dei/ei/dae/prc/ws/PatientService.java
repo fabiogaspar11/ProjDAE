@@ -20,17 +20,18 @@ public class PatientService {
     @EJB
     private PatientBean patientBean;
 
-    private PatientDTO toDTO(Patient student) {
+    private PatientDTO toDTO(Patient patient) {
         return new PatientDTO(
-                student.getUsername(),
-                student.getName(),
-                student.getEmail(),
-                student.getPassword(),
-                student.getBirthDate(),
-                student.getContact(),
-                student.getHealthUserNumber(),
-                student.getWeight(),
-                student.getHeight()
+                patient.getUsername(),
+                patient.getName(),
+                patient.getEmail(),
+                patient.getPassword(),
+                patient.getBirthDate(),
+                patient.getContact(),
+                patient.getHealthUserNumber(),
+                patient.getWeight(),
+                patient.getHeight(),
+                patient.getHealthcareProfessional().getUsername()
         );
     }
 
