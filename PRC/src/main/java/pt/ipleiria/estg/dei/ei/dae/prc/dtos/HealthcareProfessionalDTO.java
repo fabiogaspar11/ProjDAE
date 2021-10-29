@@ -1,5 +1,10 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.dtos;
 
+import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
+
+import java.util.LinkedList;
+import java.util.List;
+
 public class HealthcareProfessionalDTO {
     private String username;
     private String name;
@@ -9,8 +14,10 @@ public class HealthcareProfessionalDTO {
     private String contact;
     private long healthcareProfessionalNumber;
     private String type;
+    private List<Patient> patients;
 
     public HealthcareProfessionalDTO(){
+        this.patients = new LinkedList<>();
     }
 
     public HealthcareProfessionalDTO(String username, String name, String email, String password, String birthDate, String contact, long healthcareProfessionalNumber, String type) {
@@ -22,6 +29,19 @@ public class HealthcareProfessionalDTO {
         this.contact = contact;
         this.healthcareProfessionalNumber = healthcareProfessionalNumber;
         this.type=type;
+        this.patients = new LinkedList<>();
+    }
+    public HealthcareProfessionalDTO(String username, String name, String email, String password, String birthDate, String contact, long healthcareProfessionalNumber, String type, List<Patient> patients) {
+        this(username, name, email, password, birthDate, contact, healthcareProfessionalNumber, type);
+        this.patients = patients;
+    }
+
+    public List<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(List<Patient> patients) {
+        this.patients = patients;
     }
 
     public String getType() {
