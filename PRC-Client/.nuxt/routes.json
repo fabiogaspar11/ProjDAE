@@ -3,25 +3,28 @@
     "name": "administrators",
     "path": "/administrators",
     "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators.vue",
-    "chunkName": "pages/administrators"
+    "chunkName": "pages/administrators",
+    "_name": "_5753310f"
   },
   {
     "name": "patients",
     "path": "/patients",
     "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients.vue",
-    "chunkName": "pages/patients"
+    "chunkName": "pages/patients",
+    "_name": "_e6d1b6d2"
   },
   {
     "name": "prescriptions",
     "path": "/prescriptions",
     "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\prescriptions.vue",
-    "chunkName": "pages/prescriptions"
+    "chunkName": "pages/prescriptions",
+    "_name": "_61bacd40"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\index.vue",
+    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\index.vue",
     "chunkName": "pages/index",
-    "_name": "_373b5e41"
+    "_name": "_a43c85ce"
   }
 ]
