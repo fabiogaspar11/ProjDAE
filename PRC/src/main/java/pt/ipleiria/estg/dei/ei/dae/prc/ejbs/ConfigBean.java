@@ -22,6 +22,7 @@ public class ConfigBean {
     @EJB
     AdministratorBean administratorBean;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
     @PostConstruct
     public void populateDB() throws pt.ipleiria.estg.dei.ei.dae.academics.exceptions.MyEntityExistsException {
@@ -30,6 +31,8 @@ public class ConfigBean {
         biomedicDataTypeBean.create(1,"Febre","ºC",30,45);
         administratorBean.create("carlAdmin", "Carl Carl", "ola@aaa.aaa", "carladmin123", "17/04/1960", "919191911");
 =======
+=======
+>>>>>>> Stashed changes
     @PostConstruct
     public void populateDB() {
         healthcareProfessionalBean.create("medicaMaria", 987654321, "Maria Gomes", "maria_gomes@gmail.com", "1234", "22/09/2021", "924359214");
@@ -40,6 +43,9 @@ public class ConfigBean {
 
         biomedicDataTypeBean.create(1,"Febre","ºC",30,45);
         administratorBean.create("rodrigo.faria","Rodrigo Faria","rodrigo.faria@my.ipleiria.pt","123","04/05/1970","911234322");
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
 }

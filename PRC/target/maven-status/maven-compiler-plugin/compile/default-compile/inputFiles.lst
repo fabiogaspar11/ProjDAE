@@ -1,4 +1,5 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\PatientBean.java
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\Data.java
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\HealthcareProfessionalBean.java
@@ -23,6 +24,8 @@ D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\ConfigBean.java
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\PatientService.java
 =======
+=======
+>>>>>>> Stashed changes
 C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\HealthcareProfessionalDTO.java
 C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\PRC_Application.java
 C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\PatientDTO.java
@@ -46,4 +49,7 @@ C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\Pa
 C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\Prescription.java
 C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\AdministratorService.java
 C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\BiomedicDataTypeBean.java
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes

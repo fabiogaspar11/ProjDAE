@@ -5,8 +5,11 @@ import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 const _373b5e41 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 =======
+=======
+>>>>>>> Stashed changes
 const _5753310f = () => interopDefault(import('..\\pages\\administrators.vue' /* webpackChunkName: "pages/administrators" */))
 const _e6d1b6d2 = () => interopDefault(import('..\\pages\\patients.vue' /* webpackChunkName: "pages/patients" */))
 const _61bacd40 = () => interopDefault(import('..\\pages\\prescriptions.vue' /* webpackChunkName: "pages/prescriptions" */))
