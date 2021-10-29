@@ -30,8 +30,7 @@ public class PatientService {
                 patient.getContact(),
                 patient.getHealthUserNumber(),
                 patient.getWeight(),
-                patient.getHeight(),
-                patient.getHealthcareProfessional().getUsername()
+                patient.getHeight()
         );
     }
 
@@ -45,7 +44,5 @@ public class PatientService {
     public List<PatientDTO> getAllPatientsWS() {
         return toDTOs(patientBean.getAllPatients());
     }
-
-
 
 }

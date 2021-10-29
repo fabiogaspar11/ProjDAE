@@ -17,18 +17,33 @@ import java.util.List;
 public class HealthcareProfessional extends User implements Serializable {
     @NotNull
     private long healthcareProfessionalNumber;
+    @NotNull
+    private String type;
 
-    @OneToMany(mappedBy = "healthcareProfessional", cascade = CascadeType.REMOVE)
+    @ManyToMany
+    @JoinTable(name = "HEALTHCAREPROFESSIONALS_PACIENTS",
+            joinColumns = @JoinColumn(name = "USERNAME_HEALTHCAREPROFESSIONAL", referencedColumnName = "USERNAME"),
+            inverseJoinColumns = @JoinColumn(name = "USERNAME_PACIENT", referencedColumnName =
+                    "USERNAME"))
     private List<Patient> patients;
 
     public HealthcareProfessional() {
         this.patients= new LinkedList<>();
     }
 
-    public HealthcareProfessional(String username, long healthcareProfessionalNumber, String name, String email, String password, String birthDate, String contact) {
+    public HealthcareProfessional(String username, long healthcareProfessionalNumber, String name, String email, String password, String birthDate, String contact, String type) {
         super(username, name, email, password, birthDate, contact);
         this.healthcareProfessionalNumber = healthcareProfessionalNumber;
         this.patients = new LinkedList<>();
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public long getHealthcareProfessionalNumber() {

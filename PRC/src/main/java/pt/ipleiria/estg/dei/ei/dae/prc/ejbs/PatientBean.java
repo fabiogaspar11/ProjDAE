@@ -15,10 +15,8 @@ public class PatientBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(String username, String name, String email, String password, String birthDate, String contact, long healthUserNumber, float weight, float height, String healthcareProfessionalUsername){
-        HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class, healthcareProfessionalUsername);
-        //TODO missing throw if healthcareProfessional is null
-        Patient patient = new Patient(username,name,email,password,birthDate,contact,healthUserNumber,weight,height, healthcareProfessional);
+    public void create(String username, String name, String email, String password, String birthDate, String contact, long healthUserNumber, float weight, float height){
+        Patient patient = new Patient(username,name,email,password,birthDate,contact,healthUserNumber,weight,height);
         entityManager.persist(patient);
     }
 

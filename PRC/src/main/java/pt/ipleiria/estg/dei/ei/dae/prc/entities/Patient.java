@@ -27,33 +27,47 @@ public class Patient extends User implements Serializable {
     @OneToMany //falta fazer as relações
     private List<BiomedicDataMeasure> biomedicDataList;
 
-    @ManyToOne
-    @JoinColumn(name = "HEALTHCAREPROFESSIONAL_NUMBER")
-    @NotNull
-    private HealthcareProfessional healthcareProfessional;
+    @ManyToMany(mappedBy = "patients")
+    private List<HealthcareProfessional> healthcareProfessionals;
 
-    public Patient(String username, String name, String email, String password, String birthDate, String contact, long healthUserNumber, float weight, float height,HealthcareProfessional healthcareProfessional) {
+    public Patient(String username, String name, String email, String password, String birthDate, String contact, long healthUserNumber, float weight, float height) {
         super(username, name, email, password, birthDate, contact);
         this.healthUserNumber = healthUserNumber;
         this.weight = weight;
         this.height = height;
-        this.healthcareProfessional = healthcareProfessional;
-        prescriptionList = new LinkedList<>();
-        biomedicDataList = new LinkedList<>();
+        this.healthcareProfessionals = new LinkedList<>();
+        this.prescriptionList = new LinkedList<>();
+        this.biomedicDataList = new LinkedList<>();
     }
 
     public Patient() {
-        prescriptionList = new LinkedList<>();
-        biomedicDataList = new LinkedList<>();
+        this.prescriptionList = new LinkedList<>();
+        this.biomedicDataList = new LinkedList<>();
+        this.healthcareProfessionals = new LinkedList<>();
     }
 
-    public HealthcareProfessional getHealthcareProfessional() {
-        return healthcareProfessional;
+    public List<HealthcareProfessional> getHealthcareProfessionals() {
+        return healthcareProfessionals;
     }
 
-    public void setHealthcareProfessional(HealthcareProfessional healthcareProfessional) {
-        this.healthcareProfessional = healthcareProfessional;
+    public void setHealthcareProfessionals(List<HealthcareProfessional> healthcareProfessionals) {
+        this.healthcareProfessionals = healthcareProfessionals;
     }
+
+    public void addHealthcareProfessional(HealthcareProfessional healthcareProfessional){
+        if(healthcareProfessional == null || healthcareProfessionals.contains(healthcareProfessional)){
+            return;
+        }
+        healthcareProfessionals.add(healthcareProfessional);
+    }
+
+    public void removeHealthcareProfessional(HealthcareProfessional healthcareProfessional){
+        if(healthcareProfessional == null || !healthcareProfessionals.contains(healthcareProfessional)){
+            return;
+        }
+        healthcareProfessionals.remove(healthcareProfessional);
+    }
+
 
     public long getHealthUserNumber() {
         return healthUserNumber;

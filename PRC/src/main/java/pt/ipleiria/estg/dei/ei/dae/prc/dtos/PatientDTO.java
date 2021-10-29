@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.dtos;
 
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.BiomedicDataMeasure;
+import pt.ipleiria.estg.dei.ei.dae.prc.entities.HealthcareProfessional;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Prescription;
 
 import javax.persistence.Id;
@@ -24,9 +25,9 @@ public class PatientDTO implements Serializable {
     private float height;
     private List<Prescription> prescriptionList;
     private List<BiomedicDataMeasure> biomedicDataList;
-    private String healthcareProfessionalUername;
+    private List<HealthcareProfessional> healthcareProfessionals;
 
-    public PatientDTO(String username, String name, String email, String password, String birthDate, String contact, long healthUserNumber, float weight, float height, String healthcareProfessionalUername) {
+    public PatientDTO(String username, String name, String email, String password, String birthDate, String contact, long healthUserNumber, float weight, float height) {
         this.username = username;
         this.name = name;
         this.email = email;
@@ -36,20 +37,23 @@ public class PatientDTO implements Serializable {
         this.healthUserNumber = healthUserNumber;
         this.weight = weight;
         this.height = height;
-        this.healthcareProfessionalUername = healthcareProfessionalUername;
-        prescriptionList = new LinkedList<>();
-        biomedicDataList = new LinkedList<>();
+        this.healthcareProfessionals = new LinkedList<>();
+        this.prescriptionList = new LinkedList<>();
+        this.biomedicDataList = new LinkedList<>();
     }
 
     public PatientDTO() {
+        this.healthcareProfessionals = new LinkedList<>();
+        this.prescriptionList = new LinkedList<>();
+        this.biomedicDataList = new LinkedList<>();
     }
 
-    public String getHealthcareProfessionalUername() {
-        return healthcareProfessionalUername;
+    public List<HealthcareProfessional> getHealthcareProfessionals() {
+        return healthcareProfessionals;
     }
 
-    public void setHealthcareProfessionalUername(String healthcareProfessionalUername) {
-        this.healthcareProfessionalUername = healthcareProfessionalUername;
+    public void setHealthcareProfessionals(List<HealthcareProfessional> healthcareProfessionals) {
+        this.healthcareProfessionals = healthcareProfessionals;
     }
 
     public String getUsername() {

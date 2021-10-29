@@ -8,11 +8,12 @@ public class HealthcareProfessionalDTO {
     private String birthDate;
     private String contact;
     private long healthcareProfessionalNumber;
+    private String type;
 
     public HealthcareProfessionalDTO(){
     }
 
-    public HealthcareProfessionalDTO(String username, String name, String email, String password, String birthDate, String contact, long healthcareProfessionalNumber) {
+    public HealthcareProfessionalDTO(String username, String name, String email, String password, String birthDate, String contact, long healthcareProfessionalNumber, String type) {
         this.username = username;
         this.name = name;
         this.email = email;
@@ -20,6 +21,15 @@ public class HealthcareProfessionalDTO {
         this.birthDate = birthDate;
         this.contact = contact;
         this.healthcareProfessionalNumber = healthcareProfessionalNumber;
+        this.type=type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getUsername() {
