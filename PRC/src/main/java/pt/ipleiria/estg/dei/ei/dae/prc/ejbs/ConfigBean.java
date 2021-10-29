@@ -5,6 +5,7 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import pt.ipleiria.estg.dei.ei.dae.prc.Data;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
 
 @Startup
 @Singleton
@@ -23,7 +24,7 @@ public class ConfigBean {
     AdministratorBean administratorBean;
 
     @PostConstruct
-    public void populateDB() throws pt.ipleiria.estg.dei.ei.dae.academics.exceptions.MyEntityExistsException {
+    public void populateDB() throws MyEntityExistsException {
         //healthcareProfessionalBean.create("medicaMaria", 987654321, "Maria Gomes", "maria_gomes@gmail.com", "1234", "22/09/2021", "924359214", "medic");
         patientBean.create("fabiogaspar11", "Fábio Gaspar", "2191264@my.ipleiria.pt", "12345", "04/12/2001", "916364061", 123456789, 60, (float) 1.68);
         //biomedicDataTypeBean.create(1, "Febre", "ºC", 30, 45);
