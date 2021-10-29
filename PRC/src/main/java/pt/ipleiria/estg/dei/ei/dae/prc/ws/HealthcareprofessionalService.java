@@ -81,7 +81,7 @@ public class HealthcareprofessionalService {
 
     @POST
     @Path("/")
-    public Response createNewHealthcareprofessional(HealthcareProfessionalDTO healthcareProfessionalDTO) throws pt.ipleiria.estg.dei.ei.dae.academics.exceptions.MyEntityExistsException {
+    public Response createNewHealthcareprofessional(HealthcareProfessionalDTO healthcareProfessionalDTO) {
         healthcareProfessionalBean.create(
                 healthcareProfessionalDTO.getUsername(),
                 healthcareProfessionalDTO.getHealthcareProfessionalNumber(),
