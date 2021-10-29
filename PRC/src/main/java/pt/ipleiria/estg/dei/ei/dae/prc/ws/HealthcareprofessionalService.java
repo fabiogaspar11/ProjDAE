@@ -85,7 +85,7 @@ public class HealthcareprofessionalService {
 
     @POST
     @Path("/")
-    public Response createNewHealthcareprofessional(HealthcareProfessionalDTO healthcareProfessionalDTO) {
+    public Response createNewHealthcareprofessional(HealthcareProfessionalDTO healthcareProfessionalDTO) throws pt.ipleiria.estg.dei.ei.dae.academics.exceptions.MyEntityExistsException {
         healthcareProfessionalBean.create(
                 healthcareProfessionalDTO.getUsername(),
                 healthcareProfessionalDTO.getHealthcareProfessionalNumber(),
@@ -156,6 +156,5 @@ public class HealthcareprofessionalService {
         healthcareProfessionalBean.removePatientFromHealthcareprofessional(usernamePatient, username);
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         return Response.ok(patientsoDTOs(healthcareProfessional.getPatients())).build();
-
     }
 }

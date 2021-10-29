@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ejbs;
 
+import pt.ipleiria.estg.dei.ei.dae.academics.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.HealthcareProfessionalDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.HealthcareProfessional;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
@@ -15,12 +16,11 @@ public class HealthcareProfessionalBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(String username, long healthcareProfessionalNumber, String name, String email, String password, String birthDate, String contact, String type){
-        //TODO check if professional exists or not in the DB
+    public void create(String username, long healthcareProfessionalNumber, String name, String email, String password, String birthDate, String contact, String type) throws MyEntityExistsException {
+
         HealthcareProfessional healthcareProfessional = findHealthcareProfessional(username);
-        if(healthcareProfessional == null){
-            return;
-        }
+        if(healthcareProfessional != null) throw new MyEntityExistsException("A healthcare professional with the username \'" + username + "\' already exists");
+        //TODO check if professional with the healthcareProfessionalNumber exists or not in the DB
         healthcareProfessional = new HealthcareProfessional(username,healthcareProfessionalNumber, name, email, password, birthDate, contact, type);
         entityManager.persist(healthcareProfessional);
     }
