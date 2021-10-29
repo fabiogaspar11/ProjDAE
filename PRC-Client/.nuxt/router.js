@@ -4,10 +4,10 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _5753310f = () => interopDefault(import('..\\pages\\administrators.vue' /* webpackChunkName: "pages/administrators" */))
-const _e6d1b6d2 = () => interopDefault(import('..\\pages\\patients.vue' /* webpackChunkName: "pages/patients" */))
-const _61bacd40 = () => interopDefault(import('..\\pages\\prescriptions.vue' /* webpackChunkName: "pages/prescriptions" */))
-const _a43c85ce = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
+const _d3cb3c10 = () => interopDefault(import('..\\pages\\administrators.vue' /* webpackChunkName: "pages/administrators" */))
+const _0da90f80 = () => interopDefault(import('..\\pages\\patients.vue' /* webpackChunkName: "pages/patients" */))
+const _3ca5b152 = () => interopDefault(import('..\\pages\\prescriptions.vue' /* webpackChunkName: "pages/prescriptions" */))
+const _51cd9be0 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
 
@@ -22,19 +22,19 @@ export const routerOptions = {
 
   routes: [{
     path: "/administrators",
-    component: _5753310f,
+    component: _d3cb3c10,
     name: "administrators"
   }, {
     path: "/patients",
-    component: _e6d1b6d2,
+    component: _0da90f80,
     name: "patients"
   }, {
     path: "/prescriptions",
-    component: _61bacd40,
+    component: _3ca5b152,
     name: "prescriptions"
   }, {
     path: "/",
-    component: _a43c85ce,
+    component: _51cd9be0,
     name: "index"
   }],
 

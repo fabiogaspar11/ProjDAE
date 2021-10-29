@@ -35,7 +35,6 @@ public class AdministratorBean {
     }
 
     public void update(String username, String name, String email, String password, String birthDate, String contact)  throws MyEntityNotFoundException {
-
         Administrator administrator = findAdministrator(username);
         if (administrator != null){
             administrator.setName(name);

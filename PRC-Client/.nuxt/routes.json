@@ -2,29 +2,25 @@
   {
     "name": "administrators",
     "path": "/administrators",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators.vue",
-    "chunkName": "pages/administrators",
-    "_name": "_5753310f"
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators.vue",
+    "chunkName": "pages/administrators"
   },
   {
     "name": "patients",
     "path": "/patients",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients.vue",
-    "chunkName": "pages/patients",
-    "_name": "_e6d1b6d2"
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients.vue",
+    "chunkName": "pages/patients"
   },
   {
     "name": "prescriptions",
     "path": "/prescriptions",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\prescriptions.vue",
-    "chunkName": "pages/prescriptions",
-    "_name": "_61bacd40"
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\prescriptions.vue",
+    "chunkName": "pages/prescriptions"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\index.vue",
-    "chunkName": "pages/index",
-    "_name": "_a43c85ce"
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\index.vue",
+    "chunkName": "pages/index"
   }
 ]
