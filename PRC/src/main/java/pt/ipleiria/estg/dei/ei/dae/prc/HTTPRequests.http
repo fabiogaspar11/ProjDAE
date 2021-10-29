@@ -1,3 +1,3 @@
 ########## ADMINISTRATORS ##########
-GET http://localhost:8080/prc/api/administrators
+GET http://localhost:8080/PRC/api/administrators
 Accept: application/json
