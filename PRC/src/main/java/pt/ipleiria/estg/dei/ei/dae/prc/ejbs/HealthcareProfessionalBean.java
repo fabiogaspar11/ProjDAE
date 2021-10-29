@@ -56,6 +56,19 @@ public class HealthcareProfessionalBean {
         return true;
     }
 
+    public boolean addPatientFromHealthcareprofessional(String usernamePatient, String usernameHealthcareprofessional)  {
+        HealthcareProfessional healthcareProfessional = findHealthcareProfessional(usernameHealthcareprofessional);
+        Patient patient = entityManager.find(Patient.class, usernamePatient);
+        if (patient == null){
+            return false;
+        }
+
+        patient.addHealthcareProfessional(healthcareProfessional);
+        healthcareProfessional.addPatient(patient);
+        entityManager.merge(patient);
+        entityManager.merge(healthcareProfessional);
+        return true;
+    }
     public void update(HealthcareProfessional healthcareProfessional, HealthcareProfessionalDTO healthcareProfessionalDTO) {
         entityManager.lock(entityManager.merge(healthcareProfessional), LockModeType.OPTIMISTIC);
 
