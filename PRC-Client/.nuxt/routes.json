@@ -1,5 +1,23 @@
 [
   {
+    "name": "administrators",
+    "path": "/administrators",
+    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators.vue",
+    "chunkName": "pages/administrators"
+  },
+  {
+    "name": "patients",
+    "path": "/patients",
+    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients.vue",
+    "chunkName": "pages/patients"
+  },
+  {
+    "name": "prescriptions",
+    "path": "/prescriptions",
+    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\prescriptions.vue",
+    "chunkName": "pages/prescriptions"
+  },
+  {
     "name": "index",
     "path": "/",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\index.vue",

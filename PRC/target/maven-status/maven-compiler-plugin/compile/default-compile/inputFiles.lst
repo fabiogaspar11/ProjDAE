@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\PatientBean.java
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\Data.java
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\HealthcareProfessionalBean.java
@@ -21,3 +22,28 @@ D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\BiomedicDataTypeDTO.java
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\ConfigBean.java
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\PatientService.java
+=======
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\HealthcareProfessionalDTO.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\PRC_Application.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\PatientDTO.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\AdministratorDTO.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\Data.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\Administrator.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\BiomedicDataTypeService.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\PatientBean.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\BiomedicDataTypeDTO.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\HealthcareprofessionalService.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\HealthcareProfessional.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\BiomedicDataMeasure.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\User.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\providers\CorsFilter.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\BiomedicDataType.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\Patient.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\AdministratorBean.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\HealthcareProfessionalBean.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\ConfigBean.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\PatientService.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\Prescription.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\AdministratorService.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\BiomedicDataTypeBean.java
+>>>>>>> Stashed changes

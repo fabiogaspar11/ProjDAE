@@ -13,7 +13,7 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllPatients",
-                query = "SELECT p FROM Patient p ORDER BY p.name" // JPQL
+                query = "SELECT p FROM Patient p ORDER BY p.name"
         )
 })
 public class Patient extends User implements Serializable {
