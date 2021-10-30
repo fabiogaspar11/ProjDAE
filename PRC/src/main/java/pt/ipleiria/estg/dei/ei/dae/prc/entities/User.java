@@ -1,11 +1,9 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.entities;
 
-import pt.ipleiria.estg.dei.ei.dae.prc.Data;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+
 
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

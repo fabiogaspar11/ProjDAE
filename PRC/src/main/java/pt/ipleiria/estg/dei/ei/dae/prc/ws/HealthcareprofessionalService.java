@@ -5,6 +5,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PatientDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.HealthcareProfessionalBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.HealthcareProfessional;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
@@ -13,7 +14,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Path("healthcareprofessionals")
+@Path("healthcareProfessionals")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
 //TODO
@@ -33,6 +34,7 @@ public class HealthcareprofessionalService {
                 healthcareProfessional.getType()
         );
     }
+
     private HealthcareProfessionalDTO toDTONoPatients(HealthcareProfessional healthcareProfessional) {
         return new HealthcareProfessionalDTO(
                 healthcareProfessional.getUsername(),
@@ -46,6 +48,7 @@ public class HealthcareprofessionalService {
                 healthcareProfessional.getPatients()
         );
     }
+
     private List<HealthcareProfessionalDTO> toDTOs(List<HealthcareProfessional> healthcareProfessionals) {
         return healthcareProfessionals.stream().map(this::toDTO).collect(Collectors.toList());
     }
@@ -68,7 +71,6 @@ public class HealthcareprofessionalService {
         );
     }
 
-    // converts an entire list of entities into a list of DTOs
     private List<PatientDTO> patientsoDTOs(List<Patient> patients) {
         return patients.stream().map(this::patientToDTO).collect(Collectors.toList());
     }
@@ -81,7 +83,7 @@ public class HealthcareprofessionalService {
 
     @POST
     @Path("/")
-    public Response createNewHealthcareprofessional(HealthcareProfessionalDTO healthcareProfessionalDTO) {
+    public Response createNewHealthcareprofessional(HealthcareProfessionalDTO healthcareProfessionalDTO) throws MyEntityExistsException, MyEntityNotFoundException {
         healthcareProfessionalBean.create(
                 healthcareProfessionalDTO.getUsername(),
                 healthcareProfessionalDTO.getHealthcareProfessionalNumber(),
@@ -100,7 +102,7 @@ public class HealthcareprofessionalService {
 
     @GET
     @Path("{username}")
-    public Response getHealthcareprofessionalDetails(@PathParam("username") String username){
+    public Response getHealthcareprofessionalDetails(@PathParam("username") String username) throws MyEntityNotFoundException {
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         return Response.status(Response.Status.OK)
                 .entity(toDTO(healthcareProfessional))
@@ -109,7 +111,7 @@ public class HealthcareprofessionalService {
 
     @DELETE
     @Path("/{username}")
-    public Response deleteHealthcareprofessional(@PathParam("username") String username)  {
+    public Response deleteHealthcareprofessional(@PathParam("username") String username) throws MyEntityNotFoundException {
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         healthcareProfessionalBean.remove(healthcareProfessional);
         return Response.status(Response.Status.OK)
@@ -119,8 +121,7 @@ public class HealthcareprofessionalService {
 
     @PUT
     @Path("/{username}")
-    public Response updateHealthcareprofessional(@PathParam("username") String username, HealthcareProfessionalDTO healthcareProfessionalDTO)  {
-
+    public Response updateHealthcareprofessional(@PathParam("username") String username, HealthcareProfessionalDTO healthcareProfessionalDTO) throws MyEntityNotFoundException {
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         healthcareProfessionalBean.update(healthcareProfessional, healthcareProfessionalDTO);
         return Response.status(Response.Status.OK)
@@ -129,7 +130,7 @@ public class HealthcareprofessionalService {
     }
 
     @Path("/{username}/add/{usernamePatient}")
-    public Response addPatient(@PathParam("username") String username, @PathParam("usernamePatient") String usernamePatient) {
+    public Response addPatient(@PathParam("username") String username, @PathParam("usernamePatient") String usernamePatient) throws MyEntityNotFoundException {
         healthcareProfessionalBean.addPatientFromHealthcareprofessional(usernamePatient, username);
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         return Response.ok(patientsoDTOs(healthcareProfessional.getPatients())).build();
@@ -138,9 +139,9 @@ public class HealthcareprofessionalService {
 
     @POST
     @Path("/{username}/remove/{usernamePatient}")
-    public Response removePatient(@PathParam("username") String username, @PathParam("usernamePatient") String usernamePatient) {
+    public Response removePatient(@PathParam("username") String username, @PathParam("usernamePatient") String usernamePatient) throws MyEntityNotFoundException {
         healthcareProfessionalBean.removePatientFromHealthcareprofessional(usernamePatient, username);
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         return Response.ok(patientsoDTOs(healthcareProfessional.getPatients())).build();
     }
-    }
+}

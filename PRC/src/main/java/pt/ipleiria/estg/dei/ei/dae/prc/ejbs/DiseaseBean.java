@@ -3,8 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.prc.ejbs;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Administrator;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Disease;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.HealthcareProfessional;
-import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
-import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

@@ -3,8 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.prc.ws;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.AdministratorDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.AdministratorBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Administrator;
-import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
-import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;

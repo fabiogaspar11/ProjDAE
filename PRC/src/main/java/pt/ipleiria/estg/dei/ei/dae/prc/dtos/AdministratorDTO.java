@@ -1,6 +1,5 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.dtos;
 
-import javax.persistence.Id;
 import java.io.Serializable;
 
 public class AdministratorDTO implements Serializable {

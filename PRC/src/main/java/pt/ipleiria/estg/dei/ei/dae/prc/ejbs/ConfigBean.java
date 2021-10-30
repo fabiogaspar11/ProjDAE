@@ -4,9 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import pt.ipleiria.estg.dei.ei.dae.prc.Data;
-import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
-import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
 @Startup
 @Singleton

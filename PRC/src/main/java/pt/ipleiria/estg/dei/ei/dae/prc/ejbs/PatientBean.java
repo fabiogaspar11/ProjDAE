@@ -1,7 +1,5 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ejbs;
 
-import pt.ipleiria.estg.dei.ei.dae.prc.Data;
-import pt.ipleiria.estg.dei.ei.dae.prc.entities.HealthcareProfessional;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 
 import javax.ejb.Stateless;
