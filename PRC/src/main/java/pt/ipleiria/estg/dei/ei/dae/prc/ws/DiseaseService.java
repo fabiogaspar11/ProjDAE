@@ -56,7 +56,6 @@ public class DiseaseService {
 
     private PatientDTO toDTO(Patient patient) {
         return new PatientDTO(
-                patient.getUsername(),
                 patient.getName(),
                 patient.getEmail(),
                 patient.getPassword(),

@@ -21,7 +21,6 @@ public class PatientService {
 
     private PatientDTO toDTO(Patient patient) {
         return new PatientDTO(
-                patient.getUsername(),
                 patient.getName(),
                 patient.getEmail(),
                 patient.getPassword(),
@@ -47,8 +46,7 @@ public class PatientService {
     @POST
     @Path("/")
     public Response createNewPatient(PatientDTO patientDTO) throws MyEntityExistsException, MyEntityNotFoundException {
-        patientBean.create(
-                patientDTO.getUsername(),
+        String username = patientBean.create(
                 patientDTO.getName(),
                 patientDTO.getEmail(),
                 patientDTO.getPassword(),
@@ -58,7 +56,7 @@ public class PatientService {
                 patientDTO.getWeight(),
                 patientDTO.getHeight()
         );
-        Patient patient = patientBean.findPatient(patientDTO.getUsername());
+        Patient patient = patientBean.findPatient(username);
         return Response.status(Response.Status.CREATED)
                 .entity(toDTO(patient))
                 .build();

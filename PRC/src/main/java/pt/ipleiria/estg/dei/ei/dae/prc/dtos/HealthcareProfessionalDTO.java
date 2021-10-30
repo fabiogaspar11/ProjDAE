@@ -20,8 +20,8 @@ public class HealthcareProfessionalDTO {
         this.patients = new LinkedList<>();
     }
 
-    public HealthcareProfessionalDTO(String username, String name, String email, String password, String birthDate, String contact, long healthcareProfessionalNumber, String type) {
-        this.username = username;
+    public HealthcareProfessionalDTO(String name, String email, String password, String birthDate, String contact, long healthcareProfessionalNumber, String type) {
+        this.username = "H"+healthcareProfessionalNumber;
         this.name = name;
         this.email = email;
         this.password = password;
@@ -31,8 +31,8 @@ public class HealthcareProfessionalDTO {
         this.type=type;
         this.patients = new LinkedList<>();
     }
-    public HealthcareProfessionalDTO(String username, String name, String email, String password, String birthDate, String contact, long healthcareProfessionalNumber, String type, List<Patient> patients) {
-        this(username, name, email, password, birthDate, contact, healthcareProfessionalNumber, type);
+    public HealthcareProfessionalDTO(String name, String email, String password, String birthDate, String contact, long healthcareProfessionalNumber, String type, List<Patient> patients) {
+        this(name, email, password, birthDate, contact, healthcareProfessionalNumber, type);
         this.patients = patients;
     }
 

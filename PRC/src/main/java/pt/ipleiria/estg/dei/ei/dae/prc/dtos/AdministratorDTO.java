@@ -11,8 +11,8 @@ public class AdministratorDTO implements Serializable {
     private String contact;
     private long citizenNumber;
 
-    public AdministratorDTO(String username, String name, String email, String password, String birthDate, String contact, long citizenNumber) {
-        this.username = username;
+    public AdministratorDTO(String name, String email, String password, String birthDate, String contact, long citizenNumber) {
+        this.username = "A"+citizenNumber;
         this.name = name;
         this.email = email;
         this.password = password;

@@ -16,12 +16,14 @@ public class HealthcareProfessionalBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(String username, long healthcareProfessionalNumber, String name, String email, String password, String birthDate, String contact, String type) throws MyEntityExistsException, MyEntityNotFoundException {
+    public String create(long healthcareProfessionalNumber, String name, String email, String password, String birthDate, String contact, String type) throws MyEntityExistsException, MyEntityNotFoundException {
+        String username = "H"+healthcareProfessionalNumber;
         HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class,username);
         if(healthcareProfessional != null) throw new MyEntityExistsException("A healthcare professional with the username \'" + username + "\' already exists");
         //TODO check if professional with the healthcareProfessionalNumber exists or not in the DB
         healthcareProfessional = new HealthcareProfessional(username,healthcareProfessionalNumber, name, email, password, birthDate, contact, type);
         entityManager.persist(healthcareProfessional);
+        return healthcareProfessional.getUsername();
     }
 
     public void remove(HealthcareProfessional healthcareProfessional) throws MyEntityNotFoundException {

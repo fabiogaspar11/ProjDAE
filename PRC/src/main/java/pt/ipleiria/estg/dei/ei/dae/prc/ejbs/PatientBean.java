@@ -15,11 +15,13 @@ public class PatientBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(String username, String name, String email, String password, String birthDate, String contact, long healthUserNumber, float weight, float height) throws MyEntityExistsException {
+    public String create(String name, String email, String password, String birthDate, String contact, long healthUserNumber, float weight, float height) throws MyEntityExistsException {
+        String username = "P"+healthUserNumber;
         Patient patient = entityManager.find(Patient.class, username);
         if(patient != null) throw new MyEntityExistsException("A patient with the username \'" + username + "\' already exists");
         patient = new Patient(username,name,email,password,birthDate,contact,healthUserNumber,weight,height);
         entityManager.persist(patient);
+        return patient.getUsername();
     }
 
     public List<Patient> getAllPatients() {

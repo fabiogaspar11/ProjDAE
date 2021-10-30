@@ -83,7 +83,6 @@ POST http://localhost:8080/PRC/api/healthcareProfessionals
 Content-Type: application/json
 
 {
-  "username": "Doctor_mike",
   "healthcareProfessionalNumber": 394628427,
   "name": "Mike Varshavski",
   "email": "mike_var@outlook.com",
@@ -105,12 +104,12 @@ Content-Type: application/json
 }
 
 ########## DELETE ##########
-DELETE http://localhost:8080/PRC/api/healthcareProfessionals/Doctor_mike
+DELETE http://localhost:8080/PRC/api/healthcareProfessionals/H394628427
 
 ########## ADD PATIENT ##########
-POST http://localhost:8080/PRC/api/healthcareProfessionals/Doctor_mike/add/fabiogaspar11
+POST http://localhost:8080/PRC/api/healthcareProfessionals/H394628427/add/P111111111
 
 ########## REMOVE PATIENT ##########
-POST http://localhost:8080/PRC/api/healthcareProfessionals/Doctor_mike/remove/fabiogaspar11
+POST http://localhost:8080/PRC/api/healthcareProfessionals/H394628427/remove/P111111111
 
 

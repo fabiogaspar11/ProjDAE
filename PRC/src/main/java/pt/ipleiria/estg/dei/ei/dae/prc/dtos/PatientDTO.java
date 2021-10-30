@@ -23,7 +23,7 @@ public class PatientDTO implements Serializable {
     private List<BiomedicDataMeasure> biomedicDataList;
     private List<HealthcareProfessional> healthcareProfessionals;
 
-    public PatientDTO(String username, String name, String email, String password, String birthDate, String contact, long healthUserNumber, float weight, float height) {
+    public PatientDTO(String name, String email, String password, String birthDate, String contact, long healthUserNumber, float weight, float height) {
         this.username = username;
         this.name = name;
         this.email = email;

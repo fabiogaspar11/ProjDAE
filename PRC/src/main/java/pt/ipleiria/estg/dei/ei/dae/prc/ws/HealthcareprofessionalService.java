@@ -24,7 +24,6 @@ public class HealthcareprofessionalService {
 
     private HealthcareProfessionalDTO toDTO(HealthcareProfessional healthcareProfessional){
         return new HealthcareProfessionalDTO(
-                healthcareProfessional.getUsername(),
                 healthcareProfessional.getName(),
                 healthcareProfessional.getEmail(),
                 healthcareProfessional.getPassword(),
@@ -37,7 +36,6 @@ public class HealthcareprofessionalService {
 
     private HealthcareProfessionalDTO toDTONoPatients(HealthcareProfessional healthcareProfessional) {
         return new HealthcareProfessionalDTO(
-                healthcareProfessional.getUsername(),
                 healthcareProfessional.getName(),
                 healthcareProfessional.getEmail(),
                 healthcareProfessional.getPassword(),
@@ -59,7 +57,6 @@ public class HealthcareprofessionalService {
 
     private PatientDTO patientToDTO(Patient patient) {
         return new PatientDTO(
-                patient.getUsername(),
                 patient.getName(),
                 patient.getEmail(),
                 patient.getPassword(),
@@ -84,8 +81,7 @@ public class HealthcareprofessionalService {
     @POST
     @Path("/")
     public Response createNewHealthcareprofessional(HealthcareProfessionalDTO healthcareProfessionalDTO) throws MyEntityExistsException, MyEntityNotFoundException {
-        healthcareProfessionalBean.create(
-                healthcareProfessionalDTO.getUsername(),
+        String username = healthcareProfessionalBean.create(
                 healthcareProfessionalDTO.getHealthcareProfessionalNumber(),
                 healthcareProfessionalDTO.getName(),
                 healthcareProfessionalDTO.getEmail(),
@@ -94,7 +90,7 @@ public class HealthcareprofessionalService {
                 healthcareProfessionalDTO.getContact(),
                 healthcareProfessionalDTO.getType()
         );
-        HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(healthcareProfessionalDTO.getUsername());
+        HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         return Response.status(Response.Status.CREATED)
                 .entity(toDTO(healthcareProfessional))
                 .build();
