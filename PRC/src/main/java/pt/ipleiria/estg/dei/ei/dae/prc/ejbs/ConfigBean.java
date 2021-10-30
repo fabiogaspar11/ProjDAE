@@ -31,8 +31,8 @@ public class ConfigBean {
         patientBean.create("fabiogaspar11", "Fábio Gaspar", "2191264@my.ipleiria.pt", "12345", "04/12/2001", "916364061", 123456789, 60, (float) 1.68);
 
         administratorBean.create("carlAdmin", "Carl Carl", "ola@aaa.aaa", "carladmin123", "17/04/1960", "919191911");
-        administratorBean.create("carla", "Carl Carl", "ola@aaa.aaa", "carladmin123", "17/04/1960", "919191911");
-        administratorBean.create("rodrigo.faria","Rodrigo Faria","rodrigo.faria@my.ipleiria.pt","123","04/05/1970","911234322");
+        //administratorBean.create("carla", "Carl Carl", "ola@aaa.aaa", "carladmin123", "17/04/1960", "919191911");
+        //administratorBean.create("rodrigo.faria","Rodrigo Faria","rodrigo.faria@my.ipleiria.pt","123","04/05/1970","911234322");
 
         //healthcareProfessionalBean.create("medicaMaria", 987654321, "Maria Gomes", "maria_gomes@gmail.com", "1234", "22/09/2021", "924359214");
         //patientBean.create("fabiogaspar11","Fábio Gaspar","2191264@my.ipleiria.pt","12345","04/12/2001","916364061",123456789,60,(float)1.68, "medicaMaria");
@@ -43,7 +43,7 @@ public class ConfigBean {
         //biomedicDataTypeBean.create(1,"Febre","ºC",30,45);
         //biomedicDataTypeBean.create(1, "Febre", "ºC", 30, 45);
 
-        diseaseBean.create(1, "Hipertensão", "A hipertensão é caracterizada pelo aumento da pressão arterial, normalmente acima de 130 x 80 mmHg, o que pode influenciar no bom funcionamento do coração. Essa situação pode acontecer devido ao envelhecimento, falta de exercício, aumento do peso ou consumo excessivo de sal, por exemplo no entanto a hipertensão também pode acontecer como consequência de outras situações, como diabetes ou doenças renais");
+        diseaseBean.create(1, "Hipertensão", "130 x 80 mg");
 
     }
 

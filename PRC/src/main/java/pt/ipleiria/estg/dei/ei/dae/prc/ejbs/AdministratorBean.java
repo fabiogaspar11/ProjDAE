@@ -14,7 +14,7 @@ public class AdministratorBean {
     EntityManager entityManager;
 
     public void create(String username, String name, String email, String password, String birthDate, String contact) throws MyEntityExistsException, MyEntityNotFoundException {
-        Administrator administratorExists = findAdministrator(username);
+        Administrator administratorExists = entityManager.find(Administrator.class,username);
         if (administratorExists == null) {
             Administrator administrator = new Administrator(username, name, email, password, birthDate, contact);
             entityManager.persist(administrator);
