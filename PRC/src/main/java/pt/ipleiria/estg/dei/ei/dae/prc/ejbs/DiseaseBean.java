@@ -27,25 +27,19 @@ public class DiseaseBean {
         }
     }
 
-    public void delete(int code)  throws MyEntityNotFoundException {
+    public void delete(int code)  {
         Disease disease = findDisease(code);
         if (disease != null) {
             entityManager.remove(disease);
         }
-        else{
-            throw new MyEntityNotFoundException("Disease with code: " + code + " not found.");
-        }
     }
 
-    public void update(int code, String name, String type)  throws MyEntityNotFoundException {
+    public void update(int code, String name, String type) {
         Disease disease = findDisease(code);
         if (disease != null){
             disease.setCode(code);
             disease.setName(name);
             disease.setType(type);
-        }
-        else{
-            throw new MyEntityNotFoundException("Disease with code: " + code + " not found.");
         }
     }
 

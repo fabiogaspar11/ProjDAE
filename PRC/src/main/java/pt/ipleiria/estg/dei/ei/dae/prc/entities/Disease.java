@@ -24,7 +24,7 @@ public class Disease {
 
     @ManyToMany
     @JoinTable(name = "DISEASES_PACIENTS",
-            joinColumns = @JoinColumn(name = "DISEASE_CODE", referencedColumnName = "CODE"),
+            joinColumns = @JoinColumn(name = "CODE_DISEASE", referencedColumnName = "CODE"),
             inverseJoinColumns = @JoinColumn(name = "USERNAME_PACIENT", referencedColumnName = "USERNAME"))
     private List<Patient> patients;
 

@@ -33,3 +33,43 @@ Content-Type: application/json
 ### DELETE administrator
 DELETE http://localhost:8080/PRC/api/administrators/carlAdmin
 Content-Type: application/json
+
+
+
+#######################################################################################################################
+
+########## DISEASE ##########
+GET http://localhost:8080/PRC/api/diseases
+Accept: application/json
+
+### GET disease
+GET http://localhost:8080/PRC/api/diseases/1
+
+### CREATE disease
+POST http://localhost:8080/PRC/api/diseases
+Content-Type: application/json
+
+{
+  "username": "Rui",
+  "name": "Rui Potassio",
+  "email": "rui.potassio@mail.com",
+  "password": "mendes123",
+  "birthDate": "25/12/1970",
+  "contact": "919293956"
+}
+
+### UPDATE disease
+PUT http://localhost:8080/PRC/api/diseases/carlAdmin
+Content-Type: application/json
+
+{
+  "name": "Carl Carl",
+  "email": "carl.alen@mail.com",
+  "password": "carl14441",
+  "birthDate": "17/04/1960",
+  "contact": "919191911"
+}
+
+### DELETE disease
+DELETE http://localhost:8080/PRC/api/diseases/carlAdmin
+Content-Type: application/json

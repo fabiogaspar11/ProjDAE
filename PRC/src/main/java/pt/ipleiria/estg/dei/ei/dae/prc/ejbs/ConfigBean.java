@@ -6,6 +6,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import pt.ipleiria.estg.dei.ei.dae.prc.Data;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
 
 @Startup
 @Singleton
@@ -23,8 +24,11 @@ public class ConfigBean {
     @EJB
     AdministratorBean administratorBean;
 
+    @EJB
+    DiseaseBean diseaseBean;
+
     @PostConstruct
-    public void populateDB() throws MyEntityExistsException {
+    public void populateDB() throws MyEntityExistsException, MyEntityNotFoundException {
         //healthcareProfessionalBean.create("medicaMaria", 987654321, "Maria Gomes", "maria_gomes@gmail.com", "1234", "22/09/2021", "924359214", "medic");
         patientBean.create("fabiogaspar11", "Fábio Gaspar", "2191264@my.ipleiria.pt", "12345", "04/12/2001", "916364061", 123456789, 60, (float) 1.68);
 
@@ -40,6 +44,9 @@ public class ConfigBean {
 
         //biomedicDataTypeBean.create(1,"Febre","ºC",30,45);
         //biomedicDataTypeBean.create(1, "Febre", "ºC", 30, 45);
+
+        diseaseBean.create(1, "Hipertensão", "A hipertensão é caracterizada pelo aumento da pressão arterial, normalmente acima de 130 x 80 mmHg, o que pode influenciar no bom funcionamento do coração. Essa situação pode acontecer devido ao envelhecimento, falta de exercício, aumento do peso ou consumo excessivo de sal, por exemplo no entanto a hipertensão também pode acontecer como consequência de outras situações, como diabetes ou doenças renais");
+
     }
 
 

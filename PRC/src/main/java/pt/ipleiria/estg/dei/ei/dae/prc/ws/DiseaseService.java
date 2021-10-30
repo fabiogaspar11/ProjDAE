@@ -26,8 +26,8 @@ public class DiseaseService {
     DiseaseBean diseaseBean;
 
     @GET // means: to call this endpoint, we need to use the HTTP GET method
-    @Path("/") // means: the relative url path is “/api/students/”
-    public List<DiseaseDTO> getAllStudentsWS() {
+    @Path("/") // means: the relative url path is “/api/diseases/”
+    public List<DiseaseDTO> getAllDiseasesWS() {
         return toDTOsNoPatients(diseaseBean.getAllDiseases());
     }
 
@@ -88,7 +88,7 @@ public class DiseaseService {
 
     @GET
     @Path("{code}/patients")
-    public Response getDiseasePatients(@PathParam("code") int code) throws MyEntityNotFoundException {
+    public Response getDiseasePatients(@PathParam("code") int code) {
         Disease disease = diseaseBean.findDisease(code);
         if (disease != null) {
             return Response.ok(patientsToDTOs(disease.getPatients())).build();
@@ -100,7 +100,7 @@ public class DiseaseService {
 
     @GET
     @Path("/{code}")
-    public Response getDiseaseDetails(@PathParam("code") int code) throws MyEntityNotFoundException {
+    public Response getDiseaseDetails(@PathParam("code") int code) {
         Disease disease = diseaseBean.findDisease(code);
         if (disease != null) {
             return Response.ok(toDTO(disease)).build();
@@ -113,7 +113,7 @@ public class DiseaseService {
 
     @PUT
     @Path("/{code}")
-    public Response updateDiseaseWS(@PathParam("code") int code, DiseaseDTO diseaseDTO) throws MyEntityNotFoundException {
+    public Response updateDiseaseWS(@PathParam("code") int code, DiseaseDTO diseaseDTO) {
         diseaseBean.update(code, diseaseDTO.getName(), diseaseDTO.getType());
 
         Disease disease = diseaseBean.findDisease(code);
@@ -126,7 +126,7 @@ public class DiseaseService {
 
     @DELETE
     @Path("/{code}")
-    public Response deleteDiseaseWS(@PathParam("code") int code) throws MyEntityNotFoundException {
+    public Response deleteDiseaseWS(@PathParam("code") int code) {
         diseaseBean.delete(code);
 
         Disease disease = diseaseBean.findDisease(code);

@@ -13,8 +13,8 @@ public class AdministratorBean {
     @PersistenceContext
     EntityManager entityManager;
 
-    public void create(String username, String name, String email, String password, String birthDate, String contact)  throws MyEntityExistsException  {
-        Administrator administratorExists = entityManager.find(Administrator.class, username);
+    public void create(String username, String name, String email, String password, String birthDate, String contact) throws MyEntityExistsException, MyEntityNotFoundException {
+        Administrator administratorExists = findAdministrator(username);
         if (administratorExists == null) {
             Administrator administrator = new Administrator(username, name, email, password, birthDate, contact);
             entityManager.persist(administrator);
@@ -24,17 +24,14 @@ public class AdministratorBean {
         }
     }
 
-    public void delete(String username)  throws MyEntityNotFoundException {
+    public void delete(String username) throws MyEntityNotFoundException {
         Administrator administrator = findAdministrator(username);
         if (administrator != null) {
             entityManager.remove(administrator);
         }
-        else{
-            throw new MyEntityNotFoundException("Administrator with username: " + username + " not found.");
-        }
     }
 
-    public void update(String username, String name, String email, String password, String birthDate, String contact)  throws MyEntityNotFoundException {
+    public void update(String username, String name, String email, String password, String birthDate, String contact) throws MyEntityNotFoundException {
         Administrator administrator = findAdministrator(username);
         if (administrator != null){
             administrator.setName(name);
@@ -42,9 +39,6 @@ public class AdministratorBean {
             administrator.setPassword(password);
             administrator.setBirthDate(birthDate);
             administrator.setContact(contact);
-        }
-        else{
-            throw new MyEntityNotFoundException("Administrator with username: " + username + " not found.");
         }
     }
 
