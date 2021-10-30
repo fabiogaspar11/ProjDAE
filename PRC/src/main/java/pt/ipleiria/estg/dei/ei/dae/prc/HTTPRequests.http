@@ -22,3 +22,34 @@ Content-Type: application/json
   "type": "family_doctor"
 }
 
+### GET administrator
+GET http://localhost:8080/PRC/api/administrators/carlAdmin
+
+### CREATE administrator
+POST http://localhost:8080/PRC/api/administrators
+Content-Type: application/json
+
+{
+  "username": "Rui",
+  "name": "Rui Potassio",
+  "email": "rui.potassio@mail.com",
+  "password": "mendes123",
+  "birthDate": "25/12/1970",
+  "contact": "919293956"
+}
+
+### UPDATE administrator
+PUT http://localhost:8080/PRC/api/administrators/carlAdmin
+Content-Type: application/json
+
+{
+  "name": "Carl Carl",
+  "email": "carl.alen@mail.com",
+  "password": "carl14441",
+  "birthDate": "17/04/1960",
+  "contact": "919191911"
+}
+
+### DELETE administrator
+DELETE http://localhost:8080/PRC/api/administrators/carlAdmin
+Content-Type: application/json

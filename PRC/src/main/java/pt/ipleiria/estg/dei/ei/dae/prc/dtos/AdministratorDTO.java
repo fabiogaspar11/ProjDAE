@@ -4,7 +4,6 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 public class AdministratorDTO implements Serializable {
-    @Id
     private String username;
     private String name;
     private String email;

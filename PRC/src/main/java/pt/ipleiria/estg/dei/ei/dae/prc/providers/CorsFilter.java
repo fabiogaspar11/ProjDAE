@@ -8,8 +8,7 @@ import java.io.IOException;
 @Provider
 public class CorsFilter implements ContainerResponseFilter {
     @Override
-    public void filter(ContainerRequestContext requestContext, ContainerResponseContext
-            responseContext) throws IOException {
+    public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
         // Allows this server to be called by any other server.
         // For development, it can be set to ‘*’.
         // In a production environment, it’s a security risk.

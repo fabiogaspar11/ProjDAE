@@ -1,9 +1,26 @@
 [
   {
+    "name": "administrators",
+    "path": "/administrators",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators.vue",
+    "chunkName": "pages/administrators"
+  },
+  {
+    "name": "patients",
+    "path": "/patients",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients.vue",
+    "chunkName": "pages/patients"
+  },
+  {
+    "name": "prescriptions",
+    "path": "/prescriptions",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\prescriptions.vue",
+    "chunkName": "pages/prescriptions"
+  },
+  {
     "name": "index",
     "path": "/",
-    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\index.vue",
-    "chunkName": "pages/index",
-    "_name": "_373b5e41"
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\index.vue",
+    "chunkName": "pages/index"
   }
 ]

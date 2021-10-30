@@ -3,6 +3,8 @@ package pt.ipleiria.estg.dei.ei.dae.prc.ws;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.AdministratorDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.AdministratorBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Administrator;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
@@ -40,5 +42,53 @@ public class AdministratorService {
         return administrators.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    @GET
+    @Path("{username}")
+    public Response getAdministratorDetails(@PathParam("username") String username) throws MyEntityNotFoundException {
+        Administrator administrator = administratorBean.findAdministrator(username);
+        if (administrator != null) {
+            return Response.ok(toDTO(administrator)).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND)
+                .entity("ERROR_FINDING_ADMINISTRATOR")
+                .build();
+    }
+
+    @POST // means: to call this endpoint, we need to use the HTTP POST method
+    @Path("/")
+    public Response createNewAdministrator (AdministratorDTO administratorDTO) throws MyEntityExistsException, MyEntityNotFoundException {
+        administratorBean.create(administratorDTO.getUsername(), administratorDTO.getName(), administratorDTO.getEmail(), administratorDTO.getPassword(), administratorDTO.getBirthDate(), administratorDTO.getContact());
+        Administrator administrator = administratorBean.findAdministrator(administratorDTO.getUsername());
+        if(administrator == null)
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        return Response.status(Response.Status.CREATED)
+                .entity(toDTO(administrator))
+                .build();
+    }
+
+    @PUT
+    @Path("/{username}")
+    public Response updateAdministratorWS(@PathParam("username") String username, AdministratorDTO administratorDTO) throws MyEntityNotFoundException {
+        administratorBean.update(username, administratorDTO.getName(), administratorDTO.getEmail(), administratorDTO.getPassword(), administratorDTO.getBirthDate(), administratorDTO.getContact());
+
+        Administrator administrator = administratorBean.findAdministrator(username);
+        if(!administrator.getName().equals(administratorDTO.getName()))
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        return Response.status(Response.Status.OK)
+                .entity(toDTO(administrator))
+                .build();
+    }
+
+    @DELETE
+    @Path("/{username}")
+    public Response deleteAdministratorWS(@PathParam("username") String username) throws MyEntityNotFoundException {
+        administratorBean.delete(username);
+
+        Administrator administrator = administratorBean.findAdministrator(username);
+        if(administrator != null)
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        return Response.status(Response.Status.OK)
+                .build();
+    }
 
 }

@@ -1,4 +1,4 @@
-package pt.ipleiria.estg.dei.ei.dae.academics.exceptions;
+package pt.ipleiria.estg.dei.ei.dae.prc.exceptions;
 
 public class MyIllegalArgumentException  extends Exception{
     public MyIllegalArgumentException(String message) {
