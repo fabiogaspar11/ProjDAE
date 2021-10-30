@@ -1,8 +1,9 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.dtos;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class DiseaseDTO {
+public class DiseaseDTO implements Serializable {
     private int code;
     private String name;
     private String type;
@@ -19,6 +20,12 @@ public class DiseaseDTO {
         this.name = name;
         this.type = type;
         this.patientDTOS = patientDTOS;
+    }
+
+    public DiseaseDTO() {
+        name = "";
+        type = "";
+        patientDTOS = null;
     }
 
     public int getCode() {
