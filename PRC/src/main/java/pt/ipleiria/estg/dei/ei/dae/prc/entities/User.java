@@ -30,16 +30,28 @@ public class User {
     @NotNull
     private String contact;
 
-    public User(String username, String name, String email, String password, String birthDate, String contact) {
+    @NotNull
+    private long healthNumber;
+
+    public User(String username, String name, String email, String password, String birthDate, String contact, long healthNumber) {
         this.username = username;
         this.name = name;
         this.email = email;
         this.password = password;
         this.birthDate = birthDate;
         this.contact = contact;
+        this.healthNumber = healthNumber;
     }
 
     public User() {
+    }
+
+    public long getHealthNumber() {
+        return healthNumber;
+    }
+
+    public void setHealthNumber(long healthNumber) {
+        this.healthNumber = healthNumber;
     }
 
     public String getUsername() {

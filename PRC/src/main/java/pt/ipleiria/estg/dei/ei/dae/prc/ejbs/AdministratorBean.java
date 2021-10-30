@@ -13,16 +13,17 @@ public class AdministratorBean {
     @PersistenceContext
     EntityManager entityManager;
 
-    public void create(String name, String email, String password, String birthDate, String contact, long citizenNumber) throws MyEntityExistsException, MyEntityNotFoundException {
-        String username = "A"+ citizenNumber;
+    public String create(String name, String email, String password, String birthDate, String contact, long healthNumber) throws MyEntityExistsException, MyEntityNotFoundException {
+        String username = "A"+ healthNumber;
         Administrator administratorExists = entityManager.find(Administrator.class,username);
         if (administratorExists == null) {
-            Administrator administrator = new Administrator(username, name, email, password, birthDate, contact, citizenNumber);
-            entityManager.persist(administrator);
+            administratorExists = new Administrator(username, name, email, password, birthDate, contact, healthNumber);
+            entityManager.persist(administratorExists);
         }
         else{
             throw new MyEntityExistsException("Administrator with username: " + username + "already exists");
         }
+        return administratorExists.getUsername();
     }
 
     public void delete(String username) throws MyEntityNotFoundException {

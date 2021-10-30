@@ -17,33 +17,31 @@ import java.util.stream.Collectors;
 @Path("healthcareProfessionals")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
-//TODO
+
 public class HealthcareprofessionalService {
     @EJB
     private HealthcareProfessionalBean healthcareProfessionalBean;
 
     private HealthcareProfessionalDTO toDTO(HealthcareProfessional healthcareProfessional){
         return new HealthcareProfessionalDTO(
-                healthcareProfessional.getUsername(),
                 healthcareProfessional.getName(),
                 healthcareProfessional.getEmail(),
                 healthcareProfessional.getPassword(),
                 healthcareProfessional.getBirthDate(),
                 healthcareProfessional.getContact(),
-                healthcareProfessional.getHealthcareProfessionalNumber(),
+                healthcareProfessional.getHealthNumber(),
                 healthcareProfessional.getType()
         );
     }
 
     private HealthcareProfessionalDTO toDTONoPatients(HealthcareProfessional healthcareProfessional) {
         return new HealthcareProfessionalDTO(
-                healthcareProfessional.getUsername(),
                 healthcareProfessional.getName(),
                 healthcareProfessional.getEmail(),
                 healthcareProfessional.getPassword(),
                 healthcareProfessional.getBirthDate(),
                 healthcareProfessional.getContact(),
-                healthcareProfessional.getHealthcareProfessionalNumber(),
+                healthcareProfessional.getHealthNumber(),
                 healthcareProfessional.getType(),
                 healthcareProfessional.getPatients()
         );
@@ -59,13 +57,12 @@ public class HealthcareprofessionalService {
 
     private PatientDTO patientToDTO(Patient patient) {
         return new PatientDTO(
-                patient.getUsername(),
                 patient.getName(),
                 patient.getEmail(),
                 patient.getPassword(),
                 patient.getBirthDate(),
                 patient.getContact(),
-                patient.getHealthUserNumber(),
+                patient.getHealthNumber(),
                 patient.getWeight(),
                 patient.getHeight()
         );
@@ -84,9 +81,8 @@ public class HealthcareprofessionalService {
     @POST
     @Path("/")
     public Response createNewHealthcareprofessional(HealthcareProfessionalDTO healthcareProfessionalDTO) throws MyEntityExistsException, MyEntityNotFoundException {
-        healthcareProfessionalBean.create(
-                healthcareProfessionalDTO.getUsername(),
-                healthcareProfessionalDTO.getHealthcareProfessionalNumber(),
+        String username = healthcareProfessionalBean.create(
+                healthcareProfessionalDTO.getHealthNumber(),
                 healthcareProfessionalDTO.getName(),
                 healthcareProfessionalDTO.getEmail(),
                 healthcareProfessionalDTO.getPassword(),
@@ -94,7 +90,7 @@ public class HealthcareprofessionalService {
                 healthcareProfessionalDTO.getContact(),
                 healthcareProfessionalDTO.getType()
         );
-        HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(healthcareProfessionalDTO.getUsername());
+        HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         return Response.status(Response.Status.CREATED)
                 .entity(toDTO(healthcareProfessional))
                 .build();

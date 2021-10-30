@@ -21,13 +21,12 @@ public class PatientService {
 
     private PatientDTO toDTO(Patient patient) {
         return new PatientDTO(
-                patient.getUsername(),
                 patient.getName(),
                 patient.getEmail(),
                 patient.getPassword(),
                 patient.getBirthDate(),
                 patient.getContact(),
-                patient.getHealthUserNumber(),
+                patient.getHealthNumber(),
                 patient.getWeight(),
                 patient.getHeight()
         );
@@ -40,12 +39,11 @@ public class PatientService {
 
     private PatientDTO toDTOnoDetails(Patient patient) {
         return new PatientDTO(
-                patient.getUsername(),
                 patient.getName(),
                 patient.getEmail(),
                 patient.getBirthDate(),
                 patient.getContact(),
-                patient.getHealthUserNumber(),
+                patient.getHealthNumber(),
                 patient.getWeight(),
                 patient.getHeight()
         );
@@ -64,18 +62,17 @@ public class PatientService {
     @POST
     @Path("/")
     public Response createNewPatient(PatientDTO patientDTO) throws MyEntityExistsException, MyEntityNotFoundException {
-        patientBean.create(
-                patientDTO.getUsername(),
+        String username = patientBean.create(
                 patientDTO.getName(),
                 patientDTO.getEmail(),
                 patientDTO.getPassword(),
                 patientDTO.getBirthDate(),
                 patientDTO.getContact(),
-                patientDTO.getHealthUserNumber(),
+                patientDTO.getHealthNumber(),
                 patientDTO.getWeight(),
                 patientDTO.getHeight()
         );
-        Patient patient = patientBean.findPatient(patientDTO.getUsername());
+        Patient patient = patientBean.findPatient(username);
         return Response.status(Response.Status.CREATED)
                 .entity(toDTO(patient))
                 .build();
