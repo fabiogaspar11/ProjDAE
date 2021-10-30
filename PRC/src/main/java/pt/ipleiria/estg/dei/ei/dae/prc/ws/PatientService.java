@@ -3,13 +3,12 @@ package pt.ipleiria.estg.dei.ei.dae.prc.ws;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PatientDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.PatientBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
 import javax.ejb.EJB;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +42,26 @@ public class PatientService {
     @Path("/")
     public List<PatientDTO> getAllPatientsWS() {
         return toDTOs(patientBean.getAllPatients());
+    }
+
+    @POST
+    @Path("/")
+    public Response createNewPatient(PatientDTO patientDTO) throws MyEntityExistsException, MyEntityNotFoundException {
+        patientBean.create(
+                patientDTO.getUsername(),
+                patientDTO.getName(),
+                patientDTO.getEmail(),
+                patientDTO.getPassword(),
+                patientDTO.getBirthDate(),
+                patientDTO.getContact(),
+                patientDTO.getHealthUserNumber(),
+                patientDTO.getWeight(),
+                patientDTO.getHeight()
+        );
+        Patient patient = patientBean.findPatient(patientDTO.getUsername());
+        return Response.status(Response.Status.CREATED)
+                .entity(toDTO(patient))
+                .build();
     }
 
 }

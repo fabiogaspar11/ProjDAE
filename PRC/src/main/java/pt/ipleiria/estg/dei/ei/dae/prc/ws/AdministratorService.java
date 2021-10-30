@@ -33,7 +33,9 @@ public class AdministratorService {
                 administrator.getEmail(),
                 administrator.getPassword(),
                 administrator.getBirthDate(),
-                administrator.getContact()
+                administrator.getContact(),
+                administrator.getCitizenNumber()
+
         );
     }
     // converts an entire list of entities into a list of DTOs
@@ -56,7 +58,7 @@ public class AdministratorService {
     @POST // means: to call this endpoint, we need to use the HTTP POST method
     @Path("/")
     public Response createNewAdministrator (AdministratorDTO administratorDTO) throws MyEntityExistsException, MyEntityNotFoundException {
-        administratorBean.create(administratorDTO.getUsername(), administratorDTO.getName(), administratorDTO.getEmail(), administratorDTO.getPassword(), administratorDTO.getBirthDate(), administratorDTO.getContact());
+        administratorBean.create(administratorDTO.getName(), administratorDTO.getEmail(), administratorDTO.getPassword(), administratorDTO.getBirthDate(), administratorDTO.getContact(), administratorDTO.getCitizenNumber());
         Administrator administrator = administratorBean.findAdministrator(administratorDTO.getUsername());
         if(administrator == null)
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
