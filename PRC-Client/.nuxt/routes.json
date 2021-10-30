@@ -7,6 +7,20 @@
     "_name": "_5753310f"
   },
   {
+    "name": "biomedicData",
+    "path": "/biomedicData",
+    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicData.vue",
+    "chunkName": "pages/biomedicData",
+    "_name": "_36900db1"
+  },
+  {
+    "name": "diseases",
+    "path": "/diseases",
+    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases.vue",
+    "chunkName": "pages/diseases",
+    "_name": "_3d20df00"
+  },
+  {
     "name": "healthcareProfessionals",
     "path": "/healthcareProfessionals",
     "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthcareProfessionals.vue",
