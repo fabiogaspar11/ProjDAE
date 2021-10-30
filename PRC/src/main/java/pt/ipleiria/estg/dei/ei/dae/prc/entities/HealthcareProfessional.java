@@ -16,14 +16,12 @@ import java.util.List;
 
 public class HealthcareProfessional extends User implements Serializable {
     @NotNull
-    private long healthcareProfessionalNumber;
-    @NotNull
     private String type;
 
     @ManyToMany
-    @JoinTable(name = "HEALTHCAREPROFESSIONALS_PACIENTS",
+    @JoinTable(name = "HEALTHCAREPROFESSIONALS_PATIENTS",
             joinColumns = @JoinColumn(name = "USERNAME_HEALTHCAREPROFESSIONAL", referencedColumnName = "USERNAME"),
-            inverseJoinColumns = @JoinColumn(name = "USERNAME_PACIENT", referencedColumnName =
+            inverseJoinColumns = @JoinColumn(name = "USERNAME_PATIENT", referencedColumnName =
                     "USERNAME"))
     private List<Patient> patients;
 
@@ -31,9 +29,8 @@ public class HealthcareProfessional extends User implements Serializable {
         this.patients= new LinkedList<>();
     }
 
-    public HealthcareProfessional(String username, long healthcareProfessionalNumber, String name, String email, String password, String birthDate, String contact, String type) {
-        super(username, name, email, password, birthDate, contact);
-        this.healthcareProfessionalNumber = healthcareProfessionalNumber;
+    public HealthcareProfessional(String username, long healthNumber, String name, String email, String password, String birthDate, String contact, String type) {
+        super(username, name, email, password, birthDate, contact, healthNumber);
         this.patients = new LinkedList<>();
         this.type = type;
     }
@@ -44,14 +41,6 @@ public class HealthcareProfessional extends User implements Serializable {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public long getHealthcareProfessionalNumber() {
-        return healthcareProfessionalNumber;
-    }
-
-    public void setHealthcareProfessionalNumber(long healthcareProfessionalNumber) {
-        this.healthcareProfessionalNumber = healthcareProfessionalNumber;
     }
 
     public List<Patient> getPatients() {

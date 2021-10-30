@@ -61,7 +61,7 @@ public class DiseaseService {
                 patient.getPassword(),
                 patient.getBirthDate(),
                 patient.getContact(),
-                patient.getHealthUserNumber(),
+                patient.getHealthNumber(),
                 patient.getWeight(),
                 patient.getHeight()
         );

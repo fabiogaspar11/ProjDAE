@@ -6,7 +6,7 @@ Accept: application/json
 
 
 ### GET administrator
-GET http://localhost:8080/PRC/api/administrators/carlAdmin
+GET http://localhost:8080/PRC/api/administrators/A142394274
 
 ### CREATE administrator
 POST http://localhost:8080/PRC/api/administrators
@@ -22,7 +22,7 @@ Content-Type: application/json
 }
 
 ### UPDATE administrator
-PUT http://localhost:8080/PRC/api/administrators/carlAdmin
+PUT http://localhost:8080/PRC/api/administrators/A142394274
 Content-Type: application/json
 
 {

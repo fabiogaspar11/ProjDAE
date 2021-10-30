@@ -26,7 +26,7 @@ public class PatientService {
                 patient.getPassword(),
                 patient.getBirthDate(),
                 patient.getContact(),
-                patient.getHealthUserNumber(),
+                patient.getHealthNumber(),
                 patient.getWeight(),
                 patient.getHeight()
         );
@@ -43,7 +43,7 @@ public class PatientService {
                 patient.getEmail(),
                 patient.getBirthDate(),
                 patient.getContact(),
-                patient.getHealthUserNumber(),
+                patient.getHealthNumber(),
                 patient.getWeight(),
                 patient.getHeight()
         );
@@ -68,7 +68,7 @@ public class PatientService {
                 patientDTO.getPassword(),
                 patientDTO.getBirthDate(),
                 patientDTO.getContact(),
-                patientDTO.getHealthUserNumber(),
+                patientDTO.getHealthNumber(),
                 patientDTO.getWeight(),
                 patientDTO.getHeight()
         );

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Path("healthcareProfessionals")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
-//TODO
+
 public class HealthcareprofessionalService {
     @EJB
     private HealthcareProfessionalBean healthcareProfessionalBean;
@@ -29,7 +29,7 @@ public class HealthcareprofessionalService {
                 healthcareProfessional.getPassword(),
                 healthcareProfessional.getBirthDate(),
                 healthcareProfessional.getContact(),
-                healthcareProfessional.getHealthcareProfessionalNumber(),
+                healthcareProfessional.getHealthNumber(),
                 healthcareProfessional.getType()
         );
     }
@@ -41,7 +41,7 @@ public class HealthcareprofessionalService {
                 healthcareProfessional.getPassword(),
                 healthcareProfessional.getBirthDate(),
                 healthcareProfessional.getContact(),
-                healthcareProfessional.getHealthcareProfessionalNumber(),
+                healthcareProfessional.getHealthNumber(),
                 healthcareProfessional.getType(),
                 healthcareProfessional.getPatients()
         );
@@ -62,7 +62,7 @@ public class HealthcareprofessionalService {
                 patient.getPassword(),
                 patient.getBirthDate(),
                 patient.getContact(),
-                patient.getHealthUserNumber(),
+                patient.getHealthNumber(),
                 patient.getWeight(),
                 patient.getHeight()
         );
@@ -82,7 +82,7 @@ public class HealthcareprofessionalService {
     @Path("/")
     public Response createNewHealthcareprofessional(HealthcareProfessionalDTO healthcareProfessionalDTO) throws MyEntityExistsException, MyEntityNotFoundException {
         String username = healthcareProfessionalBean.create(
-                healthcareProfessionalDTO.getHealthcareProfessionalNumber(),
+                healthcareProfessionalDTO.getHealthNumber(),
                 healthcareProfessionalDTO.getName(),
                 healthcareProfessionalDTO.getEmail(),
                 healthcareProfessionalDTO.getPassword(),

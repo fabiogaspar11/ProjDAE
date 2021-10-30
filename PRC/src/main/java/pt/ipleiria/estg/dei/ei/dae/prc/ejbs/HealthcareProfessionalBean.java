@@ -16,11 +16,11 @@ public class HealthcareProfessionalBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public String create(long healthcareProfessionalNumber, String name, String email, String password, String birthDate, String contact, String type) throws MyEntityExistsException, MyEntityNotFoundException {
-        String username = "H"+healthcareProfessionalNumber;
+    public String create(long healthNumber, String name, String email, String password, String birthDate, String contact, String type) throws MyEntityExistsException, MyEntityNotFoundException {
+        String username = "H"+healthNumber;
         HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class,username);
         if(healthcareProfessional != null) throw new MyEntityExistsException("A healthcare professional with the username \'" + username + "\' already exists");
-        healthcareProfessional = new HealthcareProfessional(username,healthcareProfessionalNumber, name, email, password, birthDate, contact, type);
+        healthcareProfessional = new HealthcareProfessional(username,healthNumber, name, email, password, birthDate, contact, type);
         entityManager.persist(healthcareProfessional);
         return healthcareProfessional.getUsername();
     }
@@ -80,9 +80,6 @@ public class HealthcareProfessionalBean {
         }
         if(healthcareProfessionalDTO.getEmail() != null && !healthcareProfessional.getEmail().equals(healthcareProfessionalDTO.getEmail())){
             healthcareProfessional.setEmail(healthcareProfessionalDTO.getEmail());
-        }
-        if(healthcareProfessionalDTO.getHealthcareProfessionalNumber() != 0 && healthcareProfessional.getHealthcareProfessionalNumber() != healthcareProfessionalDTO.getHealthcareProfessionalNumber()){
-            healthcareProfessional.setHealthcareProfessionalNumber(healthcareProfessionalDTO.getHealthcareProfessionalNumber());
         }
 
         if(healthcareProfessionalDTO.getBirthDate() != null && !healthcareProfessional.getBirthDate().equals(healthcareProfessionalDTO.getBirthDate())){

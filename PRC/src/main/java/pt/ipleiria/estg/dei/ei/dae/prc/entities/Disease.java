@@ -13,6 +13,7 @@ import java.util.List;
                 query = "SELECT p FROM Disease p ORDER BY p.code"
         )
 })
+@Table(name = "diseases")
 public class Disease {
     @Id
     private int code;
