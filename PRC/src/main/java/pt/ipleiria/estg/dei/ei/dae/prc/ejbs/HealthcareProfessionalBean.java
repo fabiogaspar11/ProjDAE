@@ -71,8 +71,6 @@ public class HealthcareProfessionalBean {
     }
 
     public void update(HealthcareProfessional healthcareProfessional, HealthcareProfessionalDTO healthcareProfessionalDTO) {
-        entityManager.lock(entityManager.merge(healthcareProfessional), LockModeType.OPTIMISTIC);
-
         if(healthcareProfessionalDTO.getName() != null && !healthcareProfessional.getName().equals(healthcareProfessionalDTO.getName())){
             healthcareProfessional.setName(healthcareProfessionalDTO.getName());
         }

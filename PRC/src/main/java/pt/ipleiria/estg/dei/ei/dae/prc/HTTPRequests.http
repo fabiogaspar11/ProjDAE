@@ -5,23 +5,6 @@ GET http://localhost:8080/PRC/api/administrators
 Accept: application/json
 
 
-##### ************************************ HEALTHCARE PROFESSIONALS ************************************
-
-########## Create ##########
-POST http://localhost:8080/PRC/api/healthcareProfessionals
-Content-Type: application/json
-
-{
-  "username": "Doctor_mike",
-  "healthcareProfessionalNumber": 394628427,
-  "name": "Mike Varshavski",
-  "email": "mike_var@outlook.com",
-  "password": "eksm24_k",
-  "birthDate": "12/10/1989",
-  "contact": "+351924331081",
-  "type": "family_doctor"
-}
-
 ### GET administrator
 GET http://localhost:8080/PRC/api/administrators/carlAdmin
 
@@ -53,3 +36,41 @@ Content-Type: application/json
 ### DELETE administrator
 DELETE http://localhost:8080/PRC/api/administrators/carlAdmin
 Content-Type: application/json
+
+
+##### ************************************ HEALTHCARE PROFESSIONALS ************************************
+
+########## Create ##########
+POST http://localhost:8080/PRC/api/healthcareProfessionals
+Content-Type: application/json
+
+{
+  "username": "Doctor_mike",
+  "healthcareProfessionalNumber": 394628427,
+  "name": "Mike Varshavski",
+  "email": "mike_var@outlook.com",
+  "password": "eksm24_k",
+  "birthDate": "12/10/1989",
+  "contact": "+351924331081",
+  "type": "family_doctor"
+}
+
+########## Update ##########
+PUT http://localhost:8080/PRC/api/healthcareProfessionals/Doctor_mike
+Content-Type: application/json
+
+{
+"healthcareProfessionalNumber": 394628427,
+"name": "Mike Varshavski",
+"email": "mike@gmail.com",
+"password": "smdk2"
+}
+
+
+########## DELETE ##########
+DELETE http://localhost:8080/PRC/api/healthcareProfessionals/Doctor_mike
+
+########## ADD PATIENT ##########
+
+
+
