@@ -1,7 +1,17 @@
 <template>
+<div>
   <div class="d-flex justify-content-center" style="margin-top:4%">
-    <b-table class="w-75 p-3" hover :items="entidade"></b-table>
+  <b-container>
+    <b-table striped over class="w-100 p-3" hover :items="entidade" :fields="fields">
+     <template v-slot:cell(actions)="row">
+           <nuxt-link
+            class="btn btn-link"
+            :to="`/${type}/${row.item.username}`">Details</nuxt-link>
+           <!-- <nuxt-link :to="`/${row.item.username}`" @click="$router.push({ params: {url: url}})">OLA</nuxt-link>-->
+      </template> </b-table>
+    </b-container>
   </div>
+</div>
 </template>
 
 <script>
@@ -31,7 +41,9 @@
     },
     props:{
       data:[],
-      url:String
+      url:String,
+      fields:[],
+      type:String
     },
     created () {
       this.$axios.$get(this.url)

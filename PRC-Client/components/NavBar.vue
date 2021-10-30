@@ -8,17 +8,11 @@
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <!--
-            <b-nav-item @click="url='/api/prescriptions'">Prescriptions</b-nav-item>
-            <b-nav-item @click="url='/api/administrators'">Administrators</b-nav-item>
-            <b-nav-item @click="url='/api/patients'">Patients</b-nav-item>
-            <b-nav-item >Biomedic Data Measures</b-nav-item>
-            -->
-            <b-nav-item to="patients">Patients</b-nav-item>
-            <b-nav-item to="administrators">Administrators</b-nav-item>
-            <b-nav-item to="healthcareProfessionals">Healthcare Professionals</b-nav-item>
-            <b-nav-item to="diseases">Diseases</b-nav-item>
-            <b-nav-item to="biomedicData">Biomedic Data</b-nav-item>
+            <b-nav-item to="/patients">Patients</b-nav-item>
+            <b-nav-item to="/administrators">Administrators</b-nav-item>
+            <b-nav-item to="/healthcareProfessionals">Healthcare Professionals</b-nav-item>
+            <b-nav-item to="/diseases">Diseases</b-nav-item>
+            <b-nav-item to="/biomedicData">Biomedic Data</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>

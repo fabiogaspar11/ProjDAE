@@ -1,6 +1,6 @@
 <template>
 <div>
-  <Template :url="url"/>
+  <Template :url="url" :fields="fields" :type="type"/>
 </div>
 
 
@@ -15,8 +15,10 @@ export default {
   },
   data(){
     return{
-      url:"/api/patients"
-    }
+      url:"/api/patients",
+      fields:['name','contact','birthDate','actions'],
+      type:"patients"
+  }
   }
 }
 
