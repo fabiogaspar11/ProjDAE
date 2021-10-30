@@ -5,6 +5,8 @@ import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
 const _5753310f = () => interopDefault(import('..\\pages\\administrators.vue' /* webpackChunkName: "pages/administrators" */))
+const _36900db1 = () => interopDefault(import('..\\pages\\biomedicData.vue' /* webpackChunkName: "pages/biomedicData" */))
+const _3d20df00 = () => interopDefault(import('..\\pages\\diseases.vue' /* webpackChunkName: "pages/diseases" */))
 const _f8106e74 = () => interopDefault(import('..\\pages\\healthcareProfessionals.vue' /* webpackChunkName: "pages/healthcareProfessionals" */))
 const _e6d1b6d2 = () => interopDefault(import('..\\pages\\patients.vue' /* webpackChunkName: "pages/patients" */))
 const _61bacd40 = () => interopDefault(import('..\\pages\\prescriptions.vue' /* webpackChunkName: "pages/prescriptions" */))
@@ -25,6 +27,14 @@ export const routerOptions = {
     path: "/administrators",
     component: _5753310f,
     name: "administrators"
+  }, {
+    path: "/biomedicData",
+    component: _36900db1,
+    name: "biomedicData"
+  }, {
+    path: "/diseases",
+    component: _3d20df00,
+    name: "diseases"
   }, {
     path: "/healthcareProfessionals",
     component: _f8106e74,
