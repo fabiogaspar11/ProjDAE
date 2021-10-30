@@ -32,6 +32,15 @@
     "path": "/patients",
     "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients.vue",
     "chunkName": "pages/patients",
+    "children": [
+      {
+        "name": "patients-username",
+        "path": ":username?",
+        "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\_username.vue",
+        "chunkName": "pages/patients/_username",
+        "_name": "_26b6d124"
+      }
+    ],
     "_name": "_e6d1b6d2"
   },
   {

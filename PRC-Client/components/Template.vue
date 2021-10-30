@@ -1,7 +1,7 @@
 <template>
 <div>
   <NavBar/>
-  <Table :url="url"/>
+  <Table :url="url" :fields="fields" :type="type"/>
 </div>
 
 </template>
@@ -17,7 +17,9 @@ export default {
     Table
   },
   props:{
-    url:String
+    fields:[],
+    url:String,
+    type:String
   }
 }
 </script>

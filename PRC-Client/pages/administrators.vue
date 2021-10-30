@@ -18,7 +18,8 @@ export default {
   },
   data(){
     return{
-      url:"/api/administrators"
+      url:"/api/administrators",
+      fields:['username','name','email','birthDate','contact','citizenNumber','actions']
     }
   }
 }
