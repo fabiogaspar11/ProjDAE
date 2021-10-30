@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ejbs;
 
-import pt.ipleiria.estg.dei.ei.dae.academics.exceptions.MyEntityExistsException;
-import pt.ipleiria.estg.dei.ei.dae.academics.exceptions.MyEntityNotFoundException;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.HealthcareProfessionalDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.HealthcareProfessional;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;

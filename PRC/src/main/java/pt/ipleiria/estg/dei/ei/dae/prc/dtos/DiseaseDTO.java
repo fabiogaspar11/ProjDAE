@@ -1,8 +1,5 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.dtos;
 
-import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class DiseaseDTO {
