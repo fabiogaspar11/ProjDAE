@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
