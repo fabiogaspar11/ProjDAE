@@ -109,6 +109,7 @@ public class DiseaseService {
     }
 
 
+
     @PUT
     @Path("/{code}")
     public Response updateDiseaseWS(@PathParam("code") int code, DiseaseDTO diseaseDTO) {
@@ -134,4 +135,23 @@ public class DiseaseService {
                 .build();
     }
 
+    @POST
+    @Path("/{code}/{patient}")
+    public Response enrollInPatients(@PathParam("code") int code, @PathParam("patient") String username) throws MyEntityNotFoundException {
+
+        diseaseBean.enrollDiseaseInPatient(code, username);
+
+        return Response.status(Response.Status.CREATED)
+                .build();
+    }
+
+    @DELETE
+    @Path("/{code}/{patient}")
+    public Response unrollInPatients(@PathParam("code") int code, @PathParam("patient") String username) throws MyEntityNotFoundException {
+
+        diseaseBean.unrollDiseaseInPatient(code, username);
+
+        return Response.status(Response.Status.CREATED)
+                .build();
+    }
 }
