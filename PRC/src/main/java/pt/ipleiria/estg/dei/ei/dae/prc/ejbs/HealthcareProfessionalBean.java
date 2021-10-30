@@ -20,7 +20,6 @@ public class HealthcareProfessionalBean {
         String username = "H"+healthcareProfessionalNumber;
         HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class,username);
         if(healthcareProfessional != null) throw new MyEntityExistsException("A healthcare professional with the username \'" + username + "\' already exists");
-        //TODO check if professional with the healthcareProfessionalNumber exists or not in the DB
         healthcareProfessional = new HealthcareProfessional(username,healthcareProfessionalNumber, name, email, password, birthDate, contact, type);
         entityManager.persist(healthcareProfessional);
         return healthcareProfessional.getUsername();

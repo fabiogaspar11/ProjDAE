@@ -39,7 +39,6 @@ public class PatientService {
 
     private PatientDTO toDTOnoDetails(Patient patient) {
         return new PatientDTO(
-                patient.getUsername(),
                 patient.getName(),
                 patient.getEmail(),
                 patient.getBirthDate(),
