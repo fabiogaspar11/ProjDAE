@@ -1,7 +1,7 @@
 <template>
 
 <div>
-
+  <h1>dsadjhsajidhaskjdhksajhdkjsahkdsakhksajh</h1>
 <Template :url="urlDetails" :fields="fields" :type="students"/>
   </div>
 </template>
