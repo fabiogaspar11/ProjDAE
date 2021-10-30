@@ -129,6 +129,7 @@ public class HealthcareprofessionalService {
                 .build();
     }
 
+    @POST
     @Path("/{username}/add/{usernamePatient}")
     public Response addPatient(@PathParam("username") String username, @PathParam("usernamePatient") String usernamePatient) throws MyEntityNotFoundException {
         healthcareProfessionalBean.addPatientFromHealthcareprofessional(usernamePatient, username);
