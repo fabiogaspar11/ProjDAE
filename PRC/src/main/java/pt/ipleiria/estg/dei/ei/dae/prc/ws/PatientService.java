@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.prc.ws;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PatientDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.PatientBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
+import pt.ipleiria.estg.dei.ei.dae.prc.entities.Prescription;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
 import javax.ejb.EJB;
@@ -19,6 +20,7 @@ public class PatientService {
     @EJB
     private PatientBean patientBean;
 
+    //Patient with everything
     private PatientDTO toDTO(Patient patient) {
         return new PatientDTO(
                 patient.getName(),
@@ -28,13 +30,37 @@ public class PatientService {
                 patient.getContact(),
                 patient.getHealthNumber(),
                 patient.getWeight(),
-                patient.getHeight()
+                patient.getHeight(),
+                patient.getPrescriptionList(),
+                patient.getBiomedicDataList(),
+                patient.getHealthcareProfessionals()
         );
     }
+
+    //TODO
+    /*private PrescriptionDTO prescriptionToDTO(Prescription prescription) {
+        return new PatientDTO(
+                patient.getName(),
+                patient.getEmail(),
+                patient.getPassword(),
+                patient.getBirthDate(),
+                patient.getContact(),
+                patient.getHealthNumber(),
+                patient.getWeight(),
+                patient.getHeight(),
+                patient.getPrescriptionList(),
+                patient.getBiomedicDataList(),
+                patient.getHealthcareProfessionals()
+        );
+    }*/
 
     private List<PatientDTO> toDTOs(List<Patient> patients) {
         return patients.stream().map(this::toDTO).collect(Collectors.toList());
     }
+
+  /*  private List<PatientDTO> prescriptionToDTOs(List<Prescription>  prescriptions) {
+        return prescriptions.stream().map(this::prescriptionToDTO).collect(Collectors.toList());
+    }*/
 
 
     private PatientDTO toDTOnoDetails(Patient patient) {
@@ -76,6 +102,53 @@ public class PatientService {
         return Response.status(Response.Status.CREATED)
                 .entity(toDTO(patient))
                 .build();
+    }
+
+    @GET
+    @Path("{username}")
+    public Response getPatientDetails(@PathParam("username") String username) throws MyEntityNotFoundException {
+        Patient patient  = patientBean.findPatient(username);
+        return Response.status(Response.Status.OK)
+                .entity(toDTO(patient))
+                .build();
+    }
+
+    @DELETE
+    @Path("/{username}")
+    public Response deletePatient(@PathParam("username") String username) throws MyEntityNotFoundException {
+        Patient patient  = patientBean.findPatient(username);
+        patientBean.remove(patient);
+        return Response.status(Response.Status.OK)
+                .entity(toDTO(patient))
+                .build();
+    }
+
+    @PUT
+    @Path("/{username}")
+    public Response updatePatient(@PathParam("username") String username, PatientDTO patientDTO) throws MyEntityNotFoundException {
+        Patient patient  = patientBean.findPatient(username);
+        patientBean.update(patient, patientDTO);
+        return Response.status(Response.Status.OK)
+                .entity(toDTO(patient))
+                .build();
+    }
+
+    @POST
+    @Path("/{username}/add/{code}")
+    public Response addPrescription(@PathParam("username") String username, @PathParam("code") String code) throws MyEntityNotFoundException {
+        patientBean.addPrescription(username, code);
+        Patient patient  = patientBean.findPatient(username);
+       // return Response.ok(prescriptionToDTOs(patient.getPrescriptionList())).build();
+        return Response.ok(toDTO(patient)).build();
+    }
+
+    @POST
+    @Path("/{username}/remove/{code}")
+    public Response removePrescription(@PathParam("username") String username, @PathParam("code") String code) throws MyEntityNotFoundException {
+        patientBean.removePrescription(username, code);
+        Patient patient  = patientBean.findPatient(username);
+        // return Response.ok(prescriptionToDTOs(patient.getPrescriptionList())).build();
+        return Response.ok(toDTO(patient)).build();
     }
 
 }

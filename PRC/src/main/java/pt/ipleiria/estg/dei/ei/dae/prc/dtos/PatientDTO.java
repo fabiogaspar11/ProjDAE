@@ -48,6 +48,14 @@ public class PatientDTO implements Serializable {
         this.password = password;
     }
 
+    //Constructor with password
+    public PatientDTO(String name, String email, String password, String birthDate, String contact, long healthNumber, float weight, float height, List<Prescription> prescriptionList,  List<BiomedicDataMeasure> biomedicDataList, List<HealthcareProfessional> healthcareProfessionals) {
+        this(name, email, password, birthDate, contact, healthNumber, weight, height);
+        this.biomedicDataList = biomedicDataList;
+        this.prescriptionList = prescriptionList;
+        this.healthcareProfessionals = healthcareProfessionals;
+    }
+
     public List<HealthcareProfessional> getHealthcareProfessionals() {
         return healthcareProfessionals;
     }

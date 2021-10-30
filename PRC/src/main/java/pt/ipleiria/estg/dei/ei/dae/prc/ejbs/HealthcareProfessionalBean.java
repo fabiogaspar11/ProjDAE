@@ -93,7 +93,6 @@ public class HealthcareProfessionalBean {
         if(healthcareProfessionalDTO.getType() != null && !healthcareProfessional.getType().equals(healthcareProfessionalDTO.getType())){
             healthcareProfessional.setType(healthcareProfessionalDTO.getType());
         }
-
         entityManager.merge(healthcareProfessional);
     }
 
