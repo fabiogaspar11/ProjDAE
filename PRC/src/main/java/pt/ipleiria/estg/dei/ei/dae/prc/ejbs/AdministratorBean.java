@@ -13,10 +13,11 @@ public class AdministratorBean {
     @PersistenceContext
     EntityManager entityManager;
 
-    public void create(String username, String name, String email, String password, String birthDate, String contact) throws MyEntityExistsException, MyEntityNotFoundException {
+    public void create(String name, String email, String password, String birthDate, String contact, long citizenNumber) throws MyEntityExistsException, MyEntityNotFoundException {
+        String username = "A"+ citizenNumber;
         Administrator administratorExists = entityManager.find(Administrator.class,username);
         if (administratorExists == null) {
-            Administrator administrator = new Administrator(username, name, email, password, birthDate, contact);
+            Administrator administrator = new Administrator(username, name, email, password, birthDate, contact, citizenNumber);
             entityManager.persist(administrator);
         }
         else{

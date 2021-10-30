@@ -30,7 +30,7 @@ public class ConfigBean {
          healthcareProfessionalBean.create("medicaMaria", 987654321, "Maria Gomes", "maria_gomes@gmail.com", "1234", "22/09/2021", "924359214", "medic");
         patientBean.create("fabiogaspar11", "Fábio Gaspar", "2191264@my.ipleiria.pt", "12345", "04/12/2001", "916364061", 123456789, 60, (float) 1.68);
 
-        administratorBean.create("carlAdmin", "Carl Carl", "ola@aaa.aaa", "carladmin123", "17/04/1960", "919191911");
+        administratorBean.create("Carl Carl", "ola@aaa.aaa", "carladmin123", "17/04/1960", "919191911", 142394274);
         //administratorBean.create("carla", "Carl Carl", "ola@aaa.aaa", "carladmin123", "17/04/1960", "919191911");
         //administratorBean.create("rodrigo.faria","Rodrigo Faria","rodrigo.faria@my.ipleiria.pt","123","04/05/1970","911234322");
 

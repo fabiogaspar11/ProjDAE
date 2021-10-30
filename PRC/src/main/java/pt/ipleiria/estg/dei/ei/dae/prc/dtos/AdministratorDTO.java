@@ -9,14 +9,16 @@ public class AdministratorDTO implements Serializable {
     private String password;
     private String birthDate;
     private String contact;
+    private long citizenNumber;
 
-    public AdministratorDTO(String username, String name, String email, String password, String birthDate, String contact) {
+    public AdministratorDTO(String username, String name, String email, String password, String birthDate, String contact, long citizenNumber) {
         this.username = username;
         this.name = name;
         this.email = email;
         this.password = password;
         this.birthDate = birthDate;
         this.contact = contact;
+        this.citizenNumber = citizenNumber;
     }
 
     public AdministratorDTO() {
@@ -26,6 +28,15 @@ public class AdministratorDTO implements Serializable {
         password = "";
         birthDate = "";
         contact = "";
+        citizenNumber = 0;
+    }
+
+    public long getCitizenNumber() {
+        return citizenNumber;
+    }
+
+    public void setCitizenNumber(long citizenNumber) {
+        this.citizenNumber = citizenNumber;
     }
 
     public String getUsername() {
