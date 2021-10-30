@@ -16,7 +16,7 @@ public class DiseaseBean {
     private EntityManager entityManager;
 
     public void create(int code, String name, String type) throws MyEntityExistsException {
-        Disease diseaseExists = findDisease(code);
+        Disease diseaseExists = entityManager.find(Disease.class,code);
         if (diseaseExists == null){
             Disease disease = new Disease(code, name, type);
             entityManager.persist(disease);

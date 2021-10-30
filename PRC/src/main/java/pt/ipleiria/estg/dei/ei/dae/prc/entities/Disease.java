@@ -18,14 +18,13 @@ public class Disease {
     private int code;
     @NotNull
     private String name;
-    @Email
     @NotNull
     private String type;
 
     @ManyToMany
-    @JoinTable(name = "DISEASES_PACIENTS",
+    @JoinTable(name = "DISEASES_PATIENTS",
             joinColumns = @JoinColumn(name = "CODE_DISEASE", referencedColumnName = "CODE"),
-            inverseJoinColumns = @JoinColumn(name = "USERNAME_PACIENT", referencedColumnName = "USERNAME"))
+            inverseJoinColumns = @JoinColumn(name = "USERNAME_PATIENT", referencedColumnName = "USERNAME"))
     private List<Patient> patients;
 
     public Disease(int code, String name, String type) {
