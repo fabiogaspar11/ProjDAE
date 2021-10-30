@@ -4,11 +4,20 @@
   <b-container>
     <b-table striped over class="w-100 p-3" hover :items="entidade" :fields="fields">
      <template v-slot:cell(actions)="row">
-           <nuxt-link
-            class="btn btn-link"
-            :to="`${type}/${row.item.username}`">Details</nuxt-link>
-           <!-- <nuxt-link :to="`/${row.item.username}`" @click="$router.push({ params: {url: url}})">OLA</nuxt-link>-->
-      </template> </b-table>
+          <div v-if="type=='patients'">
+             <nuxt-link
+
+            class="btn btn-link" :key="type"
+            :to="`/patients/${row.item.username}`">Details</nuxt-link>
+
+          </div>
+          <div v-else-if="type=='administrators'">
+             <nuxt-link
+            class="btn btn-link" exact
+            :to="`administrators/${row.item.username}`">Details</nuxt-link>
+          </div>
+     </template>
+ </b-table>
     </b-container>
   </div>
 </div>

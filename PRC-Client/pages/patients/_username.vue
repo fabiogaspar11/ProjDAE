@@ -1,32 +1,53 @@
 <template>
-
-<div>
-  <h1>dsadjhsajidhaskjdhksajhdkjsahkdsakhksajh</h1>
-<Template :url="urlDetails" :fields="fields" :type="students"/>
+  <div>
+    <NavBar></NavBar>
+    <div>
+      <div class="d-flex justify-content-center" style="margin-top: 4%">
+        <b-container>
+          <b-table
+            striped
+            over
+            class="w-100 p-3"
+            hover
+            :items="entidade"
+            :fields="fields"
+          >
+          </b-table>
+        </b-container>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      urlDetails:this.username,
+      fields: [
+        "username",
+        "name",
+        "email",
+        "birthDate",
+        "contact",
+        "citizenNumber",
+      ],
+      entidade:[],
       fields:['username']
     }
   },
-  props:{
-      url:String,
-    },
-    data(){
-      return{
-        ola:"ds"
-      }
-    },
-    computed: {
-    code() {
-      return this.$route.params.username
-    }
+  props: {
+    url: String,
   },
-}
+  computed: {
+    username() {
+      return this.$route.params.username;
+    },
+    created() {
+      this.$axios.$get(`/api/patients/${this.username}`)
+      .then((entidade) => {
+        this.entidade = entidade;
+      });
+    },
+  },
+};
 </script>
-<style></style>

@@ -1,7 +1,7 @@
 <template>
 <div>
     <NavBar/>
-    <Table :url="url"/>
+    <Table :url="url" :fields="fields" :type="type"/>
 </div>
 
 
@@ -19,7 +19,8 @@ export default {
   data(){
     return{
       url:"/api/administrators",
-      fields:['username','name','email','birthDate','contact','citizenNumber','actions']
+      fields:['username','name','email','birthDate','contact','citizenNumber','actions'],
+      type:"administrators"
     }
   }
 }
