@@ -76,6 +76,7 @@ Content-Type: application/json
 ### DELETE disease
 DELETE http://localhost:8080/PRC/api/diseases/carlAdmin
 Content-Type: application/json
+
 ##### ************************************ HEALTHCARE PROFESSIONALS ************************************
 
 ########## Create ##########
@@ -104,11 +105,13 @@ Content-Type: application/json
 "password": "smdk2"
 }
 
-
 ########## DELETE ##########
 DELETE http://localhost:8080/PRC/api/healthcareProfessionals/Doctor_mike
 
 ########## ADD PATIENT ##########
+POST http://localhost:8080/PRC/api/healthcareProfessionals/Doctor_mike/add/fabiogaspar11
 
+########## REMOVE PATIENT ##########
+POST http://localhost:8080/PRC/api/healthcareProfessionals/Doctor_mike/remove/fabiogaspar11
 
 
