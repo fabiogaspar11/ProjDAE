@@ -1,7 +1,9 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ws;
 
+import pt.ipleiria.estg.dei.ei.dae.prc.dtos.DiseaseDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PatientDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.PatientBean;
+import pt.ipleiria.estg.dei.ei.dae.prc.entities.Disease;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
@@ -61,6 +63,51 @@ public class PatientService {
         Patient patient = patientBean.findPatient(patientDTO.getUsername());
         return Response.status(Response.Status.CREATED)
                 .entity(toDTO(patient))
+                .build();
+    }
+
+
+    private DiseaseDTO toDTO(Disease disease) {
+        return new DiseaseDTO(
+                disease.getCode(),
+                disease.getName(),
+                disease.getType()
+        );
+    }
+    private List<DiseaseDTO> diseasesToDTOs(List<Disease> diseases) {
+        return diseases.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+
+
+    @GET
+    @Path("{username}/diseases")
+    public Response getPatientDiseases(@PathParam("username") String username) throws MyEntityNotFoundException {
+        Patient patient = patientBean.findPatient(username);
+        if (patient != null) {
+            return Response.ok(diseasesToDTOs(patient.getDiseases())).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND)
+                .entity("ERROR_FINDING_PATIENT's")
+                .build();
+    }
+
+    @POST
+    @Path("/{username}/{disease}")
+    public Response enrollInPatients(@PathParam("username") String username, @PathParam("disease") int code) throws MyEntityNotFoundException {
+
+        patientBean.enrollPatientInDisease(username, code);
+
+        return Response.status(Response.Status.CREATED)
+                .build();
+    }
+
+    @DELETE
+    @Path("/{username}/{disease}")
+    public Response unrollInPatients(@PathParam("username") String username, @PathParam("disease") int code) throws MyEntityNotFoundException {
+        patientBean.unrollPatientInDisease(username, code);
+
+        return Response.status(Response.Status.CREATED)
                 .build();
     }
 

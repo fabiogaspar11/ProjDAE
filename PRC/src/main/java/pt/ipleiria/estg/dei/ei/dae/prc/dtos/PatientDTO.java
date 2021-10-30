@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.dtos;
 
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.BiomedicDataMeasure;
+import pt.ipleiria.estg.dei.ei.dae.prc.entities.Disease;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.HealthcareProfessional;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Prescription;
 
@@ -22,6 +23,7 @@ public class PatientDTO implements Serializable {
     private List<Prescription> prescriptionList;
     private List<BiomedicDataMeasure> biomedicDataList;
     private List<HealthcareProfessional> healthcareProfessionals;
+    private List<Disease> diseases;
 
     public PatientDTO(String username, String name, String email, String password, String birthDate, String contact, long healthUserNumber, float weight, float height) {
         this.username = username;
@@ -36,12 +38,22 @@ public class PatientDTO implements Serializable {
         this.healthcareProfessionals = new LinkedList<>();
         this.prescriptionList = new LinkedList<>();
         this.biomedicDataList = new LinkedList<>();
+        this.diseases = new LinkedList<>();
     }
 
     public PatientDTO() {
         this.healthcareProfessionals = new LinkedList<>();
         this.prescriptionList = new LinkedList<>();
         this.biomedicDataList = new LinkedList<>();
+        this.diseases = new LinkedList<>();
+    }
+
+    public List<Disease> getDiseases() {
+        return diseases;
+    }
+
+    public void setDiseases(List<Disease> diseases) {
+        this.diseases = diseases;
     }
 
     public List<HealthcareProfessional> getHealthcareProfessionals() {

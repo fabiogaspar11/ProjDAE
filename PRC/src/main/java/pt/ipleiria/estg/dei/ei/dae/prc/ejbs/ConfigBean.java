@@ -30,7 +30,7 @@ public class ConfigBean {
         //healthcareProfessionalBean.create("medicaMaria", 987654321, "Maria Gomes", "maria_gomes@gmail.com", "1234", "22/09/2021", "924359214", "medic");
         patientBean.create("fabiogaspar11","Fábio Gaspar", "2191264@my.ipleiria.pt", "12345", "04/12/2001", "916364061", 123456789, 60, (float) 1.68);
         patientBean.create("carlamendes12","Carla Mendes","2191111@my.ipleiria.pt","12345","05/06/2001","916345345",123456789,60,(float)1.68);
-         healthcareProfessionalBean.create("medicaMaria", 987654321, "Maria Gomes", "maria_gomes@gmail.com", "1234", "22/09/2021", "924359214", "medic");
+        healthcareProfessionalBean.create("medicaMaria", 987654321, "Maria Gomes", "maria_gomes@gmail.com", "1234", "22/09/2021", "924359214", "medic");
 
         administratorBean.create("Carl Carl", "ola@aaa.aaa", "carladmin123", "17/04/1960", "919191911", 142394274);
         //administratorBean.create("carla", "Carl Carl", "ola@aaa.aaa", "carladmin123", "17/04/1960", "919191911");
@@ -46,6 +46,8 @@ public class ConfigBean {
 
         diseaseBean.create(1, "Hipertensão", "130 x 80 mg");
         diseaseBean.enrollDiseaseInPatient(1, "fabiogaspar11");
+
+        patientBean.enrollPatientInDisease("carlamendes12", 1);
 
     }
 

@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ejbs;
 
+import pt.ipleiria.estg.dei.ei.dae.prc.entities.Disease;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
@@ -32,5 +33,36 @@ public class PatientBean {
         return patient;
     }
 
+    public void enrollPatientInDisease(String username, int code) throws MyEntityNotFoundException {
+        Patient patient = findPatient(username);
+        if (patient != null){
+            Disease disease = entityManager.find(Disease.class, code);
+            if (disease != null) {
+                if (!disease.getPatients().contains(patient)){
+                    patient.addDisease(disease);
+                    disease.addPatient(patient);
+                }
+            }
+            else{
+                throw new MyEntityNotFoundException("Patient with username: " + username + " not found.");
+            }
+        }
+    }
+
+    public void unrollPatientInDisease(String username, int code) throws MyEntityNotFoundException {
+        Patient patient = findPatient(username);
+        if (patient != null){
+            Disease disease = entityManager.find(Disease.class, code);
+            if (disease != null) {
+                if (!disease.getPatients().contains(patient)){
+                    patient.removeDisease(disease);
+                    disease.removePatient(patient);
+                }
+            }
+            else{
+                throw new MyEntityNotFoundException("Patient with username: " + username + " not found.");
+            }
+        }
+    }
 
 }

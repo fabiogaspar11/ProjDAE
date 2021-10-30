@@ -114,3 +114,12 @@ POST http://localhost:8080/PRC/api/healthcareProfessionals/Doctor_mike/add/fabio
 POST http://localhost:8080/PRC/api/healthcareProfessionals/Doctor_mike/remove/fabiogaspar11
 
 
+
+##### ************************************ PATIENT ************************************
+
+### GET ALL PATIENTS
+GET http://localhost:8080/PRC/api/patients
+Accept: application/json
+
+### GET disease patients
+GET http://localhost:8080/PRC/api/patients/carlamendes12/diseases
