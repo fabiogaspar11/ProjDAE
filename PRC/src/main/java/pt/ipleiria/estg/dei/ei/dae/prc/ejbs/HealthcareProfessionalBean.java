@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ejbs;
 
 import pt.ipleiria.estg.dei.ei.dae.academics.exceptions.MyEntityExistsException;
+import pt.ipleiria.estg.dei.ei.dae.academics.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.HealthcareProfessionalDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.HealthcareProfessional;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
@@ -16,16 +17,15 @@ public class HealthcareProfessionalBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(String username, long healthcareProfessionalNumber, String name, String email, String password, String birthDate, String contact, String type) throws MyEntityExistsException {
-
-        HealthcareProfessional healthcareProfessional = findHealthcareProfessional(username);
+    public void create(String username, long healthcareProfessionalNumber, String name, String email, String password, String birthDate, String contact, String type) throws MyEntityExistsException, MyEntityNotFoundException {
+        HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class,username);
         if(healthcareProfessional != null) throw new MyEntityExistsException("A healthcare professional with the username \'" + username + "\' already exists");
         //TODO check if professional with the healthcareProfessionalNumber exists or not in the DB
         healthcareProfessional = new HealthcareProfessional(username,healthcareProfessionalNumber, name, email, password, birthDate, contact, type);
         entityManager.persist(healthcareProfessional);
     }
 
-    public void remove(HealthcareProfessional healthcareProfessional) {
+    public void remove(HealthcareProfessional healthcareProfessional) throws MyEntityNotFoundException {
         for (Patient p:
                 healthcareProfessional.getPatients()) {
             removePatientFromHealthcareprofessional(p.getUsername(), healthcareProfessional.getUsername());
@@ -37,31 +37,33 @@ public class HealthcareProfessionalBean {
     public List<HealthcareProfessional> getAllHealthcareProfessionals(){
         return (List<HealthcareProfessional>) entityManager.createNamedQuery("getAllHealthcareProfessionals").getResultList();
     }
-    public HealthcareProfessional findHealthcareProfessional(String username){
-        return entityManager.find(HealthcareProfessional.class, username);
+
+    public HealthcareProfessional findHealthcareProfessional(String username) throws MyEntityNotFoundException {
+        HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class, username);
+        if(healthcareProfessional == null) throw new MyEntityNotFoundException("There is no Healthcare professional with the username: \'"+username+"\'");
+        return healthcareProfessional;
     }
 
 
-    public boolean removePatientFromHealthcareprofessional(String usernamePatient, String usernameHealthcareprofessional)  {
+    public boolean removePatientFromHealthcareprofessional(String usernamePatient, String usernameHealthcareprofessional) throws MyEntityNotFoundException {
         HealthcareProfessional healthcareProfessional = findHealthcareProfessional(usernameHealthcareprofessional);
         Patient patient = entityManager.find(Patient.class, usernamePatient);
         if (patient == null){
-           return false;
+           throw new MyEntityNotFoundException("There is no Patient with the username: \'"+usernamePatient+"\'");
         }
-
         patient.removeHealthcareProfessional(healthcareProfessional);
         healthcareProfessional.removePatient(patient);
         entityManager.merge(patient);
         entityManager.merge(healthcareProfessional);
         return true;
     }
-    public boolean addPatientFromHealthcareprofessional(String usernamePatient, String usernameHealthcareprofessional)  {
+
+    public boolean addPatientFromHealthcareprofessional(String usernamePatient, String usernameHealthcareprofessional) throws MyEntityNotFoundException {
         HealthcareProfessional healthcareProfessional = findHealthcareProfessional(usernameHealthcareprofessional);
         Patient patient = entityManager.find(Patient.class, usernamePatient);
         if (patient == null){
-            return false;
+            throw new MyEntityNotFoundException("There is no Patient with the username: \'"+usernamePatient+"\'");
         }
-
         patient.addHealthcareProfessional(healthcareProfessional);
         healthcareProfessional.addPatient(patient);
         entityManager.merge(patient);

@@ -1,3 +1,24 @@
-########## ADMINISTRATORS ##########
+##### ************************************ ADMINISTRATORS ************************************
+
+########## Get all Administrators ##########
 GET http://localhost:8080/PRC/api/administrators
 Accept: application/json
+
+
+##### ************************************ HEALTHCARE PROFESSIONALS ************************************
+
+########## Create ##########
+POST http://localhost:8080/PRC/api/healthcareProfessionals
+Content-Type: application/json
+
+{
+  "username": "Doctor_mike",
+  "healthcareProfessionalNumber": 394628427,
+  "name": "Mike Varshavski",
+  "email": "mike_var@outlook.com",
+  "password": "eksm24_k",
+  "birthDate": "12/10/1989",
+  "contact": "+351924331081",
+  "type": "family_doctor"
+}
+
