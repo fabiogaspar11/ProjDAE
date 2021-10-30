@@ -6,7 +6,7 @@
      <template v-slot:cell(actions)="row">
            <nuxt-link
             class="btn btn-link"
-            :to="`/${type}/${row.item.username}`">Details</nuxt-link>
+            :to="`${type}/${row.item.username}`">Details</nuxt-link>
            <!-- <nuxt-link :to="`/${row.item.username}`" @click="$router.push({ params: {url: url}})">OLA</nuxt-link>-->
       </template> </b-table>
     </b-container>

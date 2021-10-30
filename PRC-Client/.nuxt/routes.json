@@ -3,29 +3,25 @@
     "name": "administrators",
     "path": "/administrators",
     "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators.vue",
-    "chunkName": "pages/administrators",
-    "_name": "_5753310f"
+    "chunkName": "pages/administrators"
   },
   {
     "name": "biomedicData",
     "path": "/biomedicData",
     "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicData.vue",
-    "chunkName": "pages/biomedicData",
-    "_name": "_36900db1"
+    "chunkName": "pages/biomedicData"
   },
   {
     "name": "diseases",
     "path": "/diseases",
     "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases.vue",
-    "chunkName": "pages/diseases",
-    "_name": "_3d20df00"
+    "chunkName": "pages/diseases"
   },
   {
     "name": "healthcareProfessionals",
     "path": "/healthcareProfessionals",
     "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthcareProfessionals.vue",
-    "chunkName": "pages/healthcareProfessionals",
-    "_name": "_f8106e74"
+    "chunkName": "pages/healthcareProfessionals"
   },
   {
     "name": "patients",
@@ -37,24 +33,20 @@
         "name": "patients-username",
         "path": ":username?",
         "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\_username.vue",
-        "chunkName": "pages/patients/_username",
-        "_name": "_26b6d124"
+        "chunkName": "pages/patients/_username"
       }
-    ],
-    "_name": "_e6d1b6d2"
+    ]
   },
   {
     "name": "prescriptions",
     "path": "/prescriptions",
     "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\prescriptions.vue",
-    "chunkName": "pages/prescriptions",
-    "_name": "_61bacd40"
+    "chunkName": "pages/prescriptions"
   },
   {
     "name": "index",
     "path": "/",
     "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\index.vue",
-    "chunkName": "pages/index",
-    "_name": "_a43c85ce"
+    "chunkName": "pages/index"
   }
 ]
