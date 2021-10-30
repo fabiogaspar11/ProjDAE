@@ -16,6 +16,8 @@
             -->
             <b-nav-item to="patients">Patients</b-nav-item>
             <b-nav-item to="administrators">Administrators</b-nav-item>
+            <b-nav-item to="">Healthcare Professionals</b-nav-item>
+
             <b-nav-item to="">Biomedic Data Measures</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
