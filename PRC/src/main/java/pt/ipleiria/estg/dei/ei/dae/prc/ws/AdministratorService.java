@@ -34,7 +34,6 @@ public class AdministratorService {
                 administrator.getBirthDate(),
                 administrator.getContact(),
                 administrator.getCitizenNumber()
-
         );
     }
     // converts an entire list of entities into a list of DTOs

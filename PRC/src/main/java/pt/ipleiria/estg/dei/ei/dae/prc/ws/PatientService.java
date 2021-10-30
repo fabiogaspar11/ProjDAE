@@ -37,10 +37,27 @@ public class PatientService {
     }
 
 
+    private PatientDTO toDTOnoDetails(Patient patient) {
+        return new PatientDTO(
+                patient.getUsername(),
+                patient.getName(),
+                patient.getEmail(),
+                patient.getBirthDate(),
+                patient.getContact(),
+                patient.getHealthUserNumber(),
+                patient.getWeight(),
+                patient.getHeight()
+        );
+    }
+
+    private List<PatientDTO> toDTOsNoDetails(List<Patient> patients) {
+        return patients.stream().map(this::toDTOnoDetails).collect(Collectors.toList());
+    }
+
     @GET
     @Path("/")
     public List<PatientDTO> getAllPatientsWS() {
-        return toDTOs(patientBean.getAllPatients());
+        return toDTOsNoDetails(patientBean.getAllPatients());
     }
 
     @POST
