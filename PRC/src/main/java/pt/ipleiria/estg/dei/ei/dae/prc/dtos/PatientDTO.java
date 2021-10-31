@@ -56,6 +56,17 @@ public class PatientDTO implements Serializable {
         this.diseases = diseases;
     }
 
+    public PatientDTO(String username, String name, String email, String birthDate, String contact, long healthUserNumber, float weight, float height) {
+        this.username = username;
+        this.name = name;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.contact = contact;
+        this.healthUserNumber = healthUserNumber;
+        this.weight = weight;
+        this.height = height;
+    }
+
     public List<HealthcareProfessional> getHealthcareProfessionals() {
         return healthcareProfessionals;
     }
