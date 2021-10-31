@@ -21,6 +21,7 @@ public class HealthcareProfessionalDTO {
     }
 
     public HealthcareProfessionalDTO(String name, String email, String password, String birthDate, String contact, long healthNumber, String type) {
+        this();
         this.username = "H"+healthNumber;
         this.name = name;
         this.email = email;
@@ -29,7 +30,6 @@ public class HealthcareProfessionalDTO {
         this.contact = contact;
         this.healthNumber = healthNumber;
         this.type=type;
-        this.patients = new LinkedList<>();
     }
     public HealthcareProfessionalDTO(String name, String email, String password, String birthDate, String contact, long healthNumber, String type, List<Patient> patients) {
         this(name, email, password, birthDate, contact, healthNumber, type);
