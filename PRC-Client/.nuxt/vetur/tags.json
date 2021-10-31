@@ -4,11 +4,5 @@
   },
   "NavBar": {
     "description": "Auto imported from components/NavBar.vue"
-  },
-  "Table": {
-    "description": "Auto imported from components/Table.vue"
-  },
-  "Template": {
-    "description": "Auto imported from components/Template.vue"
   }
 }

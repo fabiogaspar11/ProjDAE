@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,10 +12,9 @@ import java.util.List;
                 query = "SELECT p FROM Patient p ORDER BY p.name"
         )
 })
+
 public class Patient extends User implements Serializable {
 
-    @NotNull
-    private long healthUserNumber;
     private float weight;
     private float height;
     @OneToMany
@@ -30,21 +28,20 @@ public class Patient extends User implements Serializable {
     @ManyToMany(mappedBy = "patients")
     private List<Disease> diseases;
 
-    public Patient(String username, String name, String email, String password, String birthDate, String contact, long healthUserNumber, float weight, float height) {
-        super(username, name, email, password, birthDate, contact);
-        this.healthUserNumber = healthUserNumber;
+    public Patient() {
+        this.prescriptionList = new LinkedList<>();
+        this.biomedicDataList = new LinkedList<>();
+        this.healthcareProfessionals = new LinkedList<>();
+        this.diseases = new LinkedList<>();
+    }
+
+    public Patient(String username, String name, String email, String password, String birthDate, String contact, long healthNumber, float weight, float height) {
+        super(username, name, email, password, birthDate, contact, healthNumber);
         this.weight = weight;
         this.height = height;
         this.healthcareProfessionals = new LinkedList<>();
         this.prescriptionList = new LinkedList<>();
         this.biomedicDataList = new LinkedList<>();
-        this.diseases = new LinkedList<>();
-    }
-
-    public Patient() {
-        this.prescriptionList = new LinkedList<>();
-        this.biomedicDataList = new LinkedList<>();
-        this.healthcareProfessionals = new LinkedList<>();
         this.diseases = new LinkedList<>();
     }
 
@@ -62,15 +59,6 @@ public class Patient extends User implements Serializable {
 
     public void setHealthcareProfessionals(List<HealthcareProfessional> healthcareProfessionals) {
         this.healthcareProfessionals = healthcareProfessionals;
-    }
-
-
-    public long getHealthUserNumber() {
-        return healthUserNumber;
-    }
-
-    public void setHealthUserNumber(long healthUserNumber) {
-        this.healthUserNumber = healthUserNumber;
     }
 
     public float getWeight() {

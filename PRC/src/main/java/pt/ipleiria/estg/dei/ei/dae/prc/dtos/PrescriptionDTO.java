@@ -1,42 +1,25 @@
-package pt.ipleiria.estg.dei.ei.dae.prc.entities;
+package pt.ipleiria.estg.dei.ei.dae.prc.dtos;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
+import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 
-@Table(name = "prescriptions")
-@Entity
-@NamedQueries({
-        @NamedQuery(
-                name = "getAllPrescriptions",
-                query = "SELECT p FROM Prescription p ORDER BY p.code"
-        )
-})
-public class Prescription implements Serializable {
-    @Id
+
+public class PrescriptionDTO {
+
+
     private long code;
-    @NotNull
     private String title;
-    @NotNull
     private String observations;
-    @NotNull
     private String emissionDate;
-    @NotNull
     private String expireDate;
-    @NotNull
-    @ManyToOne
-    private Patient patient;
+    private String usernamePatient;
 
-    public Prescription() {
-    }
-
-    public Prescription(long code, String title, String observations, String emissionDate, String expireDate, Patient patient) {
+    public PrescriptionDTO(long code, String title, String observations, String emissionDate, String expireDate, String usernamePatient) {
         this.code = code;
         this.title = title;
         this.observations = observations;
         this.emissionDate = emissionDate;
         this.expireDate = expireDate;
-        this.patient = patient;
+        this.usernamePatient = usernamePatient;
     }
 
     public long getCode() {
@@ -79,11 +62,11 @@ public class Prescription implements Serializable {
         this.expireDate = expireDate;
     }
 
-    public Patient getPatient() {
-        return patient;
+    public String getUsernamePatient() {
+        return usernamePatient;
     }
 
-    public void setPatient(Patient patient) {
-        this.patient = patient;
+    public void setUsernamePatient(String usernamePatient) {
+        this.usernamePatient = usernamePatient;
     }
 }

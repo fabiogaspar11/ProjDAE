@@ -12,7 +12,7 @@ public class HealthcareProfessionalDTO {
     private String password;
     private String birthDate;
     private String contact;
-    private long healthcareProfessionalNumber;
+    private long healthNumber;
     private String type;
     private List<Patient> patients;
 
@@ -20,19 +20,19 @@ public class HealthcareProfessionalDTO {
         this.patients = new LinkedList<>();
     }
 
-    public HealthcareProfessionalDTO(String username, String name, String email, String password, String birthDate, String contact, long healthcareProfessionalNumber, String type) {
-        this.username = username;
+    public HealthcareProfessionalDTO(String name, String email, String password, String birthDate, String contact, long healthNumber, String type) {
+        this.username = "H"+healthNumber;
         this.name = name;
         this.email = email;
         this.password = password;
         this.birthDate = birthDate;
         this.contact = contact;
-        this.healthcareProfessionalNumber = healthcareProfessionalNumber;
+        this.healthNumber = healthNumber;
         this.type=type;
         this.patients = new LinkedList<>();
     }
-    public HealthcareProfessionalDTO(String username, String name, String email, String password, String birthDate, String contact, long healthcareProfessionalNumber, String type, List<Patient> patients) {
-        this(username, name, email, password, birthDate, contact, healthcareProfessionalNumber, type);
+    public HealthcareProfessionalDTO(String name, String email, String password, String birthDate, String contact, long healthNumber, String type, List<Patient> patients) {
+        this(name, email, password, birthDate, contact, healthNumber, type);
         this.patients = patients;
     }
 
@@ -100,11 +100,11 @@ public class HealthcareProfessionalDTO {
         this.contact = contact;
     }
 
-    public long getHealthcareProfessionalNumber() {
-        return healthcareProfessionalNumber;
+    public long getHealthNumber() {
+        return healthNumber;
     }
 
-    public void setHealthcareProfessionalNumber(long healthcareProfessionalNumber) {
-        this.healthcareProfessionalNumber = healthcareProfessionalNumber;
+    public void setHealthNumber(long healthNumber) {
+        this.healthNumber = healthNumber;
     }
 }

@@ -2,30 +2,30 @@
   {
     "name": "administrators",
     "path": "/administrators",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators.vue",
-    "chunkName": "pages/administrators",
-    "_name": "_5753310f"
-  },
-  {
-    "name": "healthcareProfessionals",
-    "path": "/healthcareProfessionals",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthcareProfessionals.vue",
-    "chunkName": "pages/healthcareProfessionals",
-    "_name": "_f8106e74"
+    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators\\\\index.vue",
+    "chunkName": "pages/administrators/index",
+    "_name": "_f130b6da"
   },
   {
     "name": "patients",
     "path": "/patients",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients.vue",
-    "chunkName": "pages/patients",
-    "_name": "_e6d1b6d2"
+    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\index.vue",
+    "chunkName": "pages/patients/index",
+    "_name": "_5dfc280b"
   },
   {
-    "name": "prescriptions",
-    "path": "/prescriptions",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\prescriptions.vue",
-    "chunkName": "pages/prescriptions",
-    "_name": "_61bacd40"
+    "name": "administrators-username",
+    "path": "/administrators/:username",
+    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators\\\\_username.vue",
+    "chunkName": "pages/administrators/_username",
+    "_name": "_436e8ff6"
+  },
+  {
+    "name": "patients-username",
+    "path": "/patients/:username",
+    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\_username.vue",
+    "chunkName": "pages/patients/_username",
+    "_name": "_26b6d124"
   },
   {
     "name": "index",

@@ -31,6 +31,9 @@ C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\excep
 C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\HealthcareProfessionalBean.java
 C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\ConfigBean.java
 C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\PatientService.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\PrescriptionBean.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\PrescriptionDTO.java
 C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\Prescription.java
 C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\exceptions\MyEntityExistsException.java
 C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\AdministratorService.java
+C:\GitRepository\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\PrescriptionService.java

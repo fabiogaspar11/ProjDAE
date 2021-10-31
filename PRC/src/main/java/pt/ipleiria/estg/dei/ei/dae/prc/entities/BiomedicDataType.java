@@ -13,7 +13,7 @@ import java.io.Serializable;
         )
 })
 @Table(
-        name = "BIOMEDICDATATYPES",
+        name = "biomedicdatatypes",
         uniqueConstraints = @UniqueConstraint(columnNames = {"NAME"})
 )
 @Entity

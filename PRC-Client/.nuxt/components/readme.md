@@ -8,5 +8,3 @@ You can directly use them in pages and other components without the need to impo
 
 - `<Login>` | `<login>` (components/Login.vue)
 - `<NavBar>` | `<nav-bar>` (components/NavBar.vue)
-- `<Table>` | `<table>` (components/Table.vue)
-- `<Template>` | `<template>` (components/Template.vue)

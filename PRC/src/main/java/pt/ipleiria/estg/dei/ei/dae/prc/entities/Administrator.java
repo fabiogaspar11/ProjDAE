@@ -15,23 +15,12 @@ import java.io.Serializable;
 })
 public class Administrator extends User implements Serializable {
 
-    @NotNull
-    private long citizenNumber;
-
-    public Administrator(String username, String name, String email, String password, String birthDate, String contact, long citizenNumber) {
-        super(username, name, email, password, birthDate, contact);
-        this.citizenNumber= citizenNumber;
+    public Administrator(String username, String name, String email, String password, String birthDate, String contact, long healthNumber) {
+        super(username, name, email, password, birthDate, contact,healthNumber);
     }
 
     public Administrator() {
         super();
     }
 
-    public long getCitizenNumber() {
-        return citizenNumber;
-    }
-
-    public void setCitizenNumber(long citizenNumber) {
-        this.citizenNumber = citizenNumber;
-    }
 }

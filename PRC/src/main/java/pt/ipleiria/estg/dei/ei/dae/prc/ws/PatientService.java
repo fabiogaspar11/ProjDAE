@@ -2,9 +2,11 @@ package pt.ipleiria.estg.dei.ei.dae.prc.ws;
 
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.DiseaseDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PatientDTO;
+import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PrescriptionDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.PatientBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Disease;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
+import pt.ipleiria.estg.dei.ei.dae.prc.entities.Prescription;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
 import javax.ejb.EJB;
@@ -21,17 +23,32 @@ public class PatientService {
     @EJB
     private PatientBean patientBean;
 
+    //Patient with everything
     private PatientDTO toDTO(Patient patient) {
         return new PatientDTO(
-                patient.getUsername(),
                 patient.getName(),
                 patient.getEmail(),
                 patient.getPassword(),
                 patient.getBirthDate(),
                 patient.getContact(),
-                patient.getHealthUserNumber(),
+                patient.getHealthNumber(),
                 patient.getWeight(),
-                patient.getHeight()
+                patient.getHeight(),
+                patient.getPrescriptionList(),
+                patient.getBiomedicDataList(),
+                patient.getHealthcareProfessionals()
+        );
+    }
+
+    //TODO
+    private PrescriptionDTO prescriptionToDTO(Prescription prescription) {
+        return new PrescriptionDTO(
+                prescription.getCode(),
+                prescription.getTitle(),
+                prescription.getObservations(),
+                prescription.getEmissionDate(),
+                prescription.getExpireDate(),
+                prescription.getPatient().getUsername()
         );
     }
 
@@ -39,15 +56,18 @@ public class PatientService {
         return patients.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+  private List<PrescriptionDTO> prescriptionToDTOs(List<Prescription>  prescriptions) {
+        return prescriptions.stream().map(this::prescriptionToDTO).collect(Collectors.toList());
+    }
+
 
     private PatientDTO toDTOnoDetails(Patient patient) {
         return new PatientDTO(
-                patient.getUsername(),
                 patient.getName(),
                 patient.getEmail(),
                 patient.getBirthDate(),
                 patient.getContact(),
-                patient.getHealthUserNumber(),
+                patient.getHealthNumber(),
                 patient.getWeight(),
                 patient.getHeight()
         );
@@ -66,18 +86,17 @@ public class PatientService {
     @POST
     @Path("/")
     public Response createNewPatient(PatientDTO patientDTO) throws MyEntityExistsException, MyEntityNotFoundException {
-        patientBean.create(
-                patientDTO.getUsername(),
+        String username = patientBean.create(
                 patientDTO.getName(),
                 patientDTO.getEmail(),
                 patientDTO.getPassword(),
                 patientDTO.getBirthDate(),
                 patientDTO.getContact(),
-                patientDTO.getHealthUserNumber(),
+                patientDTO.getHealthNumber(),
                 patientDTO.getWeight(),
                 patientDTO.getHeight()
         );
-        Patient patient = patientBean.findPatient(patientDTO.getUsername());
+        Patient patient = patientBean.findPatient(username);
         return Response.status(Response.Status.CREATED)
                 .entity(toDTO(patient))
                 .build();
@@ -126,6 +145,51 @@ public class PatientService {
 
         return Response.status(Response.Status.CREATED)
                 .build();
+    }
+    
+    @GET
+    @Path("{username}")
+    public Response getPatientDetails(@PathParam("username") String username) throws MyEntityNotFoundException {
+        Patient patient  = patientBean.findPatient(username);
+        return Response.status(Response.Status.OK)
+                .entity(toDTO(patient))
+                .build();
+    }
+
+    @DELETE
+    @Path("/{username}")
+    public Response deletePatient(@PathParam("username") String username) throws MyEntityNotFoundException {
+        Patient patient  = patientBean.findPatient(username);
+        patientBean.remove(patient);
+        return Response.status(Response.Status.OK)
+                .entity(toDTO(patient))
+                .build();
+    }
+
+    @PUT
+    @Path("/{username}")
+    public Response updatePatient(@PathParam("username") String username, PatientDTO patientDTO) throws MyEntityNotFoundException {
+        Patient patient  = patientBean.findPatient(username);
+        patientBean.update(patient, patientDTO);
+        return Response.status(Response.Status.OK)
+                .entity(toDTO(patient))
+                .build();
+    }
+
+    @POST
+    @Path("/{username}/add/{code}")
+    public Response addPrescription(@PathParam("username") String username, @PathParam("code") String code) throws MyEntityNotFoundException {
+        patientBean.addPrescription(username, code);
+        Patient patient  = patientBean.findPatient(username);
+        return Response.ok(prescriptionToDTOs(patient.getPrescriptionList())).build();
+    }
+
+    @POST
+    @Path("/{username}/remove/{code}")
+    public Response removePrescription(@PathParam("username") String username, @PathParam("code") String code) throws MyEntityNotFoundException {
+        patientBean.removePrescription(username, code);
+        Patient patient  = patientBean.findPatient(username);
+        return Response.ok(prescriptionToDTOs(patient.getPrescriptionList())).build();
     }
 
 }
