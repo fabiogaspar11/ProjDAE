@@ -4,7 +4,7 @@
     <div class="d-flex justify-content-center" style="margin-top: 4%">
       <b-container>
         <b-table
-          striped over
+          stripedover
           class="w-100 p-3"
           hover
           :items="entidade"

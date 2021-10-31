@@ -36,73 +36,9 @@
               <b-col sm="3" class="text-sm-right"><b>Height:</b></b-col>
               <b-col>{{ row.item.height }}</b-col>
             </b-row>
-
-            <div>
-              <b-button v-b-modal.modal-1>Edit</b-button>
-
-              <b-modal
-                id="modal-1"
-                title="Edit"
-                @ok="update(row.item.username)"
-              >
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">Name</span>
-                  </div>
-                  <input
-                    v-model="name"
-                    type="text"
-                    class="form-control"
-                    aria-describedby="basic-addon1"
-                  />
-                </div>
-
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1"
-                      >BirthDate</span
-                    >
-                  </div>
-                  <input
-                    v-model="birthDate"
-                    type="text"
-                    class="form-control"
-                    aria-describedby="basic-addon1"
-                  />
-                </div>
-
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1"
-                      >Email</span
-                    >
-                  </div>
-                  <input
-                    v-model="email"
-                    type="text"
-                    class="form-control"
-                    aria-describedby="basic-addon1"
-                  />
-                </div>
-
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1"
-                      >Contact</span
-                    >
-                  </div>
-                  <input
-                    v-model="contact"
-                    type="text"
-                    class="form-control"
-                    aria-describedby="basic-addon1"
-                  />
-                </div>
-              </b-modal>
-            </div>
           </b-card>
         </template>
-        <template v-slot:cell(actions)="row">
+        <template v-slot:cell(operations)="row">
           <nuxt-link class="btn btn-link" :to="`/patients/${row.item.username}`"
             >Details</nuxt-link
           >
@@ -114,47 +50,32 @@
 
 <script>
 import NavBar from "/components/NavBar.vue";
-import Template from "../../components/Template.vue";
 
 export default {
   components: {
-    Template,
     NavBar,
   },
   data() {
     return {
-      fields: ["name", "birthDate", "healthNumber", "show_details", "actions"],
+      fields: [
+        "name",
+        "birthDate",
+        "healthNumber",
+        "show_details",
+        "operations",
+      ],
       entidade: [],
       modalShow: false,
-      name:null,
-      bhirtData:null,
-      contact:null,
-      email:null
+      name: null,
+      bhirtData: null,
+      contact: null,
+      email: null,
     };
   },
   created() {
     this.$axios.$get("/api/patients").then((entidade) => {
       this.entidade = entidade;
     });
-  },
-  methods: {
-    update(code) {
-      this.$axios.$put("/api/patients/" + code, {
-        name: this.name,
-        email:this.email,
-        contact:this.contact,
-        bhirtDate:this.birthDate
-      }).then(()=>{
-        this.name=null
-        this.email=null
-        this.contact=null
-        this.bhirtDate=null
-        this.$axios.$get("/api/patients").then((entidade) => {
-        this.entidade = entidade;
-    });
-      });
-
-    }
   },
 };
 </script>
