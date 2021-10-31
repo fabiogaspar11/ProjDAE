@@ -114,3 +114,12 @@ POST http://localhost:8080/PRC/api/healthcareProfessionals/H394628427/remove/P11
 
 
 ##### ************************************ PRESCRIPTIONS ************************************
+
+##### ************************************ PATIENT ************************************
+
+### GET ALL PATIENTS
+GET http://localhost:8080/PRC/api/patients
+Accept: application/json
+
+### GET disease patients
+GET http://localhost:8080/PRC/api/patients/carlamendes12/diseases
