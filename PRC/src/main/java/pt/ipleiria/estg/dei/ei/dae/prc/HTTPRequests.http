@@ -113,3 +113,4 @@ POST http://localhost:8080/PRC/api/healthcareProfessionals/H394628427/add/P11111
 POST http://localhost:8080/PRC/api/healthcareProfessionals/H394628427/remove/P111111111
 
 
+##### ************************************ PRESCRIPTIONS ************************************

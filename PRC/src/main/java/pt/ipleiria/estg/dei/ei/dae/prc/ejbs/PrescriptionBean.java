@@ -30,7 +30,7 @@ public class PrescriptionBean {
         return (List<Prescription>) entityManager.createNamedQuery("getAllPrescriptions").getResultList();
     }
 
-    public Prescription findPrescription(int code) throws MyEntityNotFoundException {
+    public Prescription findPrescription(long code) throws MyEntityNotFoundException {
         Prescription prescription = entityManager.find(Prescription.class, code);
         if(prescription == null) throw new MyEntityNotFoundException("There is no Prescription with the code: \'"+code+"\'");
         return prescription;
