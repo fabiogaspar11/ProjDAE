@@ -15,7 +15,6 @@
             <template v-slot:cell(actions)="row">
               <nuxt-link
                 class="btn btn-link"
-                :key="type"
                 :to="`/patients/${row.item.username}`"
                 >Details</nuxt-link
               >
@@ -38,13 +37,12 @@ export default {
   },
   data() {
     return {
-      url: "/api/administrators",
       fields:['username','name','email','birthDate','contact','citizenNumber','actions'],
       entidade: []
     }
   },
   created () {
-      this.$axios.$get(this.url)
+      this.$axios.$get("/api/administrators")
         .then((entidade) => {
           this.entidade = entidade
         })
