@@ -38,7 +38,7 @@ DELETE http://localhost:8080/PRC/api/administrators/A142394274
 ### DELETE administrator
 DELETE http://localhost:8080/PRC/api/administrators/A111222333
 
-#######################################################################################################################
+##### ************************************ DISEASE ************************************
 
 ########## DISEASE ##########
 GET http://localhost:8080/PRC/api/diseases
@@ -199,3 +199,37 @@ POST http://localhost:8080/PRC/api/patients/P248364182/addPrescription/2
 
 ### Remove prescription
 POST http://localhost:8080/PRC/api/patients/P248364182/removePrescription/1
+
+##### ************************************ BIOMEDIC DATA MEASURE ****************************************
+
+### GET ALL
+GET http://localhost:8080/PRC/api/biomedicDataMeasures
+
+########## Create ##########
+POST http://localhost:8080/PRC/api/biomedicDataMeasures
+Content-Type: application/json
+
+{
+  "code": 1,
+  "value": 37.2,
+  "date": "01/11/2021",
+  "hour": "12:35",
+  "usernamePatient": "P987654321",
+  "biomedicDataTypeCode": 1
+}
+
+### Get details
+GET http://localhost:8080/PRC/api/biomedicDataMeasures/1
+
+
+### Update
+PUT http://localhost:8080/PRC/api/biomedicDataMeasures/1
+Content-Type: application/json
+
+{
+  "value": 40.2,
+  "hour": "14:00"
+}
+
+### Delete
+DELETE http://localhost:8080/PRC/api/biomedicDataMeasures/1

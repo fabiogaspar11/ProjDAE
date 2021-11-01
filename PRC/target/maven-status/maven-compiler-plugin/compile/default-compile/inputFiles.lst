@@ -12,8 +12,10 @@ C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\B
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\HealthcareProfessional.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\exceptions\MyEntityExistsException.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\AdministratorDTO.java
+C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\BiomedicDataMeasureDTO.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\PrescriptionDTO.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\BiomedicDataType.java
+C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\BiomedicDataMeasureService.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\PrescriptionBean.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\BiomedicDataTypeBean.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\Prescription.java
@@ -29,6 +31,7 @@ C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\exceptions
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\DiseaseService.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\DiseaseBean.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\HealthcareProfessionalBean.java
+C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\BiomedicDataMeasureBean.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\exceptions\MyConstraintViolationException.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\AdministratorService.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\Administrator.java

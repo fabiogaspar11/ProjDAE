@@ -45,12 +45,7 @@ public class AdministratorService {
     @Path("{username}")
     public Response getAdministratorDetails(@PathParam("username") String username) throws MyEntityNotFoundException {
         Administrator administrator = administratorBean.findAdministrator(username);
-        if (administrator != null) {
-            return Response.ok(toDTO(administrator)).build();
-        }
-        return Response.status(Response.Status.NOT_FOUND)
-                .entity("ERROR_FINDING_ADMINISTRATOR")
-                .build();
+        return Response.ok(toDTO(administrator)).build();
     }
 
     @POST // means: to call this endpoint, we need to use the HTTP POST method
@@ -58,8 +53,6 @@ public class AdministratorService {
     public Response createNewAdministrator(AdministratorDTO administratorDTO) throws MyEntityExistsException, MyEntityNotFoundException {
         String username = administratorBean.create(administratorDTO.getName(), administratorDTO.getEmail(), administratorDTO.getPassword(), administratorDTO.getBirthDate(), administratorDTO.getContact(), administratorDTO.getHealthNumber());
         Administrator administrator = administratorBean.findAdministrator(username);
-        if(administrator == null)
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         return Response.status(Response.Status.CREATED)
                 .entity(toDTO(administrator))
                 .build();

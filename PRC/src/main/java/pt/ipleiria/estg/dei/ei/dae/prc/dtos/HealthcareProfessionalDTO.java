@@ -2,10 +2,11 @@ package pt.ipleiria.estg.dei.ei.dae.prc.dtos;
 
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class HealthcareProfessionalDTO {
+public class HealthcareProfessionalDTO implements Serializable {
     private String username;
     private String name;
     private String email;

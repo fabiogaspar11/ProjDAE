@@ -19,7 +19,7 @@ public class Patient extends User implements Serializable {
     private float height;
     @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)
     private List<Prescription> prescriptions;
-    @OneToMany // TODO @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)
     private List<BiomedicDataMeasure> biomedicDataMeasures;
     @ManyToMany(mappedBy = "patients")
     private List<HealthcareProfessional> healthcareProfessionals;
@@ -129,5 +129,19 @@ public class Patient extends User implements Serializable {
             return;
         }
         diseases.remove(disease);
+    }
+
+    public void addBiomedicDataMeasure(BiomedicDataMeasure biomedicDataMeasure){
+        if(biomedicDataMeasure == null || biomedicDataMeasures.contains(biomedicDataMeasure)){
+            return;
+        }
+        biomedicDataMeasures.add(biomedicDataMeasure);
+    }
+
+    public void removeBiomedicDataMeasure(BiomedicDataMeasure biomedicDataMeasure){
+        if(biomedicDataMeasure == null || !biomedicDataMeasures.contains(biomedicDataMeasure)){
+            return;
+        }
+        biomedicDataMeasures.remove(biomedicDataMeasure);
     }
 }
