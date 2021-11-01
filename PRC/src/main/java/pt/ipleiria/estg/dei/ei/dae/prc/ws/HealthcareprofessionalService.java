@@ -126,7 +126,7 @@ public class HealthcareprofessionalService {
     }
 
     @POST
-    @Path("/{username}/add/{usernamePatient}")
+    @Path("/{username}/patients/{usernamePatient}")
     public Response addPatient(@PathParam("username") String username, @PathParam("usernamePatient") String usernamePatient) throws MyEntityNotFoundException {
         healthcareProfessionalBean.addPatientFromHealthcareprofessional(usernamePatient, username);
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
@@ -135,10 +135,12 @@ public class HealthcareprofessionalService {
     }
 
     @POST
-    @Path("/{username}/remove/{usernamePatient}")
+    @Path("/{username}/patients/{usernamePatient}")
     public Response removePatient(@PathParam("username") String username, @PathParam("usernamePatient") String usernamePatient) throws MyEntityNotFoundException {
         healthcareProfessionalBean.removePatientFromHealthcareprofessional(usernamePatient, username);
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         return Response.ok(patientsoDTOs(healthcareProfessional.getPatients())).build();
     }
+
+    //TODO getPatients?
 }

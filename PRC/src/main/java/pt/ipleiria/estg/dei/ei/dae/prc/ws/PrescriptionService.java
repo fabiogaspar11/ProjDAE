@@ -1,9 +1,8 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ws;
 
-import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PatientDTO;
+
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PrescriptionDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.PrescriptionBean;
-import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Prescription;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
