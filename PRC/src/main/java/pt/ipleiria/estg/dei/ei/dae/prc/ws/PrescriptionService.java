@@ -29,7 +29,8 @@ public class PrescriptionService {
                 prescription.getObservations(),
                 prescription.getEmissionDate(),
                 prescription.getExpireDate(),
-                prescription.getPatient().getUsername()
+                prescription.getPatient().getUsername(),
+                prescription.getHealthcareProfessional().getUsername()
         );
     }
 
@@ -52,7 +53,8 @@ public class PrescriptionService {
                 prescriptionDTO.getObservations(),
                 prescriptionDTO.getEmissionDate(),
                 prescriptionDTO.getExpireDate(),
-                prescriptionDTO.getUsernamePatient());
+                prescriptionDTO.getUsernamePatient(),
+                prescriptionDTO.getUsernameHealthcareProfessional());
         Prescription prescription = prescriptionBean.findPrescription(prescriptionDTO.getCode());
         return Response.status(Response.Status.CREATED)
                 .entity(toDTO(prescription))

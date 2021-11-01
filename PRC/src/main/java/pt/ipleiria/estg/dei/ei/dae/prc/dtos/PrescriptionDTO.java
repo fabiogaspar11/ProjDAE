@@ -1,9 +1,8 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.dtos;
 
-import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
+import java.io.Serializable;
 
-
-public class PrescriptionDTO {
+public class PrescriptionDTO implements Serializable {
 
 
     private long code;
@@ -12,14 +11,27 @@ public class PrescriptionDTO {
     private String emissionDate;
     private String expireDate;
     private String usernamePatient;
+    private String usernameHealthcareProfessional;
 
-    public PrescriptionDTO(long code, String title, String observations, String emissionDate, String expireDate, String usernamePatient) {
+    public PrescriptionDTO() {
+    }
+
+    public PrescriptionDTO(long code, String title, String observations, String emissionDate, String expireDate, String usernamePatient, String usernameHealthcareProfessional) {
         this.code = code;
         this.title = title;
         this.observations = observations;
         this.emissionDate = emissionDate;
         this.expireDate = expireDate;
         this.usernamePatient = usernamePatient;
+        this.usernameHealthcareProfessional = usernameHealthcareProfessional;
+    }
+
+    public String getUsernameHealthcareProfessional() {
+        return usernameHealthcareProfessional;
+    }
+
+    public void setUsernameHealthcareProfessional(String usernameHealthcareProfessional) {
+        this.usernameHealthcareProfessional = usernameHealthcareProfessional;
     }
 
     public long getCode() {
