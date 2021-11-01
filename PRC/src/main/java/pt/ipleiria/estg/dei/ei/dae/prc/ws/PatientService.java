@@ -120,29 +120,22 @@ public class PatientService {
     @Path("{username}/diseases")
     public Response getPatientDiseases(@PathParam("username") String username) throws MyEntityNotFoundException {
         Patient patient = patientBean.findPatient(username);
-        if (patient != null) {
-            return Response.ok(diseasesToDTOs(patient.getDiseases())).build();
-        }
-        return Response.status(Response.Status.NOT_FOUND)
-                .entity("ERROR_FINDING_PATIENT's")
-                .build();
+        return Response.ok(diseasesToDTOs(patient.getDiseases())).build();
+
     }
 
     @POST
-    @Path("/{username}/{disease}")
-    public Response enrollInPatients(@PathParam("username") String username, @PathParam("disease") int code) throws MyEntityNotFoundException {
-
-        patientBean.enrollPatientInDisease(username, code);
-
+    @Path("/{username}/diseases/{disease}")
+    public Response addDisease(@PathParam("username") String username, @PathParam("disease") int code) throws MyEntityNotFoundException {
+        patientBean.addDiseaseToPatient(username, code);
         return Response.status(Response.Status.CREATED)
                 .build();
     }
 
     @DELETE
-    @Path("/{username}/{disease}")
-    public Response unrollInPatients(@PathParam("username") String username, @PathParam("disease") int code) throws MyEntityNotFoundException {
-        patientBean.unrollPatientInDisease(username, code);
-
+    @Path("/{username}/diseases/{disease}")
+    public Response removeDisease(@PathParam("username") String username, @PathParam("disease") int code) throws MyEntityNotFoundException {
+        patientBean.removeDiseaseFromPatient(username, code);
         return Response.status(Response.Status.CREATED)
                 .build();
     }
@@ -177,7 +170,7 @@ public class PatientService {
     }
 
     @POST
-    @Path("/{username}/add/{code}")
+    @Path("/{username}/prescriptions/{code}")
     public Response addPrescription(@PathParam("username") String username, @PathParam("code") String code) throws MyEntityNotFoundException {
         patientBean.addPrescription(username, code);
         Patient patient  = patientBean.findPatient(username);
@@ -185,7 +178,7 @@ public class PatientService {
     }
 
     @POST
-    @Path("/{username}/remove/{code}")
+    @Path("/{username}/prescriptions/{code}")
     public Response removePrescription(@PathParam("username") String username, @PathParam("code") String code) throws MyEntityNotFoundException {
         patientBean.removePrescription(username, code);
         Patient patient  = patientBean.findPatient(username);
