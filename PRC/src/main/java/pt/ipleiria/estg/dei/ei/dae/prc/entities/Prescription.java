@@ -23,20 +23,34 @@ public class Prescription implements Serializable {
     private String emissionDate;
     @NotNull
     private String expireDate;
+    //TODO - @NotNull - patientBean removePrescription prescription.setPatient(null)
+    @ManyToOne
+    @JoinColumn(name = "patient_username")
+    private Patient patient;
     @NotNull
     @ManyToOne
-    private Patient patient;
+    @JoinColumn(name = "healthcareprofessional_username")
+    private HealthcareProfessional healthcareProfessional;
 
     public Prescription() {
     }
 
-    public Prescription(long code, String title, String observations, String emissionDate, String expireDate, Patient patient) {
+    public Prescription(long code, String title, String observations, String emissionDate, String expireDate, Patient patient, HealthcareProfessional healthcareProfessional) {
         this.code = code;
         this.title = title;
         this.observations = observations;
         this.emissionDate = emissionDate;
         this.expireDate = expireDate;
         this.patient = patient;
+        this.healthcareProfessional = healthcareProfessional;
+    }
+
+    public HealthcareProfessional getHealthcareProfessional() {
+        return healthcareProfessional;
+    }
+
+    public void setHealthcareProfessional(HealthcareProfessional healthcareProfessional) {
+        this.healthcareProfessional = healthcareProfessional;
     }
 
     public long getCode() {

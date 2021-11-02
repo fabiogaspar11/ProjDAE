@@ -4,7 +4,6 @@
 GET http://localhost:8080/PRC/api/administrators
 Accept: application/json
 
-
 ### GET administrator
 GET http://localhost:8080/PRC/api/administrators/A142394274
 
@@ -35,11 +34,11 @@ Content-Type: application/json
 
 ### DELETE administrator
 DELETE http://localhost:8080/PRC/api/administrators/A142394274
-Content-Type: application/json
 
+### DELETE administrator
+DELETE http://localhost:8080/PRC/api/administrators/A111222333
 
-
-#######################################################################################################################
+##### ************************************ DISEASE ************************************
 
 ########## DISEASE ##########
 GET http://localhost:8080/PRC/api/diseases
@@ -69,7 +68,6 @@ Content-Type: application/json
 
 ### DELETE disease
 DELETE http://localhost:8080/PRC/api/diseases/1
-Content-Type: application/json
 
 ### GET disease patients
 GET http://localhost:8080/PRC/api/diseases/1/patients
@@ -105,20 +103,133 @@ Content-Type: application/json
 ########## DELETE ##########
 DELETE http://localhost:8080/PRC/api/healthcareProfessionals/H394628427
 
+########## GET DETAILS ##########
+GET http://localhost:8080/PRC/api/healthcareProfessionals/H394628427
+
 ########## ADD PATIENT ##########
-POST http://localhost:8080/PRC/api/healthcareProfessionals/H394628427/patients/P111111111
+POST http://localhost:8080/PRC/api/healthcareProfessionals/H394628427/AddPatient/P123456789
 
 ########## REMOVE PATIENT ##########
-POST http://localhost:8080/PRC/api/healthcareProfessionals/H394628427/patients/P111111111
+POST http://localhost:8080/PRC/api/healthcareProfessionals/H394628427/RemovePatient/P123456789
 
 
 ##### ************************************ PRESCRIPTIONS ************************************
 
-##### ************************************ PATIENT ************************************
+########## All ##########
+GET http://localhost:8080/PRC/api/prescriptions
+
+########## Create ##########
+POST http://localhost:8080/PRC/api/prescriptions
+Content-Type: application/json
+
+{
+  "code": 2,
+  "title": "Medications list",
+  "observations": "acetaminophen 650 mg tablets, prednisone 50 mg",
+  "emissionDate": "20/10/2021",
+  "expireDate": "20/12/2021",
+  "usernamePatient":"P248364182",
+  "usernameHealthcareProfessional":"H987654321"
+}
+
+########## Details ##########
+GET http://localhost:8080/PRC/api/prescriptions/2
+
+########## Update ##########
+PUT http://localhost:8080/PRC/api/prescriptions/2
+Content-Type: application/json
+
+{
+  "title": "Medications",
+  "observations": "benorun 650 mg tablets, griponal 50 mg",
+  "emissionDate": "22/10/2021",
+  "expireDate": "22/12/2021",
+  "usernamePatient":"P248364182"
+}
+
+########## Delete ##########
+DELETE http://localhost:8080/PRC/api/prescriptions/2
+
+##### ************************************ PATIENT ****************************************
+
+########## Create ##########
+POST http://localhost:8080/PRC/api/patients
+Content-Type: application/json
+
+{
+  "healthNumber": 248364182,
+  "name": "Levi Ackerman",
+  "email": "ackerman@outlook.com",
+  "password": "skfm_48",
+  "birthDate": "11/12/1994",
+  "contact": "+351972374392",
+  "weight": 60,
+  "height": 1.56
+}
+
+########## Update ##########
+PUT http://localhost:8080/PRC/api/patients/P248364182
+Content-Type: application/json
+
+{
+  "email": "levi_ackerman@outlook.com",
+  "contact": "+351111222333"
+}
 
 ### GET ALL PATIENTS
 GET http://localhost:8080/PRC/api/patients
-Accept: application/json
 
-### GET disease patients
-GET http://localhost:8080/PRC/api/patients/P978675432/diseases
+### GET details
+GET http://localhost:8080/PRC/api/patients/P248364182
+
+### GET diseases
+GET http://localhost:8080/PRC/api/patients/P248364182/diseases
+
+### Add disease
+POST http://localhost:8080/PRC/api/patients/P248364182/addDisease/2
+
+### Add disease
+POST http://localhost:8080/PRC/api/patients/P248364182/addDisease/1
+
+### Remove disease
+POST http://localhost:8080/PRC/api/patients/P248364182/removeDisease/2
+
+### Add prescription
+POST http://localhost:8080/PRC/api/patients/P248364182/addPrescription/2
+
+### Remove prescription
+POST http://localhost:8080/PRC/api/patients/P248364182/removePrescription/1
+
+##### ************************************ BIOMEDIC DATA MEASURE ****************************************
+
+### GET ALL
+GET http://localhost:8080/PRC/api/biomedicDataMeasures
+
+########## Create ##########
+POST http://localhost:8080/PRC/api/biomedicDataMeasures
+Content-Type: application/json
+
+{
+  "code": 1,
+  "value": 37.2,
+  "date": "01/11/2021",
+  "hour": "12:35",
+  "usernamePatient": "P987654321",
+  "biomedicDataTypeCode": 1
+}
+
+### Get details
+GET http://localhost:8080/PRC/api/biomedicDataMeasures/1
+
+
+### Update
+PUT http://localhost:8080/PRC/api/biomedicDataMeasures/1
+Content-Type: application/json
+
+{
+  "value": 40.2,
+  "hour": "14:00"
+}
+
+### Delete
+DELETE http://localhost:8080/PRC/api/biomedicDataMeasures/1

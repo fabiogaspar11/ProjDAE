@@ -34,13 +34,12 @@ public class PatientService {
                 patient.getHealthNumber(),
                 patient.getWeight(),
                 patient.getHeight(),
-                patient.getPrescriptionList(),
-                patient.getBiomedicDataList(),
+                patient.getPrescriptions(),
+                patient.getBiomedicDataMeasures(),
                 patient.getHealthcareProfessionals()
         );
     }
 
-    //TODO
     private PrescriptionDTO prescriptionToDTO(Prescription prescription) {
         return new PrescriptionDTO(
                 prescription.getCode(),
@@ -48,7 +47,8 @@ public class PatientService {
                 prescription.getObservations(),
                 prescription.getEmissionDate(),
                 prescription.getExpireDate(),
-                prescription.getPatient().getUsername()
+                prescription.getPatient().getUsername(),
+                prescription.getHealthcareProfessional().getUsername()
         );
     }
 
@@ -77,6 +77,17 @@ public class PatientService {
         return patients.stream().map(this::toDTOnoDetails).collect(Collectors.toList());
     }
 
+    private DiseaseDTO toDTO(Disease disease) {
+        return new DiseaseDTO(
+                disease.getCode(),
+                disease.getName(),
+                disease.getType()
+        );
+    }
+    private List<DiseaseDTO> diseasesToDTOs(List<Disease> diseases) {
+        return diseases.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
     @GET
     @Path("/")
     public List<PatientDTO> getAllPatientsWS() {
@@ -102,20 +113,6 @@ public class PatientService {
                 .build();
     }
 
-
-    private DiseaseDTO toDTO(Disease disease) {
-        return new DiseaseDTO(
-                disease.getCode(),
-                disease.getName(),
-                disease.getType()
-        );
-    }
-    private List<DiseaseDTO> diseasesToDTOs(List<Disease> diseases) {
-        return diseases.stream().map(this::toDTO).collect(Collectors.toList());
-    }
-
-
-
     @GET
     @Path("{username}/diseases")
     public Response getPatientDiseases(@PathParam("username") String username) throws MyEntityNotFoundException {
@@ -125,19 +122,19 @@ public class PatientService {
     }
 
     @POST
-    @Path("/{username}/diseases/{disease}")
+    @Path("/{username}/addDisease/{disease}")
     public Response addDisease(@PathParam("username") String username, @PathParam("disease") int code) throws MyEntityNotFoundException {
         patientBean.addDiseaseToPatient(username, code);
-        return Response.status(Response.Status.CREATED)
-                .build();
+        Patient patient  = patientBean.findPatient(username);
+        return Response.ok(diseasesToDTOs(patient.getDiseases())).build();
     }
 
-    @DELETE
-    @Path("/{username}/diseases/{disease}")
+    @POST
+    @Path("/{username}/removeDisease/{disease}")
     public Response removeDisease(@PathParam("username") String username, @PathParam("disease") int code) throws MyEntityNotFoundException {
         patientBean.removeDiseaseFromPatient(username, code);
-        return Response.status(Response.Status.CREATED)
-                .build();
+        Patient patient  = patientBean.findPatient(username);
+        return Response.ok(diseasesToDTOs(patient.getDiseases())).build();
     }
     
     @GET
@@ -168,21 +165,21 @@ public class PatientService {
                 .entity(toDTO(patient))
                 .build();
     }
-
+    //TODO Duvida 1 - seria necessário estes dos metodos abaixo?
     @POST
-    @Path("/{username}/prescriptions/{code}")
-    public Response addPrescription(@PathParam("username") String username, @PathParam("code") String code) throws MyEntityNotFoundException {
+    @Path("/{username}/addPrescription/{code}")
+    public Response addPrescription(@PathParam("username") String username, @PathParam("code") long code) throws MyEntityNotFoundException, MyIllegalArgumentException {
         patientBean.addPrescription(username, code);
         Patient patient  = patientBean.findPatient(username);
-        return Response.ok(prescriptionToDTOs(patient.getPrescriptionList())).build();
+        return Response.ok(prescriptionToDTOs(patient.getPrescriptions())).build();
     }
 
     @POST
-    @Path("/{username}/prescriptions/{code}")
-    public Response removePrescription(@PathParam("username") String username, @PathParam("code") String code) throws MyEntityNotFoundException {
+    @Path("/{username}/removePrescription/{code}")
+    public Response removePrescription(@PathParam("username") String username, @PathParam("code") long code) throws MyEntityNotFoundException {
         patientBean.removePrescription(username, code);
         Patient patient  = patientBean.findPatient(username);
-        return Response.ok(prescriptionToDTOs(patient.getPrescriptionList())).build();
+        return Response.ok(prescriptionToDTOs(patient.getPrescriptions())).build();
     }
 
 }

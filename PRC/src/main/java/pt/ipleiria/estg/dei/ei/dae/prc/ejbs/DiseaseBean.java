@@ -27,59 +27,55 @@ public class DiseaseBean {
         }
     }
 
-    public void delete(int code)  {
+    public void delete(int code) throws MyEntityNotFoundException {
         Disease disease = findDisease(code);
-        if (disease != null) {
-            entityManager.remove(disease);
-        }
+        entityManager.remove(entityManager.merge(disease));
     }
 
-    public void update(int code, String name, String type) {
+    public void update(int code, String name, String type) throws MyEntityNotFoundException {
         Disease disease = findDisease(code);
-        if (disease != null){
-            disease.setCode(code);
-            disease.setName(name);
-            disease.setType(type);
-        }
+        disease.setCode(code);
+        disease.setName(name);
+        disease.setType(type);
+        entityManager.merge(disease);
     }
 
     public List<Disease> getAllDiseases() {
         return (List<Disease>) entityManager.createNamedQuery("getAllDiseases").getResultList();
     }
 
-    public Disease findDisease(int code){
-        return entityManager.find(Disease.class, code);
+    public Disease findDisease(int code) throws MyEntityNotFoundException {
+        Disease disease = entityManager.find(Disease.class, code);
+        if (disease ==null) throw new MyEntityNotFoundException("There is no Disease with code: " + code);
+        return disease;
     }
 
-    public void enrollDiseaseInPatient(int code, String username) throws MyEntityNotFoundException {
+    public void addDiseaseToPatient(int code, String username) throws MyEntityNotFoundException {
         Disease disease = findDisease(code);
-        if (disease != null){
-            Patient patient = entityManager.find(Patient.class, username);
-            if (patient != null) {
-                if (!patient.getDiseases().contains(disease)){
-                    disease.addPatient(patient);
-                    patient.addDisease(disease);
-                }
-            }
-            else{
-                throw new MyEntityNotFoundException("Patient with username: " + username + " not found.");
+        Patient patient = entityManager.find(Patient.class, username);
+        if (patient != null) {
+            if (!patient.getDiseases().contains(disease)){
+                disease.addPatient(patient);
+                patient.addDisease(disease);
+                entityManager.merge(disease);
+                entityManager.merge(patient);
             }
         }
     }
 
-    public void unrollDiseaseInPatient(int code, String username) throws MyEntityNotFoundException {
+    public void removeDiseaseFromPatient(int code, String username) throws MyEntityNotFoundException {
         Disease disease = findDisease(code);
-        if (disease != null){
-            Patient patient = entityManager.find(Patient.class, username);
-            if (patient != null) {
-                if (patient.getDiseases().contains(disease)){
-                    disease.removePatient(patient);
-                    patient.removeDisease(disease);
-                }
+        Patient patient = entityManager.find(Patient.class, username);
+        if (patient != null) {
+            if (patient.getDiseases().contains(disease)){
+                disease.removePatient(patient);
+                patient.removeDisease(disease);
+                entityManager.merge(disease);
+                entityManager.merge(patient);
             }
-            else{
-                throw new MyEntityNotFoundException("Patient with username: " + username + " not found.");
-            }
+        }
+        else{
+            throw new MyEntityNotFoundException("Patient with username: " + username + " not found.");
         }
     }
 }

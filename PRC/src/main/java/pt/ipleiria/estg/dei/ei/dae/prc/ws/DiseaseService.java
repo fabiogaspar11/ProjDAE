@@ -1,11 +1,9 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ws;
 
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.DiseaseDTO;
-import pt.ipleiria.estg.dei.ei.dae.prc.dtos.HealthcareProfessionalDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PatientDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.DiseaseBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Disease;
-import pt.ipleiria.estg.dei.ei.dae.prc.entities.HealthcareProfessional;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
@@ -73,11 +71,9 @@ public class DiseaseService {
 
     @POST
     @Path("/")
-    public Response createNewDisease (DiseaseDTO diseaseDTO) throws MyEntityExistsException {
+    public Response createNewDisease (DiseaseDTO diseaseDTO) throws MyEntityExistsException, MyEntityNotFoundException {
         diseaseBean.create(diseaseDTO.getCode(), diseaseDTO.getName(), diseaseDTO.getType());
         Disease newDisease = diseaseBean.findDisease(diseaseDTO.getCode());
-        if(newDisease == null)
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         return Response.status(Response.Status.CREATED)
                 .entity(toDTONoPatients(newDisease))
                 .build();
@@ -85,25 +81,19 @@ public class DiseaseService {
 
     @GET
     @Path("{code}/patients")
-    public Response getDiseasePatients(@PathParam("code") int code) {
+    public Response getDiseasePatients(@PathParam("code") int code) throws MyEntityNotFoundException {
         Disease disease = diseaseBean.findDisease(code);
-        if (disease != null) {
-            return Response.ok(patientsToDTOs(disease.getPatients())).build();
-        }
-        return Response.status(Response.Status.NOT_FOUND)
-                .entity("ERROR_FINDING_PATIENT's")
+        return Response.status(Response.Status.OK)
+                .entity(patientsToDTOs(disease.getPatients()))
                 .build();
     }
 
     @GET
     @Path("/{code}")
-    public Response getDiseaseDetails(@PathParam("code") int code) {
+    public Response getDiseaseDetails(@PathParam("code") int code) throws MyEntityNotFoundException {
         Disease disease = diseaseBean.findDisease(code);
-        if (disease != null) {
-            return Response.ok(toDTO(disease)).build();
-        }
-        return Response.status(Response.Status.NOT_FOUND)
-                .entity("ERROR_FINDING_DISEASE")
+        return Response.status(Response.Status.OK)
+                .entity(toDTO(disease))
                 .build();
     }
 
@@ -111,12 +101,9 @@ public class DiseaseService {
 
     @PUT
     @Path("/{code}")
-    public Response updateDiseaseWS(@PathParam("code") int code, DiseaseDTO diseaseDTO) {
+    public Response updateDiseaseWS(@PathParam("code") int code, DiseaseDTO diseaseDTO) throws MyEntityNotFoundException {
         diseaseBean.update(code, diseaseDTO.getName(), diseaseDTO.getType());
-
         Disease disease = diseaseBean.findDisease(code);
-        if(!disease.getName().equals(disease.getName()))
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         return Response.status(Response.Status.OK)
                 .entity(toDTO(disease))
                 .build();
@@ -124,22 +111,19 @@ public class DiseaseService {
 
     @DELETE
     @Path("/{code}")
-    public Response deleteDiseaseWS(@PathParam("code") int code) {
-        diseaseBean.delete(code);
-
+    public Response deleteDiseaseWS(@PathParam("code") int code) throws MyEntityNotFoundException {
         Disease disease = diseaseBean.findDisease(code);
-        if(disease != null)
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        diseaseBean.delete(code);
         return Response.status(Response.Status.OK)
+                .entity(toDTO(disease))
                 .build();
     }
 
+    //TODO - check if needed
     @POST
     @Path("/{code}/{patient}")
     public Response enrollInPatients(@PathParam("code") int code, @PathParam("patient") String username) throws MyEntityNotFoundException {
-
-        diseaseBean.enrollDiseaseInPatient(code, username);
-
+        diseaseBean.addDiseaseToPatient(code, username);
         return Response.status(Response.Status.CREATED)
                 .build();
     }
@@ -147,9 +131,7 @@ public class DiseaseService {
     @DELETE
     @Path("/{code}/{patient}")
     public Response unrollInPatients(@PathParam("code") int code, @PathParam("patient") String username) throws MyEntityNotFoundException {
-
-        diseaseBean.unrollDiseaseInPatient(code, username);
-
+        diseaseBean.removeDiseaseFromPatient(code, username);
         return Response.status(Response.Status.CREATED)
                 .build();
     }

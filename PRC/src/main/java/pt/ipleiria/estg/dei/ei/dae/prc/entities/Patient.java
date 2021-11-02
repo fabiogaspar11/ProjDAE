@@ -17,20 +17,18 @@ public class Patient extends User implements Serializable {
 
     private float weight;
     private float height;
-    @OneToMany
-    private List<Prescription> prescriptionList;
-    @OneToMany //falta fazer as relações
-    private List<BiomedicDataMeasure> biomedicDataList;
-
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)
+    private List<Prescription> prescriptions;
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)
+    private List<BiomedicDataMeasure> biomedicDataMeasures;
     @ManyToMany(mappedBy = "patients")
     private List<HealthcareProfessional> healthcareProfessionals;
-
     @ManyToMany(mappedBy = "patients")
     private List<Disease> diseases;
 
     public Patient() {
-        this.prescriptionList = new LinkedList<>();
-        this.biomedicDataList = new LinkedList<>();
+        this.prescriptions = new LinkedList<>();
+        this.biomedicDataMeasures = new LinkedList<>();
         this.healthcareProfessionals = new LinkedList<>();
         this.diseases = new LinkedList<>();
     }
@@ -40,8 +38,8 @@ public class Patient extends User implements Serializable {
         this.weight = weight;
         this.height = height;
         this.healthcareProfessionals = new LinkedList<>();
-        this.prescriptionList = new LinkedList<>();
-        this.biomedicDataList = new LinkedList<>();
+        this.prescriptions = new LinkedList<>();
+        this.biomedicDataMeasures = new LinkedList<>();
         this.diseases = new LinkedList<>();
     }
 
@@ -77,31 +75,31 @@ public class Patient extends User implements Serializable {
         this.height = height;
     }
 
-    public List<Prescription> getPrescriptionList() {
-        return prescriptionList;
+    public List<Prescription> getPrescriptions() {
+        return prescriptions;
     }
 
-    public void setPrescriptionList(List<Prescription> prescriptionList) {
-        this.prescriptionList = prescriptionList;
+    public void setPrescriptions(List<Prescription> prescriptionList) {
+        this.prescriptions = prescriptionList;
     }
 
-    public List<BiomedicDataMeasure> getBiomedicDataList() {
-        return biomedicDataList;
+    public List<BiomedicDataMeasure> getBiomedicDataMeasures() {
+        return biomedicDataMeasures;
     }
 
-    public void setBiomedicDataList(List<BiomedicDataMeasure> biomedicDataList) {
-        this.biomedicDataList = biomedicDataList;
+    public void setBiomedicDataMeasures(List<BiomedicDataMeasure> biomedicDataList) {
+        this.biomedicDataMeasures = biomedicDataList;
     }
 
     public void addPrescription(Prescription prescription){
         if(prescription!=null){
-            prescriptionList.add(prescription);
+            prescriptions.add(prescription);
         }
     }
 
     public void removePrescription(Prescription prescription){
         if(prescription!=null){
-            prescriptionList.remove(prescription);
+            prescriptions.remove(prescription);
         }
     }
 
@@ -131,5 +129,19 @@ public class Patient extends User implements Serializable {
             return;
         }
         diseases.remove(disease);
+    }
+
+    public void addBiomedicDataMeasure(BiomedicDataMeasure biomedicDataMeasure){
+        if(biomedicDataMeasure == null || biomedicDataMeasures.contains(biomedicDataMeasure)){
+            return;
+        }
+        biomedicDataMeasures.add(biomedicDataMeasure);
+    }
+
+    public void removeBiomedicDataMeasure(BiomedicDataMeasure biomedicDataMeasure){
+        if(biomedicDataMeasure == null || !biomedicDataMeasures.contains(biomedicDataMeasure)){
+            return;
+        }
+        biomedicDataMeasures.remove(biomedicDataMeasure);
     }
 }

@@ -13,8 +13,10 @@ pt\ipleiria\estg\dei\ei\dae\prc\exceptions\MyEntityExistsException.class
 pt\ipleiria\estg\dei\ei\dae\prc\PRC_Application.class
 pt\ipleiria\estg\dei\ei\dae\prc\ws\PatientService.class
 pt\ipleiria\estg\dei\ei\dae\prc\providers\CorsFilter.class
+pt\ipleiria\estg\dei\ei\dae\prc\ejbs\BiomedicDataMeasureBean.class
 pt\ipleiria\estg\dei\ei\dae\prc\ejbs\ConfigBean.class
 pt\ipleiria\estg\dei\ei\dae\prc\exceptions\MyIllegalArgumentException.class
+pt\ipleiria\estg\dei\ei\dae\prc\ws\BiomedicDataMeasureService.class
 pt\ipleiria\estg\dei\ei\dae\prc\ejbs\BiomedicDataTypeBean.class
 pt\ipleiria\estg\dei\ei\dae\prc\entities\Prescription.class
 pt\ipleiria\estg\dei\ei\dae\prc\ejbs\PatientBean.class
@@ -36,4 +38,5 @@ pt\ipleiria\estg\dei\ei\dae\prc\exceptions\MyConstraintViolationExceptionMapper.
 pt\ipleiria\estg\dei\ei\dae\prc\ejbs\HealthcareProfessionalBean.class
 pt\ipleiria\estg\dei\ei\dae\prc\exceptions\MyIllegalArgumentExceptionMapper.class
 pt\ipleiria\estg\dei\ei\dae\prc\exceptions\MyEntityExistsExceptionMapper.class
+pt\ipleiria\estg\dei\ei\dae\prc\dtos\BiomedicDataMeasureDTO.class
 pt\ipleiria\estg\dei\ei\dae\prc\exceptions\MyEntityNotFoundException.class

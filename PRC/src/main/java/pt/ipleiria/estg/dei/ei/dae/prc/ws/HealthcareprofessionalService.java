@@ -22,7 +22,7 @@ public class HealthcareprofessionalService {
     @EJB
     private HealthcareProfessionalBean healthcareProfessionalBean;
 
-    private HealthcareProfessionalDTO toDTO(HealthcareProfessional healthcareProfessional){
+    private HealthcareProfessionalDTO toDTONoPatients(HealthcareProfessional healthcareProfessional){
         return new HealthcareProfessionalDTO(
                 healthcareProfessional.getName(),
                 healthcareProfessional.getEmail(),
@@ -34,7 +34,7 @@ public class HealthcareprofessionalService {
         );
     }
 
-    private HealthcareProfessionalDTO toDTONoPatients(HealthcareProfessional healthcareProfessional) {
+    private HealthcareProfessionalDTO toDTO(HealthcareProfessional healthcareProfessional) {
         return new HealthcareProfessionalDTO(
                 healthcareProfessional.getName(),
                 healthcareProfessional.getEmail(),
@@ -48,11 +48,11 @@ public class HealthcareprofessionalService {
     }
 
     private List<HealthcareProfessionalDTO> toDTOs(List<HealthcareProfessional> healthcareProfessionals) {
-        return healthcareProfessionals.stream().map(this::toDTO).collect(Collectors.toList());
+        return healthcareProfessionals.stream().map(this::toDTONoPatients).collect(Collectors.toList());
     }
 
     private List<HealthcareProfessionalDTO> toDTOsNoPatients(List<HealthcareProfessional> students) {
-        return students.stream().map(this::toDTONoPatients).collect(Collectors.toList());
+        return students.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     private PatientDTO patientToDTO(Patient patient) {
@@ -92,7 +92,7 @@ public class HealthcareprofessionalService {
         );
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         return Response.status(Response.Status.CREATED)
-                .entity(toDTO(healthcareProfessional))
+                .entity(toDTONoPatients(healthcareProfessional))
                 .build();
     }
 
@@ -111,7 +111,7 @@ public class HealthcareprofessionalService {
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         healthcareProfessionalBean.remove(healthcareProfessional);
         return Response.status(Response.Status.OK)
-                .entity(toDTO(healthcareProfessional))
+                .entity(toDTONoPatients(healthcareProfessional))
                 .build();
     }
 
@@ -126,7 +126,7 @@ public class HealthcareprofessionalService {
     }
 
     @POST
-    @Path("/{username}/patients/{usernamePatient}")
+    @Path("/{username}/AddPatient/{usernamePatient}")
     public Response addPatient(@PathParam("username") String username, @PathParam("usernamePatient") String usernamePatient) throws MyEntityNotFoundException {
         healthcareProfessionalBean.addPatientFromHealthcareprofessional(usernamePatient, username);
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
@@ -135,12 +135,11 @@ public class HealthcareprofessionalService {
     }
 
     @POST
-    @Path("/{username}/patients/{usernamePatient}")
+    @Path("/{username}/RemovePatient/{usernamePatient}")
     public Response removePatient(@PathParam("username") String username, @PathParam("usernamePatient") String usernamePatient) throws MyEntityNotFoundException {
         healthcareProfessionalBean.removePatientFromHealthcareprofessional(usernamePatient, username);
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         return Response.ok(patientsoDTOs(healthcareProfessional.getPatients())).build();
     }
 
-    //TODO getPatients?
 }

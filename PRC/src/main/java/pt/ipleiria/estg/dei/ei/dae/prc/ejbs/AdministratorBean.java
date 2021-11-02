@@ -28,9 +28,7 @@ public class AdministratorBean {
 
     public void delete(String username) throws MyEntityNotFoundException {
         Administrator administrator = findAdministrator(username);
-        if (administrator != null) {
-            entityManager.remove(administrator);
-        }
+        entityManager.remove(administrator);
     }
 
     public void update(String username, String name, String email, String password, String birthDate, String contact) throws MyEntityNotFoundException {

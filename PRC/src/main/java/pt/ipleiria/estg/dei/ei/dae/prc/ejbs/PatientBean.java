@@ -7,6 +7,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Prescription;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyIllegalArgumentException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -45,12 +46,26 @@ public class PatientBean {
             if (!disease.getPatients().contains(patient)){
                 patient.addDisease(disease);
                 disease.addPatient(patient);
+                entityManager.merge(patient);
+                entityManager.merge(disease);
             }
         }
         else{
-            throw new MyEntityNotFoundException("Patient with username: " + username + " not found.");
+            throw new MyEntityNotFoundException("Disease with code: " + code + " not found.");
         }
 
+    }
+    public boolean removeDiseaseFromPatient(String usernamePatient, int code) throws MyEntityNotFoundException {
+        Patient patient = findPatient(usernamePatient);
+        Disease disease = entityManager.find(Disease.class, code);
+        if (disease == null){
+            throw new MyEntityNotFoundException("There is no Disease with the code: \'"+code+"\'");
+        }
+        patient.removeDisease(disease);
+        disease.removePatient(patient);
+        entityManager.merge(patient);
+        entityManager.merge(disease);
+        return true;
     }
 
     public void remove(Patient patient) throws MyEntityNotFoundException {
@@ -79,19 +94,6 @@ public class PatientBean {
         healthcareProfessional.removePatient(patient);
         entityManager.merge(patient);
         entityManager.merge(healthcareProfessional);
-        return true;
-    }
-
-    public boolean removeDiseaseFromPatient(String usernamePatient, int code) throws MyEntityNotFoundException {
-        Patient patient = findPatient(usernamePatient);
-        Disease disease = entityManager.find(Disease.class, code);
-        if (disease == null){
-            throw new MyEntityNotFoundException("There is no Disease with the code: \'"+code+"\'");
-        }
-        patient.removeDisease(disease);
-        disease.removePatient(patient);
-        entityManager.merge(patient);
-        entityManager.merge(disease);
         return true;
     }
 
@@ -125,29 +127,30 @@ public class PatientBean {
     }
 
 
-    public boolean addPrescription(String username, String code) throws MyEntityNotFoundException {
+    public boolean addPrescription(String username, long code) throws MyIllegalArgumentException, MyEntityNotFoundException {
         Patient patient = findPatient(username);
         Prescription prescription = entityManager.find(Prescription.class, code);
         if (prescription == null){
             throw new MyEntityNotFoundException("There is no Prescription with the code: \'"+code+"\'");
         }
+        if(prescription.getPatient() != null){
+            throw new MyIllegalArgumentException("This prescription is already prescribed to the Patient with the username: \'"+prescription.getPatient().getUsername()+"\'");
+        }
         patient.addPrescription(prescription);
-        //TODO
-        //prescription.setPatient(patient);
+        prescription.setPatient(patient);
         entityManager.merge(patient);
         entityManager.merge(prescription);
         return true;
     }
 
-    public boolean removePrescription(String username, String code) throws MyEntityNotFoundException {
+    public boolean removePrescription(String username, long code) throws MyEntityNotFoundException {
         Patient patient = findPatient(username);
         Prescription prescription = entityManager.find(Prescription.class, code);
         if (prescription == null){
             throw new MyEntityNotFoundException("There is no Prescription with the code: \'"+code+"\'");
         }
+        prescription.setPatient(null);
         patient.removePrescription(prescription);
-        //TODO
-        //prescription.setPatient(null);
         entityManager.merge(patient);
         entityManager.merge(prescription);
         return true;

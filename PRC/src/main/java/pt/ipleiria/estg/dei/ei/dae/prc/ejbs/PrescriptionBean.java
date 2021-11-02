@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.dae.prc.ejbs;
 
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PatientDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PrescriptionDTO;
+import pt.ipleiria.estg.dei.ei.dae.prc.entities.HealthcareProfessional;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Prescription;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
@@ -17,13 +18,23 @@ public class PrescriptionBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(long code, String title, String observations, String emissionDate, String expireDate, String usernamePatient) throws MyEntityExistsException, MyEntityNotFoundException {
+    public void create(long code, String title, String observations, String emissionDate, String expireDate, String usernamePatient, String usernameHealthcareProfessional) throws MyEntityExistsException, MyEntityNotFoundException {
         Prescription prescription = entityManager.find(Prescription.class,code);
-        if(prescription != null) throw new MyEntityExistsException("A Prescription with the code \'" + code + "\' already exists");
+        if(prescription != null) {
+            throw new MyEntityExistsException("A Prescription with the code \'" + code + "\' already exists");
+        }
         Patient patient = entityManager.find(Patient.class,usernamePatient);
-        if(patient == null) throw new MyEntityNotFoundException("There is no Patient with the username \'" + usernamePatient + "\' already exists");
-        prescription = new Prescription(code, title, observations, emissionDate, expireDate, patient);
+        if(patient == null) {
+            throw new MyEntityNotFoundException("There is no Patient with the username \'" + usernamePatient + "\'");
+        }
+        HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class, usernameHealthcareProfessional);
+        if(healthcareProfessional == null) {
+            throw new MyEntityNotFoundException("There is no Healthcare Professional with the username \'" + usernameHealthcareProfessional + "\'");
+        }
+        prescription = new Prescription(code, title, observations, emissionDate, expireDate, patient, healthcareProfessional);
+        patient.addPrescription(prescription);
         entityManager.persist(prescription);
+        entityManager.merge(patient);
     }
 
     public List<Prescription> getAllPrescriptions() {
@@ -42,7 +53,7 @@ public class PrescriptionBean {
         entityManager.remove(entityManager.merge(prescription));
     }
 
-    public void update(Prescription prescription, PrescriptionDTO prescriptionDTO) {
+    public void update(Prescription prescription, PrescriptionDTO prescriptionDTO) throws MyEntityNotFoundException {
         if(prescriptionDTO.getTitle() != null && !prescription.getTitle().equals(prescriptionDTO.getTitle())){
             prescription.setTitle(prescriptionDTO.getTitle());
         }
@@ -58,9 +69,23 @@ public class PrescriptionBean {
         }
 
         if(prescriptionDTO.getUsernamePatient() != null && !prescription.getPatient().getUsername().equals(prescriptionDTO.getUsernamePatient())){
-            Patient patient = entityManager.find(Patient.class,prescriptionDTO.getUsernamePatient());
-            prescription.setPatient(patient);
+            Patient patientNew = entityManager.find(Patient.class,prescriptionDTO.getUsernamePatient());
+            if(patientNew == null){
+                throw new MyEntityNotFoundException("There is no Patient with the username \'"+prescriptionDTO.getUsernamePatient()+"\'");
+            }
+            Patient patientOld = prescription.getPatient();
+            patientOld.removePrescription(prescription);
+            prescription.setPatient(patientNew);
+            patientNew.addPrescription(prescription);
+            entityManager.merge(patientNew);
+            entityManager.merge(patientOld);
         }
+        //TODO Duvida 2 - deixar dar update ao profissional de saude msm que o paciente nao tenha o profissional de saude na lista?
+        if(prescriptionDTO.getUsernameHealthcareProfessional() != null && !prescription.getHealthcareProfessional().getUsername().equals(prescriptionDTO.getUsernameHealthcareProfessional())){
+            HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class,prescriptionDTO.getUsernameHealthcareProfessional());
+            prescription.setHealthcareProfessional(healthcareProfessional);
+        }
+
         entityManager.merge(prescription);
     }
 }
