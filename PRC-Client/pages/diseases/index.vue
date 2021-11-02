@@ -1,11 +1,37 @@
+
 <template>
   <div>
     <NavBar></NavBar>
-    <h1 style="margin-top:5%; margin-left: 13%"> Diseases ({{tableLength}}) </h1>
-    <div class="d-flex justify-content-center" style="margin-top: 1%">
+
+    <div id="outer">
+      <p id="title" class="inner"> Diseases
+        <span id="totalEntity">({{tableLength}})</span>
+      </p>
+      <input id="searchEntity" class="inner" type="text" placeholder="Search...">
+      <b-button v-b-modal.modal-1 id="buttonCreate" class="inner">
+        <img id="imageCreate" src="../../images/plus.png"> New disease
+      </b-button>
+    </div>
+    <b-modal id="modal-1" title="New disease" @ok="create(code)">
+      <div class="input-group mb-4">
+          <span class="input-group-text">Code</span>
+        <input v-model="code" type="text" class="form-control" aria-describedby="basic-addon1"/>
+      </div>
+      <div class="input-group mb-4">
+          <span class="input-group-text">Name</span>
+        <input v-model="name" type="text" class="form-control" aria-describedby="basic-addon1"/>
+      </div>
+      <div class="input-group mb-4">
+          <span class="input-group-text">type</span>
+        <input v-model="type" type="text" class="form-control" aria-describedby="basic-addon1"/>
+      </div>
+    </b-modal>
+
+    <hr style="width:73%;">
+    <div class="d-flex justify-content-center" style="margin-top: 3%">
 
       <b-table
-        :items="entidade"
+        :items="this.entidade"
         :fields="fields"
         striped
         responsive="sm"
@@ -31,20 +57,25 @@
           </b-button>
         </template>
       </b-table>
+
     </div>
   </div>
+
 </template>
 
 <script>
 import NavBar from "/components/NavBar.vue";
+import Router from 'vue-router';
 
 export default {
   components: {
     NavBar,
+    Router
   },
   data() {
     return {
       fields: [
+        "code",
         "name",
         "type",
         "operations",
@@ -52,10 +83,11 @@ export default {
       ],
       entidade: [],
       modalShow: false,
+      code: null,
       name: null,
-      bhirtData: null,
-      contact: null,
-      email: null
+      type: null
+
+      //entity: this.$route.name
     };
   },
   computed: {
@@ -69,6 +101,21 @@ export default {
     });
   },
   methods: {
+    create(code) {
+      this.$axios.$post("/api/diseases", {
+        code: this.code,
+        name: this.name,
+        type: this.type
+      })
+        .then(response => {
+          this.entidade.push(response);
+          this.code = null;
+          this.name = null;
+          this.type = null;
+
+        });
+
+    },
     remove(code) {
       this.$axios.$delete('/api/diseases/' + code)
         .then(response => {
@@ -84,6 +131,61 @@ export default {
 
 
 <style>
+
+#outer
+{
+  width:100%;
+  text-align: left;
+  padding-left: 14%;
+  padding-top: 2%;
+}
+.inner
+{
+  display: inline-block;
+}
+
+#searchEntity{
+  width: 15%;
+  height: 30px;
+  text-align: left;
+  padding-left: 40px;
+  background-image: url("../../images/search.png");
+  background-size: 40px;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+}
+
+#title{
+  color: #58CFEB;
+  margin-top:3%;
+  margin-right: 10%;
+  position: relative;
+  font-size: 200%;
+}
+
+#totalEntity{
+  font-size:80%;
+  color: lightgray;
+}
+
+#imageCreate{
+  width: 25px;
+  height: 25px;
+  margin-bottom: 2%;
+}
+#buttonCreate{
+  margin-left: 33%;
+  background-color: #58CFEB;
+  border: white;
+  border-radius: 20px;
+  box-shadow: none !important;
+  outline: none !important;
+
+}
+#buttonCreate:hover{
+  background-color: #17a2b8;
+}
+
 #buttonRemove{
   color: #007bff;
   background-color: transparent;
