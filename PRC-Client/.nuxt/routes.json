@@ -21,18 +21,18 @@
     "_name": "_0fc9d77c"
   },
   {
-    "name": "diseases-teste",
-    "path": "/diseases/teste",
-    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases\\\\teste.vue",
-    "chunkName": "pages/diseases/teste",
-    "_name": "_d7f2860c"
-  },
-  {
     "name": "administrators-username",
     "path": "/administrators/:username",
     "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators\\\\_username.vue",
     "chunkName": "pages/administrators/_username",
     "_name": "_21f8e36d"
+  },
+  {
+    "name": "diseases-code",
+    "path": "/diseases/:code",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases\\\\_code.vue",
+    "chunkName": "pages/diseases/_code",
+    "_name": "_a87e5d9a"
   },
   {
     "name": "patients-username",

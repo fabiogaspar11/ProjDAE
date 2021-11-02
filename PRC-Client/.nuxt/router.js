@@ -7,8 +7,8 @@ import scrollBehavior from './router.scrollBehavior.js'
 const _2f1c4b8a = () => interopDefault(import('..\\pages\\administrators\\index.vue' /* webpackChunkName: "pages/administrators/index" */))
 const _ac13bf8e = () => interopDefault(import('..\\pages\\diseases\\index.vue' /* webpackChunkName: "pages/diseases/index" */))
 const _0fc9d77c = () => interopDefault(import('..\\pages\\patients\\index.vue' /* webpackChunkName: "pages/patients/index" */))
-const _d7f2860c = () => interopDefault(import('..\\pages\\diseases\\teste.vue' /* webpackChunkName: "pages/diseases/teste" */))
 const _21f8e36d = () => interopDefault(import('..\\pages\\administrators\\_username.vue' /* webpackChunkName: "pages/administrators/_username" */))
+const _a87e5d9a = () => interopDefault(import('..\\pages\\diseases\\_code.vue' /* webpackChunkName: "pages/diseases/_code" */))
 const _48749025 = () => interopDefault(import('..\\pages\\patients\\_username.vue' /* webpackChunkName: "pages/patients/_username" */))
 const _51cd9be0 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
@@ -36,13 +36,13 @@ export const routerOptions = {
     component: _0fc9d77c,
     name: "patients"
   }, {
-    path: "/diseases/teste",
-    component: _d7f2860c,
-    name: "diseases-teste"
-  }, {
     path: "/administrators/:username",
     component: _21f8e36d,
     name: "administrators-username"
+  }, {
+    path: "/diseases/:code",
+    component: _a87e5d9a,
+    name: "diseases-code"
   }, {
     path: "/patients/:username",
     component: _48749025,
