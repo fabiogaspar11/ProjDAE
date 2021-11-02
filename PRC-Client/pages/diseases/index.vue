@@ -7,11 +7,12 @@
       <p id="title" class="inner"> Diseases
         <span id="totalEntity">({{tableLength}})</span>
       </p>
-      <input id="searchEntity" class="inner" type="text" placeholder="Search...">
+      <b-form-input id="searchEntity" class="inner" v-model="filter" type="text" placeholder="Search..."> </b-form-input>
       <b-button v-b-modal.modal-1 id="buttonCreate" class="inner">
         <img id="imageCreate" src="../../images/plus.png"> New disease
       </b-button>
     </div>
+    
     <b-modal id="modal-1" title="New disease" @ok="create(code)">
       <div class="input-group mb-4">
           <span class="input-group-text">Code</span>
@@ -36,6 +37,8 @@
         striped
         responsive="sm"
         class="w-75 p-3"
+        :filter="filter"
+        @filtered="search"
       >
         <template #cell(show_details)="row">
             <b-button size="sm" @click="row.toggleDetails" class="mr-2">
@@ -85,7 +88,8 @@ export default {
       modalShow: false,
       code: null,
       name: null,
-      type: null
+      type: null,
+      filter: null,
 
       //entity: this.$route.name
     };
@@ -123,6 +127,11 @@ export default {
           if (~index) // if the post exists in array
             this.entidade.splice(index, 1) //delete the post
         });
+    },
+    search(filteredItems) {
+      // Trigger pagination to update the number of buttons/pages due to filtering
+      this.totalRows = filteredItems.length
+      this.currentPage = 1
     }
   }
 };
