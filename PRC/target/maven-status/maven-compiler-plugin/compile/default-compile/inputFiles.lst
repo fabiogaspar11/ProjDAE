@@ -1,3 +1,4 @@
+D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\BiomedicDataMeasureDTO.java
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\PatientBean.java
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\exceptions\MyIllegalArgumentExceptionMapper.java
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\PrescriptionBean.java
@@ -19,6 +20,7 @@ D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\DiseaseBean.java
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\providers\CorsFilter.java
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\HealthcareProfessional.java
+D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\BiomedicDataMeasureService.java
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\AdministratorService.java
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\ConfigBean.java
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\PatientService.java
@@ -37,3 +39,4 @@ D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\AdministratorBean.java
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\DiseaseDTO.java
 D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\BiomedicDataTypeDTO.java
+D:\Escola\Engenharia_Informatica\3ano_1semestre\DAE\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\BiomedicDataMeasureBean.java
