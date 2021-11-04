@@ -7,9 +7,12 @@
       <p id="title" class="inner"> Diseases
         <span id="totalEntity">({{tableLength}})</span>
       </p>
-      <b-form-input id="searchEntity" class="inner" v-model="filter" type="text" placeholder="Search..."> </b-form-input>
+      <b-form-input class="w-25" v-model="filter" type="text" placeholder="Search...">
+        <font-awesome-icon icon="plus"/> New disease
+      </b-form-input>
+
       <b-button v-b-modal.modal-1 id="buttonCreate" class="inner">
-        <img id="imageCreate" src="../../images/plus.png"> New disease
+        <font-awesome-icon icon="plus"/> New disease
       </b-button>
     </div>
 
@@ -108,7 +111,9 @@ export default {
       code: null,
       name: null,
       type: null,
-      filter: null
+      filter: null,
+      totalRows: null,
+      currentPage: null,
 
       //entity: this.$route.name
     };
@@ -159,7 +164,6 @@ export default {
         });
     },
     search(filteredItems) {
-      // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length
       this.currentPage = 1
     }
