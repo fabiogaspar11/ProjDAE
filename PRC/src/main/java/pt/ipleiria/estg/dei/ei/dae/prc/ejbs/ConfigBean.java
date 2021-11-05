@@ -6,9 +6,13 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @Startup
 @Singleton
 public class ConfigBean {
+    private static final Logger logger = Logger.getLogger("ejbs.ConfigBean");
 
     @EJB
     PatientBean patientBean;
@@ -29,6 +33,7 @@ public class ConfigBean {
     PrescriptionBean prescriptionBean;
     @PostConstruct
     public void populateDB() throws MyEntityExistsException, MyEntityNotFoundException {
+        try{
        String usernameP1 = patientBean.create("Fábio Gaspar", "2191264@my.ipleiria.pt", "12345", "04/12/2001", "916364061", 123456789, 60, (float) 1.68);
         patientBean.create("Carla Mendes","2191111@my.ipleiria.pt","12345","05/06/1999","916345345",978675432,(float)55.5,(float)1.60);
         patientBean.create("Carlos Costa","2191131@my.ipleiria.pt","12345","11/04/1984","912343274",987654321,(float)70.2,(float)1.80);
@@ -45,6 +50,9 @@ public class ConfigBean {
         prescriptionBean.create(1, "Prescrição - Medicamentos", "Ipobrunfeno - 3g/dia, Griponal - 5g/dia", "01/11/2021", "01/12/2021", usernameP1, usernameH1);
         diseaseBean.create(1, "Hipertensão", "Estágio 1");
         diseaseBean.addDiseaseToPatient(1, usernameP1);
+        }catch (Exception e){
+            logger.log(Level.SEVERE, e.getMessage());
+        }
     }
 
 
