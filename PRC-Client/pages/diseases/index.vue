@@ -3,18 +3,23 @@
   <div>
     <NavBar></NavBar>
 
-    <div id="outer">
-      <p id="title" class="inner"> Diseases
-        <span id="totalEntity">({{tableLength}})</span>
-      </p>
-      <b-form-input class="w-25" v-model="filter" type="text" placeholder="Search...">
-        <font-awesome-icon icon="plus"/> New disease
-      </b-form-input>
+    <b-container class="bv-example-row" style="margin-top: 5%">
+      <b-row>
+        <b-col sm="3">
+          <h1> Diseases ({{tableLength}})</h1>
+        </b-col>
+        <b-col sm="5">
+          <b-form-input v-model="filter" type="search" placeholder="Search..."> </b-form-input>
+        </b-col>
 
-      <b-button v-b-modal.modal-1 id="buttonCreate" class="inner">
-        <font-awesome-icon icon="plus"/> New disease
-      </b-button>
-    </div>
+        <b-col lg="4">
+          <b-button v-b-modal.modal-1 variant="info">
+            <font-awesome-icon icon="plus"/> New disease
+          </b-button>
+        </b-col>
+      </b-row>
+    </b-container>
+
 
     <b-modal id="modal-1" title="New disease" @ok="create(code)">
       <div class="input-group mb-4">
@@ -51,6 +56,7 @@
         striped
         responsive="sm"
         class="w-75 p-3"
+        :filter="filter"
         @filtered="search"
       >
         <template #cell(show_details)="row">
@@ -60,19 +66,14 @@
         </template>
 
         <template v-slot:cell(operations)="row">
-          <nuxt-link class="btn btn-link" :to="`/patients/${row.item.code}`"
-          >Details</nuxt-link
-          >
+          <nuxt-link class="btn btn-link" :to="`/patients/${row.item.code}`"> Details </nuxt-link>
         </template>
         <template v-slot:cell(actions)="row">
-          <b-button v-b-modal.modal-2 id="buttonRemove" class="btn btn-link">
-            Edit
+          <b-button v-b-modal.modal-2  variant="info">
+            <font-awesome-icon icon="edit" /> Edit
           </b-button>
-          <b-button id="buttonRemove" class="btn btn-link" @click.prevent="remove(row.item.code)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-            </svg>
+          <b-button @click.prevent="remove(row.item.code)" variant="danger">
+            <font-awesome-icon icon="trash" /> Remove
           </b-button>
         </template>
         <template v-slot:cell(operations)="row">
@@ -173,70 +174,3 @@ export default {
 
 
 
-<style>
-
-#outer
-{
-  width:100%;
-  text-align: left;
-  padding-left: 14%;
-  padding-top: 2%;
-}
-.inner
-{
-  display: inline-block;
-}
-
-#searchEntity{
-  width: 25%;
-  height: 30px;
-  text-align: left;
-  padding-left: 40px;
-  background-image: url("../../images/search.png");
-  background-size: 40px;
-  background-repeat: no-repeat;
-  border-radius: 20px;
-}
-
-#title{
-  color: #58CFEB;
-  margin-top:3%;
-  margin-right: 3%;
-  position: relative;
-  font-size: 200%;
-}
-
-#totalEntity{
-  font-size:80%;
-  color: lightgray;
-}
-
-#imageCreate{
-  width: 25px;
-  height: 25px;
-  margin-bottom: 2%;
-}
-#buttonCreate{
-  margin-left: 30%;
-  background-color: #58CFEB;
-  border: white;
-  border-radius: 20px;
-  box-shadow: none !important;
-  outline: none !important;
-
-}
-#buttonCreate:hover{
-  background-color: #17a2b8;
-}
-
-#buttonRemove{
-  color: #007bff;
-  background-color: transparent;
-  border: 0 !important;
-  box-shadow: none !important;
-  outline: none !important;
-}
-#buttonRemove:hover{
-  color: #0056b3;
-}
-</style>
