@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Stateless
-public class DiseaseBean {
+public class    DiseaseBean {
     @PersistenceContext
     private EntityManager entityManager;
 

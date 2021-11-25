@@ -4,13 +4,15 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _2f1c4b8a = () => interopDefault(import('..\\pages\\administrators\\index.vue' /* webpackChunkName: "pages/administrators/index" */))
-const _ac13bf8e = () => interopDefault(import('..\\pages\\diseases\\index.vue' /* webpackChunkName: "pages/diseases/index" */))
-const _0fc9d77c = () => interopDefault(import('..\\pages\\patients\\index.vue' /* webpackChunkName: "pages/patients/index" */))
-const _21f8e36d = () => interopDefault(import('..\\pages\\administrators\\_username.vue' /* webpackChunkName: "pages/administrators/_username" */))
-const _a87e5d9a = () => interopDefault(import('..\\pages\\diseases\\_code.vue' /* webpackChunkName: "pages/diseases/_code" */))
-const _48749025 = () => interopDefault(import('..\\pages\\patients\\_username.vue' /* webpackChunkName: "pages/patients/_username" */))
-const _51cd9be0 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
+const _f130b6da = () => interopDefault(import('..\\pages\\administrators\\index.vue' /* webpackChunkName: "pages/administrators/index" */))
+const _e88ca49e = () => interopDefault(import('..\\pages\\biomedicData\\index.vue' /* webpackChunkName: "pages/biomedicData/index" */))
+const _0fd73402 = () => interopDefault(import('..\\pages\\diseases\\index.vue' /* webpackChunkName: "pages/diseases/index" */))
+const _5dfc280b = () => interopDefault(import('..\\pages\\patients\\index.vue' /* webpackChunkName: "pages/patients/index" */))
+const _436e8ff6 = () => interopDefault(import('..\\pages\\administrators\\_username.vue' /* webpackChunkName: "pages/administrators/_username" */))
+const _e4f742aa = () => interopDefault(import('..\\pages\\biomedicData\\_code.vue' /* webpackChunkName: "pages/biomedicData/_code" */))
+const _11a1e4fc = () => interopDefault(import('..\\pages\\diseases\\_code.vue' /* webpackChunkName: "pages/diseases/_code" */))
+const _26b6d124 = () => interopDefault(import('..\\pages\\patients\\_username.vue' /* webpackChunkName: "pages/patients/_username" */))
+const _a43c85ce = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
 
@@ -25,31 +27,39 @@ export const routerOptions = {
 
   routes: [{
     path: "/administrators",
-    component: _2f1c4b8a,
+    component: _f130b6da,
     name: "administrators"
   }, {
+    path: "/biomedicData",
+    component: _e88ca49e,
+    name: "biomedicData"
+  }, {
     path: "/diseases",
-    component: _ac13bf8e,
+    component: _0fd73402,
     name: "diseases"
   }, {
     path: "/patients",
-    component: _0fc9d77c,
+    component: _5dfc280b,
     name: "patients"
   }, {
     path: "/administrators/:username",
-    component: _21f8e36d,
+    component: _436e8ff6,
     name: "administrators-username"
   }, {
+    path: "/biomedicData/:code",
+    component: _e4f742aa,
+    name: "biomedicData-code"
+  }, {
     path: "/diseases/:code",
-    component: _a87e5d9a,
+    component: _11a1e4fc,
     name: "diseases-code"
   }, {
     path: "/patients/:username",
-    component: _48749025,
+    component: _26b6d124,
     name: "patients-username"
   }, {
     path: "/",
-    component: _51cd9be0,
+    component: _a43c85ce,
     name: "index"
   }],
 

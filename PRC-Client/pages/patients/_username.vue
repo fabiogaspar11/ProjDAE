@@ -69,10 +69,8 @@
     <b-col col lg="2">
     <div>
       <b-button variant="danger" v-b-modal.modal-2>Delete</b-button>
-      <b-modal id="modal-2" title="Are you sure you want to delete this user?" @ok="remove()">
-        <div class="input-group mb-3">
-          <div class="input-group-prepend"></div>
-        </div>
+      <b-modal id="modal-2" title="Please Confirm" @ok="remove()">
+      "Are you sure you want to delete this user?
       </b-modal>
     </div>
   </b-col>

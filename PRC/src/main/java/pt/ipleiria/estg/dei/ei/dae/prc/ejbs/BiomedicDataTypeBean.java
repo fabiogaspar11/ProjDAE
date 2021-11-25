@@ -1,7 +1,9 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ejbs;
 
+import pt.ipleiria.estg.dei.ei.dae.prc.entities.Administrator;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.BiomedicDataType;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -22,7 +24,18 @@ public class BiomedicDataTypeBean {
         return (List<BiomedicDataType>) entityManager.createNamedQuery("getAllBiomedicDataType").getResultList();
     }
 
-    public void findBiomedicDataType(long code){
-        entityManager.find(BiomedicDataType.class, code);
+    public BiomedicDataType findBiomedicDataType(long code) throws MyEntityNotFoundException {
+        BiomedicDataType biomedicDataType = entityManager.find(BiomedicDataType.class, code);
+        if (biomedicDataType != null){
+            return biomedicDataType;
+        }
+        else{
+            throw new MyEntityNotFoundException("Biomedic data type with code: " + code + " not found.");
+        }
+    }
+
+    public void delete(long code) throws MyEntityNotFoundException {
+        BiomedicDataType biomedicDataType = findBiomedicDataType(code);
+        entityManager.remove(biomedicDataType);
     }
 }

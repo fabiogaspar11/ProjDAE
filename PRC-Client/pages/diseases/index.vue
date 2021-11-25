@@ -19,8 +19,6 @@
         </b-col>
       </b-row>
     </b-container>
-
-
     <b-modal id="modal-1" title="New disease" @ok="create(code)">
       <div class="input-group mb-4">
           <span class="input-group-text">Code</span>
@@ -149,7 +147,7 @@ export default {
       this.$axios.$delete('/api/diseases/' + code)
         .then(response => {
           const index = this.entidade.findIndex(disease => disease.code === code) // find the post index
-          if (~index) // if the post exists in array
+          if (index) // if the post exists in array
             this.entidade.splice(index, 1) //delete the post
         });
     },

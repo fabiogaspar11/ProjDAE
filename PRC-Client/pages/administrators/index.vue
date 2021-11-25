@@ -27,69 +27,7 @@
               <b-col>{{ row.item.contact }}</b-col>
             </b-row>
 
-            <div>
-              <b-button v-b-modal.modal-1>Edit</b-button>
-
-              <b-modal
-                id="modal-1"
-                title="Edit"
-                @ok="update(row.item.username)"
-              >
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">Name</span>
-                  </div>
-                  <input
-                    v-model="name"
-                    type="text"
-                    class="form-control"
-                    aria-describedby="basic-addon1"
-                  />
-                </div>
-
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1"
-                      >BirthDate</span
-                    >
-                  </div>
-                  <input
-                    v-model="birthDate"
-                    type="text"
-                    class="form-control"
-                    aria-describedby="basic-addon1"
-                  />
-                </div>
-
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1"
-                      >Email</span
-                    >
-                  </div>
-                  <input
-                    v-model="email"
-                    type="text"
-                    class="form-control"
-                    aria-describedby="basic-addon1"
-                  />
-                </div>
-
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1"
-                      >Contact</span
-                    >
-                  </div>
-                  <input
-                    v-model="contact"
-                    type="text"
-                    class="form-control"
-                    aria-describedby="basic-addon1"
-                  />
-                </div>
-              </b-modal>
-            </div>
+           
           </b-card>
         </template>
         <template v-slot:cell(actions)="row">
