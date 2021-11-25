@@ -34,7 +34,7 @@
       </div>
     </b-modal>
 
-    <b-modal id="modal-2" title="New disease" @ok="update(code)">
+    <b-modal id="modal-2" title="update disease" @ok="update(code)">
       <div class="input-group mb-4">
         <span class="input-group-text">Name</span>
         <input v-model="name" type="text" class="form-control" aria-describedby="basic-addon1"/>
@@ -67,7 +67,7 @@
           <nuxt-link class="btn btn-link" :to="`/patients/${row.item.code}`"> Details </nuxt-link>
         </template>
         <template v-slot:cell(actions)="row">
-          <b-button v-b-modal.modal-2  variant="info">
+          <b-button @click.prevent="getCode(row.item.code)" v-b-modal.modal-2  variant="info">
             <font-awesome-icon icon="edit" /> Edit
           </b-button>
           <b-button @click.prevent="remove(row.item.code)" variant="danger">
@@ -113,7 +113,6 @@ export default {
       filter: null,
       totalRows: null,
       currentPage: null,
-
       //entity: this.$route.name
     };
   },
@@ -128,6 +127,9 @@ export default {
     });
   },
   methods: {
+    getCode(code){
+      this.code = code
+    },
     create(code) {
       this.$axios.$post("/api/diseases", {
         code: this.code,
@@ -145,7 +147,7 @@ export default {
     },
     remove(code) {
       this.$axios.$delete('/api/diseases/' + code)
-        .then(response => {
+        .then(() => {
           const index = this.entidade.findIndex(disease => disease.code === code) // find the post index
           if (index) // if the post exists in array
             this.entidade.splice(index, 1) //delete the post
@@ -154,12 +156,18 @@ export default {
     update(code) {
       this.$axios.$put('/api/diseases/' + code, {
         name: this.name,
-        type: this.type
+        type: this.type,
+
       })
         .then(response => {
           this.code = null;
           this.name = null;
           this.type = null;
+          const index = this.entidade.findIndex(disease => disease.code === code) // find the post index
+          if (~index) { // if the post exists in array
+            this.entidade.splice(index, 1);
+            this.entidade.splice(index, 0, response);
+          }
         });
     },
     search(filteredItems) {
