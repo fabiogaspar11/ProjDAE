@@ -62,8 +62,8 @@ PUT http://localhost:8080/PRC/api/diseases/1
 Content-Type: application/json
 
 {
-  "name": "gregewgre",
-  "type": "acute infective endocarditis"
+  "name": "gelado",
+  "type": null
 }
 
 ### DELETE disease
