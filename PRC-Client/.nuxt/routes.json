@@ -18,6 +18,12 @@
     "chunkName": "pages/diseases/index"
   },
   {
+    "name": "healthCareProfessionals",
+    "path": "/healthCareProfessionals",
+    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthCareProfessionals\\\\index.vue",
+    "chunkName": "pages/healthCareProfessionals/index"
+  },
+  {
     "name": "patients",
     "path": "/patients",
     "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\index.vue",
