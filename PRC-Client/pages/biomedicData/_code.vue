@@ -4,77 +4,56 @@
     <div class="d-flex justify-content-center" style="margin-top: 4%">
       <template>
         <div>
-          <b-table striped hover :items="entidade" :fields="fields"></b-table>
+          <b-table striped hover :items="entidade"></b-table>
         </div>
       </template>
     </div>
-      <b-row class="justify-content-md-center">
-            <b-col col lg="2" >
+
     <div>
-      <b-button v-b-modal.modal-1>Edit</b-button>
-
-      <b-modal id="modal-1" title="Edit" @ok="update()">
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Name</span>
-          </div>
-          <input
-            v-model="name"
-            type="text"
-            class="form-control"
-            aria-describedby="basic-addon1"
-          />
-        </div>
-
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">BirthDate</span>
-          </div>
-          <input
-            v-model="birthDate"
-            type="text"
-            class="form-control"
-            aria-describedby="basic-addon1"
-          />
-        </div>
-
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Email</span>
-          </div>
-          <input
-            v-model="email"
-            type="text"
-            class="form-control"
-            aria-describedby="basic-addon1"
-          />
-        </div>
-
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Contact</span>
-          </div>
-          <input
-            v-model="contact"
-            type="text"
-            class="form-control"
-            aria-describedby="basic-addon1"
-          />
-        </div>
-      </b-modal>
+      <div class="d-flex justify-content-center">
+        <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
+      </div>
     </div>
-    </b-col>
-    <!-----------------------------------------------Delete----------------------------------------->
 
-    <b-col col lg="2">
-    <div>
-      <b-button variant="danger" v-b-modal.modal-2>Delete</b-button>
-      <b-modal id="modal-2" title="Please Confirm" @ok="remove()">
-        Are you sure you want to delete this biomedic data type?
-      </b-modal>
-    </div>
-  </b-col>
-  </b-row>
+    <b-modal id="modal-1" title="Edit Biomedic Data Type" @ok="update()">
+      <div class="input-group mb-4">
+        <span class="input-group-text">Name:</span>
+        <input
+          v-model="name"
+          type="text"
+          class="form-control"
+          aria-describedby="basic-addon1"
+        />
+      </div>
+      <div class="input-group mb-4">
+        <span class="input-group-text">Unit Measure:</span>
+        <input
+          v-model="unitMeasure"
+          type="text"
+          class="form-control"
+          aria-describedby="basic-addon1"
+        />
+      </div>
+      <div class="input-group mb-4">
+        <span class="input-group-text">Minimum value:</span>
+        <input
+          v-model="minValue"
+          type="number"
+          class="form-control"
+          aria-describedby="basic-addon1"
+        />
+      </div>
+      <div class="input-group mb-4">
+        <span class="input-group-text">Maximum value:</span>
+        <input
+          v-model="maxValue"
+          type="number"
+          class="form-control"
+          aria-describedby="basic-addon1"
+        />
+      </div>
+    </b-modal>
+
   </div>
 </template>
 
@@ -86,6 +65,10 @@ export default {
   data() {
     return {
       entidade: [],
+      name: null,
+      unitMeasure: null,
+      minValue: null,
+      maxValue: null,
     };
   },
   props: {
@@ -101,12 +84,32 @@ export default {
       this.entidade = [entidade];
     });
   },
-   methods: {
+  methods: {
     remove() {
-      this.$axios.$delete(`/api/biomedicDataType/${this.code}`).then(()=>{
-      this.$router.push("/biomedicData")
-      })
+      this.$axios.$delete(`/api/biomedicDataType/${this.code}`).then(() => {
+        this.$router.push("/biomedicData");
+      });
     },
-   }
+    update() {
+      this.$axios
+        .$put(`/api/biomedicDataType/${this.code}`, {
+          name: this.name,
+          unitMeasure: this.unitMeasure,
+          minValue: this.minValue,
+          maxValue: this.maxValue,
+        })
+        .then(() => {
+          (this.name = null),
+            (this.unitMeasure = null),
+            (this.minValue = null),
+            (this.maxValue = null);
+          this.$axios
+            .$get(`/api/biomedicDataType/${this.code}`)
+            .then((entidade) => {
+              this.entidade = [entidade];
+            });
+        });
+    },
+  },
 };
 </script>
