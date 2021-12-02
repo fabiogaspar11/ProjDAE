@@ -36,9 +36,6 @@ public class Disease {
     }
 
     public Disease() {
-        code = 0;
-        name = "";
-        type = "";
         patients = new ArrayList<>();
     }
 
