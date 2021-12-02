@@ -26,17 +26,17 @@
       </div>
       <div class="input-group mb-4">
           <span class="input-group-text">Email</span>
-          <b-input required v-model.trim="email" ref="email" type="email" :state="isEmailValid" class="form-control" aria-describedby="basic-addon1"/>
+          <b-input required v-model.trim="email" ref="email" type="email" :state="isEmailValid" class="form-control" aria-describedby="basic-addon1" placeholder="Enter your email"/>
            <p>{{isEmailValidFeedback}}</p>
       </div>
        <div class="input-group mb-4">
           <span class="input-group-text">Password</span>
-          <b-input required v-model.trim="password" type="password" :state="isPasswordValid"  class="form-control" aria-describedby="basic-addon1"/>
+          <b-input required v-model.trim="password" type="password" :state="isPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your password"/>
           <p>{{isPasswordValidFeedback}}</p>
       </div>
        <div class="input-group mb-4">
           <span class="input-group-text">Contact</span>
-          <b-input required v-model.trim="contact" type="number"  :state="isContactValid"  class="form-control" aria-describedby="basic-addon1"/>
+          <b-input required v-model.trim="contact" type="number"  :state="isContactValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your contact"/>
           <p>{{isContactValidFeedback}}</p>
       </div>
       </b-modal>
@@ -188,8 +188,8 @@ export default {
   methods: {
     remove() {
       this.$axios.$delete(`/api/patients/${this.username}`).then(()=>{
-      alert('Patient '+this.name +' was successfully removed');
-      this.$router.push("/patients")
+      alert('Patient '+this.username +' was successfully removed');
+      this.$router.go(-1);
       })
     },
     update() {
@@ -198,18 +198,21 @@ export default {
           name: this.name,
           email: this.email,
           contact: this.contact,
-          bhirtDate: this.birthDate,
+          birthDate: this.birthDate,
         })
         .then(() => {
           this.name = null;
           this.email = null;
           this.contact = null;
-          this.bhirtDate = null;
+          this.birthDate = null;
+           alert(`Patient ${this.username}  updated!`);
           this.$axios
             .$get(`/api/patients/${this.username}`)
             .then((entidade) => {
               this.entidade = [entidade];
             });
+            //OU
+            this.$router.go(0);
         });
     },
   },

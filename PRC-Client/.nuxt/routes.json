@@ -7,6 +7,13 @@
     "_name": "_a42c148a"
   },
   {
+    "name": "biomedicData",
+    "path": "/biomedicData",
+    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicData\\\\index.vue",
+    "chunkName": "pages/biomedicData/index",
+    "_name": "_4d6e28d9"
+  },
+  {
     "name": "diseases",
     "path": "/diseases",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases\\\\index.vue",
@@ -14,11 +21,32 @@
     "_name": "_d3d0f9ac"
   },
   {
+    "name": "healthCareProfessionals",
+    "path": "/healthCareProfessionals",
+    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthCareProfessionals\\\\index.vue",
+    "chunkName": "pages/healthCareProfessionals/index",
+    "_name": "_0793d0f4"
+  },
+  {
+    "name": "patients",
+    "path": "/patients",
+    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\index.vue",
+    "chunkName": "pages/patients/index",
+    "_name": "_3787119a"
+  },
+  {
     "name": "administrators-username",
     "path": "/administrators/:username",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators\\\\_username.vue",
     "chunkName": "pages/administrators/_username",
     "_name": "_5ed7e5c4"
+  },
+  {
+    "name": "biomedicData-code",
+    "path": "/biomedicData/:code",
+    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicData\\\\_code.vue",
+    "chunkName": "pages/biomedicData/_code",
+    "_name": "_4f38d9d3"
   },
   {
     "name": "diseases-code",

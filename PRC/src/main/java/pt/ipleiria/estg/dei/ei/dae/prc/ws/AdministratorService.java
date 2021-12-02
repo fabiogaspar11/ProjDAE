@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.prc.ws;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.AdministratorDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.AdministratorBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Administrator;
+import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
 import javax.ejb.EJB;
@@ -61,8 +62,8 @@ public class AdministratorService {
     @PUT
     @Path("/{username}")
     public Response updateAdministrator(@PathParam("username") String username, AdministratorDTO administratorDTO) throws MyEntityNotFoundException {
-        administratorBean.update(username, administratorDTO.getName(), administratorDTO.getEmail(), administratorDTO.getPassword(), administratorDTO.getBirthDate(), administratorDTO.getContact());
-        Administrator administrator = administratorBean.findAdministrator(username);
+        Administrator administrator  = administratorBean.findAdministrator(username);
+        administratorBean.update(administrator,administratorDTO);
         return Response.status(Response.Status.OK)
                 .entity(toDTO(administrator))
                 .build();

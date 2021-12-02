@@ -21,12 +21,12 @@
       </div>
       <div class="input-group mb-4">
           <span class="input-group-text">Email</span>
-          <b-input required v-model.trim="email" ref="email" type="email" :state="isEmailValid" class="form-control" aria-describedby="basic-addon1"/>
+          <b-input required v-model.trim="email" ref="email" type="email" :state="isEmailValid" class="form-control" aria-describedby="basic-addon1" placeholder="Enter your email"/>
            <p>{{isEmailValidFeedback}}</p>
       </div>
        <div class="input-group mb-4">
           <span class="input-group-text">Password</span>
-          <b-input required v-model.trim="password" type="password" :state="isPasswordValid"  class="form-control" aria-describedby="basic-addon1"/>
+          <b-input required v-model.trim="password" type="password" :state="isPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your password"/>
           <p>{{isPasswordValidFeedback}}</p>
       </div>
        <div class="input-group mb-4">
@@ -36,12 +36,12 @@
       </div>
        <div class="input-group mb-4">
           <span class="input-group-text">Contact</span>
-          <b-input required v-model.trim="contact" type="number"  :state="isContactValid"  class="form-control" aria-describedby="basic-addon1"/>
+          <b-input required v-model.trim="contact" type="number"  :state="isContactValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your contact"/>
           <p>{{isContactValidFeedback}}</p>
       </div>
        <div class="input-group mb-4">
           <span class="input-group-text">Health Number</span>
-          <b-input required v-model.trim="healthNumber" type="number" :state="isHealthNumberValid" class="form-control" aria-describedby="basic-addon1"/>
+          <b-input required v-model.trim="healthNumber" type="number" :state="isHealthNumberValid" class="form-control" aria-describedby="basic-addon1" placeholder="Enter your health number"/>
           <p>{{isHealthNumberValidFeedback}}</p>
       </div>
     </b-modal>
@@ -73,8 +73,8 @@
           </b-card>
         </template>
         <template v-slot:cell(operations)="row">
-          <nuxt-link class="btn btn-link" :to="`/patients/${row.item.username}`"
-            >Details</nuxt-link
+          <nuxt-link class="btn btn-info" :to="`/patients/${row.item.username}`"
+            ><font-awesome-icon icon="expand"/></nuxt-link
           >
         </template>
       </b-table>
@@ -213,7 +213,6 @@ export default {
         "operations",
       ],
       entidade: [],
-      modalShow: false,
       name: null,
       birthDate: null,
       contact: null,
@@ -249,11 +248,12 @@ export default {
           this.contact = null;
           this.email = null;
           this.healthNumber = null;
+          this.$router.go(0);
         })
         .catch(error => {
             alert("Error when creating Patient: "+ error.response.data);
         });
-        }
+     }
   }
 };
 </script>
