@@ -74,11 +74,6 @@
             <font-awesome-icon icon="trash" /> Remove
           </b-button>
         </template>
-        <template v-slot:cell(operations)="row">
-          <nuxt-link class="btn btn-link" :to="`/diseases/${row.item.code}`"
-          >Details</nuxt-link
-          >
-        </template>
       </b-table>
 
     </div>

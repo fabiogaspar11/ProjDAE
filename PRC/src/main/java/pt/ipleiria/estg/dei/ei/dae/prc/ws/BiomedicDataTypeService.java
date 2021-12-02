@@ -1,11 +1,13 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ws;
 
+import pt.ipleiria.estg.dei.ei.dae.prc.dtos.AdministratorDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.BiomedicDataTypeDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PatientDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.BiomedicDataTypeBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Administrator;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.BiomedicDataType;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
@@ -51,9 +53,31 @@ public class BiomedicDataTypeService {
         return toDTOs(bDataTypeBean.getAllBiomedicDataType());
     }
 
+
+    @POST
+    @Path("/")
+    public Response createNewBdata(BiomedicDataTypeDTO bDataTypeDTO) throws MyEntityExistsException, MyEntityNotFoundException {
+        long code = bDataTypeBean.create(bDataTypeDTO.getCode(),bDataTypeDTO.getName(),bDataTypeDTO.getUnitMeasure(),bDataTypeDTO.getMinValue(),bDataTypeDTO.getMaxValue());
+        BiomedicDataType biomedicDataType = bDataTypeBean.findBiomedicDataType(code);
+        return Response.status(Response.Status.CREATED)
+                .entity(toDTO(biomedicDataType))
+                .build();
+    }
+
+
+    @PUT
+    @Path("/{code}")
+    public Response updateAdministrator(@PathParam("code") long code, BiomedicDataTypeDTO biomedicDataTypeDTO) throws MyEntityNotFoundException {
+        BiomedicDataType biomedicDataType  = bDataTypeBean.findBiomedicDataType(code);
+        bDataTypeBean.update(biomedicDataType,biomedicDataTypeDTO);
+        return Response.status(Response.Status.OK)
+                .entity(toDTO(biomedicDataType))
+                .build();
+    }
+
     @DELETE
     @Path("/{code}")
-    public Response deleteAdministrator(@PathParam("code") long code) throws MyEntityNotFoundException {
+    public Response deleteBDataType(@PathParam("code") long code) throws MyEntityNotFoundException {
         BiomedicDataType biomedicDataType = bDataTypeBean.findBiomedicDataType(code);
         bDataTypeBean.delete(code);
         return Response.status(Response.Status.OK)

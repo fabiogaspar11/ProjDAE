@@ -1,8 +1,11 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ejbs;
 
+import pt.ipleiria.estg.dei.ei.dae.prc.dtos.AdministratorDTO;
+import pt.ipleiria.estg.dei.ei.dae.prc.dtos.BiomedicDataTypeDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Administrator;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.BiomedicDataType;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
 
 import javax.ejb.Stateless;
@@ -15,9 +18,14 @@ public class BiomedicDataTypeBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(long code, String name, String unitMeasure, float minValue, float maxValue){
-        BiomedicDataType biomedicDataType = new BiomedicDataType(code,name,unitMeasure,minValue,maxValue);
+    public long create(long code, String name,String unitMeasure, float minValue, float maxValue) throws MyEntityExistsException {
+        BiomedicDataType biomedicDataType = entityManager.find(BiomedicDataType.class,code);
+        if (biomedicDataType != null) {
+            throw new MyEntityExistsException("Biomedic data with code: " + code + "already exists");
+        }
+        biomedicDataType = new BiomedicDataType(code, name,unitMeasure,minValue,maxValue);
         entityManager.persist(biomedicDataType);
+        return biomedicDataType.getCode();
     }
 
     public List<BiomedicDataType> getAllBiomedicDataType() {
@@ -37,5 +45,26 @@ public class BiomedicDataTypeBean {
     public void delete(long code) throws MyEntityNotFoundException {
         BiomedicDataType biomedicDataType = findBiomedicDataType(code);
         entityManager.remove(biomedicDataType);
+    }
+
+
+    public void update(BiomedicDataType biomedicDataType, BiomedicDataTypeDTO biomedicDataTypeDTO) throws MyEntityNotFoundException {
+        if(biomedicDataTypeDTO.getName() != null && !biomedicDataType.getName().equals(biomedicDataTypeDTO.getName())){
+            biomedicDataType.setName(biomedicDataTypeDTO.getName());
+        }
+        if(biomedicDataTypeDTO.getUnitMeasure() != null && !biomedicDataType.getUnitMeasure().equals(biomedicDataTypeDTO.getUnitMeasure())){
+            biomedicDataType.setUnitMeasure(biomedicDataTypeDTO.getUnitMeasure());
+        }
+        if(biomedicDataTypeDTO.getMinValue() < biomedicDataTypeDTO.getMaxValue())
+        {
+            if(biomedicDataTypeDTO.getMinValue() < Float.MAX_VALUE && biomedicDataTypeDTO.getMinValue() > Float.MIN_VALUE  && biomedicDataType.getMinValue() != (biomedicDataTypeDTO.getMinValue())){
+                biomedicDataType.setMinValue(biomedicDataTypeDTO.getMinValue());
+            }
+            if(biomedicDataTypeDTO.getMaxValue() < Float.MAX_VALUE && biomedicDataTypeDTO.getMaxValue() > Float.MIN_VALUE && biomedicDataType.getMaxValue() != (biomedicDataTypeDTO.getMaxValue())){
+                biomedicDataType.setMaxValue(biomedicDataTypeDTO.getMaxValue());
+            }
+        }
+
+        entityManager.merge(biomedicDataType);
     }
 }
