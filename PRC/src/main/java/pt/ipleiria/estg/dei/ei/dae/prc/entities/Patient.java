@@ -15,8 +15,6 @@ import java.util.List;
 
 public class Patient extends User implements Serializable {
 
-    private float weight;
-    private float height;
     @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)
     private List<Prescription> prescriptions;
     @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)
@@ -33,10 +31,8 @@ public class Patient extends User implements Serializable {
         this.diseases = new LinkedList<>();
     }
 
-    public Patient(String username, String name, String email, String password, String birthDate, String contact, long healthNumber, float weight, float height) {
+    public Patient(String username, String name, String email, String password, String birthDate, String contact, long healthNumber) {
         super(username, name, email, password, birthDate, contact, healthNumber);
-        this.weight = weight;
-        this.height = height;
         this.healthcareProfessionals = new LinkedList<>();
         this.prescriptions = new LinkedList<>();
         this.biomedicDataMeasures = new LinkedList<>();
@@ -57,22 +53,6 @@ public class Patient extends User implements Serializable {
 
     public void setHealthcareProfessionals(List<HealthcareProfessional> healthcareProfessionals) {
         this.healthcareProfessionals = healthcareProfessionals;
-    }
-
-    public float getWeight() {
-        return weight;
-    }
-
-    public void setWeight(float weight) {
-        this.weight = weight;
-    }
-
-    public float getHeight() {
-        return height;
-    }
-
-    public void setHeight(float height) {
-        this.height = height;
     }
 
     public List<Prescription> getPrescriptions() {

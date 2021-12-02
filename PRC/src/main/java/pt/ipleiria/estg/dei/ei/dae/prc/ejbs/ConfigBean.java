@@ -34,9 +34,9 @@ public class ConfigBean {
     @PostConstruct
     public void populateDB() throws MyEntityExistsException, MyEntityNotFoundException {
         try{
-       String usernameP1 = patientBean.create("Fábio Gaspar", "2191264@my.ipleiria.pt", "12345", "04/12/2001", "916364061", 123456789, 60, (float) 1.68);
-        patientBean.create("Carla Mendes","2191111@my.ipleiria.pt","12345","05/06/1999","916345345",978675432,(float)55.5,(float)1.60);
-        patientBean.create("Carlos Costa","2191131@my.ipleiria.pt","12345","11/04/1984","912343274",987654321,(float)70.2,(float)1.80);
+       String usernameP1 = patientBean.create("Fábio Gaspar", "2191264@my.ipleiria.pt", "12345", "04/12/2001", "916364061", 123456789);
+        patientBean.create("Carla Mendes","2191111@my.ipleiria.pt","12345","05/06/1999","916345345",978675432);
+        patientBean.create("Carlos Costa","2191131@my.ipleiria.pt","12345","11/04/1984","912343274",987654321);
 
         String usernameH1 = healthcareProfessionalBean.create(987654321, "Maria Gomes", "maria_gomes@gmail.com", "1234", "22/09/2021", "924359214", "medic");
         healthcareProfessionalBean.create(111111321, "Clara Sousa", "clara@gmail.com", "1234", "22/10/2000", "924359214", "medic");

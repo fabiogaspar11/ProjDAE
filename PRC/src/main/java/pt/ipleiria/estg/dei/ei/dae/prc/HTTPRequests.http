@@ -162,9 +162,7 @@ Content-Type: application/json
   "email": "ackerman@outlook.com",
   "password": "skfm_48",
   "birthDate": "11/12/1994",
-  "contact": "+351972374392",
-  "weight": 60,
-  "height": 1.56
+  "contact": "+351972374392"
 }
 
 ########## Update ##########

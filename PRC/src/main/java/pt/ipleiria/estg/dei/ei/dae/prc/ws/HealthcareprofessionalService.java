@@ -62,9 +62,7 @@ public class HealthcareprofessionalService {
                 patient.getPassword(),
                 patient.getBirthDate(),
                 patient.getContact(),
-                patient.getHealthNumber(),
-                patient.getWeight(),
-                patient.getHeight()
+                patient.getHealthNumber()
         );
     }
 
