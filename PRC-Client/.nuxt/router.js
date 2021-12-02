@@ -38,6 +38,10 @@ export const routerOptions = {
     component: _ac13bf8e,
     name: "diseases"
   }, {
+    path: "/healthCareProfessionals",
+    component: _d8dd55c8,
+    name: "healthCareProfessionals"
+  }, {
     path: "/patients",
     component: _0fc9d77c,
     name: "patients"

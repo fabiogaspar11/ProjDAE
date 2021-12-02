@@ -21,6 +21,12 @@
     "_name": "_ac13bf8e"
   },
   {
+    "name": "healthCareProfessionals",
+    "path": "/healthCareProfessionals",
+    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthCareProfessionals\\\\index.vue",
+    "chunkName": "pages/healthCareProfessionals/index"
+  },
+  {
     "name": "patients",
     "path": "/patients",
     "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\index.vue",
