@@ -155,19 +155,18 @@ export default {
     },
     update(code) {
       this.$axios.$put('/api/diseases/' + code, {
-        name: this.name,
-        type: this.type,
-
+        name: this.name || "",
+        type: this.type || "",
       })
         .then(response => {
-          this.code = null;
-          this.name = null;
-          this.type = null;
           const index = this.entidade.findIndex(disease => disease.code === code) // find the post index
           if (~index) { // if the post exists in array
             this.entidade.splice(index, 1);
             this.entidade.splice(index, 0, response);
           }
+          this.code = null;
+          this.name = null;
+          this.type = null;
         });
     },
     search(filteredItems) {
