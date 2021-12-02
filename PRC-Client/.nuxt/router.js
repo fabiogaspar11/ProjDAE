@@ -28,9 +28,17 @@ export const routerOptions = {
     component: _a42c148a,
     name: "administrators"
   }, {
+    path: "/biomedicData",
+    component: _e88ca49e,
+    name: "biomedicData"
+  }, {
     path: "/diseases",
     component: _d3d0f9ac,
     name: "diseases"
+  }, {
+    path: "/healthCareProfessionals",
+    component: _d8dd55c8,
+    name: "healthCareProfessionals"
   }, {
     path: "/patients",
     component: _3787119a,
@@ -39,6 +47,10 @@ export const routerOptions = {
     path: "/administrators/:username",
     component: _5ed7e5c4,
     name: "administrators-username"
+  }, {
+    path: "/biomedicData/:code",
+    component: _e4f742aa,
+    name: "biomedicData-code"
   }, {
     path: "/diseases/:code",
     component: _d03b97b8,
