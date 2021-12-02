@@ -20,11 +20,11 @@ public class PatientBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public String create(String name, String email, String password, String birthDate, String contact, long healthNumber, float weight, float height) throws MyEntityExistsException {
+    public String create(String name, String email, String password, String birthDate, String contact, long healthNumber) throws MyEntityExistsException {
         String username = "P"+healthNumber;
         Patient patient = entityManager.find(Patient.class, username);
         if(patient != null) throw new MyEntityExistsException("A patient with the username \'" + username + "\' already exists");
-        patient = new Patient(username,name,email,password,birthDate,contact,healthNumber,weight,height);
+        patient = new Patient(username,name,email,password,birthDate,contact,healthNumber);
         entityManager.persist(patient);
         return patient.getUsername();
     }
@@ -116,13 +116,6 @@ public class PatientBean {
             patient.setContact(patientDTO.getContact());
         }
 
-        if(patientDTO.getHeight() != 0 && patient.getHeight()  != patientDTO.getHeight()){
-            patient.setHeight(patientDTO.getHeight());
-        }
-
-        if(patientDTO.getWeight() != 0 && patient.getWeight()  != patientDTO.getWeight()){
-            patient.setWeight(patientDTO.getWeight());
-        }
         entityManager.merge(patient);
     }
 

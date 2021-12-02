@@ -59,9 +59,7 @@ public class DiseaseService {
                 patient.getPassword(),
                 patient.getBirthDate(),
                 patient.getContact(),
-                patient.getHealthNumber(),
-                patient.getWeight(),
-                patient.getHeight()
+                patient.getHealthNumber()
         );
     }
     private List<PatientDTO> patientsToDTOs(List<Patient> patients) {

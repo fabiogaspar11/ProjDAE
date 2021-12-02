@@ -18,8 +18,6 @@ public class PatientDTO implements Serializable {
     private String birthDate;
     private String contact;
     private long healthNumber;
-    private float weight;
-    private float height;
     private List<Prescription> prescriptionList;
     private List<BiomedicDataMeasure> biomedicDataList;
     private List<HealthcareProfessional> healthcareProfessionals;
@@ -33,7 +31,7 @@ public class PatientDTO implements Serializable {
     }
 
     //Constructor without password
-    public PatientDTO(String name, String email, String birthDate, String contact, long healthNumber, float weight, float height) {
+    public PatientDTO(String name, String email, String birthDate, String contact, long healthNumber) {
         this();
         this.username =  "P"+ healthNumber;
         this.name = name;
@@ -41,19 +39,17 @@ public class PatientDTO implements Serializable {
         this.birthDate = birthDate;
         this.contact = contact;
         this.healthNumber = healthNumber;
-        this.weight = weight;
-        this.height = height;
     }
 
     //Constructor with password
-    public PatientDTO(String name, String email, String password, String birthDate, String contact, long healthNumber, float weight, float height) {
-        this(name, email, birthDate, contact, healthNumber, weight, height);
+    public PatientDTO(String name, String email, String password, String birthDate, String contact, long healthNumber) {
+        this(name, email, birthDate, contact, healthNumber);
         this.password = password;
     }
 
     //Constructor with password
-    public PatientDTO(String name, String email, String password, String birthDate, String contact, long healthNumber, float weight, float height, List<Prescription> prescriptionList,  List<BiomedicDataMeasure> biomedicDataList, List<HealthcareProfessional> healthcareProfessionals) {
-        this(name, email, password, birthDate, contact, healthNumber, weight, height);
+    public PatientDTO(String name, String email, String password, String birthDate, String contact, long healthNumber, List<Prescription> prescriptionList,  List<BiomedicDataMeasure> biomedicDataList, List<HealthcareProfessional> healthcareProfessionals) {
+        this(name, email, password, birthDate, contact, healthNumber);
         this.biomedicDataList = biomedicDataList;
         this.prescriptionList = prescriptionList;
         this.healthcareProfessionals = healthcareProfessionals;
@@ -129,22 +125,6 @@ public class PatientDTO implements Serializable {
 
     public void setHealthNumber(long healthNumber) {
         this.healthNumber = healthNumber;
-    }
-
-    public float getWeight() {
-        return weight;
-    }
-
-    public void setWeight(float weight) {
-        this.weight = weight;
-    }
-
-    public float getHeight() {
-        return height;
-    }
-
-    public void setHeight(float height) {
-        this.height = height;
     }
 
     public List<Prescription> getPrescriptionList() {

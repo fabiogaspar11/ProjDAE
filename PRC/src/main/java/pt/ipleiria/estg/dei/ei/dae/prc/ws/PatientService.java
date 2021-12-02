@@ -32,8 +32,6 @@ public class PatientService {
                 patient.getBirthDate(),
                 patient.getContact(),
                 patient.getHealthNumber(),
-                patient.getWeight(),
-                patient.getHeight(),
                 patient.getPrescriptions(),
                 patient.getBiomedicDataMeasures(),
                 patient.getHealthcareProfessionals()
@@ -67,9 +65,7 @@ public class PatientService {
                 patient.getEmail(),
                 patient.getBirthDate(),
                 patient.getContact(),
-                patient.getHealthNumber(),
-                patient.getWeight(),
-                patient.getHeight()
+                patient.getHealthNumber()
         );
     }
 
@@ -103,9 +99,7 @@ public class PatientService {
                 patientDTO.getPassword(),
                 patientDTO.getBirthDate(),
                 patientDTO.getContact(),
-                patientDTO.getHealthNumber(),
-                patientDTO.getWeight(),
-                patientDTO.getHeight()
+                patientDTO.getHealthNumber()
         );
         Patient patient = patientBean.findPatient(username);
         return Response.status(Response.Status.CREATED)
