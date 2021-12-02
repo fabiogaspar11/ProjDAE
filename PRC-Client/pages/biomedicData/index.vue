@@ -80,19 +80,7 @@
         :filter="filter"
         @filtered="search"
       >
-        <template #row-details="row">
-          <b-card>
-            <b-row class="mb-2">
-              <b-col sm="3" class="text-sm-right"><b>Minimum value:</b></b-col>
-              <b-col>{{ row.item.minValue }}</b-col>
-            </b-row>
 
-            <b-row class="mb-2">
-              <b-col sm="3" class="text-sm-right"><b>Maximum value:</b></b-col>
-              <b-col>{{ row.item.maxValue }}</b-col>
-            </b-row>
-          </b-card>
-        </template>
         <template v-slot:cell(operations)="row">
           <b-button :to="`/biomedicData/${row.item.code}`" variant="info">
             <font-awesome-icon icon="eye" /> Details

@@ -11,7 +11,11 @@
       <b-row class="justify-content-md-center">
             <b-col col lg="2" >
     <div>
-      <b-button v-b-modal.modal-1>Edit</b-button>
+      <div>
+        <div class="d-flex justify-content-center">
+          <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
+        </div>
+      </div>
 
       <b-modal id="modal-1" title="Edit" @ok="update()">
       <div class="input-group mb-4">
@@ -42,16 +46,6 @@
       </b-modal>
     </div>
     </b-col>
-    <!-----------------------------------------------Delete----------------------------------------->
-
-    <b-col col lg="2">
-    <div>
-      <b-button variant="danger" v-b-modal.modal-2>Delete</b-button>
-      <b-modal id="modal-2" title="Please Confirm" @ok="remove()">
-      "Are you sure you want to delete this user?
-      </b-modal>
-    </div>
-  </b-col>
   </b-row>
   </div>
 </template>
@@ -186,12 +180,6 @@ export default {
     });
   },
   methods: {
-    remove() {
-      this.$axios.$delete(`/api/patients/${this.username}`).then(()=>{
-      alert('Patient '+this.username +' was successfully removed');
-      this.$router.go(-1);
-      })
-    },
     update() {
       this.$axios
         .$put(`/api/patients/${this.username}`, {
@@ -206,12 +194,6 @@ export default {
           this.contact = null;
           this.birthDate = null;
            alert(`Patient ${this.username}  updated!`);
-          this.$axios
-            .$get(`/api/patients/${this.username}`)
-            .then((entidade) => {
-              this.entidade = [entidade];
-            });
-            //OU
             this.$router.go(0);
         });
     },

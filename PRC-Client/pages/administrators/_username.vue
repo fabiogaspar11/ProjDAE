@@ -11,8 +11,11 @@
       <b-row class="justify-content-md-center">
             <b-col col lg="2" >
     <div>
-      <b-button v-b-modal.modal-1>Edit</b-button>
-
+      <div>
+        <div class="d-flex justify-content-center">
+          <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
+        </div>
+      </div>
       <b-modal id="modal-1" title="Edit" @ok="update()">
         <div class="input-group mb-3">
           <div class="input-group-prepend">
