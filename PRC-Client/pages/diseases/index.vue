@@ -67,7 +67,7 @@
           <nuxt-link class="btn btn-link" :to="`/patients/${row.item.code}`"> Details </nuxt-link>
         </template>
         <template v-slot:cell(actions)="row">
-          <b-button size="sm" @click.prevent="getCode(row.item.code)" v-b-modal.modal-2  variant="info">
+          <b-button size="sm" @click.prevent="getCode(row.item.code, row.item.name, row.item.type)" v-b-modal.modal-2  variant="info">
             <font-awesome-icon icon="edit" /> Edit
           </b-button>
           <b-button size="sm" @click.prevent="remove(row.item.code)" variant="danger">
@@ -127,8 +127,10 @@ export default {
     });
   },
   methods: {
-    getCode(code){
-      this.code = code
+    getCode(code, name, type){
+      this.code = code,
+      this.name = name,
+      this.type = type
     },
     create(code) {
       this.$axios.$post("/api/diseases", {
@@ -149,7 +151,8 @@ export default {
       this.$axios.$delete('/api/diseases/' + code)
         .then(() => {
           const index = this.entidade.findIndex(disease => disease.code === code) // find the post index
-          if (index) // if the post exists in array
+          console.log(index)
+          if (index >= 0) // if the post exists in array
             this.entidade.splice(index, 1) //delete the post
         });
     },

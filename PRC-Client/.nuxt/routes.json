@@ -23,8 +23,9 @@
   {
     "name": "healthCareProfessionals",
     "path": "/healthCareProfessionals",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthCareProfessionals\\\\index.vue",
-    "chunkName": "pages/healthCareProfessionals/index"
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthCareProfessionals\\\\index.vue",
+    "chunkName": "pages/healthCareProfessionals/index",
+    "_name": "_aed8d7f6"
   },
   {
     "name": "patients",
