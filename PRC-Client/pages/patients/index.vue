@@ -1,10 +1,14 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <b-container class="bv-example-row-flex-cols" style="margin-top: 5%">
-      <b-row class="text-center">
-        <b-col>
-          <h1> Patients </h1>
+    <b-container class="bv-example-row" style="margin-top: 5%">
+      <b-row>
+        <b-col sm="3">
+          <h3>Patients ({{ tableLength }})</h3>
+        </b-col>
+        <b-col sm="5">
+          <b-form-input v-model="filter" type="search" placeholder="Search...">
+          </b-form-input>
         </b-col>
         <b-col>
           <b-button v-b-modal.modal-1 variant="info">
@@ -21,12 +25,12 @@
       </div>
       <div class="input-group mb-4">
           <span class="input-group-text">Email</span>
-          <b-input required v-model.trim="email" ref="email" type="email" :state="isEmailValid" class="form-control" aria-describedby="basic-addon1"/>
+          <b-input required v-model.trim="email" ref="email" type="email" :state="isEmailValid" class="form-control" aria-describedby="basic-addon1" placeholder="Enter your email"/>
            <p>{{isEmailValidFeedback}}</p>
       </div>
        <div class="input-group mb-4">
           <span class="input-group-text">Password</span>
-          <b-input required v-model.trim="password" type="password" :state="isPasswordValid"  class="form-control" aria-describedby="basic-addon1"/>
+          <b-input required v-model.trim="password" type="password" :state="isPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your password"/>
           <p>{{isPasswordValidFeedback}}</p>
       </div>
        <div class="input-group mb-4">
@@ -36,49 +40,41 @@
       </div>
        <div class="input-group mb-4">
           <span class="input-group-text">Contact</span>
-          <b-input required v-model.trim="contact" type="number"  :state="isContactValid"  class="form-control" aria-describedby="basic-addon1"/>
+          <b-input required v-model.trim="contact" type="number"  :state="isContactValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your contact"/>
           <p>{{isContactValidFeedback}}</p>
       </div>
        <div class="input-group mb-4">
           <span class="input-group-text">Health Number</span>
-          <b-input required v-model.trim="healthNumber" type="number" :state="isHealthNumberValid" class="form-control" aria-describedby="basic-addon1"/>
+          <b-input required v-model.trim="healthNumber" type="number" :state="isHealthNumberValid" class="form-control" aria-describedby="basic-addon1" placeholder="Enter your health number"/>
           <p>{{isHealthNumberValidFeedback}}</p>
       </div>
     </b-modal>
 
-    <div class="d-flex justify-content-center" style="margin-top: 4%">
+   <hr style="width: 73%" />
+    <div class="d-flex justify-content-center" style="margin-top: 3%">
       <b-table
-        :items="entidade"
+        :items="this.entidade"
         :fields="fields"
         striped
         responsive="sm"
         class="w-75 p-3"
+        :filter="filter"
+        @filtered="search"
       >
-        <template #cell(show_details)="row">
-          <b-button size="sm" @click="row.toggleDetails" class="mr-2">
-            {{ row.detailsShowing ? "Hide" : "Show" }} Details
-          </b-button>
-        </template>
-        <template #row-details="row">
-          <b-card>
-            <b-row class="mb-2">
-              <b-col sm="3" class="text-sm-right"><b>Email:</b></b-col>
-              <b-col>{{ row.item.email }}</b-col>
-            </b-row>
 
-            <b-row class="mb-2">
-              <b-col sm="3" class="text-sm-right"><b>Contact:</b></b-col>
-              <b-col>{{ row.item.contact }}</b-col>
-            </b-row>
-          </b-card>
-        </template>
         <template v-slot:cell(operations)="row">
-          <nuxt-link class="btn btn-link" :to="`/patients/${row.item.username}`"
-            >Details</nuxt-link
-          >
+          <b-button :to="`/patients/${row.item.username}`" variant="info">
+            <font-awesome-icon icon="eye" /> Details
+          </b-button>
+
+          <b-button variant="danger" @click="remove(row.item.username)">
+            <font-awesome-icon icon="trash" /> Remove
+          </b-button>
         </template>
       </b-table>
     </div>
+
+
   </div>
 </template>
 <script>
@@ -88,6 +84,9 @@ export default {
     NavBar,
   },
   computed:{
+     tableLength: function () {
+      return this.entidade.length;
+    },
      isNameValidFeedback (){
         if (!this.name) {
           return null
@@ -206,20 +205,21 @@ export default {
   data() {
     return {
       fields: [
-        "name",
-        "birthDate",
-        "healthNumber",
-        "show_details",
+        {key:"name", label:"Name",  sortable: true, sortDirection: "desc" },
+        {key:"birthDate", label:"Birthdate",  sortable: true, sortDirection: "desc" },
+        {key:"healthNumber", label:"Health Number",  sortable: true, sortDirection: "desc" },
         "operations",
       ],
       entidade: [],
-      modalShow: false,
       name: null,
       birthDate: null,
       contact: null,
       email: null,
       password:null,
-      healthNumber:null
+      healthNumber:null,
+      filter: null,
+      totalRows: null,
+      currentPage: null,
     };
   },
   created() {
@@ -228,6 +228,12 @@ export default {
     });
   },
   methods:{
+    remove(username) {
+      this.$axios.$delete(`/api/patients/${username}`).then(()=>{
+      alert('Patient '+this.username +' was successfully removed');
+      this.$router.go(0);
+      })
+    },
     createPatient() {
       if(!this.isFormValid){
           alert("Fields are invalid - Correct them first!");
@@ -249,11 +255,12 @@ export default {
           this.contact = null;
           this.email = null;
           this.healthNumber = null;
+          this.$router.go(0);
         })
         .catch(error => {
             alert("Error when creating Patient: "+ error.response.data);
         });
-        }
+     }
   }
 };
 </script>

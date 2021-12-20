@@ -96,7 +96,7 @@ public class DiseaseService {
     }
 
 
-
+    //TODO - update esta uma chouriça
     @PUT
     @Path("/{code}")
     public Response updateDiseaseWS(@PathParam("code") int code, DiseaseDTO diseaseDTO) throws MyEntityNotFoundException {

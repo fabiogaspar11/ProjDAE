@@ -11,7 +11,11 @@
       <b-row class="justify-content-md-center">
             <b-col col lg="2" >
     <div>
-      <b-button v-b-modal.modal-1>Edit</b-button>
+      <div>
+        <div class="d-flex justify-content-center">
+          <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
+        </div>
+      </div>
 
       <b-modal id="modal-1" title="Edit" @ok="update()">
       <div class="input-group mb-4">
@@ -26,32 +30,22 @@
       </div>
       <div class="input-group mb-4">
           <span class="input-group-text">Email</span>
-          <b-input required v-model.trim="email" ref="email" type="email" :state="isEmailValid" class="form-control" aria-describedby="basic-addon1"/>
+          <b-input required v-model.trim="email" ref="email" type="email" :state="isEmailValid" class="form-control" aria-describedby="basic-addon1" placeholder="Enter your email"/>
            <p>{{isEmailValidFeedback}}</p>
       </div>
        <div class="input-group mb-4">
           <span class="input-group-text">Password</span>
-          <b-input required v-model.trim="password" type="password" :state="isPasswordValid"  class="form-control" aria-describedby="basic-addon1"/>
+          <b-input required v-model.trim="password" type="password" :state="isPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your password"/>
           <p>{{isPasswordValidFeedback}}</p>
       </div>
        <div class="input-group mb-4">
           <span class="input-group-text">Contact</span>
-          <b-input required v-model.trim="contact" type="number"  :state="isContactValid"  class="form-control" aria-describedby="basic-addon1"/>
+          <b-input required v-model.trim="contact" type="number"  :state="isContactValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your contact"/>
           <p>{{isContactValidFeedback}}</p>
       </div>
       </b-modal>
     </div>
     </b-col>
-    <!-----------------------------------------------Delete----------------------------------------->
-
-    <b-col col lg="2">
-    <div>
-      <b-button variant="danger" v-b-modal.modal-2>Delete</b-button>
-      <b-modal id="modal-2" title="Please Confirm" @ok="remove()">
-      "Are you sure you want to delete this user?
-      </b-modal>
-    </div>
-  </b-col>
   </b-row>
   </div>
 </template>
@@ -186,30 +180,21 @@ export default {
     });
   },
   methods: {
-    remove() {
-      this.$axios.$delete(`/api/patients/${this.username}`).then(()=>{
-      alert('Patient '+this.name +' was successfully removed');
-      this.$router.push("/patients")
-      })
-    },
     update() {
       this.$axios
         .$put(`/api/patients/${this.username}`, {
           name: this.name,
           email: this.email,
           contact: this.contact,
-          bhirtDate: this.birthDate,
+          birthDate: this.birthDate,
         })
         .then(() => {
           this.name = null;
           this.email = null;
           this.contact = null;
-          this.bhirtDate = null;
-          this.$axios
-            .$get(`/api/patients/${this.username}`)
-            .then((entidade) => {
-              this.entidade = [entidade];
-            });
+          this.birthDate = null;
+           alert(`Patient ${this.username}  updated!`);
+            this.$router.go(0);
         });
     },
   },
