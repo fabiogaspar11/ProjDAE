@@ -34,9 +34,9 @@ public class HealthcareProfessional extends User implements Serializable {
 
     public HealthcareProfessional(String username, long healthNumber, String name, String email, String password, String birthDate, String contact, String type) {
         super(username, name, email, password, birthDate, contact, healthNumber);
-        this.patients = new LinkedList<>();
         this.type = type;
-        prescriptions = new LinkedList<>();
+        this.patients = new LinkedList<>();
+        this.prescriptions = new LinkedList<>();
     }
 
     public List<Prescription> getPrescriptions() {

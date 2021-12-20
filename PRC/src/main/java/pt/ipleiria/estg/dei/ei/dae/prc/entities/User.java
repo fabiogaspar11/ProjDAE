@@ -29,7 +29,6 @@ public class User {
     private String birthDate;
     @NotNull
     private String contact;
-
     @NotNull
     private long healthNumber;
 

@@ -104,10 +104,10 @@ Content-Type: application/json
 }
 
 ########## DELETE ##########
-DELETE http://localhost:8080/PRC/api/healthcareProfessionals/H987654321
+DELETE http://localhost:8080/PRC/api/healthcareProfessionals/H111111321
 
 ########## GET DETAILS ##########
-GET http://localhost:8080/PRC/api/healthcareProfessionals/H987654321
+GET http://localhost:8080/PRC/api/healthcareProfessionals/H111111321
 
 ########## GET PATIENT ##########
 GET http://localhost:8080/PRC/api/healthcareProfessionals/H987654321/patients
@@ -184,7 +184,7 @@ Content-Type: application/json
 GET http://localhost:8080/PRC/api/patients
 
 ### GET details
-GET http://localhost:8080/PRC/api/patients/P248364182
+GET http://localhost:8080/PRC/api/patients/P123456789
 
 ### GET diseases
 GET http://localhost:8080/PRC/api/patients/P248364182/diseases

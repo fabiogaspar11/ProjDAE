@@ -21,27 +21,32 @@
     </b-container>
     <b-modal id="modal-1" title="New disease" @ok="create(username)">
       <div class="input-group mb-4">
-          <span class="input-group-text">Username</span>
-        <input v-model="username" type="text" class="form-control" aria-describedby="basic-addon1"/>
+        <span class="input-group-text">Health Number</span>
+        <input v-model="healthNumber" type="text" class="form-control" aria-describedby="basic-addon1"/>
+      </div>
+      <div class="input-group mb-4">
+        <span class="input-group-text">BirthDate</span>
+        <input v-model="birthDate" type="text" class="form-control" aria-describedby="basic-addon1"/>
+      </div>
+      <div class="input-group mb-4">
+        <span class="input-group-text">Type</span>
+        <input v-model="type" type="text" class="form-control" aria-describedby="basic-addon1"/>
       </div>
       <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
         <input v-model="name" type="text" class="form-control" aria-describedby="basic-addon1"/>
       </div>
       <div class="input-group mb-4">
-          <span class="input-group-text">type</span>
-        <input v-model="type" type="text" class="form-control" aria-describedby="basic-addon1"/>
-      </div>
-    </b-modal>
-
-    <b-modal id="modal-2" title="update disease" @ok="update(username)">
-      <div class="input-group mb-4">
-        <span class="input-group-text">Name</span>
-        <input v-model="name" type="text" class="form-control" aria-describedby="basic-addon1"/>
+        <span class="input-group-text">Email</span>
+        <input v-model="email" type="text" class="form-control" aria-describedby="basic-addon1"/>
       </div>
       <div class="input-group mb-4">
-        <span class="input-group-text">type</span>
-        <input v-model="type" type="text" class="form-control" aria-describedby="basic-addon1"/>
+        <span class="input-group-text">Contact</span>
+        <input v-model="contact" type="text" class="form-control" aria-describedby="basic-addon1"/>
+      </div>
+      <div class="input-group mb-4">
+        <span class="input-group-text">Password</span>
+        <input v-model="password" type="text" class="form-control" aria-describedby="basic-addon1"/>
       </div>
     </b-modal>
 
@@ -57,97 +62,9 @@
         :filter="filter"
         @filtered="search"
       >
-        <template #cell(show_details)="row">
-            <b-button size="sm" @click="row.toggleDetails" class="mr-2">
-            {{ row.detailsShowing ? "Hide" : "Show" }} Details
-          </b-button>
-        </template>
-
-       <template #row-details="row">
-          <b-card>
-            <b-row class="mb-2">
-              <b-col sm="3" class="text-sm-right"><b>Email:</b></b-col>
-              <b-col>{{ row.item.email }}</b-col>
-            </b-row>
-
-            <b-row class="mb-2">
-              <b-col sm="3" class="text-sm-right"><b>Contacto:</b></b-col>
-              <b-col>{{ row.item.contact }}</b-col>
-            </b-row>
-
-                    <b-row class="mb-2">
-              <b-col sm="3" class="text-sm-right"><b>Username:</b></b-col>
-              <b-col>{{ row.item.username }}</b-col>
-            </b-row>
-
-            <div>
-              <b-button v-b-modal.modal-1>Edit</b-button>
-
-              <b-modal
-                id="modal-1"
-                title="Edit"
-                @ok="update(row.item.username)"
-              >
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">Name</span>
-                  </div>
-                  <input
-                    v-model="name"
-                    type="text"
-                    class="form-control"
-                    aria-describedby="basic-addon1"
-                  />
-                </div>
-
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      >BirthDate</span
-                    >
-                  </div>
-                  <input
-                    v-model="birthDate"
-                    type="text"
-                    class="form-control"
-                    aria-describedby="basic-addon1"
-                  />
-                </div>
-
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      >Email</span
-                    >
-                  </div>
-                  <input
-                    v-model="email"
-                    type="text"
-                    class="form-control"
-                    aria-describedby="basic-addon1"
-                  />
-                </div>
-
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1"
-                      >Contact</span
-                    >
-                  </div>
-                  <input
-                    v-model="contact"
-                    type="text"
-                    class="form-control"
-                    aria-describedby="basic-addon1"
-                  />
-                </div>
-              </b-modal>
-            </div>
-          </b-card>
-        </template>
         <template v-slot:cell(actions)="row">
-          <b-button @click.prevent="getUsername(row.item.username)" v-b-modal.modal-2  variant="info">
-            <font-awesome-icon icon="edit" /> Edit
+          <b-button :to="`/healthcareProfessionals/${row.item.username}`" variant="info">
+            <font-awesome-icon icon="eye" /> Details
           </b-button>
           <b-button @click.prevent="remove(row.item.username)" variant="danger">
             <font-awesome-icon icon="trash" /> Remove
@@ -172,22 +89,25 @@ export default {
   data() {
     return {
       fields: [
+        { key: 'healthNumber', label: 'Health Nº', sortable: true, sortDirection: 'desc' },
         { key: 'name', label: 'Name', sortable: true, sortDirection: 'desc' },
         { key: 'birthDate', label: 'Birthdate', sortable: true, sortDirection: 'desc' },
-        { key: 'healthNumber', label: 'Health Nº', sortable: true, sortDirection: 'desc' },
         { key: 'type', label: 'Type', sortable: true, sortDirection: 'desc' },
-        "show_details",
         "actions"
       ],
       entidade: [],
       modalShow: false,
+      healthNumber: null,
       username: null,
+      birthDate: null,
+      email: null,
       name: null,
       type: null,
+      password: null,
+      contact: null,
       filter: null,
       totalRows: null,
       currentPage: null,
-      //entity: this.$route.name
     };
   },
   computed: {
@@ -196,52 +116,54 @@ export default {
     }
   },
   created() {
-    this.$axios.$get("/api/healthcareProfessionals").then((entidade) => {
-      this.entidade = entidade;
-    });
+    this.getHealthCareProfessionalData()
   },
   methods: {
     getUsername(username){
       this.username = username
     },
+    getHealthCareProfessionalData(){
+      this.$axios.$get("/api/healthcareProfessionals").then((entidade) => {
+        this.entidade = entidade;
+      });
+    },
     create(username) {
       this.$axios.$post("/api/healthcareProfessionals", {
-        username: this.username,
+        healthNumber: this.healthNumber,
+        birthDate: this.birthDate,
         name: this.name,
-        type: this.type
+        type: this.type,
+        email: this.email,
+        contact: this.contact,
+        password: this.password
       })
         .then(response => {
-          this.entidade.push(response);
-          this.username = null;
+          this.healthNumber = null,
+          this.birthDate = null;
           this.name = null;
           this.type = null;
-
+          this.email = null;
+          this.contact = null;
+          this.password = null;
+          this.getHealthCareProfessionalData()
         });
 
     },
     remove(username) {
       this.$axios.$delete('/api/healthcareProfessionals/' + username)
         .then(() => {
-          const index = this.entidade.findIndex(healthcareProfessionals => healthcareProfessionals.username === username) // find the post index
-          if (index) // if the post exists in array
-            this.entidade.splice(index, 1) //delete the post
+          this.getHealthCareProfessionalData()
         });
     },
     update(username) {
       this.$axios.$put('/api/healthcareProfessionals/' + username, {
         name: this.name,
         type: this.type,
-
       })
         .then(response => {
           this.username = null;
           this.name = null;
           this.type = null;
-          const index = this.entidade.findIndex(disease => disease.username === username) // find the post index
-          if (~index) { // if the post exists in array
-            this.entidade.splice(index, 1);
-            this.entidade.splice(index, 0, response);
-          }
         });
     },
     search(filteredItems) {

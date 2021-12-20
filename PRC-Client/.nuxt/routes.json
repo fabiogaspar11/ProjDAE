@@ -2,71 +2,78 @@
   {
     "name": "administrators",
     "path": "/administrators",
-    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators\\\\index.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators\\\\index.vue",
     "chunkName": "pages/administrators/index",
-    "_name": "_a42c148a"
+    "_name": "_2f1c4b8a"
   },
   {
     "name": "biomedicData",
     "path": "/biomedicData",
-    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicData\\\\index.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicData\\\\index.vue",
     "chunkName": "pages/biomedicData/index",
-    "_name": "_4d6e28d9"
+    "_name": "_30ecb330"
   },
   {
     "name": "diseases",
     "path": "/diseases",
-    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases\\\\index.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases\\\\index.vue",
     "chunkName": "pages/diseases/index",
-    "_name": "_d3d0f9ac"
+    "_name": "_ac13bf8e"
   },
   {
     "name": "healthCareProfessionals",
     "path": "/healthCareProfessionals",
-    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthCareProfessionals\\\\index.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthCareProfessionals\\\\index.vue",
     "chunkName": "pages/healthCareProfessionals/index",
-    "_name": "_0793d0f4"
+    "_name": "_aed8d7f6"
   },
   {
     "name": "patients",
     "path": "/patients",
-    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\index.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\index.vue",
     "chunkName": "pages/patients/index",
-    "_name": "_3787119a"
+    "_name": "_0fc9d77c"
   },
   {
     "name": "administrators-username",
     "path": "/administrators/:username",
-    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators\\\\_username.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators\\\\_username.vue",
     "chunkName": "pages/administrators/_username",
-    "_name": "_5ed7e5c4"
+    "_name": "_21f8e36d"
   },
   {
     "name": "biomedicData-code",
     "path": "/biomedicData/:code",
-    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicData\\\\_code.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicData\\\\_code.vue",
     "chunkName": "pages/biomedicData/_code",
-    "_name": "_4f38d9d3"
+    "_name": "_2d57513c"
   },
   {
     "name": "diseases-code",
     "path": "/diseases/:code",
-    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases\\\\_code.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases\\\\_code.vue",
     "chunkName": "pages/diseases/_code",
-    "_name": "_d03b97b8"
+    "_name": "_a87e5d9a"
+  },
+  {
+    "name": "healthCareProfessionals-username",
+    "path": "/healthCareProfessionals/:username",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthCareProfessionals\\\\_username.vue",
+    "chunkName": "pages/healthCareProfessionals/_username",
+    "_name": "_05517668"
   },
   {
     "name": "patients-username",
     "path": "/patients/:username",
-    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\_username.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\_username.vue",
     "chunkName": "pages/patients/_username",
-    "_name": "_a34ddad4"
+    "_name": "_48749025"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\index.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\index.vue",
     "chunkName": "pages/index",
-    "_name": "_373b5e41"
+    "_name": "_51cd9be0"
   }
 ]
