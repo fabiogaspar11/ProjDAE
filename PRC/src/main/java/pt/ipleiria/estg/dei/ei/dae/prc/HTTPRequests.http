@@ -76,6 +76,9 @@ GET http://localhost:8080/PRC/api/diseases/1/patients
 
 ##### ************************************ HEALTHCARE PROFESSIONALS ************************************
 
+########## GET ALL ##########
+GET http://localhost:8080/PRC/api/healthcareProfessionals
+
 ########## Create ##########
 POST http://localhost:8080/PRC/api/healthcareProfessionals
 Content-Type: application/json
@@ -101,10 +104,13 @@ Content-Type: application/json
 }
 
 ########## DELETE ##########
-DELETE http://localhost:8080/PRC/api/healthcareProfessionals/H394628427
+DELETE http://localhost:8080/PRC/api/healthcareProfessionals/H987654321
 
 ########## GET DETAILS ##########
-GET http://localhost:8080/PRC/api/healthcareProfessionals/H394628427
+GET http://localhost:8080/PRC/api/healthcareProfessionals/H987654321
+
+########## GET PATIENT ##########
+GET http://localhost:8080/PRC/api/healthcareProfessionals/H987654321/patients
 
 ########## ADD PATIENT ##########
 POST http://localhost:8080/PRC/api/healthcareProfessionals/H394628427/AddPatient/P123456789

@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.dtos;
 
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
+import pt.ipleiria.estg.dei.ei.dae.prc.entities.Prescription;
 
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -16,9 +17,11 @@ public class HealthcareProfessionalDTO implements Serializable {
     private long healthNumber;
     private String type;
     private List<Patient> patients;
+    private List<Prescription> prescriptions;
 
     public HealthcareProfessionalDTO(){
         this.patients = new LinkedList<>();
+        this.prescriptions = new LinkedList<>();
     }
 
     public HealthcareProfessionalDTO(String name, String email, String password, String birthDate, String contact, long healthNumber, String type) {
@@ -32,9 +35,18 @@ public class HealthcareProfessionalDTO implements Serializable {
         this.healthNumber = healthNumber;
         this.type=type;
     }
-    public HealthcareProfessionalDTO(String name, String email, String password, String birthDate, String contact, long healthNumber, String type, List<Patient> patients) {
+    public HealthcareProfessionalDTO(String name, String email, String password, String birthDate, String contact, long healthNumber, String type, List<Patient> patients, List<Prescription> prescriptions) {
         this(name, email, password, birthDate, contact, healthNumber, type);
         this.patients = patients;
+        this.prescriptions = prescriptions;
+    }
+
+    public List<Prescription> getPrescriptions() {
+        return prescriptions;
+    }
+
+    public void setPrescriptions(List<Prescription> prescriptions) {
+        this.prescriptions = prescriptions;
     }
 
     public List<Patient> getPatients() {

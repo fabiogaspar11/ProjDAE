@@ -43,7 +43,8 @@ public class HealthcareprofessionalService {
                 healthcareProfessional.getContact(),
                 healthcareProfessional.getHealthNumber(),
                 healthcareProfessional.getType(),
-                healthcareProfessional.getPatients()
+                healthcareProfessional.getPatients(),
+                healthcareProfessional.getPrescriptions()
         );
     }
 
@@ -107,7 +108,7 @@ public class HealthcareprofessionalService {
     @Path("/{username}")
     public Response deleteHealthcareprofessional(@PathParam("username") String username) throws MyEntityNotFoundException {
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
-        healthcareProfessionalBean.remove(healthcareProfessional);
+        healthcareProfessionalBean.remove(username);
         return Response.status(Response.Status.OK)
                 .entity(toDTONoPatients(healthcareProfessional))
                 .build();
@@ -120,6 +121,15 @@ public class HealthcareprofessionalService {
         healthcareProfessionalBean.update(healthcareProfessional, healthcareProfessionalDTO);
         return Response.status(Response.Status.OK)
                 .entity(toDTO(healthcareProfessional))
+                .build();
+    }
+
+    @GET
+    @Path("{username}/patients")
+    public Response getHealthcareprofessionalPatients(@PathParam("username") String username) throws MyEntityNotFoundException {
+        HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
+        return Response.status(Response.Status.OK)
+                .entity(patientsoDTOs(healthcareProfessional.getPatients()))
                 .build();
     }
 

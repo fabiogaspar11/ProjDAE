@@ -33,6 +33,7 @@ public class PrescriptionBean {
         }
         prescription = new Prescription(code, title, observations, emissionDate, expireDate, patient, healthcareProfessional);
         patient.addPrescription(prescription);
+        healthcareProfessional.addPrescription(prescription);
         entityManager.persist(prescription);
         entityManager.merge(patient);
     }

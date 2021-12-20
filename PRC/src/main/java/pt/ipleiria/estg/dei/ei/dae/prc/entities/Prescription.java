@@ -3,6 +3,8 @@ package pt.ipleiria.estg.dei.ei.dae.prc.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 @Table(name = "prescriptions")
 @Entity
@@ -29,10 +31,11 @@ public class Prescription implements Serializable {
     private Patient patient;
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "healthcareprofessional_username")
+    @JoinColumn(name = "healthcareProfessional_username")
     private HealthcareProfessional healthcareProfessional;
 
     public Prescription() {
+
     }
 
     public Prescription(long code, String title, String observations, String emissionDate, String expireDate, Patient patient, HealthcareProfessional healthcareProfessional) {
@@ -43,7 +46,9 @@ public class Prescription implements Serializable {
         this.expireDate = expireDate;
         this.patient = patient;
         this.healthcareProfessional = healthcareProfessional;
+
     }
+
 
     public HealthcareProfessional getHealthcareProfessional() {
         return healthcareProfessional;

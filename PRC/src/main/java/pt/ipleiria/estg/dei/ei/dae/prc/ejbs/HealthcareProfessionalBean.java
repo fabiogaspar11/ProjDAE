@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ejbs;
 
+import pt.ipleiria.estg.dei.ei.dae.prc.entities.Prescription;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.HealthcareProfessionalDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.HealthcareProfessional;
@@ -25,12 +26,17 @@ public class HealthcareProfessionalBean {
         return healthcareProfessional.getUsername();
     }
 
-    public void remove(HealthcareProfessional healthcareProfessional) throws MyEntityNotFoundException {
-        for (Patient p:
-                healthcareProfessional.getPatients()) {
+    public void remove(String username) throws MyEntityNotFoundException {
+        HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class, username);
+        for (Patient p: healthcareProfessional.getPatients()) {
             removePatientFromHealthcareprofessional(p.getUsername(), healthcareProfessional.getUsername());
-            healthcareProfessional=entityManager.find(HealthcareProfessional.class,healthcareProfessional.getUsername());
         }
+        for (Prescription p: healthcareProfessional.getPrescriptions()) {
+            removePrescriptionFromHealthcareprofessional(p.getCode(), healthcareProfessional.getUsername());
+            entityManager.remove(entityManager.merge(p));
+        }
+
+
         entityManager.remove(entityManager.merge(healthcareProfessional));
     }
 
@@ -42,6 +48,30 @@ public class HealthcareProfessionalBean {
         HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class, username);
         if(healthcareProfessional == null) throw new MyEntityNotFoundException("There is no Healthcare professional with the username: \'"+username+"\'");
         return healthcareProfessional;
+    }
+
+    public boolean removePrescriptionFromHealthcareprofessional(long code, String usernameHealthcareprofessional) throws MyEntityNotFoundException {
+        HealthcareProfessional healthcareProfessional = findHealthcareProfessional(usernameHealthcareprofessional);
+        Prescription prescription = entityManager.find(Prescription.class, code);
+        if (prescription == null){
+            throw new MyEntityNotFoundException("There is no Prescription with the code: \'"+prescription.getCode()+"\'");
+        }
+
+        healthcareProfessional.removePrescription(prescription);
+        entityManager.merge(healthcareProfessional);
+        return true;
+    }
+
+    public boolean addPrescriptionFromHealthcareprofessional(long code, String usernameHealthcareprofessional) throws MyEntityNotFoundException {
+        HealthcareProfessional healthcareProfessional = findHealthcareProfessional(usernameHealthcareprofessional);
+        Prescription prescription = entityManager.find(Prescription.class, code);
+        if (prescription == null){
+            throw new MyEntityNotFoundException("There is no Prescription with the code: \'"+prescription.getCode()+"\'");
+        }
+
+        healthcareProfessional.addPrescription(prescription);
+        entityManager.merge(healthcareProfessional);
+        return true;
     }
 
 

@@ -6,7 +6,7 @@
     <b-container class="bv-example-row" style="margin-top: 5%">
       <b-row>
         <b-col sm="3">
-          <h3> Health Care Professionals ({{tableLength}})</h3>
+          <h4> Health Care Professionals ({{tableLength}})</h4>
         </b-col>
         <b-col sm="5">
           <b-form-input v-model="filter" type="search" placeholder="Search..."> </b-form-input>
@@ -19,10 +19,10 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-modal id="modal-1" title="New disease" @ok="create(code)">
+    <b-modal id="modal-1" title="New disease" @ok="create(username)">
       <div class="input-group mb-4">
-          <span class="input-group-text">Code</span>
-        <input v-model="code" type="text" class="form-control" aria-describedby="basic-addon1"/>
+          <span class="input-group-text">Username</span>
+        <input v-model="username" type="text" class="form-control" aria-describedby="basic-addon1"/>
       </div>
       <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
@@ -34,7 +34,7 @@
       </div>
     </b-modal>
 
-    <b-modal id="modal-2" title="update disease" @ok="update(code)">
+    <b-modal id="modal-2" title="update disease" @ok="update(username)">
       <div class="input-group mb-4">
         <span class="input-group-text">Name</span>
         <input v-model="name" type="text" class="form-control" aria-describedby="basic-addon1"/>
@@ -66,7 +66,7 @@
        <template #row-details="row">
           <b-card>
             <b-row class="mb-2">
-              <b-col sm="3" class="text-sm-right"><b>Email:</b></b></b-col>
+              <b-col sm="3" class="text-sm-right"><b>Email:</b></b-col>
               <b-col>{{ row.item.email }}</b-col>
             </b-row>
 
@@ -90,7 +90,7 @@
               >
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">Name</span>
+                    <span class="input-group-text">Name</span>
                   </div>
                   <input
                     v-model="name"
@@ -102,7 +102,7 @@
 
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1"
+                    <span class="input-group-text"
                       >BirthDate</span
                     >
                   </div>
@@ -116,7 +116,7 @@
 
                 <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1"
+                    <span class="input-group-text"
                       >Email</span
                     >
                   </div>
@@ -146,10 +146,10 @@
           </b-card>
         </template>
         <template v-slot:cell(actions)="row">
-          <b-button @click.prevent="getCode(row.item.code)" v-b-modal.modal-2  variant="info">
+          <b-button @click.prevent="getUsername(row.item.username)" v-b-modal.modal-2  variant="info">
             <font-awesome-icon icon="edit" /> Edit
           </b-button>
-          <b-button @click.prevent="remove(row.item.code)" variant="danger">
+          <b-button @click.prevent="remove(row.item.username)" variant="danger">
             <font-awesome-icon icon="trash" /> Remove
           </b-button>
         </template>
@@ -181,7 +181,7 @@ export default {
       ],
       entidade: [],
       modalShow: false,
-      code: null,
+      username: null,
       name: null,
       type: null,
       filter: null,
@@ -201,43 +201,43 @@ export default {
     });
   },
   methods: {
-    getCode(code){
-      this.code = code
+    getUsername(username){
+      this.username = username
     },
-    create(code) {
-      this.$axios.$post("/api/diseases", {
-        code: this.code,
+    create(username) {
+      this.$axios.$post("/api/healthcareProfessionals", {
+        username: this.username,
         name: this.name,
         type: this.type
       })
         .then(response => {
           this.entidade.push(response);
-          this.code = null;
+          this.username = null;
           this.name = null;
           this.type = null;
 
         });
 
     },
-    remove(code) {
-      this.$axios.$delete('/api/diseases/' + code)
+    remove(username) {
+      this.$axios.$delete('/api/healthcareProfessionals/' + username)
         .then(() => {
-          const index = this.entidade.findIndex(disease => disease.code === code) // find the post index
+          const index = this.entidade.findIndex(healthcareProfessionals => healthcareProfessionals.username === username) // find the post index
           if (index) // if the post exists in array
             this.entidade.splice(index, 1) //delete the post
         });
     },
-    update(code) {
-      this.$axios.$put('/api/diseases/' + code, {
+    update(username) {
+      this.$axios.$put('/api/healthcareProfessionals/' + username, {
         name: this.name,
         type: this.type,
 
       })
         .then(response => {
-          this.code = null;
+          this.username = null;
           this.name = null;
           this.type = null;
-          const index = this.entidade.findIndex(disease => disease.code === code) // find the post index
+          const index = this.entidade.findIndex(disease => disease.username === username) // find the post index
           if (~index) { // if the post exists in array
             this.entidade.splice(index, 1);
             this.entidade.splice(index, 0, response);
