@@ -107,16 +107,28 @@ Content-Type: application/json
 DELETE http://localhost:8080/PRC/api/healthcareProfessionals/H111111321
 
 ########## GET DETAILS ##########
-GET http://localhost:8080/PRC/api/healthcareProfessionals/H111111321
+GET http://localhost:8080/PRC/api/healthcareProfessionals/H987654321
 
 ########## GET PATIENT ##########
-GET http://localhost:8080/PRC/api/healthcareProfessionals/H987654321/patients
+GET http://localhost:8080/PRC/api/healthcareProfessionals/H111111321/patients
+
+########## GET PATIENT ##########
+GET http://localhost:8080/PRC/api/healthcareProfessionals/H111111321/prescriptions
 
 ########## ADD PATIENT ##########
 POST http://localhost:8080/PRC/api/healthcareProfessionals/H394628427/AddPatient/P123456789
 
 ########## REMOVE PATIENT ##########
 POST http://localhost:8080/PRC/api/healthcareProfessionals/H394628427/RemovePatient/P123456789
+
+########## Update ##########
+PUT http://localhost:8080/PRC/api/healthcareProfessionals/H987654321/password
+Content-Type: application/json
+
+{
+  "passwordOld": "1234",
+  "password": "12345"
+}
 
 
 ##### ************************************ PRESCRIPTIONS ************************************

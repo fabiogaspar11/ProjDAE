@@ -126,4 +126,16 @@ public class HealthcareProfessionalBean {
         entityManager.merge(healthcareProfessional);
     }
 
+    public void updatePassword(HealthcareProfessional healthcareProfessional, HealthcareProfessionalDTO healthcareProfessionalDTO) throws MyIllegalArgumentException {
+        if (!healthcareProfessional.getPassword().equals(healthcareProfessionalDTO.getPasswordOld())){
+            throw new MyIllegalArgumentException("Password field must be the same as current password");
+        }
+        if (healthcareProfessionalDTO.getPassword().equals(healthcareProfessionalDTO.getPasswordOld())){
+            throw new MyIllegalArgumentException("PasswordOld and passwordNew cannot be the same");
+        }
+
+        healthcareProfessional.setPassword(healthcareProfessionalDTO.getPassword());
+        entityManager.merge(healthcareProfessional);
+    }
+
 }
