@@ -4,7 +4,7 @@
     <b-container class="bv-example-row" style="margin-top: 5%">
       <b-row>
         <b-col sm="3">
-          <h3>Patients ({{ tableLength }})</h3>
+          <h1>Patients ({{ tableLength }})</h1>
         </b-col>
         <b-col sm="5">
           <b-form-input v-model="filter" type="search" placeholder="Search...">
@@ -170,7 +170,7 @@ export default {
         if (!this.birthDate) {
           return null
         }
-       var date_regex = /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
+       var date_regex = /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
         return date_regex.test(this.birthDate) ? '':'The birth date is invalid - format dd/mm/yyyy';
     },
     isbirthDateValid () {

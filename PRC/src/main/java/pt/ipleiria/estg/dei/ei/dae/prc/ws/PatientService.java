@@ -77,7 +77,7 @@ public class PatientService {
         return new DiseaseDTO(
                 disease.getCode(),
                 disease.getName(),
-                disease.getType()
+                disease.getDiseaseType().getCode()
         );
     }
     private List<DiseaseDTO> diseasesToDTOs(List<Disease> diseases) {

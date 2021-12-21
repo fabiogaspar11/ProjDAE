@@ -1,32 +1,44 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.dtos;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 public class DiseaseDTO implements Serializable {
     private int code;
     private String name;
-    private String type;
+    private int diseaseTypeCode;
     private List<PatientDTO> patientDTOS;
 
-    public DiseaseDTO(int code, String name, String type) {
-        this.code = code;
-        this.name = name;
-        this.type = type;
+
+   public DiseaseDTO() {
+        System.out.println("############# shit 1");
+        this.patientDTOS = new LinkedList<>();
     }
 
-    public DiseaseDTO(int code, String name, String type, List<PatientDTO> patientDTOS) {
-        this.code = code;
+    public DiseaseDTO(String name, int diseaseTypeCode) {
+      //  this();
+        System.out.println("############# shit 2");
+        this.patientDTOS = new LinkedList<>();
         this.name = name;
-        this.type = type;
+        this.diseaseTypeCode = diseaseTypeCode;
+
+    }
+    public DiseaseDTO(int code, String name, int diseaseTypeCode) {
+        this(name, diseaseTypeCode);
+        this.code = code;
+    }
+
+    public DiseaseDTO(String name, int diseaseTypeCode, List<PatientDTO> patientDTOS) {
+        this(name,diseaseTypeCode);
         this.patientDTOS = patientDTOS;
     }
 
-    public DiseaseDTO() {
-        name = "";
-        type = "";
-        patientDTOS = null;
+    public DiseaseDTO(int code, String name, int diseaseTypeCode, List<PatientDTO> patientDTOS) {
+        this(name, diseaseTypeCode, patientDTOS);
+        this.code = code;
     }
+
 
     public int getCode() {
         return code;
@@ -44,12 +56,12 @@ public class DiseaseDTO implements Serializable {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public int getType() {
+        return diseaseTypeCode;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setType(int type) {
+        this.diseaseTypeCode = type;
     }
 
     public List<PatientDTO> getPatientDTOS() {

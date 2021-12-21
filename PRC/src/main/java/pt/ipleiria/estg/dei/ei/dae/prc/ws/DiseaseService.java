@@ -31,7 +31,7 @@ public class DiseaseService {
         return new DiseaseDTO(
                 disease.getCode(),
                 disease.getName(),
-                disease.getType(),
+                disease.getDiseaseType().getCode(),
                 patientsToDTOs(disease.getPatients())
         );
     }
@@ -44,7 +44,7 @@ public class DiseaseService {
         return new DiseaseDTO(
                 disease.getCode(),
                 disease.getName(),
-                disease.getType()
+                disease.getDiseaseType().getCode()
         );
     }
     private List<DiseaseDTO> toDTOsNoPatients(List<Disease> diseases) {
@@ -62,6 +62,7 @@ public class DiseaseService {
                 patient.getHealthNumber()
         );
     }
+
     private List<PatientDTO> patientsToDTOs(List<Patient> patients) {
         return patients.stream().map(this::toDTO).collect(Collectors.toList());
     }
@@ -70,8 +71,8 @@ public class DiseaseService {
     @POST
     @Path("/")
     public Response createNewDisease (DiseaseDTO diseaseDTO) throws MyEntityExistsException, MyEntityNotFoundException {
-        diseaseBean.create(diseaseDTO.getCode(), diseaseDTO.getName(), diseaseDTO.getType());
-        Disease newDisease = diseaseBean.findDisease(diseaseDTO.getCode());
+       int diseaseCode = diseaseBean.create(diseaseDTO.getName(), diseaseDTO.getType());
+        Disease newDisease = diseaseBean.findDisease(diseaseCode);
         return Response.status(Response.Status.CREATED)
                 .entity(toDTONoPatients(newDisease))
                 .build();
@@ -96,11 +97,11 @@ public class DiseaseService {
     }
 
 
-    //TODO - update esta uma chouriça
+    //TODO
     @PUT
     @Path("/{code}")
     public Response updateDiseaseWS(@PathParam("code") int code, DiseaseDTO diseaseDTO) throws MyEntityNotFoundException {
-        diseaseBean.update(code, diseaseDTO.getName(), diseaseDTO.getType());
+        diseaseBean.update(code, diseaseDTO);
         Disease disease = diseaseBean.findDisease(code);
         return Response.status(Response.Status.OK)
                 .entity(toDTO(disease))
@@ -118,7 +119,7 @@ public class DiseaseService {
     }
 
     //TODO - check if needed
-    @POST
+    @PUT
     @Path("/{code}/{patient}")
     public Response enrollInPatients(@PathParam("code") int code, @PathParam("patient") String username) throws MyEntityNotFoundException {
         diseaseBean.addDiseaseToPatient(code, username);

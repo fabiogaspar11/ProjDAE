@@ -47,9 +47,8 @@ public class ConfigBean {
         biomedicDataTypeBean.create(1,"Febre","ºC",30,45);
         biomedicDataTypeBean.create(2, "Obesidade", "Kilogramas", 40, 100);
 
-        prescriptionBean.create(1, "Prescrição - Medicamentos", "Ipobrunfeno - 3g/dia, Griponal - 5g/dia", "01/11/2021", "01/12/2021", usernameH1, usernameP1);
-        diseaseBean.create(1, "Hipertensão", "Estágio 1");
-        diseaseBean.addDiseaseToPatient(1, usernameP1);
+        prescriptionBean.create(1,"Prescrição - Medicamentos", "Ipobrunfeno - 3g/dia, Griponal - 5g/dia", "01/11/2021", "01/12/2021", usernameP1, usernameH1);
+
         }catch (Exception e){
             logger.log(Level.SEVERE, e.getMessage());
         }

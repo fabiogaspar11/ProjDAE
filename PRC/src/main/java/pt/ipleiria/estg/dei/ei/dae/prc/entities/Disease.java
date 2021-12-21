@@ -1,7 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +15,13 @@ import java.util.List;
 @Table(name = "diseases")
 public class Disease {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int code;
     @NotNull
     private String name;
-    @NotNull
-    private String type;
+    @ManyToOne
+    @JoinColumn(name = "diseasetype")
+    private DiseaseType diseaseType;
 
     @ManyToMany
     @JoinTable(name = "DISEASES_PATIENTS",
@@ -28,16 +29,17 @@ public class Disease {
             inverseJoinColumns = @JoinColumn(name = "USERNAME_PATIENT", referencedColumnName = "USERNAME"))
     private List<Patient> patients;
 
-    public Disease(int code, String name, String type) {
-        this.code = code;
-        this.name = name;
-        this.type = type;
-        patients = new ArrayList<>();
-    }
-
     public Disease() {
         patients = new ArrayList<>();
     }
+
+
+    public Disease(String name, DiseaseType type) {
+        this();
+        this.name = name;
+        this.diseaseType = type;
+    }
+
 
 
     public List<Patient> getPatients() {
@@ -64,12 +66,12 @@ public class Disease {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public DiseaseType getDiseaseType() {
+        return diseaseType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setDiseaseType(DiseaseType diseaseType) {
+        this.diseaseType = diseaseType;
     }
 
     public void addPatient(Patient patient){

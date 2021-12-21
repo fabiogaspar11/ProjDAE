@@ -10,9 +10,9 @@
     </div>
     <b-row class="justify-content-md-center">
       <b-col col lg="2" >
-        <div>
+        <div class="d-flex justify-content-center">
           <b-button v-b-modal.modal-1>Edit</b-button>
-
+        </div>
           <b-modal id="modal-1" title="Edit" @ok="update()">
             <div class="input-group mb-3">
               <div class="input-group-prepend">
@@ -62,19 +62,6 @@
               />
             </div>
           </b-modal>
-        </div>
-      </b-col>
-      <!-----------------------------------------------Delete----------------------------------------->
-
-      <b-col col lg="2">
-        <div>
-          <b-button variant="danger" v-b-modal.modal-2>Delete</b-button>
-          <b-modal id="modal-2" title="Are you sure you want to delete this user?" @ok="remove()">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend"></div>
-            </div>
-          </b-modal>
-        </div>
       </b-col>
     </b-row>
     <div class="d-flex justify-content-center" style="margin-top: 4%">
@@ -111,7 +98,7 @@
               </b-card>
             </template>
           </b-table>
-          <p v-else>No student enrolled.</p>
+          <p v-else>No patients diagnosed with this disease</p>
         </div>
       </template>
 

@@ -237,3 +237,37 @@ Content-Type: application/json
 
 ### Delete
 DELETE http://localhost:8080/PRC/api/biomedicDataMeasures/1
+
+##### ************************************ DISEASE TYPE ****************************************
+
+########## GET ALL ##########
+GET http://localhost:8080/PRC/api/diseaseTypes
+
+
+########## Create ##########
+POST http://localhost:8080/PRC/api/diseaseTypes
+Content-Type: application/json
+
+{
+  "name": "xsz"
+}
+
+########## PUT ##########
+PUT http://localhost:8080/PRC/api/diseaseTypes/1
+Content-Type: application/json
+
+{
+  "name": "Respiratory - Pulmonar diseases"
+}
+
+########## DELETE ##########
+DELETE http://localhost:8080/PRC/api/diseaseTypes/1
+
+########## POST ##########
+POST http://localhost:8080/PRC/api/diseases
+Content-Type: application/json
+
+{
+  "name": "Endocardite",
+  "diseaseTypeCode": 2
+}

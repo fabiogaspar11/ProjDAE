@@ -19,29 +19,17 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-modal id="modal-1" title="New disease" @ok="create(code)">
-      <div class="input-group mb-4">
-          <span class="input-group-text">Code</span>
-        <input v-model="code" type="text" class="form-control" aria-describedby="basic-addon1"/>
-      </div>
+    <b-modal id="modal-1" title="New disease" @ok="create()">
       <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
-        <input v-model="name" type="text" class="form-control" aria-describedby="basic-addon1"/>
+        <b-input v-model.trim="name" type="text" :state="isNameValid" class="form-control" required aria-describedby="basic-addon1"/>
       </div>
       <div class="input-group mb-4">
-          <span class="input-group-text">type</span>
-        <input v-model="type" type="text" class="form-control" aria-describedby="basic-addon1"/>
-      </div>
-    </b-modal>
-
-    <b-modal id="modal-2" title="update disease" @ok="update(code)">
-      <div class="input-group mb-4">
-        <span class="input-group-text">Name</span>
-        <input v-model="name" type="text" class="form-control" aria-describedby="basic-addon1"/>
-      </div>
-      <div class="input-group mb-4">
-        <span class="input-group-text">type</span>
-        <input v-model="type" type="text" class="form-control" aria-describedby="basic-addon1"/>
+         <b-select v-model="diseaseTypeCode" :options="diseaseTypes" :state="isdiseaseTypeValid" required value-field="code" text-field="name">
+            <template v-slot:first>
+                <option :value="null" disabled>-- Please select the Disease Type --</option>
+            </template>
+        </b-select>
       </div>
     </b-modal>
 
@@ -57,20 +45,12 @@
         :filter="filter"
         @filtered="search"
       >
-        <template #cell(show_details)="row">
-            <b-button size="sm" @click="row.toggleDetails" class="mr-2">
-            {{ row.detailsShowing ? "Hide" : "Show" }} Details
-          </b-button>
-        </template>
 
         <template v-slot:cell(operations)="row">
-          <nuxt-link class="btn btn-link" :to="`/patients/${row.item.code}`"> Details </nuxt-link>
-        </template>
-        <template v-slot:cell(actions)="row">
-          <b-button size="sm" @click.prevent="getCode(row.item.code, row.item.name, row.item.type)" v-b-modal.modal-2  variant="info">
-            <font-awesome-icon icon="edit" /> Edit
+          <b-button :to="`/diseases/${row.item.code}`" variant="info">
+            <font-awesome-icon icon="eye" /> Details
           </b-button>
-          <b-button size="sm" @click.prevent="remove(row.item.code)" variant="danger">
+          <b-button v-b-modal.modal-3 variant="danger" @click="remove(row.item.code)">
             <font-awesome-icon icon="trash" /> Remove
           </b-button>
         </template>
@@ -96,11 +76,11 @@ export default {
         { key: 'code', label: 'Code', sortable: true, sortDirection: 'desc' },
         { key: 'name', label: 'Name', sortable: true, sortDirection: 'desc' },
         { key: 'type', label: 'Type', sortable: true, sortDirection: 'desc' },
-        "operations",
-        "actions",
+        "Operations",
 
       ],
       entidade: [],
+      diseaseTypes: [],
       modalShow: false,
       code: null,
       name: null,
@@ -108,39 +88,75 @@ export default {
       filter: null,
       totalRows: null,
       currentPage: null,
+      diseaseTypeCode:null
       //entity: this.$route.name
     };
   },
   computed: {
     tableLength: function() {
       return this.entidade.length;
+    },
+        isNameValidFeedback (){
+        if (!this.name) {
+          return null
+        }
+        let nameLen = this.name.length
+        if (nameLen < 3 || nameLen > 25) {
+           return 'The name is too short - length must be between 3 and 25'
+        }
+        return ''
+    },
+    isNameValid () {
+        if (this.isNameValidFeedback === null) {
+           return null
+        }
+        return this.isNameValidFeedback === ''
+    },
+     isdiseaseTypeValid () {
+        if (!this.diseaseTypeCode) {
+            return null
+        }
+       return this.diseaseTypes.some(diseaseType => this.diseaseTypeCode === diseaseType.code)
+    },
+      isFormValid () {
+    if (!this.isNameValid) {
+      return false
+    }
+    if (!this.isdiseaseTypeValid) {
+      return false
+    }
+      return true
     }
   },
   created() {
     this.$axios.$get("/api/diseases").then((entidade) => {
       this.entidade = entidade;
     });
+
+    this.$axios.$get("/api/diseaseTypes").then((diseaseTypes) => {
+      this.diseaseTypes = diseaseTypes;
+    });
   },
   methods: {
-    getCode(code, name, type){
-      this.code = code,
-      this.name = name,
-      this.type = type
-    },
-    create(code) {
+    create() {
+      if(!this.isFormValid){
+           alert("Fields are invalid - Correct them first!");
+           return;
+      }
+
       this.$axios.$post("/api/diseases", {
-        code: this.code,
         name: this.name,
-        type: this.type
+        diseaseTypeCode: this.diseaseTypeCode
       })
         .then(response => {
           this.entidade.push(response);
-          this.code = null;
           this.name = null;
-          this.type = null;
+          this.diseaseTypeCode = null;
 
+        })
+        .catch(error => {
+            alert("Error when creating Disease: "+ error.response.data);
         });
-
     },
     remove(code) {
       this.$axios.$delete('/api/diseases/' + code)
@@ -158,11 +174,10 @@ export default {
       })
         .then(response => {
           const index = this.entidade.findIndex(disease => disease.code === code) // find the post index
-          if (~index) { // if the post exists in array
+          if (index) { // if the post exists in array
             this.entidade.splice(index, 1);
             this.entidade.splice(index, 0, response);
           }
-          this.code = null;
           this.name = null;
           this.type = null;
         });
