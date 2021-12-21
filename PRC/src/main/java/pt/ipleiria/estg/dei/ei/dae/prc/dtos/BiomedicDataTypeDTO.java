@@ -9,6 +9,9 @@ public class BiomedicDataTypeDTO implements Serializable {
     private float minValue;
     private float maxValue;
 
+    public BiomedicDataTypeDTO() {
+    }
+
     public BiomedicDataTypeDTO(long code, String name, String unitMeasure, float minValue, float maxValue) {
         this.code = code;
         this.name = name;
@@ -17,8 +20,6 @@ public class BiomedicDataTypeDTO implements Serializable {
         this.maxValue = maxValue;
     }
 
-    public BiomedicDataTypeDTO() {
-    }
 
     public long getCode() {
         return code;

@@ -113,9 +113,6 @@ export default {
      tableLength: function () {
       return this.entidade.length;
     },
-    username() {
-      return this.$route.params.username;
-    },
      isNameValidFeedback (){
         if (!this.name) {
           return null

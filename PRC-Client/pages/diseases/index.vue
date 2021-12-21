@@ -125,6 +125,7 @@ export default {
         name: this.name
       })
         .then(response => {
+           alert("Disease "+ this.name + " created succesfully");
           this.entidade.push(response);
           this.name = null;
         })

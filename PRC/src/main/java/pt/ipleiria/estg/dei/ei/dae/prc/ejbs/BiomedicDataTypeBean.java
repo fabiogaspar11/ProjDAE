@@ -18,13 +18,10 @@ public class BiomedicDataTypeBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public long create(long code, String name,String unitMeasure, float minValue, float maxValue) throws MyEntityExistsException {
-        BiomedicDataType biomedicDataType = entityManager.find(BiomedicDataType.class,code);
-        if (biomedicDataType != null) {
-            throw new MyEntityExistsException("Biomedic data with code: " + code + "already exists");
-        }
-        biomedicDataType = new BiomedicDataType(code, name,unitMeasure,minValue,maxValue);
+    public long create(String name,String unitMeasure, float minValue, float maxValue) throws MyEntityExistsException {
+        BiomedicDataType biomedicDataType = new BiomedicDataType(name,unitMeasure,minValue,maxValue);
         entityManager.persist(biomedicDataType);
+        entityManager.flush();
         return biomedicDataType.getCode();
     }
 

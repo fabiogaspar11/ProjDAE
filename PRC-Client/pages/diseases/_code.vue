@@ -14,53 +14,11 @@
           <b-button v-b-modal.modal-1>Edit</b-button>
         </div>
           <b-modal id="modal-1" title="Edit" @ok="update()">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">Name</span>
-              </div>
-              <input
-                v-model="name"
-                type="text"
-                class="form-control"
-                aria-describedby="basic-addon1"
-              />
-            </div>
-
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">BirthDate</span>
-              </div>
-              <input
-                v-model="birthDate"
-                type="text"
-                class="form-control"
-                aria-describedby="basic-addon1"
-              />
-            </div>
-
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">Email</span>
-              </div>
-              <input
-                v-model="email"
-                type="text"
-                class="form-control"
-                aria-describedby="basic-addon1"
-              />
-            </div>
-
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">Contact</span>
-              </div>
-              <input
-                v-model="contact"
-                type="text"
-                class="form-control"
-                aria-describedby="basic-addon1"
-              />
-            </div>
+              <div class="input-group mb-4">
+          <span class="input-group-text">Name</span>
+            <b-input v-model.trim="name" type="text" :state="isNameValid" class="form-control" required aria-describedby="basic-addon1"/>
+            <p>{{isNameValidFeedback}}</p>
+          </div>
           </b-modal>
       </b-col>
     </b-row>
@@ -141,8 +99,8 @@ export default {
       entidade: [],
       patients: [],
       patientsAll:[],
-      state: true,
-      username: null
+      username: null,
+      name:null
     };
   },
   props: {
@@ -152,7 +110,28 @@ export default {
     code() {
       return this.$route.params.code;
     },
-
+    isNameValidFeedback (){
+      if (!this.name) {
+        return null
+      }
+      let nameLen = this.name.length
+      if (nameLen < 3 || nameLen > 25) {
+          return 'The name is too short - length must be between 3 and 25'
+      }
+      return ''
+    },
+    isNameValid () {
+        if (this.isNameValidFeedback === null) {
+           return null
+        }
+        return this.isNameValidFeedback === ''
+    },
+    isFormValid () {
+    if (!this.isNameValid) {
+      return false
+    }
+      return true
+    }
   },
   created() {
     this.$axios.$get(`/api/diseases/${this.code}`)
@@ -176,23 +155,19 @@ export default {
       })
     },
     update() {
+        if(!this.isFormValid){
+           alert("Fields are invalid - Correct them first!");
+           return;
+      }
+
       this.$axios
-        .$put(`/api/patients/${this.username}`, {
-          name: this.name,
-          email: this.email,
-          contact: this.contact,
-          bhirtDate: this.birthDate,
+        .$put(`/api/diseases/${this.code}`, {
+          name: this.name
         })
         .then(() => {
+          alert("Disease "+ this.name + " updated succesfully");
           this.name = null;
-          this.email = null;
-          this.contact = null;
-          this.bhirtDate = null;
-          this.$axios
-            .$get(`/api/patients/${this.username}`)
-            .then((entidade) => {
-              this.entidade = [entidade];
-            });
+           this.$router.go(0);
         });
     },
     isExist: function (patient){

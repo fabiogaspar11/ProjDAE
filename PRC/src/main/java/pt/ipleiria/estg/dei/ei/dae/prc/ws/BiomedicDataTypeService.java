@@ -41,7 +41,7 @@ public class BiomedicDataTypeService {
 
     @GET
     @Path("{code}")
-    public Response getBdataTypeDetails(@PathParam("code") long code) throws MyEntityNotFoundException {
+    public Response getBiomedicDataType(@PathParam("code") long code) throws MyEntityNotFoundException {
         BiomedicDataType biomedicDataType = bDataTypeBean.findBiomedicDataType(code);
         return Response.ok(toDTO(biomedicDataType)).build();
     }
@@ -56,8 +56,8 @@ public class BiomedicDataTypeService {
 
     @POST
     @Path("/")
-    public Response createNewBdata(BiomedicDataTypeDTO bDataTypeDTO) throws MyEntityExistsException, MyEntityNotFoundException {
-        long code = bDataTypeBean.create(bDataTypeDTO.getCode(),bDataTypeDTO.getName(),bDataTypeDTO.getUnitMeasure(),bDataTypeDTO.getMinValue(),bDataTypeDTO.getMaxValue());
+    public Response createNewBiomedicDataType(BiomedicDataTypeDTO bDataTypeDTO) throws MyEntityExistsException, MyEntityNotFoundException {
+        long code = bDataTypeBean.create(bDataTypeDTO.getName(),bDataTypeDTO.getUnitMeasure(),bDataTypeDTO.getMinValue(),bDataTypeDTO.getMaxValue());
         BiomedicDataType biomedicDataType = bDataTypeBean.findBiomedicDataType(code);
         return Response.status(Response.Status.CREATED)
                 .entity(toDTO(biomedicDataType))
@@ -67,7 +67,7 @@ public class BiomedicDataTypeService {
 
     @PUT
     @Path("/{code}")
-    public Response updateAdministrator(@PathParam("code") long code, BiomedicDataTypeDTO biomedicDataTypeDTO) throws MyEntityNotFoundException {
+    public Response updateBiomedicDataType(@PathParam("code") long code, BiomedicDataTypeDTO biomedicDataTypeDTO) throws MyEntityNotFoundException {
         BiomedicDataType biomedicDataType  = bDataTypeBean.findBiomedicDataType(code);
         bDataTypeBean.update(biomedicDataType,biomedicDataTypeDTO);
         return Response.status(Response.Status.OK)
@@ -77,7 +77,7 @@ public class BiomedicDataTypeService {
 
     @DELETE
     @Path("/{code}")
-    public Response deleteBDataType(@PathParam("code") long code) throws MyEntityNotFoundException {
+    public Response deleteBiomedicDataType(@PathParam("code") long code) throws MyEntityNotFoundException {
         BiomedicDataType biomedicDataType = bDataTypeBean.findBiomedicDataType(code);
         bDataTypeBean.delete(code);
         return Response.status(Response.Status.OK)
