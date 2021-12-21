@@ -2,10 +2,10 @@
   <div>
     <NavBar></NavBar>
     <h1 style="margin-top: 4%" class="d-flex justify-content-center"> HealthCare Professionals (Details) </h1>
-    <div class="d-flex justify-content-center" style="margin-top: 4%">
+    <div class="d-flex justify-content-center" style="margin-top: 2%">
       <template>
         <div>
-          <b-table striped hover :items="entidade" :fields="fields"></b-table>
+          <b-table striped hover :items="healthCareProfessional" :fields="fields"></b-table>
         </div>
       </template>
     </div>
@@ -23,6 +23,19 @@
         </b-col>
       </b-row>
     </b-container>
+    <h3 style="margin-top: 4%" class="d-flex justify-content-center"> HealthCare Professionals (prescriptions) </h3>
+    <div class="d-flex justify-content-center" style="margin-top: 2%">
+      <b-dropdown id="dropdown-left" text="Prescriptions" variant="secondary">
+        <b-dropdown-item href="#" v-for="fieldPrescription in fieldsPrescription" :key="fieldPrescription.code" :value="fieldPrescription.code">{{ fieldPrescription.code }}</b-dropdown-item>
+      </b-dropdown>
+    </div>
+    <div class="d-flex justify-content-center" style="margin-top: 2%">
+      <b-dropdown id="dropdown-left" text="Prescriptions" variant="secondary">
+        <b-dropdown-item href="#" v-for="fieldPrescription in fieldsPrescription" :key="fieldPrescription.code" :value="fieldPrescription.code">{{ fieldPrescription.code }}</b-dropdown-item>
+      </b-dropdown>
+    </div>
+
+
 
     <b-modal id="modal-1" title="Edit" @ok="update">
       <div class="input-group mb-4">
@@ -55,7 +68,7 @@
       </b-alert>
     </b-modal>
 
-    <b-modal ref="updatePasswordModel" id="modal-2" title="Edit Password" @ok="updatePassword">
+    <b-modal ref="updatePasswordModel" id="modal-2" class="justify-content-center" title="Edit Password" @ok="updatePassword">
       <div class="input-group mb-4">
         <span class="input-group-text">Password</span>
         <b-input required v-model.trim="passwordOld" type="password" :state="isPasswordOldValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your old password"/>
@@ -66,8 +79,8 @@
         <b-input required  v-model.trim="passwordNew" type="password" :state="isPasswordNewValid" class="form-control" aria-describedby="basic-addon1" placeholder="Enter your new password"/>
         <p style="color: #dc3545;">{{isPasswordNewValidFeedback}}</p>
       </div>
-      <b-alert v-model="showDismissibleAlert" variant="danger" dismissible>
-        {{isPasswordValidFeedback}}
+      <b-alert v-model="showDismissibleAlertPassword" variant="danger" dismissible>
+        {{alertPasswordInvalid}}
       </b-alert>
     </b-modal>
   </div>
@@ -85,7 +98,24 @@ export default {
         "email",
         "contact",
       ],
-      entidade: [],
+      fieldsPrescription: [
+        "code",
+        "title",
+        "observations",
+        "emissionDate",
+        "expireDate",
+        "usernameHealthcareProfessional",
+      ],
+      fieldsPatient: [
+        "healthNumber",
+        "name",
+        "email",
+        "birthDate",
+        "contact",
+      ],
+      healthCareProfessional: [],
+      prescription: [],
+      patients: [],
       state: true,
       healthNumber : null,
       name : null,
@@ -97,8 +127,9 @@ export default {
       passwordOld: null,
       passwordNew : null,
       showDismissibleAlertEdit: false,
-      showDismissibleAlert: false,
+      showDismissibleAlertPassword: false,
       alertData: '',
+      alertPasswordInvalid: '',
     };
   },
   props: {
@@ -159,7 +190,7 @@ export default {
       return this.isContactValidFeedback === ''
     },
     isPasswordOldValidFeedback () {
-      this.showDismissibleAlert = false;
+      this.showDismissibleAlertPassword = false;
       if (!this.passwordOld) {
         return null
       }
@@ -176,7 +207,7 @@ export default {
       return this.isPasswordOldValidFeedback === ''
     },
     isPasswordNewValidFeedback () {
-      this.showDismissibleAlert = false;
+      this.showDismissibleAlertPassword = false;
       if (!this.passwordNew) {
         return null
       }
@@ -193,24 +224,6 @@ export default {
       return this.isPasswordNewValidFeedback === ''
     },
 
-    isPasswordValidFeedback () {
-      if (!this.passwordOld || !this.passwordNew) {
-        return 'The old password and the new password cannot be empty'
-      }
-      if (this.passwordOld === this.passwordNew) {
-        return 'The old password and the new password cannot be the same'
-      }
-      if (this.passwordOld !== this.password) {
-        return 'The old password is not correct'
-      }
-      return null
-    },
-    isPasswordValid () {
-      if (this.isPasswordValidFeedback === null) {
-        return null
-      }
-      return this.isPasswordValidFeedback === ''
-    },
     isEmailValidFeedback () {
       if (!this.email) {
         return null
@@ -257,16 +270,36 @@ export default {
       }
       this.showDismissibleAlertEdit = true;
       return true;
+    },
+    isFormPasswordValid () {
+      this.showDismissibleAlertPassword = false;
+      if (this.passwordOld == null || this.passwordNew == null) {
+        this.alertPasswordInvalid = 'You must fill all the fields to update password'
+        return false
+      }
+      this.alertPasswordInvalid = 'Every Data must be correct'
+      if (this.isPasswordOldValid === false) {
+        return false
+      }
+      if (this.isPasswordNewValid === false) {
+        return false
+      }
+      return true;
     }
   },
   created() {
     this.getHealthCareProfessionalData()
+    this.$axios.$get(`/api/healthcareProfessionals/${this.username}/prescriptions`).then((entidade) => {
+      this.prescription = [entidade];
+    });
+    this.$axios.$get(`/api/healthcareProfessionals/${this.username}/patients`).then((entidade) => {
+      this.patients = [entidade];
+    });
   },
   methods: {
     getHealthCareProfessionalData(){
       this.$axios.$get(`/api/healthcareProfessionals/${this.username}`).then((entidade) => {
-        this.entidade = [entidade];
-        this.password = entidade.password;
+        this.healthCareProfessional = [entidade];
       });
     },
     update(bvModalEvt) {
@@ -295,23 +328,26 @@ export default {
       }
     },
     updatePassword(bvModalEvt) {
-      console.log(this.isPasswordValidFeedback)
-      if (this.isPasswordValidFeedback === '') {
+      bvModalEvt.preventDefault()
+      if (this.isFormPasswordValid){
         this.$axios
-          .$put(`/api/healthcareProfessionals/${this.username}`, {
+          .$put(`/api/healthcareProfessionals/${this.username}/password`, {
+            passwordOld: this.passwordOld,
             password: this.passwordNew,
           })
           .then(() => {
-            this.password = null;
+            this.passwordOld = null;
             this.passwordNew = null;
-            this.showDismissibleAlert = false;
             alert(`HealthCare Professional (${this.username})  password updated!`);
             this.getHealthCareProfessionalData()
-          });
+          })
+          .catch(error => {
+            this.alertPasswordInvalid = error.response.data
+            this.showDismissibleAlertPassword = true;
+          })
       }
       else{
-        bvModalEvt.preventDefault()
-        this.showDismissibleAlert = true;
+        this.showDismissibleAlertPassword = true;
       }
     },
   },

@@ -12,6 +12,7 @@ public class HealthcareProfessionalDTO implements Serializable {
     private String name;
     private String email;
     private String password;
+    private String passwordOld;
     private String birthDate;
     private String contact;
     private long healthNumber;
@@ -41,8 +42,21 @@ public class HealthcareProfessionalDTO implements Serializable {
         this.prescriptions = prescriptions;
     }
 
+    public HealthcareProfessionalDTO(String passwordOld, String password) {
+        this.passwordOld = passwordOld;
+        this.password = password;
+    }
+
     public List<Prescription> getPrescriptions() {
         return prescriptions;
+    }
+
+    public String getPasswordOld() {
+        return passwordOld;
+    }
+
+    public void setPasswordOld(String passwordOld) {
+        this.passwordOld = passwordOld;
     }
 
     public void setPrescriptions(List<Prescription> prescriptions) {

@@ -13,7 +13,12 @@ public class PrescriptionDTO implements Serializable {
     private String usernamePatient;
     private String usernameHealthcareProfessional;
 
-    public PrescriptionDTO() {
+    public PrescriptionDTO(long code, String title, String observations, String emissionDate, String expireDate) {
+        this.code = code;
+        this.title = title;
+        this.observations = observations;
+        this.emissionDate = emissionDate;
+        this.expireDate = expireDate;
     }
 
     public PrescriptionDTO(long code, String title, String observations, String emissionDate, String expireDate, String usernamePatient, String usernameHealthcareProfessional) {
