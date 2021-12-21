@@ -31,20 +31,18 @@ public class DiseaseService {
         return new DiseaseDTO(
                 disease.getCode(),
                 disease.getName(),
-                disease.getDiseaseType().getCode(),
                 patientsToDTOs(disease.getPatients())
         );
     }
+
     private List<DiseaseDTO> toDTOs(List<Disease> diseases) {
         return diseases.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-
     private DiseaseDTO toDTONoPatients(Disease disease) {
         return new DiseaseDTO(
                 disease.getCode(),
-                disease.getName(),
-                disease.getDiseaseType().getCode()
+                disease.getName()
         );
     }
     private List<DiseaseDTO> toDTOsNoPatients(List<Disease> diseases) {
@@ -71,7 +69,7 @@ public class DiseaseService {
     @POST
     @Path("/")
     public Response createNewDisease (DiseaseDTO diseaseDTO) throws MyEntityExistsException, MyEntityNotFoundException {
-       int diseaseCode = diseaseBean.create(diseaseDTO.getName(), diseaseDTO.getType());
+        int diseaseCode = diseaseBean.create(diseaseDTO.getName());
         Disease newDisease = diseaseBean.findDisease(diseaseCode);
         return Response.status(Response.Status.CREATED)
                 .entity(toDTONoPatients(newDisease))

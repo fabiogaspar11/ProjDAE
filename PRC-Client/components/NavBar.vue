@@ -12,7 +12,6 @@
             <b-nav-item to="/administrators">Administrators</b-nav-item>
             <b-nav-item to="/healthcareProfessionals">Healthcare Professionals</b-nav-item>
             <b-nav-item to="/diseases">Diseases</b-nav-item>
-            <b-nav-item to="/diseaseTypes">Disease Types</b-nav-item>
             <b-nav-item to="/biomedicData">Biomedic Data</b-nav-item>
           </b-navbar-nav>
         </b-collapse>

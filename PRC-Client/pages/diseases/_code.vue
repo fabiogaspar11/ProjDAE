@@ -85,16 +85,6 @@
                   <b-col sm="3" class="text-sm-right"><b>Contact:</b></b-col>
                   <b-col>{{ row.item.contact }}</b-col>
                 </b-row>
-
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Weight:</b></b-col>
-                  <b-col>{{ row.item.weight }}</b-col>
-                </b-row>
-
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Height:</b></b-col>
-                  <b-col>{{ row.item.height }}</b-col>
-                </b-row>
               </b-card>
             </template>
           </b-table>
@@ -138,8 +128,7 @@ export default {
     return {
       fields: [
         "code",
-        "name",
-        "type"
+        "name"
       ],
       fieldsPatient:[
         "username",

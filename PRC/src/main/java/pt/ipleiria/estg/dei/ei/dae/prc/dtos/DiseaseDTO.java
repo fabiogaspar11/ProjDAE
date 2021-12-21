@@ -7,35 +7,29 @@ import java.util.List;
 public class DiseaseDTO implements Serializable {
     private int code;
     private String name;
-    private int diseaseTypeCode;
     private List<PatientDTO> patientDTOS;
 
 
-   public DiseaseDTO() {
-        System.out.println("############# shit 1");
-        this.patientDTOS = new LinkedList<>();
+    public DiseaseDTO() {
+       this.patientDTOS = new LinkedList<>();
     }
 
-    public DiseaseDTO(String name, int diseaseTypeCode) {
-      //  this();
-        System.out.println("############# shit 2");
-        this.patientDTOS = new LinkedList<>();
+    public DiseaseDTO(String name) {
+        this();
         this.name = name;
-        this.diseaseTypeCode = diseaseTypeCode;
-
     }
-    public DiseaseDTO(int code, String name, int diseaseTypeCode) {
-        this(name, diseaseTypeCode);
+    public DiseaseDTO(int code, String name) {
+        this(name);
         this.code = code;
     }
 
-    public DiseaseDTO(String name, int diseaseTypeCode, List<PatientDTO> patientDTOS) {
-        this(name,diseaseTypeCode);
+    public DiseaseDTO(String name, List<PatientDTO> patientDTOS) {
+        this(name);
         this.patientDTOS = patientDTOS;
     }
 
-    public DiseaseDTO(int code, String name, int diseaseTypeCode, List<PatientDTO> patientDTOS) {
-        this(name, diseaseTypeCode, patientDTOS);
+    public DiseaseDTO(int code, String name, List<PatientDTO> patientDTOS) {
+        this(name, patientDTOS);
         this.code = code;
     }
 
@@ -56,13 +50,6 @@ public class DiseaseDTO implements Serializable {
         this.name = name;
     }
 
-    public int getType() {
-        return diseaseTypeCode;
-    }
-
-    public void setType(int type) {
-        this.diseaseTypeCode = type;
-    }
 
     public List<PatientDTO> getPatientDTOS() {
         return patientDTOS;

@@ -19,9 +19,7 @@ public class Disease {
     private int code;
     @NotNull
     private String name;
-    @ManyToOne
-    @JoinColumn(name = "diseasetype")
-    private DiseaseType diseaseType;
+
 
     @ManyToMany
     @JoinTable(name = "DISEASES_PATIENTS",
@@ -34,10 +32,9 @@ public class Disease {
     }
 
 
-    public Disease(String name, DiseaseType type) {
+    public Disease(String name) {
         this();
         this.name = name;
-        this.diseaseType = type;
     }
 
 
@@ -64,14 +61,6 @@ public class Disease {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public DiseaseType getDiseaseType() {
-        return diseaseType;
-    }
-
-    public void setDiseaseType(DiseaseType diseaseType) {
-        this.diseaseType = diseaseType;
     }
 
     public void addPatient(Patient patient){

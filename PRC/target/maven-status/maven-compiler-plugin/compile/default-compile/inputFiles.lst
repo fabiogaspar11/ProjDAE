@@ -13,7 +13,6 @@ C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\H
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\exceptions\MyEntityExistsException.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\AdministratorDTO.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\BiomedicDataMeasureDTO.java
-C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\DiseaseTypeDTO.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\PrescriptionDTO.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\BiomedicDataType.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\BiomedicDataMeasureService.java
@@ -24,7 +23,6 @@ C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\Confi
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\User.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\BiomedicDataTypeDTO.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\Disease.java
-C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\DiseaseType.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\PatientBean.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\PatientDTO.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\exceptions\MyIllegalArgumentException.java
@@ -39,8 +37,6 @@ C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\Adminis
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\entities\Administrator.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\AdministratorBean.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\dtos\DiseaseDTO.java
-C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ejbs\DiseaseTypeBean.java
-C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\DiseaseTypeService.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\ws\HealthcareprofessionalService.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\Data.java
 C:\projects\ProjDAE\PRC\src\main\java\pt\ipleiria\estg\dei\ei\dae\prc\exceptions\MyIllegalArgumentExceptionMapper.java

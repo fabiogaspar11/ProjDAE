@@ -2,7 +2,6 @@ package pt.ipleiria.estg.dei.ei.dae.prc.ejbs;
 
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.DiseaseDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Disease;
-import pt.ipleiria.estg.dei.ei.dae.prc.entities.DiseaseType;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
@@ -16,15 +15,10 @@ public class DiseaseBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public int create(String name, int codeDiseaseType) throws MyEntityExistsException, MyEntityNotFoundException {
-        DiseaseType diseaseType = entityManager.find(DiseaseType.class,codeDiseaseType);
-        if(diseaseType == null) {
-            throw new MyEntityNotFoundException("There is no Disease Type with the code \'" + codeDiseaseType + "\'");
-        }
-        Disease disease = new Disease(name, diseaseType);
-        diseaseType.addDisease(disease);
+    public int create(String name) throws MyEntityExistsException, MyEntityNotFoundException {
+
+        Disease disease = new Disease(name);
         entityManager.persist(disease);
-        entityManager.merge(diseaseType);
         entityManager.flush();
         return disease.getCode();
     }
@@ -36,9 +30,9 @@ public class DiseaseBean {
 
     public void update(int code, DiseaseDTO diseaseDTO) throws MyEntityNotFoundException {
         Disease disease = findDisease(code);
-
-
-
+        if(diseaseDTO.getName() != null && !disease.getName().equals(diseaseDTO.getName())){
+            disease.setName(diseaseDTO.getName());
+        }
         entityManager.merge(disease);
     }
 

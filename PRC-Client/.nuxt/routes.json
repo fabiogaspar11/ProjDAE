@@ -21,13 +21,6 @@
     "_name": "_d3d0f9ac"
   },
   {
-    "name": "diseaseTypes",
-    "path": "/diseaseTypes",
-    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseaseTypes\\\\index.vue",
-    "chunkName": "pages/diseaseTypes/index",
-    "_name": "_1211ce04"
-  },
-  {
     "name": "healthCareProfessionals",
     "path": "/healthCareProfessionals",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthCareProfessionals\\\\index.vue",
@@ -61,13 +54,6 @@
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases\\\\_code.vue",
     "chunkName": "pages/diseases/_code",
     "_name": "_d03b97b8"
-  },
-  {
-    "name": "diseaseTypes-code",
-    "path": "/diseaseTypes/:code",
-    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseaseTypes\\\\_code.vue",
-    "chunkName": "pages/diseaseTypes/_code",
-    "_name": "_13dc7efe"
   },
   {
     "name": "healthCareProfessionals-username",

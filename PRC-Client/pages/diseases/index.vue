@@ -23,13 +23,7 @@
       <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
         <b-input v-model.trim="name" type="text" :state="isNameValid" class="form-control" required aria-describedby="basic-addon1"/>
-      </div>
-      <div class="input-group mb-4">
-         <b-select v-model="diseaseTypeCode" :options="diseaseTypes" :state="isdiseaseTypeValid" required value-field="code" text-field="name">
-            <template v-slot:first>
-                <option :value="null" disabled>-- Please select the Disease Type --</option>
-            </template>
-        </b-select>
+        <p>{{isNameValidFeedback}}</p>
       </div>
     </b-modal>
 
@@ -75,20 +69,16 @@ export default {
       fields: [
         { key: 'code', label: 'Code', sortable: true, sortDirection: 'desc' },
         { key: 'name', label: 'Name', sortable: true, sortDirection: 'desc' },
-        { key: 'type', label: 'Type', sortable: true, sortDirection: 'desc' },
         "Operations",
 
       ],
       entidade: [],
-      diseaseTypes: [],
       modalShow: false,
       code: null,
       name: null,
-      type: null,
       filter: null,
       totalRows: null,
-      currentPage: null,
-      diseaseTypeCode:null
+      currentPage: null
       //entity: this.$route.name
     };
   },
@@ -112,17 +102,8 @@ export default {
         }
         return this.isNameValidFeedback === ''
     },
-     isdiseaseTypeValid () {
-        if (!this.diseaseTypeCode) {
-            return null
-        }
-       return this.diseaseTypes.some(diseaseType => this.diseaseTypeCode === diseaseType.code)
-    },
-      isFormValid () {
+    isFormValid () {
     if (!this.isNameValid) {
-      return false
-    }
-    if (!this.isdiseaseTypeValid) {
       return false
     }
       return true
@@ -131,10 +112,6 @@ export default {
   created() {
     this.$axios.$get("/api/diseases").then((entidade) => {
       this.entidade = entidade;
-    });
-
-    this.$axios.$get("/api/diseaseTypes").then((diseaseTypes) => {
-      this.diseaseTypes = diseaseTypes;
     });
   },
   methods: {
@@ -145,14 +122,11 @@ export default {
       }
 
       this.$axios.$post("/api/diseases", {
-        name: this.name,
-        diseaseTypeCode: this.diseaseTypeCode
+        name: this.name
       })
         .then(response => {
           this.entidade.push(response);
           this.name = null;
-          this.diseaseTypeCode = null;
-
         })
         .catch(error => {
             alert("Error when creating Disease: "+ error.response.data);
@@ -170,7 +144,6 @@ export default {
     update(code) {
       this.$axios.$put('/api/diseases/' + code, {
         name: this.name || "",
-        type: this.type || "",
       })
         .then(response => {
           const index = this.entidade.findIndex(disease => disease.code === code) // find the post index
@@ -179,7 +152,6 @@ export default {
             this.entidade.splice(index, 0, response);
           }
           this.name = null;
-          this.type = null;
         });
     },
     search(filteredItems) {
