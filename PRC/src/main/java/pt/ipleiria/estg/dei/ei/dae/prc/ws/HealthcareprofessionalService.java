@@ -72,7 +72,7 @@ public class HealthcareprofessionalService {
     }
 
     private List<HealthcareProfessionalDTO> toDTOs(List<HealthcareProfessional> healthcareProfessionals) {
-        return healthcareProfessionals.stream().map(this::toDTO).collect(Collectors.toList());
+        return healthcareProfessionals.stream().map(this::toDTONoPatients).collect(Collectors.toList());
     }
 
     private List<PrescriptionDTO> prescriptionstoDTOs(List<Prescription> prescriptions) {

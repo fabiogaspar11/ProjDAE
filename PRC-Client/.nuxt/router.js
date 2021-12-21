@@ -31,11 +31,11 @@ export const routerOptions = {
 
   routes: [{
     path: "/administrators",
-    component: _a42c148a,
+    component: _2f1c4b8a,
     name: "administrators"
   }, {
     path: "/biomedicData",
-    component: _4d6e28d9,
+    component: _30ecb330,
     name: "biomedicData"
   }, {
     path: "/biomedicMeasures",
@@ -43,23 +43,23 @@ export const routerOptions = {
     name: "biomedicMeasures"
   }, {
     path: "/diseases",
-    component: _d3d0f9ac,
+    component: _ac13bf8e,
     name: "diseases"
   }, {
     path: "/healthCareProfessionals",
-    component: _0793d0f4,
+    component: _aed8d7f6,
     name: "healthCareProfessionals"
   }, {
     path: "/patients",
-    component: _3787119a,
+    component: _0fc9d77c,
     name: "patients"
   }, {
     path: "/administrators/:username",
-    component: _5ed7e5c4,
+    component: _21f8e36d,
     name: "administrators-username"
   }, {
     path: "/biomedicData/:code",
-    component: _4f38d9d3,
+    component: _2d57513c,
     name: "biomedicData-code"
   }, {
     path: "/biomedicMeasures/:code",
@@ -67,19 +67,19 @@ export const routerOptions = {
     name: "biomedicMeasures-code"
   }, {
     path: "/diseases/:code",
-    component: _d03b97b8,
+    component: _a87e5d9a,
     name: "diseases-code"
   }, {
     path: "/healthCareProfessionals/:username",
-    component: _3efba3d7,
+    component: _05517668,
     name: "healthCareProfessionals-username"
   }, {
     path: "/patients/:username",
-    component: _a34ddad4,
+    component: _48749025,
     name: "patients-username"
   }, {
     path: "/",
-    component: _373b5e41,
+    component: _51cd9be0,
     name: "index"
   }],
 
