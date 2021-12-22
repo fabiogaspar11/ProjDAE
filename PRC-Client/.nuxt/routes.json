@@ -3,78 +3,91 @@
     "name": "administrators",
     "path": "/administrators",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators\\\\index.vue",
-    "chunkName": "pages/administrators/index"
+    "chunkName": "pages/administrators/index",
+    "_name": "_a42c148a"
   },
   {
     "name": "biomedicData",
     "path": "/biomedicData",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicData\\\\index.vue",
-    "chunkName": "pages/biomedicData/index"
+    "chunkName": "pages/biomedicData/index",
+    "_name": "_4d6e28d9"
   },
   {
     "name": "biomedicMeasures",
     "path": "/biomedicMeasures",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicMeasures\\\\index.vue",
-    "chunkName": "pages/biomedicMeasures/index"
+    "chunkName": "pages/biomedicMeasures/index",
+    "_name": "_2712e44e"
   },
   {
     "name": "diseases",
     "path": "/diseases",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases\\\\index.vue",
-    "chunkName": "pages/diseases/index"
+    "chunkName": "pages/diseases/index",
+    "_name": "_d3d0f9ac"
   },
   {
     "name": "healthCareProfessionals",
     "path": "/healthCareProfessionals",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthCareProfessionals\\\\index.vue",
-    "chunkName": "pages/healthCareProfessionals/index"
+    "chunkName": "pages/healthCareProfessionals/index",
+    "_name": "_0793d0f4"
   },
   {
     "name": "patients",
     "path": "/patients",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\index.vue",
-    "chunkName": "pages/patients/index"
+    "chunkName": "pages/patients/index",
+    "_name": "_3787119a"
   },
   {
     "name": "administrators-username",
     "path": "/administrators/:username",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators\\\\_username.vue",
-    "chunkName": "pages/administrators/_username"
+    "chunkName": "pages/administrators/_username",
+    "_name": "_5ed7e5c4"
   },
   {
     "name": "biomedicData-code",
     "path": "/biomedicData/:code",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicData\\\\_code.vue",
-    "chunkName": "pages/biomedicData/_code"
+    "chunkName": "pages/biomedicData/_code",
+    "_name": "_4f38d9d3"
   },
   {
     "name": "biomedicMeasures-code",
     "path": "/biomedicMeasures/:code",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicMeasures\\\\_code.vue",
-    "chunkName": "pages/biomedicMeasures/_code"
+    "chunkName": "pages/biomedicMeasures/_code",
+    "_name": "_28dd9548"
   },
   {
     "name": "diseases-code",
     "path": "/diseases/:code",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases\\\\_code.vue",
-    "chunkName": "pages/diseases/_code"
+    "chunkName": "pages/diseases/_code",
+    "_name": "_d03b97b8"
   },
   {
     "name": "healthCareProfessionals-username",
     "path": "/healthCareProfessionals/:username",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthCareProfessionals\\\\_username.vue",
-    "chunkName": "pages/healthCareProfessionals/_username"
+    "chunkName": "pages/healthCareProfessionals/_username",
+    "_name": "_3efba3d7"
   },
   {
     "name": "patients-username",
     "path": "/patients/:username",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\_username.vue",
-    "chunkName": "pages/patients/_username"
+    "chunkName": "pages/patients/_username",
+    "_name": "_a34ddad4"
   },
   {
     "name": "index",
     "path": "/",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_373b5e41"
   }
 ]

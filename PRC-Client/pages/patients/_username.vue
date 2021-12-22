@@ -175,11 +175,14 @@ export default {
     }
   },
   created() {
-    this.$axios.$get(`/api/patients/${this.username}`).then((entidade) => {
-      this.entidade = [entidade];
-    });
+    this.getPatient();
   },
   methods: {
+    getPatient(){
+      this.$axios.$get(`/api/patients/${this.username}`).then((entidade) => {
+        this.entidade = [entidade];
+      });
+    },
     update() {
       this.$axios
         .$put(`/api/patients/${this.username}`, {
@@ -194,7 +197,7 @@ export default {
           this.contact = null;
           this.birthDate = null;
            alert(`Patient ${this.username}  updated!`);
-            this.$router.go(0);
+            this.getPatient();
         });
     },
   },

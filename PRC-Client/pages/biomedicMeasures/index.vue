@@ -215,10 +215,54 @@ export default {
     return true;
   },
   },
+    methods: {
+      getBiomedicMeasures(){
+        this.$axios.$get("/api/patients").then((entidade) => {
+          this.patients = entidade;
+        });
+      },
+      create() {
+        if(!this.isFormValid){
+            alert("Fields are invalid - Correct them first!");
+            return;
+        }
+        this.$axios
+          .$post("/api/biomedicDataMeasures", {
+              date:this.date,
+              hour:this.hour,
+              biomedicDataTypeCode:this.biomedicDataType.code,
+              value:this.value,
+              usernamePatient:this.patient
+          })
+          .then((response) => {
+            console.log(response)
+            alert("Biomedic data measure "+response.code+" created with success!");
+            this.date = null;
+            this.hour = null;
+            this.biomedicDataType = null;
+            this.patient = null;
+            this.value = null;
+            this.getBiomedicMeasures();
+          })
+          .catch((error) => {
+            alert("Error" + error.response.data);
+          });
+      },
+      remove(code) {
+        this.$axios.$delete(`/api/biomedicDataMeasures/${code}`).then(() => {
+           alert("Biomedic data measure "+this.code+" deleted with success!");
+          this.$axios.$get("/api/biomedicDataMeasures").then((entidade) => {
+            this.entidade = entidade;
+          });
+        });
+      },
+      search(filteredItems) {
+        this.totalRows = filteredItems.length;
+        this.currentPage = 1;
+      },
+    },
   created() {
-    this.$axios.$get("/api/patients").then((entidade) => {
-      this.patients = entidade;
-    });
+    this.getBiomedicMeasures();
     this.$axios.$get("/api/biomedicDataTypes").then((entidade) => {
       this.biomedicDataTypes = entidade;
       //HERE qd for o healthcare prof meter apenas os seus pacientes
@@ -236,48 +280,6 @@ export default {
         });
       });
     });
-  },
-  methods: {
-
-    create() {
-      if(!this.isFormValid){
-          alert("Fields are invalid - Correct them first!");
-          return;
-      }
-      this.$axios
-        .$post("/api/biomedicDataMeasures", {
-            date:this.date,
-            hour:this.hour,
-            biomedicDataTypeCode:this.biomedicDataType.code,
-            value:this.value,
-            usernamePatient:this.patient
-        })
-        .then((response) => {
-          console.log(response)
-          alert("Biomedic data measure "+response.code+" created with success!");
-          this.date = null;
-          this.hour = null;
-          this.biomedicDataType = null;
-          this.patient = null;
-          this.value = null;
-          this.$router.go(0);
-        })
-        .catch((error) => {
-          alert("Error" + error.response.data);
-        });
-    },
-    remove(code) {
-      this.$axios.$delete(`/api/biomedicDataMeasures/${code}`).then(() => {
-         alert("Biomedic data measure "+this.code+" deleted with success!");
-        this.$axios.$get("/api/biomedicDataMeasures").then((entidade) => {
-          this.entidade = entidade;
-        });
-      });
-    },
-    search(filteredItems) {
-      this.totalRows = filteredItems.length;
-      this.currentPage = 1;
-    },
   },
 };
 </script>

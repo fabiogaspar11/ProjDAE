@@ -4,7 +4,7 @@
     <div class="d-flex justify-content-center" style="margin-top: 4%">
       <template>
         <div>
-          <b-table striped hover :items="entidade" :fields="fields"></b-table>
+          <b-table striped hover :items="disease" :fields="fields"></b-table>
         </div>
       </template>
     </div>
@@ -25,7 +25,7 @@
     <div class="d-flex justify-content-center" style="margin-top: 4%">
       <template>
         <div>
-          <b-table v-if="patients.length" striped hover :items="patients" :fields="fieldsPatient">
+          <b-table v-if="patients != []" striped hover :items="patients" :fields="fieldsPatient">
             <template #cell(show_details)="row">
               <b-button size="sm" @click="row.toggleDetails" class="mr-2">
                 {{ row.detailsShowing ? "Hide" : "Show" }} Details
@@ -96,7 +96,6 @@ export default {
         "show_details",
       ],
       disease: {},
-      entidade: [],
       patients: [],
       patientsAll:[],
       username: null,
@@ -134,21 +133,27 @@ export default {
     }
   },
   created() {
-    this.$axios.$get(`/api/diseases/${this.code}`)
-      .then(disease =>
-        this.disease = disease || {})
-      .then(() => this.$axios.$get(`/api/diseases/${this.code}/patients`))
-      .then(patients => this.patients = patients)
-    this.$axios.$get(`/api/diseases`)
-      .then(entidade =>
-        this.entidade = entidade
-      )
+    this.getDisease();
     this.$axios.$get(`/api/patients`)
       .then(patients =>
         this.patientsAll = patients
       )
   },
   methods: {
+    getDisease(){
+      this.$axios.$get(`/api/diseases/${this.code}`)
+        .then(disease =>
+       {
+          this.disease = [disease];
+          if(disease.patientDTOS.length == 0){
+            return;
+          }
+          disease.patientDTOS.forEach(patient => {
+            this.patients.push(patient)
+          });
+       });
+
+    },
     remove() {
       this.$axios.$delete(`/api/patients/${this.username}`).then(()=>{
         this.$router.push("/patients")
@@ -167,7 +172,7 @@ export default {
         .then(() => {
           alert("Disease "+ this.name + " updated succesfully");
           this.name = null;
-           this.$router.go(0);
+          this.getDisease();
         });
     },
     isExist: function (patient){
@@ -179,10 +184,7 @@ export default {
       return true
     },
     enroll() {
-      this.$axios.$post(`/api/diseases/${this.code}/${this.username}`, {
-        code: this.code,
-        username: this.username
-      })
+      this.$axios.$put(`/api/diseases/${this.code}/${this.username}`)
       this.$axios.get(`/api/diseases/${this.code}`)
         .then(() => this.$axios.$get(`/api/diseases/${this.code}/patients`))
         .then(patients => this.patients = patients)

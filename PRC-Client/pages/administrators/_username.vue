@@ -201,14 +201,17 @@ export default {
     }
   },
   created() {
-    this.$axios.$get(`/api/administrators/${this.username}`).then((entidade) => {
-      this.entidade = [entidade];
-    });
+    this.getAllAdministrator();
   },
   methods: {
+    getAllAdministrator(){
+      this.$axios.$get(`/api/administrators/${this.username}`).then((entidade) => {
+        this.entidade = [entidade];
+      });
+    },
     remove() {
       this.$axios.$delete(`/api/administrators/${this.username}`).then(()=>{
-      this.$router.go(-1);
+       this.getAllAdministrator();
       })
     },
     update() {
@@ -235,7 +238,7 @@ export default {
         .$put(`/api/administrators/${this.username}`, adminUpdated)
         .then(() => {
            alert(`Administrator ${this.username}  updated!`);
-          this.$router.go(0);
+           this.getAllAdministrator();
         })
         .catch((error) => {
          console.log(error.response.data)
