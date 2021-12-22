@@ -403,7 +403,7 @@ export default {
       return true
     },
     enroll() {
-      this.$axios.$post(`/api/healthcareProfessionals/${this.username}/${this.usernamePatient}`, {
+      this.$axios.$post(`/api/healthcareProfessionals/${this.username}/AddPatient/${this.usernamePatient}`, {
         username: this.username,
         usernamePatient: this.usernamePatient
       })
@@ -412,7 +412,7 @@ export default {
         .then(patients => this.patients = patients)
     },
     unroll() {
-      this.$axios.delete(`/api/healthcareProfessionals/${this.username}/${this.usernamePatient}`)
+      this.$axios.delete(`/api/healthcareProfessionals/${this.username}/RemovePatient/${this.usernamePatient}`)
       this.$axios.get(`/api/healthcareProfessionals/${this.username}`)
         .then(() => this.$axios.$get(`/api/healthcareProfessionals/${this.username}/patients`))
         .then(patients => this.patients = patients)

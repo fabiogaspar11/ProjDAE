@@ -127,7 +127,7 @@ GET http://localhost:8080/PRC/api/healthcareProfessionals/H111111321/prescriptio
 POST http://localhost:8080/PRC/api/healthcareProfessionals/H394628427/AddPatient/P123456789
 
 ########## REMOVE PATIENT ##########
-POST http://localhost:8080/PRC/api/healthcareProfessionals/H394628427/RemovePatient/P123456789
+POST http://localhost:8080/PRC/api/healthcareProfessionals/H111111321/RemovePatient/P123456789
 
 ########## Update ##########
 PUT http://localhost:8080/PRC/api/healthcareProfessionals/H987654321/password
