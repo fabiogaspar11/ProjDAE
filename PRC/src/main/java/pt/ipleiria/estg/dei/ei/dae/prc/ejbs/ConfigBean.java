@@ -45,8 +45,8 @@ public class ConfigBean {
         administratorBean.create("Ricardo Reis","ricardo.reis@clinic.com", "password", "17/04/1960", "919191911", 142394274);
         administratorBean.create("Alicia Mendes","alicia.mendes@clinic.com", "qwerty", "02/10/1966", "918347563", 123475471);
 
-        biomedicDataTypeBean.create(1,"Febre","ºC",30,45);
-        biomedicDataTypeBean.create(2, "Obesidade", "Kilogramas", 40, 100);
+        //biomedicDataTypeBean.create(1,"Febre","ºC",30,45);
+        //biomedicDataTypeBean.create(2, "Obesidade", "Kilogramas", 40, 100);
 
         prescriptionBean.create(1, "Prescrição - Medicamentos", "Ipobrunfeno - 3g/dia, Griponal - 5g/dia", "01/11/2021", "01/12/2021", usernameP1, usernameH1);
         int code = diseaseBean.create("Hipertensão");

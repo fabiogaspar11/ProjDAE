@@ -16,9 +16,9 @@
   {
     "name": "biomedicMeasures",
     "path": "/biomedicMeasures",
-    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicMeasures\\\\index.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicMeasures\\\\index.vue",
     "chunkName": "pages/biomedicMeasures/index",
-    "_name": "_2712e44e"
+    "_name": "_2507025d"
   },
   {
     "name": "diseases",
@@ -58,9 +58,9 @@
   {
     "name": "biomedicMeasures-code",
     "path": "/biomedicMeasures/:code",
-    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicMeasures\\\\_code.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicMeasures\\\\_code.vue",
     "chunkName": "pages/biomedicMeasures/_code",
-    "_name": "_28dd9548"
+    "_name": "_26d1b357"
   },
   {
     "name": "diseases-code",

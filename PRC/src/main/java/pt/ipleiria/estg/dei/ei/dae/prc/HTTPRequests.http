@@ -107,7 +107,7 @@ Content-Type: application/json
 DELETE http://localhost:8080/PRC/api/healthcareProfessionals/H111111321
 
 ########## GET DETAILS ##########
-GET http://localhost:8080/PRC/api/healthcareProfessionals/H987654321
+GET http://localhost:8080/PRC/api/healthcareProfessionals/H111111321
 
 
 
