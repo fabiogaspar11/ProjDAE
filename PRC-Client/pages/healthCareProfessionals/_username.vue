@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <h1 style="margin-top: 4%" class="d-flex justify-content-center"> HealthCare Professionals (Details) </h1>
+    <h1 style="margin-top: 4%" class="d-flex justify-content-center"> HealthCare Professionals </h1>
     <div class="d-flex justify-content-center" style="margin-top: 2%">
       <template>
         <div>
@@ -23,18 +23,56 @@
         </b-col>
       </b-row>
     </b-container>
-    <h3 style="margin-top: 4%" class="d-flex justify-content-center"> HealthCare Professionals (prescriptions) </h3>
+    <h3 style="margin-top: 4%" class="d-flex justify-content-center"> Patients </h3>
     <div class="d-flex justify-content-center" style="margin-top: 2%">
-      <b-dropdown id="dropdown-left" text="Prescriptions" variant="secondary">
-        <b-dropdown-item href="#" v-for="fieldPrescription in fieldsPrescription" :key="fieldPrescription.code" :value="fieldPrescription.code">{{ fieldPrescription.code }}</b-dropdown-item>
-      </b-dropdown>
+      <template>
+        <div>
+          <b-table striped hover :items="patients" :fields="fieldsPatient"></b-table>
+        </div>
+      </template>
     </div>
-    <div class="d-flex justify-content-center" style="margin-top: 2%">
-      <b-dropdown id="dropdown-left" text="Prescriptions" variant="secondary">
-        <b-dropdown-item href="#" v-for="fieldPrescription in fieldsPrescription" :key="fieldPrescription.code" :value="fieldPrescription.code">{{ fieldPrescription.code }}</b-dropdown-item>
-      </b-dropdown>
-    </div>
-
+    <template >
+      <div>
+        <b-container>
+          <b-row  class="d-flex justify-content-center">
+            <b-col sm="2">
+              <p> Add Patient: </p>
+            </b-col>
+            <b-col sm="2">
+              <b-form-select size="sm" v-model="usernamePatient">
+                <template v-for="patient in patientsAll">
+                  <option v-if="isExist(patient)" :key="patient.username" :value="patient.username">
+                    {{ patient.name }}
+                  </option>
+                </template>
+              </b-form-select>
+            </b-col>
+            <b-col sm="4">
+              <b-button variant="info" @click.prevent="enroll">ADD PATIENT</b-button>
+            </b-col>
+          </b-row>
+        </b-container>
+        <b-container>
+        <b-row  class="d-flex justify-content-center">
+          <b-col sm="2">
+            <p> Remove Patient: </p>
+          </b-col>
+          <b-col sm="2">
+            <b-form-select size="sm" v-model="usernamePatient">
+              <template v-for="patient in patients">
+                <option :key="patient.username" :value="patient.username">
+                  {{ patient.name }}
+                </option>
+              </template>
+            </b-form-select>
+          </b-col>
+          <b-col sm="4">
+            <b-button variant="danger" @click.prevent="unroll">REMOVE PATIENT</b-button>
+          </b-col>
+        </b-row>
+        </b-container>
+      </div>
+    </template>
 
 
     <b-modal id="modal-1" title="Edit" @ok="update">
@@ -116,6 +154,8 @@ export default {
       healthCareProfessional: [],
       prescription: [],
       patients: [],
+      patientsAll:[],
+      usernamePatient: null,
       state: true,
       healthNumber : null,
       name : null,
@@ -134,6 +174,18 @@ export default {
   },
   props: {
     url: String,
+  },
+  created() {
+    this.getHealthCareProfessionalData()
+    this.$axios.$get(`/api/healthcareProfessionals/${this.username}/prescriptions`).then((entidade) => {
+      this.prescription = [entidade];
+    });
+    this.$axios.$get(`/api/healthcareProfessionals/${this.username}/patients`).then((entidade) => {
+      this.patients = entidade;
+    });
+    this.$axios.$get(`/api/patients`).then(patients => {
+      this.patientsAll = patients
+    })
   },
   computed: {
     username() {
@@ -287,19 +339,11 @@ export default {
       return true;
     }
   },
-  created() {
-    this.getHealthCareProfessionalData()
-    this.$axios.$get(`/api/healthcareProfessionals/${this.username}/prescriptions`).then((entidade) => {
-      this.prescription = [entidade];
-    });
-    this.$axios.$get(`/api/healthcareProfessionals/${this.username}/patients`).then((entidade) => {
-      this.patients = [entidade];
-    });
-  },
   methods: {
     getHealthCareProfessionalData(){
       this.$axios.$get(`/api/healthcareProfessionals/${this.username}`).then((entidade) => {
         this.healthCareProfessional = [entidade];
+        console.log(this.healthCareProfessional)
       });
     },
     update(bvModalEvt) {
@@ -349,6 +393,29 @@ export default {
       else{
         this.showDismissibleAlertPassword = true;
       }
+    },
+    isExist: function (patient){
+      for (let studentInSubject of this.patients){
+        if (studentInSubject.username === patient.username){
+          return false
+        }
+      }
+      return true
+    },
+    enroll() {
+      this.$axios.$post(`/api/healthcareProfessionals/${this.username}/AddPatient/${this.usernamePatient}`, {
+        username: this.username,
+        usernamePatient: this.usernamePatient
+      })
+      this.$axios.get(`/api/healthcareProfessionals/${this.username}`)
+        .then(() => this.$axios.$get(`/api/healthcareProfessionals/${this.username}/patients`))
+        .then(patients => this.patients = patients)
+    },
+    unroll() {
+      this.$axios.delete(`/api/healthcareProfessionals/${this.username}/RemovePatient/${this.usernamePatient}`)
+      this.$axios.get(`/api/healthcareProfessionals/${this.username}`)
+        .then(() => this.$axios.$get(`/api/healthcareProfessionals/${this.username}/patients`))
+        .then(patients => this.patients = patients)
     },
   },
 };

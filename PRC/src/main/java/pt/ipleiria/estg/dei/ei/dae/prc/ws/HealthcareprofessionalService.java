@@ -112,7 +112,7 @@ public class HealthcareprofessionalService {
     public Response getHealthcareprofessionalDetails(@PathParam("username") String username) throws MyEntityNotFoundException {
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         return Response.status(Response.Status.OK)
-                .entity(toDTO(healthcareProfessional))
+                .entity(toDTONoPatients(healthcareProfessional))
                 .build();
     }
 
