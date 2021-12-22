@@ -50,7 +50,7 @@ public class BiomedicDataMeasureBean {
         entityManager.remove(entityManager.merge(biomedicDataMeasure));
     }
     public void update(BiomedicDataMeasure biomedicDataMeasure, BiomedicDataMeasureDTO biomedicDataMeasureDTO) throws MyEntityNotFoundException {
-        if(biomedicDataMeasureDTO.getValue() != 0 && biomedicDataMeasure.getValue() != biomedicDataMeasureDTO.getValue()){
+        if(biomedicDataMeasureDTO.getValue() != 0 && biomedicDataMeasure.getValue() != biomedicDataMeasureDTO.getValue() && biomedicDataMeasureDTO.getValue() >= biomedicDataMeasure.getBiomedicDataType().getMinValue() && biomedicDataMeasureDTO.getValue() <= biomedicDataMeasure.getBiomedicDataType().getMaxValue()){
             biomedicDataMeasure.setValue(biomedicDataMeasureDTO.getValue());
         }
         if(biomedicDataMeasureDTO.getDate() != null && !biomedicDataMeasure.getDate().equals(biomedicDataMeasureDTO.getDate())){
