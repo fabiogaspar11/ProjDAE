@@ -22,7 +22,7 @@
     <b-modal id="modal-1" title="New disease" @ok="create()">
       <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
-        <b-input v-model.trim="name" type="text" :state="isNameValid" class="form-control" required aria-describedby="basic-addon1"/>
+        <b-input v-model.trim="name" type="text" :state="isNameValid" placeholder="Enter name" class="form-control" required aria-describedby="basic-addon1"/>
         <p>{{isNameValidFeedback}}</p>
       </div>
     </b-modal>

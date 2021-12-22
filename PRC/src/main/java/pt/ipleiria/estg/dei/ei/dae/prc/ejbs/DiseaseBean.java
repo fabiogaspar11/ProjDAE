@@ -15,7 +15,7 @@ public class DiseaseBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public int create(String name) throws MyEntityExistsException, MyEntityNotFoundException {
+    public long create(String name) throws MyEntityExistsException, MyEntityNotFoundException {
 
         Disease disease = new Disease(name);
         entityManager.persist(disease);
@@ -40,13 +40,13 @@ public class DiseaseBean {
         return (List<Disease>) entityManager.createNamedQuery("getAllDiseases").getResultList();
     }
 
-    public Disease findDisease(int code) throws MyEntityNotFoundException {
+    public Disease findDisease(long code) throws MyEntityNotFoundException {
         Disease disease = entityManager.find(Disease.class, code);
         if (disease ==null) throw new MyEntityNotFoundException("There is no Disease with code: " + code);
         return disease;
     }
 
-    public void addDiseaseToPatient(int code, String username) throws MyEntityNotFoundException {
+    public void addDiseaseToPatient(long code, String username) throws MyEntityNotFoundException {
         Disease disease = findDisease(code);
         Patient patient = entityManager.find(Patient.class, username);
         if (patient != null) {
@@ -59,7 +59,7 @@ public class DiseaseBean {
         }
     }
 
-    public void removeDiseaseFromPatient(int code, String username) throws MyEntityNotFoundException {
+    public void removeDiseaseFromPatient(long code, String username) throws MyEntityNotFoundException {
         Disease disease = findDisease(code);
         Patient patient = entityManager.find(Patient.class, username);
         if (patient != null) {

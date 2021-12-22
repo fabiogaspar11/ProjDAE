@@ -16,7 +16,7 @@ import java.util.List;
 public class Disease {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int code;
+    private long code;
     @NotNull
     private String name;
 
@@ -47,11 +47,11 @@ public class Disease {
         this.patients = patients;
     }
 
-    public int getCode() {
+    public long getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(long code) {
         this.code = code;
     }
 

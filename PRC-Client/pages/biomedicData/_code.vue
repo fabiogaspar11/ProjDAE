@@ -24,6 +24,7 @@
           class="form-control"
           aria-describedby="basic-addon1"
          :state="isNameValid"
+         placeholder="Enter name"
         />
         <p>{{isNameValidFeedback}}</p>
       </div>
@@ -35,6 +36,7 @@
           class="form-control"
           aria-describedby="basic-addon1"
           :state="isUnitValid"
+          placeholder="Enter unit"
         />
         <p>{{isUnitValidFeedback}}</p>
      </div>
@@ -45,7 +47,8 @@
           type="number"
           class="form-control"
           aria-describedby="basic-addon1"
-               :state="isMinValueValid"
+          :state="isMinValueValid"
+          placeholder="Enter minimum value"
         />
         <p>{{isMinValueValidFeedback}}</p>
       </div>
@@ -56,6 +59,7 @@
           type="number"
           class="form-control"
           aria-describedby="basic-addon1"
+          placeholder="Enter maximum value"
        />
         <p>{{isMaxValueValidFeedback}}</p>
       </div>
@@ -150,14 +154,14 @@ export default {
     },
   },
   created() {
-    this.$axios.$get(`/api/biomedicDataType/${this.code}`).then((entidade) => {
+    this.$axios.$get(`/api/biomedicDataTypes/${this.code}`).then((entidade) => {
       this.entidade = [entidade];
     });
   },
   methods: {
     update() {
       this.$axios
-        .$put(`/api/biomedicDataType/${this.code}`, {
+        .$put(`/api/biomedicDataTypes/${this.code}`, {
           name: this.name,
           unitMeasure: this.unitMeasure,
           minValue: this.minValue,
@@ -170,7 +174,7 @@ export default {
           this.minValue = null;
           this.maxValue = null;
           this.$axios
-            .$get(`/api/biomedicDataType/${this.code}`)
+            .$get(`/api/biomedicDataTypes/${this.code}`)
             .then((entidade) => {
               this.entidade = [entidade];
             });

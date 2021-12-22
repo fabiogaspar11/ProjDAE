@@ -30,6 +30,7 @@
           class="form-control"
           aria-describedby="basic-addon1"
            :state="isNameValid"
+           placeholder="Enter name"
         />
         <p>{{isNameValidFeedback}}</p>
       </div>
@@ -41,6 +42,7 @@
           class="form-control"
           aria-describedby="basic-addon1"
          :state="isUnitValid"
+         placeholder="Enter unit"
         />
         <p>{{isUnitValidFeedback}}</p>
       </div>
@@ -52,6 +54,7 @@
           class="form-control"
           aria-describedby="basic-addon1"
          :state="isMinValueValid"
+         placeholder="Enter minimum value"
         />
         <p>{{isMinValueValidFeedback}}</p>
       </div>
@@ -63,6 +66,7 @@
           class="form-control"
           aria-describedby="basic-addon1"
           :state="isMaxValueValid"
+          placeholder="Enter maximum value"
         />
         <p>{{isMaxValueValidFeedback}}</p>
       </div>
@@ -212,7 +216,7 @@ export default {
     }
   },
   created() {
-    this.$axios.$get("/api/biomedicDataType").then((entidade) => {
+    this.$axios.$get("/api/biomedicDataTypes").then((entidade) => {
       this.entidade = entidade;
     });
   },
@@ -226,7 +230,7 @@ export default {
           return;
       }
       this.$axios
-        .$post("/api/biomedicDataType", {
+        .$post("/api/biomedicDataTypes", {
           name: this.name,
           unitMeasure: this.unitMeasure,
           minValue: this.minValue,
@@ -243,9 +247,9 @@ export default {
         });
     },
     remove(code) {
-      this.$axios.$delete(`/api/biomedicDataType/${code}`).then(() => {
+      this.$axios.$delete(`/api/biomedicDataTypes/${code}`).then(() => {
          alert("Biomedic data type "+this.name+" deleted with success!");
-        this.$axios.$get("/api/biomedicDataType").then((entidade) => {
+        this.$axios.$get("/api/biomedicDataTypes").then((entidade) => {
           this.entidade = entidade;
         });
       });

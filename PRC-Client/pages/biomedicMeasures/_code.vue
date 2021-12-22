@@ -4,7 +4,7 @@
     <div class="d-flex justify-content-center" style="margin-top: 4%">
       <template>
         <div>
-          <b-table striped hover :items="entidade"></b-table>
+          <b-table striped hover :items="entidade"  :fields="fields"></b-table>
         </div>
       </template>
     </div>
@@ -16,48 +16,20 @@
     </div>
 
     <b-modal id="modal-1" title="Edit Biomedic Data Type" @ok="update()">
-      <div class="input-group mb-4">
-        <span class="input-group-text">Name:</span>
-        <b-input
-          v-model="name"
-          type="text"
-          class="form-control"
-          aria-describedby="basic-addon1"
-         :state="isNameValid"
-        />
-        <p>{{isNameValidFeedback}}</p>
+        <div class="input-group mb-4">
+          <span class="input-group-text">Date</span>
+          <b-input required  v-model.trim="date" type="text" :state="isDateValid"  placeholder="dd/mm/yyyy" class="form-control" aria-describedby="basic-addon1 "/>
+          <p>{{isDateValidFeedback}}</p>
       </div>
       <div class="input-group mb-4">
-        <span class="input-group-text">Unit Measure:</span>
-        <b-input
-          v-model="unitMeasure"
-          type="text"
-          class="form-control"
-          aria-describedby="basic-addon1"
-          :state="isUnitValid"
-        />
-        <p>{{isUnitValidFeedback}}</p>
-     </div>
-      <div class="input-group mb-4">
-        <span class="input-group-text">Minimum value:</span>
-        <b-input
-          v-model="minValue"
-          type="number"
-          class="form-control"
-          aria-describedby="basic-addon1"
-               :state="isMinValueValid"
-        />
-        <p>{{isMinValueValidFeedback}}</p>
+          <span class="input-group-text">Hour</span>
+          <b-input required  v-model.trim="hour" type="text" :state="isHourValid"  placeholder="HH:MM" class="form-control" aria-describedby="basic-addon1 "/>
+          <p>{{isHourValidFeedback}}</p>
       </div>
       <div class="input-group mb-4">
-        <span class="input-group-text">Maximum value:</span>
-        <b-input
-          v-model="maxValue"
-          type="number"
-          class="form-control"
-          aria-describedby="basic-addon1"
-       />
-        <p>{{isMaxValueValidFeedback}}</p>
+          <span class="input-group-text">Value</span>
+          <b-input required  v-model.trim="value" type="number" :state="isValueValid"  placeholder="Enter the value" class="form-control" aria-describedby="basic-addon1 "/>
+          <p>{{isValueValidFeedback}}</p>
       </div>
     </b-modal>
   </div>
@@ -70,11 +42,24 @@
 export default {
   data() {
     return {
+       fields: [
+        { key: "code", label: "Code" },
+        { key: "usernamePatient", label: "Patient Username"},
+        { key: "biomedicDataType", label: "Biomedic Data Type"},
+        { key: "minValue", label: "Minimum Value"},
+        { key: "maxValue", label: "Maximum Value"},
+        { key: "value", label: "Value"},
+        { key: "date", label: "Date"},
+        { key: "hour", label: "Hour" }
+      ],
       entidade: [],
-      name: null,
-      unitMeasure: null,
-      minValue: null,
-      maxValue: null,
+      date: null,
+      hour:null,
+      value:null,
+      biomedicDataMeasure:{},
+      biomedicDataTypes:[],
+      minVal:null,
+      maxVal:null
     };
   },
   props: {
@@ -84,96 +69,99 @@ export default {
     code() {
       return this.$route.params.code;
     },
-        isNameValidFeedback (){
-        if (!this.name) {
+      isDateValidFeedback () {
+        if (!this.date) {
           return null
         }
-        let nameLen = this.name.length
-        if (nameLen < 3 || nameLen > 25) {
-           return 'The name is too short - length must be between 3 and 25'
+       var date_regex = /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
+        return date_regex.test(this.date) ? '':'The date is invalid - format dd/mm/yyyy';
+    },
+    isDateValid () {
+        if (this.isDateValidFeedback === null) {
+          return null
+        }
+        return this.isDateValidFeedback === ''
+    },
+    isHourValidFeedback () {
+        if (!this.hour) {
+          return null
+        }
+        var hour_regex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+        return hour_regex.test(this.hour) ? '':'The hour is invalid - format HH:MM';
+    },
+    isHourValid() {
+        if (this.isHourValidFeedback === null) {
+          return null
+        }
+        return this.isHourValidFeedback === ''
+    },
+     isValueValidFeedback (){
+        if (!this.value) {
+          return null
+        }
+        let valueLen = this.value.length
+        if (valueLen < 1 || valueLen > 25) {
+           return 'The value is mandatory and must have between 1 and 25 digits'
+        }
+        if(this.value < this.minVal || this.value > this.maxVal){
+          return 'The value is invalid, the value must be between ' + "["+this.minVal+" , "+this.maxVal+" ]";
         }
         return ''
     },
-    isNameValid () {
-        if (this.isNameValidFeedback === null) {
+    isValueValid () {
+        if (this.isValueValidFeedback === null) {
            return null
         }
-        return this.isNameValidFeedback === ''
-    },
-    isUnitValidFeedback (){
-        if (!this.unitMeasure) {
-          return null
-        }
-        let unitMeasureLen = this.unitMeasure.length
-        if (unitMeasureLen < 1 || unitMeasureLen > 25) {
-           return 'The unit is too short - length must be between 1 and 25'
-        }
-        return ''
-    },
-    isUnitValid () {
-        if (this.isUnitValidFeedback === null) {
-           return null
-        }
-        return this.isUnitValidFeedback === ''
-    },
-   isMinValueValidFeedback (){
-        if (!this.minValue) {
-          return null
-        }
-        let minValueLen = this.minValue.length
-        if (minValueLen <= 0 || minValueLen > 25) {
-           return 'The minimum value is mandatory or is too big in size'
-        }
-        return ''
-    },
-    isMinValueValid () {
-        if (this.isMinValueValidFeedback === null) {
-           return null
-        }
-        return this.isMinValueValidFeedback === ''
-    },
-    isMaxValueValidFeedback (){
-        if (!this.maxValue) {
-          return null
-        }
-        let maxValueLen = this.maxValue.length
-        if (maxValueLen <= 0 || maxValueLen > 25) {
-           return 'The maximum value is mandatory or is too big in size'
-        }
-        return ''
-    },
-    isMaxValueValid () {
-        if (this.isMaxValueValidFeedback === null) {
-           return null
-        }
-        return this.isMaxValueValidFeedback === ''
-    },
+        return this.isValueValidFeedback === ''
+    }
   },
   created() {
-    this.$axios.$get(`/api/biomedicDataType/${this.code}`).then((entidade) => {
-      this.entidade = [entidade];
-    });
+    this.getBiomedicMeasure();
   },
   methods: {
-    update() {
-      this.$axios
-        .$put(`/api/biomedicDataType/${this.code}`, {
-          name: this.name,
-          unitMeasure: this.unitMeasure,
-          minValue: this.minValue,
-          maxValue: this.maxValue,
-        })
-        .then(() => {
-          alert("Biomedic data type "+this.name+" updated with success!");
-          this.name = null;
-          this.unitMeasure = null;
-          this.minValue = null;
-          this.maxValue = null;
-          this.$axios
-            .$get(`/api/biomedicDataType/${this.code}`)
-            .then((entidade) => {
-              this.entidade = [entidade];
+    getBiomedicMeasure(){
+      this.$axios.$get("/api/biomedicDataTypes").then((entidade) => {
+      this.biomedicDataTypes = entidade;
+        this.$axios.$get(`/api/biomedicDataMeasures/${this.code}`).then((entidade) => {
+          this.entidade = [entidade];
+            this.biomedicDataTypes.forEach(b => {
+              if(this.entidade[0].biomedicDataTypeCode === b.code){
+                this.entidade[0].biomedicDataType = b.name;
+                this.entidade[0].minValue = b.minValue + " " + b.unitMeasure;;
+                this.entidade[0].maxValue = b.maxValue + " " + b.unitMeasure;;
+                this.entidade[0].value += " " + b.unitMeasure;
+                this.minVal = b.minValue;
+                this.maxVal = b.maxValue;
+              }
             });
+        });
+    });
+    },
+    update() {
+
+      this.biomedicDataMeasure = {};
+      if(this.isDateValid){
+          this.biomedicDataMeasure.date =this.date;
+      }
+      if(this.isHourValid){
+          this.biomedicDataMeasure.hour =this.hour;
+      }
+       if(this.isValueValid){
+          this.biomedicDataMeasure.value =this.value;
+      }
+      if(this.biomedicDataMeasure == {}){
+        alert("Error - Nothing to update");
+        return;
+      }
+      this.$axios
+        .$put(`/api/biomedicDataMeasures/${this.code}`, this.biomedicDataMeasure)
+        .then(() => {
+          alert("Biomedic data measure "+this.code+" updated with success!");
+          this.biomedicDataMeasure={};
+          this.date = null;
+          this.hour = null;
+          this.value = null;
+          this.getBiomedicMeasure();
         });
     },
   },

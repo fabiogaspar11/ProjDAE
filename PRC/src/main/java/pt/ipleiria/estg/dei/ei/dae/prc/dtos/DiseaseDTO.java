@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class DiseaseDTO implements Serializable {
-    private int code;
+    private long code;
     private String name;
     private List<PatientDTO> patientDTOS;
 
@@ -18,7 +18,7 @@ public class DiseaseDTO implements Serializable {
         this();
         this.name = name;
     }
-    public DiseaseDTO(int code, String name) {
+    public DiseaseDTO(long code, String name) {
         this(name);
         this.code = code;
     }
@@ -28,17 +28,17 @@ public class DiseaseDTO implements Serializable {
         this.patientDTOS = patientDTOS;
     }
 
-    public DiseaseDTO(int code, String name, List<PatientDTO> patientDTOS) {
+    public DiseaseDTO(long code, String name, List<PatientDTO> patientDTOS) {
         this(name, patientDTOS);
         this.code = code;
     }
 
 
-    public int getCode() {
+    public long getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(long code) {
         this.code = code;
     }
 

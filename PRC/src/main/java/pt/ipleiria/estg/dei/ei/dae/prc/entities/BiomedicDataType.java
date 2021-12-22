@@ -19,6 +19,7 @@ import java.io.Serializable;
 @Entity
 public class BiomedicDataType implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long code;
     @NotNull
     private String name;
