@@ -8,23 +8,43 @@ public class PrescriptionDTO implements Serializable {
     private long code;
     private String title;
     private String observations;
+    private String isPharmacological;
+    private String treatmentInfo;
     private String emissionDate;
     private String expireDate;
     private String usernamePatient;
     private String usernameHealthcareProfessional;
 
-    public PrescriptionDTO(long code, String title, String observations, String emissionDate, String expireDate) {
+    public PrescriptionDTO() {
+    }
+
+    public PrescriptionDTO(long code, String title, String observations, String isPharmacological,String treatmentInfo, String emissionDate, String expireDate) {
         this.code = code;
         this.title = title;
         this.observations = observations;
+        this.isPharmacological = isPharmacological;
+        this.treatmentInfo = treatmentInfo;
         this.emissionDate = emissionDate;
         this.expireDate = expireDate;
     }
 
-    public PrescriptionDTO(long code, String title, String observations, String emissionDate, String expireDate, String usernamePatient, String usernameHealthcareProfessional) {
+    public PrescriptionDTO(long code, String title, String observations,String isPharmacological,String treatmentInfo, String emissionDate, String expireDate, String usernamePatient, String usernameHealthcareProfessional) {
         this.code = code;
         this.title = title;
         this.observations = observations;
+        this.isPharmacological = isPharmacological;
+        this.treatmentInfo = treatmentInfo;
+        this.emissionDate = emissionDate;
+        this.expireDate = expireDate;
+        this.usernamePatient = usernamePatient;
+        this.usernameHealthcareProfessional = usernameHealthcareProfessional;
+    }
+
+    public PrescriptionDTO(String title, String observations,String isPharmacological,String treatmentInfo, String emissionDate, String expireDate, String usernamePatient, String usernameHealthcareProfessional) {
+        this.title = title;
+        this.observations = observations;
+        this.isPharmacological = isPharmacological;
+        this.treatmentInfo = treatmentInfo;
         this.emissionDate = emissionDate;
         this.expireDate = expireDate;
         this.usernamePatient = usernamePatient;
@@ -85,5 +105,21 @@ public class PrescriptionDTO implements Serializable {
 
     public void setUsernamePatient(String usernamePatient) {
         this.usernamePatient = usernamePatient;
+    }
+
+    public String getIsPharmacological() {
+        return isPharmacological;
+    }
+
+    public void setIsPharmacological(String isPharmacological) {
+        this.isPharmacological = isPharmacological;
+    }
+
+    public String getTreatmentInfo() {
+        return treatmentInfo;
+    }
+
+    public void setTreatmentInfo(String treatmentInfo) {
+        this.treatmentInfo = treatmentInfo;
     }
 }

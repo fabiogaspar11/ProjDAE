@@ -3,8 +3,6 @@ package pt.ipleiria.estg.dei.ei.dae.prc.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 
 @Table(name = "prescriptions")
 @Entity
@@ -16,11 +14,16 @@ import java.util.List;
 })
 public class Prescription implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long code;
     @NotNull
     private String title;
     @NotNull
     private String observations;
+    @NotNull
+    private String isPharmacological;
+    @NotNull
+    private String treatmentInfo;
     @NotNull
     private String emissionDate;
     @NotNull
@@ -35,18 +38,17 @@ public class Prescription implements Serializable {
     private HealthcareProfessional healthcareProfessional;
 
     public Prescription() {
-
     }
 
-    public Prescription(long code, String title, String observations, String emissionDate, String expireDate, Patient patient, HealthcareProfessional healthcareProfessional) {
-        this.code = code;
+    public Prescription(String title, String observations,String isPharmacological,String treatmentInfo, String emissionDate, String expireDate, Patient patient, HealthcareProfessional healthcareProfessional) {
         this.title = title;
         this.observations = observations;
+        this.isPharmacological = isPharmacological;
+        this.treatmentInfo = treatmentInfo;
         this.emissionDate = emissionDate;
         this.expireDate = expireDate;
         this.patient = patient;
         this.healthcareProfessional = healthcareProfessional;
-
     }
 
 
@@ -104,5 +106,21 @@ public class Prescription implements Serializable {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    public String getIsPharmacological() {
+        return isPharmacological;
+    }
+
+    public void setIsPharmacological(String isPharmacological) {
+        this.isPharmacological = isPharmacological;
+    }
+
+    public String getTreatmentInfo() {
+        return treatmentInfo;
+    }
+
+    public void setTreatmentInfo(String treatmentInfo) {
+        this.treatmentInfo = treatmentInfo;
     }
 }

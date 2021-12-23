@@ -43,6 +43,8 @@ public class PatientService {
                 prescription.getCode(),
                 prescription.getTitle(),
                 prescription.getObservations(),
+                prescription.getIsPharmacological(),
+                prescription.getTreatmentInfo(),
                 prescription.getEmissionDate(),
                 prescription.getExpireDate(),
                 prescription.getPatient().getUsername(),

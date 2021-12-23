@@ -48,7 +48,12 @@ public class ConfigBean {
         biomedicDataTypeBean.create("Febre","ºC",30,45);
         biomedicDataTypeBean.create( "Obesidade", "Kilogramas", 40, 100);
 
-        prescriptionBean.create(1, "Prescrição - Medicamentos", "Ipobrunfeno - 3g/dia, Griponal - 5g/dia", "01/11/2021", "01/12/2021", usernameP1, usernameH1);
+        //prescriptionBean.create(1, "Prescrição - Medicamentos", "Ipobrunfeno - 3g/dia, Griponal - 5g/dia", "01/11/2021", "01/12/2021", "P123456789", );
+
+
+
+        prescriptionBean.create("Insuficiência cardíaca","Edema","Yes","Fazer exercicios que estimulem o coração","21/12/2021","21/12/2022","123456789","H111111321");
+        prescriptionBean.create("Arritmia","Arritmia very nice","No","Fazer dieta à base de carbohidratos","22/12/2021","22/12/2022","978675432","H987654321");
         long code = diseaseBean.create("Hipertensão");
         diseaseBean.addDiseaseToPatient(code, usernameP1);
 
