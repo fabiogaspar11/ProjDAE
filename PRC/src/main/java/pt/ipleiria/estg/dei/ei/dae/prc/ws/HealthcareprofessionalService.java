@@ -74,7 +74,7 @@ public class HealthcareprofessionalService {
     }
 
     private List<HealthcareProfessionalDTO> toDTOs(List<HealthcareProfessional> healthcareProfessionals) {
-        return healthcareProfessionals.stream().map(this::toDTO).collect(Collectors.toList());
+        return healthcareProfessionals.stream().map(this::toDTONoPatients).collect(Collectors.toList());
     }
 
     private List<PrescriptionDTO> prescriptionstoDTOs(List<Prescription> prescriptions) {
@@ -114,7 +114,7 @@ public class HealthcareprofessionalService {
     public Response getHealthcareprofessionalDetails(@PathParam("username") String username) throws MyEntityNotFoundException {
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         return Response.status(Response.Status.OK)
-                .entity(toDTO(healthcareProfessional))
+                .entity(toDTONoPatients(healthcareProfessional))
                 .build();
     }
 

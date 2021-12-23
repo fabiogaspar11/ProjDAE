@@ -19,6 +19,7 @@ import java.io.Serializable;
 @Entity
 public class BiomedicDataType implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long code;
     @NotNull
     private String name;
@@ -29,15 +30,19 @@ public class BiomedicDataType implements Serializable {
     @NotNull
     private float maxValue;
 
-    public BiomedicDataType(long code, String name, String unitMeasure, float minValue, float maxValue) {
-        this.code = code;
+    public BiomedicDataType() {
+    }
+
+    public BiomedicDataType(String name, String unitMeasure, float minValue, float maxValue) {
         this.name = name;
         this.unitMeasure = unitMeasure;
         this.minValue = minValue;
         this.maxValue = maxValue;
     }
 
-    public BiomedicDataType() {
+    public BiomedicDataType(long code, String name, String unitMeasure, float minValue, float maxValue) {
+        this(name,unitMeasure,minValue, maxValue);
+        this.code = code;
     }
 
     public long getCode() {

@@ -39,7 +39,7 @@ public class PatientBean {
         return patient;
     }
 
-    public void addDiseaseToPatient(String username, int code) throws MyEntityNotFoundException {
+    public void addDiseaseToPatient(String username, long code) throws MyEntityNotFoundException {
         Patient patient = findPatient(username);
         Disease disease = entityManager.find(Disease.class, code);
         if (disease != null) {
@@ -55,7 +55,7 @@ public class PatientBean {
         }
 
     }
-    public boolean removeDiseaseFromPatient(String usernamePatient, int code) throws MyEntityNotFoundException {
+    public boolean removeDiseaseFromPatient(String usernamePatient, long code) throws MyEntityNotFoundException {
         Patient patient = findPatient(usernamePatient);
         Disease disease = entityManager.find(Disease.class, code);
         if (disease == null){

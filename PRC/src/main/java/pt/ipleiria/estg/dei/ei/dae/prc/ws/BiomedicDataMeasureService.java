@@ -51,14 +51,13 @@ public class BiomedicDataMeasureService {
     @POST
     @Path("/")
     public Response createBiomedicDataMeasure(BiomedicDataMeasureDTO biomedicDataMeasureDTO) throws MyEntityExistsException, MyEntityNotFoundException {
-        biomedicDataMeasureBean.create(
-                biomedicDataMeasureDTO.getCode(),
+        long code = biomedicDataMeasureBean.create(
                 biomedicDataMeasureDTO.getValue(),
                 biomedicDataMeasureDTO.getDate(),
                 biomedicDataMeasureDTO.getHour(),
                 biomedicDataMeasureDTO.getUsernamePatient(),
                 biomedicDataMeasureDTO.getBiomedicDataTypeCode());
-        BiomedicDataMeasure biomedicDataMeasure = biomedicDataMeasureBean.findBiomedicDataMeasure(biomedicDataMeasureDTO.getCode());
+        BiomedicDataMeasure biomedicDataMeasure = biomedicDataMeasureBean.findBiomedicDataMeasure(code);
         return Response.status(Response.Status.CREATED)
                 .entity(toDTO(biomedicDataMeasure))
                 .build();

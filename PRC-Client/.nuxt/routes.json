@@ -14,6 +14,13 @@
     "_name": "_e88ca49e"
   },
   {
+    "name": "biomedicMeasures",
+    "path": "/biomedicMeasures",
+    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicMeasures\\\\index.vue",
+    "chunkName": "pages/biomedicMeasures/index",
+    "_name": "_d03f85b4"
+  },
+  {
     "name": "diseases",
     "path": "/diseases",
     "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases\\\\index.vue",
@@ -54,6 +61,13 @@
     "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicData\\\\_code.vue",
     "chunkName": "pages/biomedicData/_code",
     "_name": "_e4f742aa"
+  },
+  {
+    "name": "biomedicMeasures-code",
+    "path": "/biomedicMeasures/:code",
+    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicMeasures\\\\_code.vue",
+    "chunkName": "pages/biomedicMeasures/_code",
+    "_name": "_ccaa23c0"
   },
   {
     "name": "diseases-code",

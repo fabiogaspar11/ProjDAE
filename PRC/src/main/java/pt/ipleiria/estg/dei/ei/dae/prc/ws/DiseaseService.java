@@ -69,7 +69,7 @@ public class DiseaseService {
     @POST
     @Path("/")
     public Response createNewDisease (DiseaseDTO diseaseDTO) throws MyEntityExistsException, MyEntityNotFoundException {
-        int diseaseCode = diseaseBean.create(diseaseDTO.getName());
+        long diseaseCode = diseaseBean.create(diseaseDTO.getName());
         Disease newDisease = diseaseBean.findDisease(diseaseCode);
         return Response.status(Response.Status.CREATED)
                 .entity(toDTONoPatients(newDisease))

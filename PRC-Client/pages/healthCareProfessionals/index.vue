@@ -286,6 +286,7 @@ export default {
           password: this.password
         })
           .then(response => {
+             alert("Healthcare professional "+ this.name + " created succesfully");
             this.healthNumber = null;
             this.birthDate = null;
             this.name = null;

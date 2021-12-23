@@ -223,15 +223,18 @@ export default {
     };
   },
   created() {
-    this.$axios.$get("/api/patients").then((entidade) => {
-      this.entidade = entidade;
-    });
+    this.getAllPatients();
   },
   methods:{
+    getAllPatients(){
+        this.$axios.$get("/api/patients").then((entidade) => {
+          this.entidade = entidade;
+        });
+    },
     remove(username) {
       this.$axios.$delete(`/api/patients/${username}`).then(()=>{
       alert('Patient '+this.username +' was successfully removed');
-      this.$router.go(0);
+       this.getAllPatients();
       })
     },
     createPatient() {
@@ -255,7 +258,7 @@ export default {
           this.contact = null;
           this.email = null;
           this.healthNumber = null;
-          this.$router.go(0);
+          this.getAllPatients();
         })
         .catch(error => {
             alert("Error when creating Patient: "+ error.response.data);

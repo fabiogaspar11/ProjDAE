@@ -103,18 +103,57 @@ export default {
       currentPage: null,
     };
   },
+  methods:{
+    getAdministrators(){
+        this.$axios.$get("/api/administrators").then((entidade) => {
+        this.entidade = entidade;
+      });
+    },
+    search(filteredItems) {
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
+    },
+    remove(username, name){
+        this.$axios.$delete(`/api/administrators/${username}`).then(()=>{
+      alert('Administrator '+name +' was successfully removed');
+      this.getAdministrators();
+
+      })
+    },
+        createPatient() {
+      if(!this.isFormValid){
+          alert("Fields are invalid - Correct them first!");
+          return;
+      }
+      this.$axios.$post("/api/administrators", {
+        password: this.password,
+        email: this.email,
+        birthDate: this.birthDate,
+        name: this.name,
+        contact: this.contact,
+        healthNumber: this.healthNumber
+      })
+        .then(() => {
+          alert("Adminstrator "+ this.name + " created succesfully");
+          this.password = null;
+          this.name = null;
+          this.birthDate = null;
+          this.contact = null;
+          this.email = null;
+          this.healthNumber = null;
+         this.getAdministrators();
+        })
+        .catch(error => {
+            alert("Error when creating Adminstrator: "+ error.response.data);
+        });
+      }
+  },
   created() {
-    this.$axios.$get("/api/administrators").then((entidade) => {
-      this.entidade = entidade;
-      console.log(this.entidade.length)
-    });
+    this.getAdministrators();
   },
     computed: {
      tableLength: function () {
       return this.entidade.length;
-    },
-    username() {
-      return this.$route.params.username;
     },
      isNameValidFeedback (){
         if (!this.name) {
@@ -230,46 +269,6 @@ export default {
     }
       return true
     }
-  },
-  methods:{
-    search(filteredItems) {
-      this.totalRows = filteredItems.length;
-      this.currentPage = 1;
-    },
-    remove(username, name){
-       this.$axios.$delete(`/api/administrators/${username}`).then(()=>{
-      alert('Administrator '+name +' was successfully removed');
-      this.$router.go(0);
-
-      })
-    },
-       createPatient() {
-      if(!this.isFormValid){
-          alert("Fields are invalid - Correct them first!");
-          return;
-      }
-      this.$axios.$post("/api/administrators", {
-       password: this.password,
-       email: this.email,
-       birthDate: this.birthDate,
-       name: this.name,
-       contact: this.contact,
-       healthNumber: this.healthNumber
-      })
-        .then(response => {
-          alert("Adminstrator "+ this.name + " created succesfully");
-          this.password = null;
-          this.name = null;
-          this.birthDate = null;
-          this.contact = null;
-          this.email = null;
-          this.healthNumber = null;
-          this.$router.go(0);
-        })
-        .catch(error => {
-            alert("Error when creating Adminstrator: "+ error.response.data);
-        });
-     }
   },
 };
 </script>

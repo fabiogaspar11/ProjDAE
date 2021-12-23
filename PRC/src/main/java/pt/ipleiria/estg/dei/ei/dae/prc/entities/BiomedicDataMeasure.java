@@ -15,6 +15,7 @@ import java.io.Serializable;
 })
 public class BiomedicDataMeasure implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long code;
     @NotNull
     private double value;
@@ -32,6 +33,14 @@ public class BiomedicDataMeasure implements Serializable {
     private BiomedicDataType biomedicDataType;
 
     public BiomedicDataMeasure() {
+    }
+
+    public BiomedicDataMeasure(double value, String date, String hour, Patient patient, BiomedicDataType biomedicDataType) {
+        this.value = value;
+        this.date = date;
+        this.hour = hour;
+        this.patient = patient;
+        this.biomedicDataType = biomedicDataType;
     }
 
     public BiomedicDataMeasure(long code, double value, String date, String hour, Patient patient, BiomedicDataType biomedicDataType) {

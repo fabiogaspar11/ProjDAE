@@ -45,16 +45,22 @@ public class ConfigBean {
         administratorBean.create("Ricardo Reis","ricardo.reis@clinic.com", "password", "17/04/1960", "919191911", 142394274);
         administratorBean.create("Alicia Mendes","alicia.mendes@clinic.com", "qwerty", "02/10/1966", "918347563", 123475471);
 
-        biomedicDataTypeBean.create(1,"Febre","ºC",30,45);
-        biomedicDataTypeBean.create(2, "Obesidade", "Kilogramas", 40, 100);
+        biomedicDataTypeBean.create("Febre","ºC",30,45);
+        biomedicDataTypeBean.create( "Obesidade", "Kilogramas", 40, 100);
 
         //prescriptionBean.create(1, "Prescrição - Medicamentos", "Ipobrunfeno - 3g/dia, Griponal - 5g/dia", "01/11/2021", "01/12/2021", "P123456789", );
-        int code = diseaseBean.create("Hipertensão");
-        diseaseBean.addDiseaseToPatient(code, usernameP1);
+
 
 
         prescriptionBean.create("Insuficiência cardíaca","Edema","Yes","Fazer exercicios que estimulem o coração","21/12/2021","21/12/2022","123456789","H111111321");
         prescriptionBean.create("Arritmia","Arritmia very nice","No","Fazer dieta à base de carbohidratos","22/12/2021","22/12/2022","978675432","H987654321");
+        long code = diseaseBean.create("Hipertensão");
+        diseaseBean.addDiseaseToPatient(code, usernameP1);
+
+        //healthcareProfessionalBean.addPrescriptionFromHealthcareprofessional(code, usernameH1);
+        if (healthcareProfessionalBean.addPatientFromHealthcareprofessional(usernameP1,usernameH1)){
+            System.out.println("WEFEWSU9HFE7Y89UFEHU8WFGHY8EWGY8UEWDGY87FEWFYG78EWYG8FEWY678GF6Y7GET8WRYG678FEW");
+        };
 
         }catch (Exception e){
             logger.log(Level.SEVERE, e.getMessage());
