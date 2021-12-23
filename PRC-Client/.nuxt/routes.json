@@ -21,6 +21,13 @@
     "_name": "_2712e44e"
   },
   {
+    "name": "Dashboard",
+    "path": "/Dashboard",
+    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\Dashboard.vue",
+    "chunkName": "pages/Dashboard",
+    "_name": "_518fdb63"
+  },
+  {
     "name": "diseases",
     "path": "/diseases",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases\\\\index.vue",

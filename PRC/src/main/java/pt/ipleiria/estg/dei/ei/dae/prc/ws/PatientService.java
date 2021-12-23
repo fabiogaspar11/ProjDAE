@@ -79,10 +79,23 @@ public class PatientService {
                 disease.getName()
         );
     }
+    private PrescriptionDTO toDTOPrescription(Prescription prescription){
+        return new PrescriptionDTO(
+                prescription.getCode(),
+                prescription.getTitle(),
+                prescription.getObservations(),
+                prescription.getEmissionDate(),
+                prescription.getExpireDate(),
+                prescription.getPatient().getUsername(),
+                prescription.getHealthcareProfessional().getUsername()
+        );
+    }
     private List<DiseaseDTO> diseasesToDTOs(List<Disease> diseases) {
         return diseases.stream().map(this::toDTO).collect(Collectors.toList());
     }
-
+    private List<PrescriptionDTO> prescriptionsToDTOs(List<Prescription> prescriptions) {
+        return prescriptions.stream().map(this::toDTOPrescription).collect(Collectors.toList());
+    }
     @GET
     @Path("/")
     public List<PatientDTO> getAllPatientsWS() {
@@ -137,6 +150,14 @@ public class PatientService {
         return Response.status(Response.Status.OK)
                 .entity(toDTO(patient))
                 .build();
+    }
+
+    @GET
+    @Path("{username}/prescriptions")
+    public Response getPatientPrescriptions(@PathParam("username") String username) throws MyEntityNotFoundException {
+        Patient patient = patientBean.findPatient(username);
+        return Response.ok(prescriptionsToDTOs(patient.getPrescriptions())).build();
+
     }
 
     @DELETE

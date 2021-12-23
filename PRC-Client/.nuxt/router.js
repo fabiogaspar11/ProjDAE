@@ -7,6 +7,7 @@ import scrollBehavior from './router.scrollBehavior.js'
 const _a42c148a = () => interopDefault(import('..\\pages\\administrators\\index.vue' /* webpackChunkName: "pages/administrators/index" */))
 const _4d6e28d9 = () => interopDefault(import('..\\pages\\biomedicData\\index.vue' /* webpackChunkName: "pages/biomedicData/index" */))
 const _2712e44e = () => interopDefault(import('..\\pages\\biomedicMeasures\\index.vue' /* webpackChunkName: "pages/biomedicMeasures/index" */))
+const _518fdb63 = () => interopDefault(import('..\\pages\\Dashboard.vue' /* webpackChunkName: "pages/Dashboard" */))
 const _d3d0f9ac = () => interopDefault(import('..\\pages\\diseases\\index.vue' /* webpackChunkName: "pages/diseases/index" */))
 const _0793d0f4 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/index" */))
 const _3787119a = () => interopDefault(import('..\\pages\\patients\\index.vue' /* webpackChunkName: "pages/patients/index" */))
@@ -41,6 +42,10 @@ export const routerOptions = {
     path: "/biomedicMeasures",
     component: _2712e44e,
     name: "biomedicMeasures"
+  }, {
+    path: "/Dashboard",
+    component: _518fdb63,
+    name: "Dashboard"
   }, {
     path: "/diseases",
     component: _d3d0f9ac,

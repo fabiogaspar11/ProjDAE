@@ -226,6 +226,10 @@ export default {
     this.getAllPatients();
   },
   methods:{
+     search(filteredItems) {
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
+    },
     getAllPatients(){
         this.$axios.$get("/api/patients").then((entidade) => {
           this.entidade = entidade;
