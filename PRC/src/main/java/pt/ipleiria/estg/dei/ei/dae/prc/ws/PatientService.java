@@ -1,10 +1,12 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ws;
 
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.DiseaseDTO;
+import pt.ipleiria.estg.dei.ei.dae.prc.dtos.HealthcareProfessionalDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PatientDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PrescriptionDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.PatientBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Disease;
+import pt.ipleiria.estg.dei.ei.dae.prc.entities.HealthcareProfessional;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Prescription;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
@@ -92,11 +94,22 @@ public class PatientService {
                 prescription.getHealthcareProfessional().getUsername()
         );
     }
+    private HealthcareProfessionalDTO toDTOHealthCareProfessional(HealthcareProfessional healthcareProfessional){
+        return new HealthcareProfessionalDTO(
+                healthcareProfessional.getName(),
+                healthcareProfessional.getEmail(),
+                healthcareProfessional.getContact()
+        );
+    }
     private List<DiseaseDTO> diseasesToDTOs(List<Disease> diseases) {
         return diseases.stream().map(this::toDTO).collect(Collectors.toList());
     }
     private List<PrescriptionDTO> prescriptionsToDTOs(List<Prescription> prescriptions) {
         return prescriptions.stream().map(this::toDTOPrescription).collect(Collectors.toList());
+    }
+
+    private List<HealthcareProfessionalDTO> healthCareProfessionalsToDTOs(List<HealthcareProfessional> healthcareProfessionals){
+        return healthcareProfessionals.stream().map(this::toDTOHealthCareProfessional).collect(Collectors.toList());
     }
     @GET
     @Path("/")
@@ -121,6 +134,45 @@ public class PatientService {
                 .build();
     }
 
+    
+    @GET
+    @Path("{username}")
+    public Response getPatientDetails(@PathParam("username") String username) throws MyEntityNotFoundException {
+        Patient patient  = patientBean.findPatient(username);
+        return Response.status(Response.Status.OK)
+                .entity(toDTO(patient))
+                .build();
+    }
+
+    @DELETE
+    @Path("/{username}")
+    public Response deletePatient(@PathParam("username") String username) throws MyEntityNotFoundException {
+        Patient patient  = patientBean.findPatient(username);
+        patientBean.remove(patient);
+        return Response.status(Response.Status.OK)
+                .entity(toDTO(patient))
+                .build();
+    }
+
+    @PUT
+    @Path("/{username}")
+    public Response updatePatient(@PathParam("username") String username, PatientDTO patientDTO) throws MyEntityNotFoundException {
+        Patient patient  = patientBean.findPatient(username);
+        patientBean.update(patient, patientDTO);
+        return Response.status(Response.Status.OK)
+                .entity(toDTO(patient))
+                .build();
+    }
+
+    @GET
+    @Path("{username}/healthCareProfessionals")
+    public Response getPatientHealthCareProfessionals(@PathParam("username") String username) throws MyEntityNotFoundException {
+        Patient patient = patientBean.findPatient(username);
+        return Response.ok(healthCareProfessionalsToDTOs(patient.getHealthcareProfessionals())).build();
+
+    }
+
+
     @GET
     @Path("{username}/diseases")
     public Response getPatientDiseases(@PathParam("username") String username) throws MyEntityNotFoundException {
@@ -144,15 +196,6 @@ public class PatientService {
         Patient patient  = patientBean.findPatient(username);
         return Response.ok(diseasesToDTOs(patient.getDiseases())).build();
     }
-    
-    @GET
-    @Path("{username}")
-    public Response getPatientDetails(@PathParam("username") String username) throws MyEntityNotFoundException {
-        Patient patient  = patientBean.findPatient(username);
-        return Response.status(Response.Status.OK)
-                .entity(toDTO(patient))
-                .build();
-    }
 
     @GET
     @Path("{username}/prescriptions")
@@ -162,25 +205,7 @@ public class PatientService {
 
     }
 
-    @DELETE
-    @Path("/{username}")
-    public Response deletePatient(@PathParam("username") String username) throws MyEntityNotFoundException {
-        Patient patient  = patientBean.findPatient(username);
-        patientBean.remove(patient);
-        return Response.status(Response.Status.OK)
-                .entity(toDTO(patient))
-                .build();
-    }
 
-    @PUT
-    @Path("/{username}")
-    public Response updatePatient(@PathParam("username") String username, PatientDTO patientDTO) throws MyEntityNotFoundException {
-        Patient patient  = patientBean.findPatient(username);
-        patientBean.update(patient, patientDTO);
-        return Response.status(Response.Status.OK)
-                .entity(toDTO(patient))
-                .build();
-    }
     //TODO Duvida 1 - seria necessário estes dos metodos abaixo?
     @POST
     @Path("/{username}/addPrescription/{code}")
