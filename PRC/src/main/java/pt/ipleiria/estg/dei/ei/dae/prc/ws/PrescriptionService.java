@@ -11,6 +11,9 @@ import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +30,8 @@ public class PrescriptionService {
                 prescription.getCode(),
                 prescription.getTitle(),
                 prescription.getObservations(),
+                prescription.getIsPharmacological(),
+                prescription.getTreatmentInfo(),
                 prescription.getEmissionDate(),
                 prescription.getExpireDate(),
                 prescription.getPatient().getUsername(),
@@ -47,15 +52,18 @@ public class PrescriptionService {
     @POST
     @Path("/")
     public Response createNewPrescription(PrescriptionDTO prescriptionDTO) throws MyEntityExistsException, MyEntityNotFoundException {
-        prescriptionBean.create(
-                prescriptionDTO.getCode(),
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDateTime emissionDate = LocalDateTime.now();
+        long code = prescriptionBean.create(
                 prescriptionDTO.getTitle(),
                 prescriptionDTO.getObservations(),
-                prescriptionDTO.getEmissionDate(),
+                prescriptionDTO.getIsPharmacological(),
+                prescriptionDTO.getTreatmentInfo(),
+                dtf.format(emissionDate),
                 prescriptionDTO.getExpireDate(),
                 prescriptionDTO.getUsernamePatient(),
                 prescriptionDTO.getUsernameHealthcareProfessional());
-        Prescription prescription = prescriptionBean.findPrescription(prescriptionDTO.getCode());
+        Prescription prescription = prescriptionBean.findPrescription(code);
         return Response.status(Response.Status.CREATED)
                 .entity(toDTO(prescription))
                 .build();

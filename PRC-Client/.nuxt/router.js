@@ -4,17 +4,19 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _a42c148a = () => interopDefault(import('..\\pages\\administrators\\index.vue' /* webpackChunkName: "pages/administrators/index" */))
-const _4d6e28d9 = () => interopDefault(import('..\\pages\\biomedicData\\index.vue' /* webpackChunkName: "pages/biomedicData/index" */))
-const _d3d0f9ac = () => interopDefault(import('..\\pages\\diseases\\index.vue' /* webpackChunkName: "pages/diseases/index" */))
-const _0793d0f4 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/index" */))
-const _3787119a = () => interopDefault(import('..\\pages\\patients\\index.vue' /* webpackChunkName: "pages/patients/index" */))
-const _5ed7e5c4 = () => interopDefault(import('..\\pages\\administrators\\_username.vue' /* webpackChunkName: "pages/administrators/_username" */))
-const _4f38d9d3 = () => interopDefault(import('..\\pages\\biomedicData\\_code.vue' /* webpackChunkName: "pages/biomedicData/_code" */))
-const _d03b97b8 = () => interopDefault(import('..\\pages\\diseases\\_code.vue' /* webpackChunkName: "pages/diseases/_code" */))
-const _3efba3d7 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username" */))
-const _a34ddad4 = () => interopDefault(import('..\\pages\\patients\\_username.vue' /* webpackChunkName: "pages/patients/_username" */))
-const _373b5e41 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
+const _f130b6da = () => interopDefault(import('..\\pages\\administrators\\index.vue' /* webpackChunkName: "pages/administrators/index" */))
+const _e88ca49e = () => interopDefault(import('..\\pages\\biomedicData\\index.vue' /* webpackChunkName: "pages/biomedicData/index" */))
+const _0fd73402 = () => interopDefault(import('..\\pages\\diseases\\index.vue' /* webpackChunkName: "pages/diseases/index" */))
+const _d8dd55c8 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/index" */))
+const _5dfc280b = () => interopDefault(import('..\\pages\\patients\\index.vue' /* webpackChunkName: "pages/patients/index" */))
+const _5d9b21bc = () => interopDefault(import('..\\pages\\prescriptions\\index.vue' /* webpackChunkName: "pages/prescriptions/index" */))
+const _436e8ff6 = () => interopDefault(import('..\\pages\\administrators\\_username.vue' /* webpackChunkName: "pages/administrators/_username" */))
+const _e4f742aa = () => interopDefault(import('..\\pages\\biomedicData\\_code.vue' /* webpackChunkName: "pages/biomedicData/_code" */))
+const _11a1e4fc = () => interopDefault(import('..\\pages\\diseases\\_code.vue' /* webpackChunkName: "pages/diseases/_code" */))
+const _6a6a5802 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username" */))
+const _26b6d124 = () => interopDefault(import('..\\pages\\patients\\_username.vue' /* webpackChunkName: "pages/patients/_username" */))
+const _5a05bfc8 = () => interopDefault(import('..\\pages\\prescriptions\\_code.vue' /* webpackChunkName: "pages/prescriptions/_code" */))
+const _a43c85ce = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
 
@@ -29,47 +31,55 @@ export const routerOptions = {
 
   routes: [{
     path: "/administrators",
-    component: _a42c148a,
+    component: _f130b6da,
     name: "administrators"
   }, {
     path: "/biomedicData",
-    component: _4d6e28d9,
+    component: _e88ca49e,
     name: "biomedicData"
   }, {
     path: "/diseases",
-    component: _d3d0f9ac,
+    component: _0fd73402,
     name: "diseases"
   }, {
     path: "/healthCareProfessionals",
-    component: _0793d0f4,
+    component: _d8dd55c8,
     name: "healthCareProfessionals"
   }, {
     path: "/patients",
-    component: _3787119a,
+    component: _5dfc280b,
     name: "patients"
   }, {
+    path: "/prescriptions",
+    component: _5d9b21bc,
+    name: "prescriptions"
+  }, {
     path: "/administrators/:username",
-    component: _5ed7e5c4,
+    component: _436e8ff6,
     name: "administrators-username"
   }, {
     path: "/biomedicData/:code",
-    component: _4f38d9d3,
+    component: _e4f742aa,
     name: "biomedicData-code"
   }, {
     path: "/diseases/:code",
-    component: _d03b97b8,
+    component: _11a1e4fc,
     name: "diseases-code"
   }, {
     path: "/healthCareProfessionals/:username",
-    component: _3efba3d7,
+    component: _6a6a5802,
     name: "healthCareProfessionals-username"
   }, {
     path: "/patients/:username",
-    component: _a34ddad4,
+    component: _26b6d124,
     name: "patients-username"
   }, {
+    path: "/prescriptions/:code",
+    component: _5a05bfc8,
+    name: "prescriptions-code"
+  }, {
     path: "/",
-    component: _373b5e41,
+    component: _a43c85ce,
     name: "index"
   }],
 

@@ -18,24 +18,28 @@ public class PrescriptionBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(long code, String title, String observations, String emissionDate, String expireDate, String usernamePatient, String usernameHealthcareProfessional) throws MyEntityExistsException, MyEntityNotFoundException {
-        Prescription prescription = entityManager.find(Prescription.class,code);
-        if(prescription != null) {
-            throw new MyEntityExistsException("A Prescription with the code \'" + code + "\' already exists");
-        }
+    //emission date = data e hora atual
+    //code devia ser automático
+    public long create(String title, String observations,String isPharmacological,String treatmentInfo, String emissionDate, String expireDate, String healthNumberPatient, String usernameHealthcareProfessional) throws MyEntityExistsException, MyEntityNotFoundException {
+        String usernamePatient = "P" + healthNumberPatient;
         Patient patient = entityManager.find(Patient.class,usernamePatient);
         if(patient == null) {
-            throw new MyEntityNotFoundException("There is no Patient with the username \'" + usernamePatient + "\'");
+            throw new MyEntityNotFoundException("There is no Patient with the health number \'" + healthNumberPatient + "\'");
         }
         HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class, usernameHealthcareProfessional);
         if(healthcareProfessional == null) {
             throw new MyEntityNotFoundException("There is no Healthcare Professional with the username \'" + usernameHealthcareProfessional + "\'");
         }
-        prescription = new Prescription(code, title, observations, emissionDate, expireDate, patient, healthcareProfessional);
+        if(observations==null){
+            observations = "";
+        }
+        Prescription prescription = new Prescription(title, observations,isPharmacological,treatmentInfo, emissionDate, expireDate, patient, healthcareProfessional);
         patient.addPrescription(prescription);
         healthcareProfessional.addPrescription(prescription);
+        healthcareProfessional.addPatient(patient);
         entityManager.persist(prescription);
-        entityManager.merge(patient);
+        entityManager.flush();
+        return prescription.getCode();
     }
 
     public List<Prescription> getAllPrescriptions() {
