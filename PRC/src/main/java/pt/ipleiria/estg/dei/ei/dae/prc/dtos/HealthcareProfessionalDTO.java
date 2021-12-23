@@ -41,6 +41,11 @@ public class HealthcareProfessionalDTO implements Serializable {
         this.patients = patients;
         this.prescriptions = prescriptions;
     }
+    public HealthcareProfessionalDTO(String name, String email, String contact) {
+        this.name = name;
+        this.email = email;
+        this.contact = contact;
+    }
 
     public HealthcareProfessionalDTO(String passwordOld, String password) {
         this.passwordOld = passwordOld;

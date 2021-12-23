@@ -18,8 +18,7 @@
         <input type="submit" hre class="fadeIn fourth" value="Log In">
 
       </form>
-              <button @click="$router.push('patients')"></button>
-
+              <button @click="$router.push('dashboard')"></button><!--patients-->
     </div>
   </div>
 
