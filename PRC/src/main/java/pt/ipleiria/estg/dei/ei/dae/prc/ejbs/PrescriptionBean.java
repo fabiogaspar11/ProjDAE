@@ -65,10 +65,15 @@ public class PrescriptionBean {
         if(prescriptionDTO.getObservations() != null && !prescription.getObservations().equals(prescriptionDTO.getObservations())){
             prescription.setObservations(prescriptionDTO.getObservations());
         }
+        if(prescriptionDTO.getIsPharmacological() != null && !prescription.getIsPharmacological().equals(prescriptionDTO.getIsPharmacological())){
+            prescription.setIsPharmacological(prescriptionDTO.getIsPharmacological());
+        }
+        if(prescriptionDTO.getTreatmentInfo() != null && !prescription.getTreatmentInfo().equals(prescriptionDTO.getTreatmentInfo())){
+            prescription.setTreatmentInfo(prescriptionDTO.getTreatmentInfo());
+        }
         if(prescriptionDTO.getEmissionDate() != null && !prescription.getEmissionDate().equals(prescriptionDTO.getEmissionDate())){
             prescription.setEmissionDate(prescriptionDTO.getEmissionDate());
         }
-
         if(prescriptionDTO.getExpireDate() != null && !prescription.getExpireDate().equals(prescriptionDTO.getExpireDate())){
             prescription.setExpireDate(prescriptionDTO.getExpireDate());
         }

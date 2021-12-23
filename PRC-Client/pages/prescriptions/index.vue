@@ -167,8 +167,6 @@ export default {
       expireDate: null,
       isPharmacological: null,
       code: null,
-      birthDate: null,
-      email: null,
       usernamePatient: null,
       usernameHealthcareProfessional: null,
       filter: null,
@@ -264,19 +262,16 @@ export default {
       if (!this.isTitleValid) {
         return false;
       }
-      if (!this.isTreatmentInfoValid) {
-        return false;
-      }
       if (!this.isDateValid) {
         return false;
       }
       if (!this.isusernamePatientValid) {
         return false;
       }
-      if (!this.isPharmacological) {
+      if (!this.isOptionValid) {
         return false;
       }
-      if (!this.treatmentInfo) {
+      if (!this.isTreatmentInfoValid) {
         return false;
       }
       return true;

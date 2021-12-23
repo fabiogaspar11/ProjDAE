@@ -113,7 +113,7 @@ export default {
       birthDate:null,
       email:null,
       contact:null,
-      password:null
+      password:null,
     };
   },
   props: {
@@ -232,7 +232,6 @@ export default {
       if(this.birthDate != null){
           adminUpdated.birthDate = this.birthDate;
       }
-
 
       this.$axios
         .$put(`/api/administrators/${this.username}`, adminUpdated)

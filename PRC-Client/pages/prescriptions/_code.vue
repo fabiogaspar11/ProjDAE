@@ -4,95 +4,86 @@
     <div class="container" style="margin-top: 4%">
       <template>
         <div>
-
           <b-table striped hover :items="entidade" :fields="fields"></b-table>
         </div>
       </template>
-      <br>
-        <b-list-group>
-          <b-list-group-item>
-            <b>Title:</b> {{ this.title }}
-          </b-list-group-item>
-          <b-list-group-item>
-            <b>Treatment Information:</b> {{ this.treatmentInfo }}
-          </b-list-group-item>
-          <b-list-group-item> <b>Observations:</b>
-            <div v-if="this.observations != ''">{{ this.observations }}</div>
-            <div v-else>There are no observations registered</div>
-          </b-list-group-item>
-        </b-list-group>
-        <br>
+      <br />
+      <b-list-group>
+        <b-list-group-item>
+          <b>Title:</b> {{ this.currentTitle }}
+        </b-list-group-item>
+        <b-list-group-item>
+          <b>Treatment Information:</b> {{ this.currentTreatmentInfo }}
+        </b-list-group-item>
+        <b-list-group-item>
+          <b>Observations:</b>
+          <div v-if="this.currentObservations != ''">
+            {{ this.currentObservations }}
+          </div>
+          <div v-else>There are no observations registered</div>
+        </b-list-group-item>
+      </b-list-group>
+      <br />
       <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
 
-      <b-modal id="modal-1" title="Edit" @ok="update()">
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Name</span>
-          </div>
+      <b-modal id="modal-1" title="New Prescription" @ok.prevent="update()">
+        <div class="input-group mb-4">
+          <span class="input-group-text">Title</span>
           <b-input
-            v-model.trim="name"
+            v-model="title"
             type="text"
+            :state="isTitleValid"
             class="form-control"
             aria-describedby="basic-addon1"
-            placeholder="Enter your name"
-            :state="isNameValid"
+            placeholder="Enter prescription title"
           />
+          <p>{{ isTitleValidFeedback }}</p>
         </div>
-
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">BirthDate</span>
-          </div>
+        <div>
+          Pharmacological prescription:
+          <b-form-select
+            v-model="isPharmacological"
+            :options="options"
+            :state="isOptionValid"
+          ></b-form-select>
+          <p>{{ isOptionValidFeedback }}</p>
+        </div>
+        <br />
+        <span>Treatment information:</span>
+        <div>
+          <b-form-textarea
+            id="textarea"
+            v-model="treatmentInfo"
+            :state="isTreatmentInfoValid"
+            placeholder="Treatment information..."
+            rows="3"
+            max-rows="6"
+          ></b-form-textarea>
+          <p>{{ isTreatmentInfoValidFeedback }}</p>
+        </div>
+        <br />
+        <div>
+          <span>Observations:</span>
+          <b-form-textarea
+            id="textarea"
+            v-model="observations"
+            placeholder="Enter observations..."
+            rows="3"
+            max-rows="6"
+          ></b-form-textarea>
+        </div>
+        <br />
+        <div class="input-group mb-4">
+          <span class="input-group-text">Expire Date</span>
           <b-input
-            v-model.trim="birthDate"
+            v-model.trim="expireDate"
             type="text"
+            :state="isDateValid"
             class="form-control"
             aria-describedby="basic-addon1"
             placeholder="dd/mm/yyyy"
-            :state="isbirthDateValid"
           />
-        </div>
-
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Email</span>
-          </div>
-          <b-input
-            v-model.trim="email"
-            ref="email"
-            type="text"
-            class="form-control"
-            aria-describedby="basic-addon1"
-            placeholder="Enter your email"
-            :state="isEmailValid"
-          />
-        </div>
-
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Contact</span>
-          </div>
-          <b-input
-            v-model.trim="contact"
-            type="text"
-            class="form-control"
-            aria-describedby="basic-addon1"
-            placeholder="Enter your contact"
-            :state="isContactValid"
-          />
-        </div>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="basic-addon1">Password</span>
-          </div>
-          <b-input
-            v-model.trim="password"
-            type="password"
-            class="form-control"
-            aria-describedby="basic-addon1"
-            placeholder="Enter your password"
-            :state="isPasswordValid"
-          />
+          <p>{{ isDateValidFeedback }}</p>
         </div>
       </b-modal>
     </div>
@@ -107,9 +98,14 @@ export default {
     return {
       entidade: [],
       state: true,
+      treatmentInfo: null,
+      name: null,
       title: null,
       observations: null,
-      treatmentInfo: null,
+      expireDate: null,
+      isPharmacological: null,
+      usernamePatient: null,
+      usernameHealthcareProfessional: null,
       fields: [
         { key: "code", label: "Code" },
         { key: "emissionDate", label: "Emission Date" },
@@ -121,6 +117,15 @@ export default {
           label: "Healthcare professional",
         },
       ],
+      options: [
+        { value: null, text: "Please select an option" },
+        { value: "No", text: "No" },
+        { value: "Yes", text: "Yes" },
+        { value: "Both", text: "Both" },
+      ],
+      currentTitle: null,
+      currentTreatmentInfo: null,
+      currentObservations: null,
     };
   },
   props: {
@@ -130,48 +135,119 @@ export default {
     code() {
       return this.$route.params.code;
     },
+    tableLength: function () {
+      return this.entidade.length;
+    },
+    isTitleValid() {
+      if (this.isTitleValidFeedback === null) {
+        return null;
+      }
+      return this.isTitleValidFeedback === "";
+    },
+    isTitleValidFeedback() {
+      if (!this.title) {
+        return null;
+      }
+      return "";
+    },
+    isTreatmentInfoValid() {
+      if (this.isTreatmentInfoValidFeedback === null) {
+        return null;
+      }
+      return this.isTreatmentInfoValidFeedback === "";
+    },
+    isTreatmentInfoValidFeedback() {
+      if (!this.treatmentInfo) {
+        return null;
+      }
+      return "";
+    },
+    isDateValid() {
+      if (this.isDateValidFeedback === null) {
+        return null;
+      }
+      return this.isDateValidFeedback === "";
+    },
+    isDateValidFeedback() {
+      if (!this.expireDate) {
+        return null;
+      }
+      var date_regex =
+        /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
+      return date_regex.test(this.expireDate)
+        ? ""
+        : "The expire date is invalid - format dd/mm/yyyy";
+    },
+    isOptionValid() {
+      if (this.isOptionValidFeedback == null) {
+        return null;
+      }
+      return "";
+    },
+    isOptionValidFeedback() {
+      if (this.isPharmacological == null) {
+        return null;
+      }
+      if (
+        this.isPharmacological != "No" &&
+        this.isPharmacological != "Yes" &&
+        this.isPharmacological != "Both"
+      ) {
+        return "Please select an option from the select box";
+      }
+      return "";
+    },
   },
   created() {
-    this.$axios.$get(`/api/prescriptions/${this.code}`).then((entidade) => {
-      this.title = entidade.title;
-      this.observations = entidade.observations;
-      this.treatmentInfo = entidade.treatmentInfo;
-      this.entidade = [entidade];
-    });
+    this.getData();
   },
   methods: {
-    remove() {
-      this.$axios.$delete(`/api/administrators/${this.username}`).then(() => {
-        this.$router.go(-1);
-      });
-    },
     update() {
-      let adminUpdated = {};
-      if (this.name != null) {
-        adminUpdated.name = this.name;
+      let prescriptionUpdate = {};
+      if (this.title != this.currentTitle && this.title != null && this.title != "") {
+        prescriptionUpdate.title = this.title;
       }
-      if (this.email != null) {
-        adminUpdated.email = this.email;
+      if (this.treatmentInfo != this.currentTreatmentInfo && this.treatmentInfo != null && this.treatmentInfo != "") {
+        prescriptionUpdate.treatmentInfo = this.treatmentInfo;
       }
-      if (this.password != null) {
-        adminUpdated.password = this.password;
+      if (this.expireDate != this.currentExpireDate && this.expireDate != null && this.expireDate != "") {
+        prescriptionUpdate.expireDate = this.expireDate;
       }
-      if (this.contact != null) {
-        adminUpdated.contact = this.contact;
+      if (this.isPharmacological != this.currentIsPharmacological && this.isPharmacological != null && this.isPharmacological != "") {
+        prescriptionUpdate.isPharmacological = this.isPharmacological;
       }
-      if (this.birthDate != null) {
-        adminUpdated.birthDate = this.birthDate;
+      if(this.observations != this.currentObservations){
+        if(this.observations == null){
+          this.observations = ""
+        }
+        prescriptionUpdate.observations = this.observations;
       }
 
-      this.$axios
-        .$put(`/api/administrators/${this.username}`, adminUpdated)
+      console.log(prescriptionUpdate)
+
+      if(prescriptionUpdate != {}){
+        this.$axios
+        .$put(`/api/prescriptions/${this.code}`, prescriptionUpdate)
         .then(() => {
-          alert(`Administrator ${this.username}  updated!`);
-          this.$router.go(0);
+          alert(`Prescription ${this.code}  updated!`);
+          this.getData();
         })
         .catch((error) => {
-          console.log(error.response.data);
+          alert(error.response.data);
         });
+      }
+
+    },
+    getData() {
+      this.$axios.$get(`/api/prescriptions/${this.code}`).then((entidade) => {
+        this.entidade = [entidade];
+        this.currentTitle = entidade.title;
+        this.currentTreatmentInfo = entidade.treatmentInfo;
+        this.currentExpireDate = entidade.expireDate
+        this.currentUsernamePatient = entidade.usernamePatient
+        this.currentIsPharmacological = entidade.isPharmacological
+        this.currentObservations = entidade.observations;
+      });
     },
   },
 };
