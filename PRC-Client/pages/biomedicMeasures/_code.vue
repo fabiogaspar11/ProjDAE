@@ -69,12 +69,25 @@ export default {
     code() {
       return this.$route.params.code;
     },
-      isDateValidFeedback () {
+     isDateValidFeedback () {
         if (!this.date) {
           return null
         }
        var date_regex = /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
-        return date_regex.test(this.date) ? '':'The date is invalid - format dd/mm/yyyy';
+       var currentdate = new Date();
+       var dateSplitted = this.date.split('/');
+       var dateRegexValid = date_regex.test(this.date);
+       if(!dateRegexValid){
+         return 'The date is invalid - format dd/mm/yyyy';
+       }
+       if(parseInt(dateSplitted[2]) < currentdate.getFullYear()){
+          return '';
+       }else if(parseInt(dateSplitted[2]) == currentdate.getFullYear() && parseInt(dateSplitted[1]) < (currentdate.getMonth()+1)){
+          return '';
+       }else if(parseInt(dateSplitted[2]) == currentdate.getFullYear() && parseInt(dateSplitted[1]) == (currentdate.getMonth()+1) && parseInt(dateSplitted[0]) <= currentdate.getDate()){
+          return '';
+       }
+       return 'The date is bigger than todays date';
     },
     isDateValid () {
         if (this.isDateValidFeedback === null) {
@@ -86,8 +99,22 @@ export default {
         if (!this.hour) {
           return null
         }
+        if(this.date == null){
+          return 'Date field must be filled first';
+        }
         var hour_regex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
-        return hour_regex.test(this.hour) ? '':'The hour is invalid - format HH:MM';
+        var hourRegexValid = hour_regex.test(this.hour);
+        if(!hourRegexValid){
+         return 'The hour is invalid - format HH:MM';
+        }
+        var currentdate = new Date();
+        var hourSplitted = this.hour.split(':');
+      if(parseInt(hourSplitted[0]) < currentdate.getHours()){
+          return '';
+       }else if(parseInt(hourSplitted[0]) == currentdate.getHours() && parseInt(hourSplitted[1]) <= (currentdate.getMinutes())){
+          return '';
+       }
+        return 'The time is bigger than the current time';
     },
     isHourValid() {
         if (this.isHourValidFeedback === null) {

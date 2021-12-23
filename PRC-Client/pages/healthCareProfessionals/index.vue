@@ -19,7 +19,7 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-modal id="modal-1" title="New disease" @ok="create">
+    <b-modal id="modal-1" title="New Healthcare Professional" @ok="create">
       <div class="input-group mb-4">
         <span class="input-group-text">Health Number</span>
         <b-input required v-model.trim="healthNumber" type="number" :state="isHealthNumberValid" class="form-control" aria-describedby="basic-addon1"/>
@@ -225,10 +225,23 @@ export default {
     },
     isbirthDateValidFeedback () {
       if (!this.birthDate) {
-        return null
-      }
-      var date_regex = /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
-      return date_regex.test(this.birthDate) ? '':'The birth date is invalid - format dd/mm/yyyy';
+          return null
+        }
+       var date_regex = /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
+       var currentdate = new Date();
+       var dateSplitted = this.birthDate.split('/');
+       var dateRegexValid = date_regex.test(this.birthDate);
+       if(!dateRegexValid){
+         return 'The date is invalid - format dd/mm/yyyy';
+       }
+       if(parseInt(dateSplitted[2]) < currentdate.getFullYear()){
+          return '';
+       }else if(parseInt(dateSplitted[2]) == currentdate.getFullYear() && parseInt(dateSplitted[1]) < (currentdate.getMonth()+1)){
+          return '';
+       }else if(parseInt(dateSplitted[2]) == currentdate.getFullYear() && parseInt(dateSplitted[1]) == (currentdate.getMonth()+1) && parseInt(dateSplitted[0]) <= currentdate.getDate()){
+          return '';
+       }
+       return 'The date is bigger than todays date';
     },
     isbirthDateValid () {
       if (this.isbirthDateValidFeedback === null) {
