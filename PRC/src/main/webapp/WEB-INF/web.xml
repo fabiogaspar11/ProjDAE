@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <context-param>
+        <param-name>resteasy.role.based.security</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <!-- HEALTHCARE PROFESSIONALS -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Healthcare Professionals Create and see list</web-resource-name>
+            <url-pattern>/api/healthcareProfessionals</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrator</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Healthcare Professionals  Delete</web-resource-name>
+            <url-pattern>/api/healthcareProfessionals/*</url-pattern>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrator</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Healthcare Professionals Update, Get 1</web-resource-name>
+            <url-pattern>/api/healthcareProfessionals/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>PUT</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrator</role-name>
+            <role-name>HealthcareProfessional</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <!-- PRESCRIPTIONS -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Prescriptions List and Create</web-resource-name>
+            <url-pattern>/api/prescriptions</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HealthcareProfessional</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Prescription Update and See 1</web-resource-name>
+            <url-pattern>/api/prescriptions/*</url-pattern>
+            <http-method>PUT</http-method>
+            <http-method>DELETE</http-method>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HealthcareProfessional</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <!-- BIOMEDIC DATA TYPE -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Biomedic Data Type Get</web-resource-name>
+            <url-pattern>/api/biomedicDataTypes</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrator</role-name>
+            <role-name>HealthcareProfessional</role-name>
+            <role-name>Patient</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Biomedic Data Type Post</web-resource-name>
+            <url-pattern>/api/biomedicDataTypes</url-pattern>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrator</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Biomedic Data Type Put and Delete</web-resource-name>
+            <url-pattern>/api/biomedicDataTypes/*</url-pattern>
+            <http-method>PUT</http-method>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrator</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Biomedic Data Type Get 1</web-resource-name>
+            <url-pattern>/api/biomedicDataTypes/*</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrator</role-name>
+            <role-name>HealthcareProfessional</role-name>
+            <role-name>Patient</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <!-- PATIENTS -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Patients List</web-resource-name>
+            <url-pattern>/api/patients</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HealthcareProfessional</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Patient Update</web-resource-name>
+            <url-pattern>/api/patients/*</url-pattern>
+            <http-method>PUT</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Patient</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Patient Get 1</web-resource-name>
+            <url-pattern>/api/patients/*</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Patient</role-name>
+            <role-name>HealthcareProfessional</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Patient Delete</web-resource-name>
+            <url-pattern>/api/patients/*</url-pattern>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HealthcareProfessional</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <!-- BIOMEDIC MEASURES -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Biomedic Measures Get</web-resource-name>
+            <url-pattern>/api/biomedicDataMeasures</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HealthcareProfessional</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Biomedic Measures Creat</web-resource-name>
+            <url-pattern>/api/biomedicDataMeasures</url-pattern>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HealthcareProfessional</role-name>
+            <role-name>Patient</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Biomedic Measures Get 1 and Delete and Update</web-resource-name>
+            <url-pattern>/api/biomedicDataMeasures/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>DELETE</http-method>
+            <http-method>PUT</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>HealthcareProfessional</role-name>
+            <role-name>Patient</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <!-- ADMINISTRATORS -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Administrators Get and Create</web-resource-name>
+            <url-pattern>/api/administrators</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrator</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Administrators Get 1, Update and Delete</web-resource-name>
+            <url-pattern>/api/administrators/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>PUT</http-method>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrator</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <!-- DISEASE -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Disease Get</web-resource-name>
+            <url-pattern>/api/diseases</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrator</role-name>
+            <role-name>HealthcareProfessional</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Disease Create</web-resource-name>
+            <url-pattern>/api/diseases</url-pattern>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrator</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Disease Get</web-resource-name>
+            <url-pattern>/api/diseases/*</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrator</role-name>
+            <role-name>HealthcareProfessional</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Disease Update and Delete</web-resource-name>
+            <url-pattern>/api/diseases/*</url-pattern>
+            <http-method>PUT</http-method>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Administrator</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <!-- ROLES -->
+    <security-role>
+        <description>Administrator role</description>
+        <role-name>Administrator</role-name>
+    </security-role>
+    <security-role>
+        <description>Healthcare Professional role</description>
+        <role-name>HealthcareProfessional</role-name>
+    </security-role>
+    <security-role>
+        <description>Patient role</description>
+        <role-name>Patient</role-name>
+    </security-role>
+    <login-config>
+        <auth-method>BEARER_TOKEN</auth-method>
+        <realm-name>jwt-realm</realm-name>
+    </login-config>
+</web-app>

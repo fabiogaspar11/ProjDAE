@@ -265,12 +265,6 @@ export default {
       }
       return this.isusernamePatientValidFeedback === "";
     },
-    isOptionValid() {
-      if (this.isOptionValidFeedback === null) {
-        return null;
-      }
-      return "";
-    },
     isOptionValidFeedback() {
       if (this.isPharmacological == null) {
         return null;
@@ -284,33 +278,32 @@ export default {
       }
       return "";
     },
+    isOptionValid() {
+      if (this.isOptionValidFeedback === null) {
+        return null;
+      }
+      return this.isOptionValidFeedback === "";
+    },
     isFormValid() {
-      console.log("1")
       if (!this.isTitleValid) {
         return false;
       }
-            console.log("2")
 
       if (!this.isDateValid) {
         return false;
       }
-            console.log("3")
 
       if (!this.isusernamePatientValid) {
         return false;
       }
-            console.log("4")
 
       if (!this.isOptionValid) {
         return false;
       }
-            console.log("5")
 
       if (!this.isTreatmentInfoValid) {
         return false;
       }
-            console.log("6")
-
       return true;
     },
   },

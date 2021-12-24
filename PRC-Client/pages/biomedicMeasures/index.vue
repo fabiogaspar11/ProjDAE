@@ -25,7 +25,7 @@
       </b-row>
     </b-container>
 
-    <b-modal id="modal-1" title="New disease" @ok="create()">
+    <b-modal id="modal-1" title="New Biomedic Measure" @ok="create()">
        <div class="input-group mb-4">
           <span class="input-group-text">Date</span>
           <b-input required  v-model.trim="date" type="text" :state="isDateValid"  placeholder="dd/mm/yyyy" class="form-control" aria-describedby="basic-addon1 "/>
@@ -133,7 +133,7 @@ export default {
          return this.patients.some(p => this.patient === p.username)
     },
     isDateValidFeedback () {
-      if (!this.expireDate) {
+      if (!this.date) {
         return null;
       }
        var date_regex = /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;

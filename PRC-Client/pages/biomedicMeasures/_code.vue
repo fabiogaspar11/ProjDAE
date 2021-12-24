@@ -10,7 +10,7 @@
 
       <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
 
-      <b-modal id="modal-1" title="Edit Biomedic Data Type" @ok="update()">
+      <b-modal id="modal-1" title="Edit Biomedic Measure" @ok="update()">
         <div class="input-group mb-4">
           <span class="input-group-text">Date</span>
           <b-input
