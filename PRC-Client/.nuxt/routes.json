@@ -2,113 +2,113 @@
   {
     "name": "administrators",
     "path": "/administrators",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators\\\\index.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators\\\\index.vue",
     "chunkName": "pages/administrators/index",
-    "_name": "_f130b6da"
+    "_name": "_2f1c4b8a"
   },
   {
     "name": "biomedicData",
     "path": "/biomedicData",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicData\\\\index.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicData\\\\index.vue",
     "chunkName": "pages/biomedicData/index",
-    "_name": "_e88ca49e"
+    "_name": "_30ecb330"
   },
   {
     "name": "biomedicMeasures",
     "path": "/biomedicMeasures",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicMeasures\\\\index.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicMeasures\\\\index.vue",
     "chunkName": "pages/biomedicMeasures/index",
-    "_name": "_d03f85b4"
+    "_name": "_2507025d"
   },
   {
     "name": "Dashboard",
     "path": "/Dashboard",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\Dashboard.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\Dashboard.vue",
     "chunkName": "pages/Dashboard",
-    "_name": "_3dbb0e3b"
+    "_name": "_63b12fb2"
   },
   {
     "name": "diseases",
     "path": "/diseases",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases\\\\index.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases\\\\index.vue",
     "chunkName": "pages/diseases/index",
-    "_name": "_0fd73402"
+    "_name": "_ac13bf8e"
   },
   {
     "name": "healthCareProfessionals",
     "path": "/healthCareProfessionals",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthCareProfessionals\\\\index.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthCareProfessionals\\\\index.vue",
     "chunkName": "pages/healthCareProfessionals/index",
-    "_name": "_d8dd55c8"
+    "_name": "_aed8d7f6"
   },
   {
     "name": "patients",
     "path": "/patients",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\index.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\index.vue",
     "chunkName": "pages/patients/index",
-    "_name": "_5dfc280b"
+    "_name": "_0fc9d77c"
   },
   {
     "name": "prescriptions",
     "path": "/prescriptions",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\prescriptions\\\\index.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\prescriptions\\\\index.vue",
     "chunkName": "pages/prescriptions/index",
-    "_name": "_5d9b21bc"
+    "_name": "_213ce56a"
   },
   {
     "name": "administrators-username",
     "path": "/administrators/:username",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators\\\\_username.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators\\\\_username.vue",
     "chunkName": "pages/administrators/_username",
-    "_name": "_436e8ff6"
+    "_name": "_21f8e36d"
   },
   {
     "name": "biomedicData-code",
     "path": "/biomedicData/:code",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicData\\\\_code.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicData\\\\_code.vue",
     "chunkName": "pages/biomedicData/_code",
-    "_name": "_e4f742aa"
+    "_name": "_2d57513c"
   },
   {
     "name": "biomedicMeasures-code",
     "path": "/biomedicMeasures/:code",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicMeasures\\\\_code.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicMeasures\\\\_code.vue",
     "chunkName": "pages/biomedicMeasures/_code",
-    "_name": "_ccaa23c0"
+    "_name": "_26d1b357"
   },
   {
     "name": "diseases-code",
     "path": "/diseases/:code",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases\\\\_code.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases\\\\_code.vue",
     "chunkName": "pages/diseases/_code",
-    "_name": "_11a1e4fc"
+    "_name": "_a87e5d9a"
   },
   {
     "name": "healthCareProfessionals-username",
     "path": "/healthCareProfessionals/:username",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthCareProfessionals\\\\_username.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthCareProfessionals\\\\_username.vue",
     "chunkName": "pages/healthCareProfessionals/_username",
-    "_name": "_6a6a5802"
+    "_name": "_05517668"
   },
   {
     "name": "patients-username",
     "path": "/patients/:username",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\_username.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\_username.vue",
     "chunkName": "pages/patients/_username",
-    "_name": "_26b6d124"
+    "_name": "_48749025"
   },
   {
     "name": "prescriptions-code",
     "path": "/prescriptions/:code",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\prescriptions\\\\_code.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\prescriptions\\\\_code.vue",
     "chunkName": "pages/prescriptions/_code",
-    "_name": "_5a05bfc8"
+    "_name": "_1da78376"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\index.vue",
+    "component": "D:\\\\Escola\\\\Engenharia_Informatica\\\\3ano_1semestre\\\\DAE\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\index.vue",
     "chunkName": "pages/index",
-    "_name": "_a43c85ce"
+    "_name": "_51cd9be0"
   }
 ]

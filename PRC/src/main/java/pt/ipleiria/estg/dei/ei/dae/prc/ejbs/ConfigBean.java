@@ -58,9 +58,7 @@ public class ConfigBean {
         diseaseBean.addDiseaseToPatient(code, usernameP1);
 
         //healthcareProfessionalBean.addPrescriptionFromHealthcareprofessional(code, usernameH1);
-        if (healthcareProfessionalBean.addPatientFromHealthcareprofessional(usernameP1,usernameH1)){
-            System.out.println("WEFEWSU9HFE7Y89UFEHU8WFGHY8EWGY8UEWDGY87FEWFYG78EWYG8FEWY678GF6Y7GET8WRYG678FEW");
-        };
+        healthcareProfessionalBean.addPatientFromHealthcareprofessional(usernameP1,usernameH1);
 
         }catch (Exception e){
             logger.log(Level.SEVERE, e.getMessage());
