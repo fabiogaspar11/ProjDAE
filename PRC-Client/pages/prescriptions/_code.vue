@@ -3,9 +3,7 @@
     <NavBar></NavBar>
     <div class="container" style="margin-top: 4%">
       <template>
-        <div>
           <b-table striped hover :items="entidade" :fields="fields"></b-table>
-        </div>
       </template>
       <br />
       <b-list-group>
@@ -101,7 +99,7 @@ export default {
       treatmentInfo: null,
       name: null,
       title: null,
-      observations: null,
+      observations: "",
       expireDate: null,
       isPharmacological: null,
       usernamePatient: null,
@@ -174,9 +172,27 @@ export default {
       }
       var date_regex =
         /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
-      return date_regex.test(this.expireDate)
-        ? ""
-        : "The expire date is invalid - format dd/mm/yyyy";
+      var currentdate = new Date();
+      var dateSplitted = this.expireDate.split("/");
+      var dateRegexValid = date_regex.test(this.expireDate);
+      if (!dateRegexValid) {
+        return "The date is invalid - format dd/mm/yyyy";
+      }
+      if (parseInt(dateSplitted[2]) > currentdate.getFullYear()) {
+        return "";
+      } else if (
+        parseInt(dateSplitted[2]) == currentdate.getFullYear() &&
+        parseInt(dateSplitted[1]) > currentdate.getMonth() + 1
+      ) {
+        return "";
+      } else if (
+        parseInt(dateSplitted[2]) == currentdate.getFullYear() &&
+        parseInt(dateSplitted[1]) == currentdate.getMonth() + 1 &&
+        parseInt(dateSplitted[0]) >= currentdate.getDate()
+      ) {
+        return "";
+      }
+      return "The expire date should be bigger than the actual date";
     },
     isOptionValid() {
       if (this.isOptionValidFeedback == null) {
@@ -204,48 +220,66 @@ export default {
   methods: {
     update() {
       let prescriptionUpdate = {};
-      if (this.title != this.currentTitle && this.title != null && this.title != "") {
+      if (
+        this.title != this.currentTitle &&
+        this.title != null &&
+        this.title != ""
+      ) {
         prescriptionUpdate.title = this.title;
       }
-      if (this.treatmentInfo != this.currentTreatmentInfo && this.treatmentInfo != null && this.treatmentInfo != "") {
+      if (
+        this.treatmentInfo != this.currentTreatmentInfo &&
+        this.treatmentInfo != null &&
+        this.treatmentInfo != ""
+      ) {
         prescriptionUpdate.treatmentInfo = this.treatmentInfo;
       }
-      if (this.expireDate != this.currentExpireDate && this.expireDate != null && this.expireDate != "") {
+      if (
+        this.expireDate != this.currentExpireDate &&
+        this.expireDate != null &&
+        this.expireDate != "" && this.isDateValid
+      ) {
         prescriptionUpdate.expireDate = this.expireDate;
       }
-      if (this.isPharmacological != this.currentIsPharmacological && this.isPharmacological != null && this.isPharmacological != "") {
+      if (
+        this.isPharmacological != this.currentIsPharmacological &&
+        this.isPharmacological != null &&
+        this.isPharmacological != ""
+      ) {
         prescriptionUpdate.isPharmacological = this.isPharmacological;
       }
-      if(this.observations != this.currentObservations){
-        if(this.observations == null){
-          this.observations = ""
-        }
+      if (this.observations != this.currentObservations) {
         prescriptionUpdate.observations = this.observations;
       }
 
-      console.log(prescriptionUpdate)
-
-      if(prescriptionUpdate != {}){
+      if (Object.keys(prescriptionUpdate).length != 0) { //apenas fazer pedido no caso do objecto ter algo para atualizar
         this.$axios
-        .$put(`/api/prescriptions/${this.code}`, prescriptionUpdate)
-        .then(() => {
-          alert(`Prescription ${this.code}  updated!`);
-          this.getData();
-        })
-        .catch((error) => {
-          alert(error.response.data);
-        });
+          .$put(`/api/prescriptions/${this.code}`, prescriptionUpdate)
+          .then(() => {
+            alert(`Prescription ${this.code}  updated!`);
+            this.expireDate = null;
+            this.isPharmacological = null;
+            this.observations = "";
+            this.title = null;
+            this.treatmentInfo = null;
+            this.usernamePatient = null;
+            this.usernameHealthcareProfessional = null;
+            this.getData();
+            this.getData();
+          })
+          .catch((error) => {
+            alert(error.response.data);
+          });
       }
-
     },
     getData() {
       this.$axios.$get(`/api/prescriptions/${this.code}`).then((entidade) => {
         this.entidade = [entidade];
         this.currentTitle = entidade.title;
         this.currentTreatmentInfo = entidade.treatmentInfo;
-        this.currentExpireDate = entidade.expireDate
-        this.currentUsernamePatient = entidade.usernamePatient
-        this.currentIsPharmacological = entidade.isPharmacological
+        this.currentExpireDate = entidade.expireDate;
+        this.currentUsernamePatient = entidade.usernamePatient;
+        this.currentIsPharmacological = entidade.isPharmacological;
         this.currentObservations = entidade.observations;
       });
     },

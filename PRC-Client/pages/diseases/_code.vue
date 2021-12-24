@@ -1,18 +1,13 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <div class="d-flex justify-content-center" style="margin-top: 4%">
+    <div class="container" style="margin-top: 4%">
       <template>
         <div>
           <b-table striped hover :items="disease" :fields="fields"></b-table>
         </div>
       </template>
-    </div>
-    <b-row class="justify-content-md-center">
-      <b-col col lg="2" >
-        <div class="d-flex justify-content-center">
           <b-button v-b-modal.modal-1>Edit</b-button>
-        </div>
           <b-modal id="modal-1" title="Edit" @ok="update()">
               <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
@@ -49,8 +44,8 @@
           <p v-else>No patients diagnosed with this disease</p>
         </div>
       </template>
-
     </div>
+    <br>
     <div>
       Patient:
       <select v-model="username">
@@ -73,8 +68,7 @@
       </select>
       <button @click.prevent="unroll">REMOVE PATIENT</button>
     </div>
-
-
+    </div>
   </div>
 </template>
 
@@ -84,11 +78,8 @@
 export default {
   data() {
     return {
-      fields: [
-        "code",
-        "name"
-      ],
-      fieldsPatient:[
+      fields: ["code", "name"],
+      fieldsPatient: [
         "username",
         "name",
         "birthDate",
@@ -97,9 +88,9 @@ export default {
       ],
       disease: {},
       patients: [],
-      patientsAll:[],
+      patientsAll: [],
       username: null,
-      name:null
+      name: null,
     };
   },
   props: {
@@ -109,91 +100,89 @@ export default {
     code() {
       return this.$route.params.code;
     },
-    isNameValidFeedback (){
+    isNameValidFeedback() {
       if (!this.name) {
-        return null
+        return null;
       }
-      let nameLen = this.name.length
+      let nameLen = this.name.length;
       if (nameLen < 3 || nameLen > 25) {
-          return 'The name is too short - length must be between 3 and 25'
+        return "The name is too short - length must be between 3 and 25";
       }
-      return ''
+      return "";
     },
-    isNameValid () {
-        if (this.isNameValidFeedback === null) {
-           return null
-        }
-        return this.isNameValidFeedback === ''
+    isNameValid() {
+      if (this.isNameValidFeedback === null) {
+        return null;
+      }
+      return this.isNameValidFeedback === "";
     },
-    isFormValid () {
-    if (!this.isNameValid) {
-      return false
-    }
-      return true
-    }
+    isFormValid() {
+      if (!this.isNameValid) {
+        return false;
+      }
+      return true;
+    },
   },
   created() {
     this.getDisease();
-    this.$axios.$get(`/api/patients`)
-      .then(patients =>
-        this.patientsAll = patients
-      )
+    this.$axios
+      .$get(`/api/patients`)
+      .then((patients) => (this.patientsAll = patients));
   },
   methods: {
-    getDisease(){
-      this.$axios.$get(`/api/diseases/${this.code}`)
-        .then(disease =>
-       {
-          this.disease = [disease];
-          if(disease.patientDTOS.length == 0){
-            return;
-          }
-          disease.patientDTOS.forEach(patient => {
-            this.patients.push(patient)
-          });
-       });
-
+    getDisease() {
+      this.$axios.$get(`/api/diseases/${this.code}`).then((disease) => {
+        this.disease = [disease];
+        if (disease.patientDTOS.length == 0) {
+          return;
+        }
+        disease.patientDTOS.forEach((patient) => {
+          this.patients.push(patient);
+        });
+      });
     },
     remove() {
-      this.$axios.$delete(`/api/patients/${this.username}`).then(()=>{
-        this.$router.push("/patients")
-      })
+      this.$axios.$delete(`/api/patients/${this.username}`).then(() => {
+        this.$router.push("/patients");
+      });
     },
     update() {
-        if(!this.isFormValid){
-           alert("Fields are invalid - Correct them first!");
-           return;
+      if (!this.isFormValid) {
+        alert("Fields are invalid - Correct them first!");
+        return;
       }
 
       this.$axios
         .$put(`/api/diseases/${this.code}`, {
-          name: this.name
+          name: this.name,
         })
         .then(() => {
-          alert("Disease "+ this.name + " updated succesfully");
+          alert("Disease " + this.name + " updated succesfully");
           this.name = null;
           this.getDisease();
         });
     },
-    isExist: function (patient){
-      for (let studentInSubject of this.patients){
-        if (studentInSubject.username === patient.username){
-          return false
+    isExist: function (patient) {
+      for (let studentInSubject of this.patients) {
+        if (studentInSubject.username === patient.username) {
+          return false;
         }
       }
-      return true
+      return true;
     },
     enroll() {
-      this.$axios.$put(`/api/diseases/${this.code}/${this.username}`)
-      this.$axios.get(`/api/diseases/${this.code}`)
+      this.$axios.$put(`/api/diseases/${this.code}/${this.username}`);
+      this.$axios
+        .get(`/api/diseases/${this.code}`)
         .then(() => this.$axios.$get(`/api/diseases/${this.code}/patients`))
-        .then(patients => this.patients = patients)
+        .then((patients) => (this.patients = patients));
     },
     unroll() {
-      this.$axios.delete(`/api/diseases/${this.code}/${this.username}`)
-      this.$axios.get(`/api/diseases/${this.code}`)
+      this.$axios.delete(`/api/diseases/${this.code}/${this.username}`);
+      this.$axios
+        .get(`/api/diseases/${this.code}`)
         .then(() => this.$axios.$get(`/api/diseases/${this.code}/patients`))
-        .then(patients => this.patients = patients)
+        .then((patients) => (this.patients = patients));
     },
   },
 };
