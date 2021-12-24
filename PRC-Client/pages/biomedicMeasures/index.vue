@@ -29,13 +29,13 @@
        <div class="input-group mb-4">
           <span class="input-group-text">Date</span>
           <b-input required  v-model.trim="date" type="text" :state="isDateValid"  placeholder="dd/mm/yyyy" class="form-control" aria-describedby="basic-addon1 "/>
-          <p>{{isDateValidFeedback}}</p>
       </div>
+          <p>{{isDateValidFeedback}}</p>
       <div class="input-group mb-4">
           <span class="input-group-text">Hour</span>
           <b-input required  v-model.trim="hour" type="text" :state="isHourValid"  placeholder="HH:MM" class="form-control" aria-describedby="basic-addon1 "/>
-          <p>{{isHourValidFeedback}}</p>
       </div>
+          <p>{{isHourValidFeedback}}</p>
       <div class="input-group mb-4">
       <b-select v-model="biomedicDataType" :options="biomedicDataTypes" :state="isBiomedicDataTypeValid" required value-field="code" text-field="name">
             <template v-slot:first>
@@ -133,11 +133,24 @@ export default {
          return this.patients.some(p => this.patient === p.username)
     },
     isDateValidFeedback () {
-        if (!this.date) {
-          return null
-        }
+      if (!this.expireDate) {
+        return null;
+      }
        var date_regex = /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
-        return date_regex.test(this.date) ? '':'The date is invalid - format dd/mm/yyyy';
+       var currentdate = new Date();
+       var dateSplitted = this.date.split('/');
+       var dateRegexValid = date_regex.test(this.date);
+       if(!dateRegexValid){
+         return 'The date is invalid - format dd/mm/yyyy';
+       }
+       if(parseInt(dateSplitted[2]) < currentdate.getFullYear()){
+          return '';
+       }else if(parseInt(dateSplitted[2]) == currentdate.getFullYear() && parseInt(dateSplitted[1]) < (currentdate.getMonth()+1)){
+          return '';
+       }else if(parseInt(dateSplitted[2]) == currentdate.getFullYear() && parseInt(dateSplitted[1]) == (currentdate.getMonth()+1) && parseInt(dateSplitted[0]) <= currentdate.getDate()){
+          return '';
+       }
+       return 'The date is bigger than todays date';
     },
     isDateValid () {
         if (this.isDateValidFeedback === null) {
@@ -149,8 +162,22 @@ export default {
         if (!this.hour) {
           return null
         }
+        if(this.date == null){
+          return 'Date field must be filled first';
+        }
         var hour_regex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
-        return hour_regex.test(this.hour) ? '':'The hour is invalid - format HH:MM';
+        var hourRegexValid = hour_regex.test(this.hour);
+        if(!hourRegexValid){
+         return 'The hour is invalid - format HH:MM';
+        }
+        var currentdate = new Date();
+        var hourSplitted = this.hour.split(':');
+      if(parseInt(hourSplitted[0]) < currentdate.getHours()){
+          return '';
+       }else if(parseInt(hourSplitted[0]) == currentdate.getHours() && parseInt(hourSplitted[1]) <= (currentdate.getMinutes())){
+          return '';
+       }
+        return 'The time is bigger than the current time';
     },
     isHourValid() {
         if (this.isHourValidFeedback === null) {
@@ -216,21 +243,35 @@ export default {
   },
   },
     methods: {
-      getBiomedicMeasures(){
-        this.$axios.$get("/api/patients").then((entidade) => {
-          this.patients = entidade;
+     getBiomedicMeasures(){
+     this.$axios.$get("/api/biomedicDataTypes").then((entidade) => {
+      this.biomedicDataTypes = entidade;
+      this.$axios.$get("/api/biomedicDataMeasures").then((entidade) => {
+        this.entidade = entidade;
+       let i = 0;
+        entidade.forEach(e => {
+          this.biomedicDataTypes.forEach(b => {
+            if(e.biomedicDataTypeCode === b.code){
+              this.entidade[i].biomedicDataType = b.name;
+              this.entidade[i].value += " " + b.unitMeasure;
+            }
+           });
+           i++;
         });
+      });
+    });
       },
       create() {
         if(!this.isFormValid){
-            alert("Fields are invalid - Correct them first!");
+          alert("Fields are invalid - Correct them first!");
             return;
         }
+        console.log()
         this.$axios
           .$post("/api/biomedicDataMeasures", {
-              date:this.date,
+            date:this.date,
               hour:this.hour,
-              biomedicDataTypeCode:this.biomedicDataType.code,
+              biomedicDataTypeCode:this.biomedicDataType,
               value:this.value,
               usernamePatient:this.patient
           })
@@ -250,7 +291,7 @@ export default {
       },
       remove(code) {
         this.$axios.$delete(`/api/biomedicDataMeasures/${code}`).then(() => {
-           alert("Biomedic data measure "+this.code+" deleted with success!");
+          alert("Biomedic data measure "+this.code+" deleted with success!");
           this.$axios.$get("/api/biomedicDataMeasures").then((entidade) => {
             this.entidade = entidade;
           });
@@ -262,24 +303,12 @@ export default {
       },
     },
   created() {
-    this.getBiomedicMeasures();
-    this.$axios.$get("/api/biomedicDataTypes").then((entidade) => {
-      this.biomedicDataTypes = entidade;
-      //HERE qd for o healthcare prof meter apenas os seus pacientes
-      this.$axios.$get("/api/biomedicDataMeasures").then((entidade) => {
-       this.entidade = entidade;
-       let i = 0;
-        entidade.forEach(e => {
-          this.biomedicDataTypes.forEach(b => {
-            if(e.biomedicDataTypeCode === b.code){
-              this.entidade[i].biomedicDataType = b.name;
-              this.entidade[i].value += " " + b.unitMeasure;
-            }
-           });
-           i++;
-        });
+    //HERE qd for o healthcare prof meter apenas os seus pacientes
+    this.$axios.$get("/api/patients").then((entidade) => {
+      this.patients = entidade;
       });
-    });
+      this.getBiomedicMeasures();
+
   },
 };
 </script>

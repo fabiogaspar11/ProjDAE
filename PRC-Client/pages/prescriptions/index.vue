@@ -80,7 +80,7 @@
         ></b-form-textarea>
         <p>{{ isTreatmentInfoValidFeedback }}</p>
       </div>
-      <br>
+      <br />
       <span>Observations:</span>
       <div>
         <b-form-textarea
@@ -91,7 +91,7 @@
           max-rows="6"
         ></b-form-textarea>
       </div>
-      <br>
+      <br />
       <div class="input-group mb-4">
         <span class="input-group-text">Expire Date</span>
         <b-input
@@ -103,8 +103,8 @@
           aria-describedby="basic-addon1"
           placeholder="dd/mm/yyyy"
         />
-        <p>{{ isDateValidFeedback }}</p>
       </div>
+        <p>{{ isDateValidFeedback }}</p>
     </b-modal>
     <hr style="width: 73%" />
     <div class="d-flex justify-content-center" style="margin-top: 3%">
@@ -147,9 +147,17 @@ export default {
       fields: [
         { key: "code", label: "Code", sortable: true, sortDirection: "desc" },
         { key: "title", label: "Title", sortable: true, sortDirection: "desc" },
-        { key: "emissionDate", label: "Emission Date", sortable: true, sortDirection: "desc"},
+        {
+          key: "emissionDate",
+          label: "Emission Date",
+          sortable: true,
+          sortDirection: "desc",
+        },
         { key: "usernamePatient", label: "Patient username" },
-        { key: "usernameHealthcareProfessional", label: "Healthcare professional" },
+        {
+          key: "usernameHealthcareProfessional",
+          label: "Healthcare professional",
+        },
         "operations",
       ],
       options: [
@@ -163,7 +171,7 @@ export default {
       treatmentInfo: null,
       name: null,
       title: null,
-      observations: null,
+      observations: "",
       expireDate: null,
       isPharmacological: null,
       code: null,
@@ -218,9 +226,27 @@ export default {
       }
       var date_regex =
         /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
-      return date_regex.test(this.expireDate)
-        ? ""
-        : "The expire date is invalid - format dd/mm/yyyy";
+      var currentdate = new Date();
+      var dateSplitted = this.expireDate.split("/");
+      var dateRegexValid = date_regex.test(this.expireDate);
+      if (!dateRegexValid) {
+        return "The date is invalid - format dd/mm/yyyy";
+      }
+      if (parseInt(dateSplitted[2]) > currentdate.getFullYear()) {
+        return "";
+      } else if (
+        parseInt(dateSplitted[2]) == currentdate.getFullYear() &&
+        parseInt(dateSplitted[1]) > currentdate.getMonth() + 1
+      ) {
+        return "";
+      } else if (
+        parseInt(dateSplitted[2]) == currentdate.getFullYear() &&
+        parseInt(dateSplitted[1]) == currentdate.getMonth() + 1 &&
+        parseInt(dateSplitted[0]) >= currentdate.getDate()
+      ) {
+        return "";
+      }
+      return "The expire date should be bigger than the actual date";
     },
     isusernamePatientValidFeedback() {
       if (!this.usernamePatient) {
@@ -240,7 +266,7 @@ export default {
       return this.isusernamePatientValidFeedback === "";
     },
     isOptionValid() {
-      if (this.isOptionValidFeedback == null) {
+      if (this.isOptionValidFeedback === null) {
         return null;
       }
       return "";
@@ -259,21 +285,32 @@ export default {
       return "";
     },
     isFormValid() {
+      console.log("1")
       if (!this.isTitleValid) {
         return false;
       }
+            console.log("2")
+
       if (!this.isDateValid) {
         return false;
       }
+            console.log("3")
+
       if (!this.isusernamePatientValid) {
         return false;
       }
+            console.log("4")
+
       if (!this.isOptionValid) {
         return false;
       }
+            console.log("5")
+
       if (!this.isTreatmentInfoValid) {
         return false;
       }
+            console.log("6")
+
       return true;
     },
   },
@@ -290,9 +327,9 @@ export default {
     },
     remove(code) {
       this.$axios.$delete(`/api/prescriptions/${code}`).then(() => {
-      alert("Prescription " + code + " was successfully removed");
-      this.getData();
-  });
+        alert("Prescription " + code + " was successfully removed");
+        this.getData();
+      });
     },
     createPrescription() {
       if (!this.isFormValid) {
@@ -319,7 +356,7 @@ export default {
           this.usernamePatient = null;
           this.usernameHealthcareProfessional = null;
           this.getData();
-})
+        })
         .catch((error) => {
           alert("Error when creating Prescription: " + error.response.data);
         });
