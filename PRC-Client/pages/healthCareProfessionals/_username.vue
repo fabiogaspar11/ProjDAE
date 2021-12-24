@@ -164,7 +164,6 @@ export default {
       ],
       healthCareProfessional: [],
       prescriptions: [],
-      codePrescription: null,
       patients: [],
       patientsAll:[],
       usernamePatient: null,
@@ -175,7 +174,6 @@ export default {
       type : null,
       email : null,
       contact : null,
-      password: null,
       passwordOld: null,
       passwordNew : null,
       showDismissibleAlertEdit: false,
@@ -189,15 +187,8 @@ export default {
   },
   created() {
     this.getHealthCareProfessionalData()
-    this.$axios.$get(`/api/healthcareProfessionals/${this.username}/prescriptions`).then((entidade) => {
-      this.prescriptions = entidade;
-    });
-    this.$axios.$get(`/api/healthcareProfessionals/${this.username}/patients`).then((entidade) => {
-      this.patients = entidade;
-    });
-    this.$axios.$get(`/api/patients`).then(patients => {
-      this.patientsAll = patients
-    })
+    this.getHealthCareProfessionalPatients()
+    this.getHealthCareProfessionalPrescriptions()
   },
   computed: {
     username() {
@@ -367,6 +358,19 @@ export default {
       this.$axios.$get(`/api/healthcareProfessionals/${this.username}`).then((entidade) => {
         this.healthCareProfessional = [entidade];
         console.log(this.healthCareProfessional)
+      });
+    },
+    getHealthCareProfessionalPatients() {
+      this.$axios.$get(`/api/healthcareProfessionals/${this.username}/patients`).then((entidade) => {
+        this.patients = entidade;
+      });
+      this.$axios.$get(`/api/patients`).then(patients => {
+        this.patientsAll = patients
+      })
+    },
+    getHealthCareProfessionalPrescriptions(){
+      this.$axios.$get(`/api/healthcareProfessionals/${this.username}/prescriptions`).then((entidade) => {
+        this.prescriptions = entidade;
       });
     },
     update(bvModalEvt) {

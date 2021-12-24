@@ -1,26 +1,31 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <div class="container" style="margin-top: 4%">
+    <h1 style="margin-top: 4%" class="d-flex justify-content-center"> Diseases </h1>
+    <div class="d-flex justify-content-center" style="margin-top: 2%">
       <template>
         <div>
           <b-table striped hover :items="disease" :fields="fields"></b-table>
         </div>
       </template>
-          <b-button v-b-modal.modal-1>Edit</b-button>
-          <b-modal id="modal-1" title="Edit" @ok="update()">
-              <div class="input-group mb-4">
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <b-button v-b-modal.modal-1>Edit</b-button>
+      <b-modal id="modal-1" title="Edit" @ok="update()">
+        <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
-            <b-input v-model.trim="name" type="text" :state="isNameValid" placeholder="Enter name" class="form-control" required aria-describedby="basic-addon1"/>
-            <p>{{isNameValidFeedback}}</p>
-          </div>
-          </b-modal>
-      </b-col>
-    </b-row>
-    <div class="d-flex justify-content-center" style="margin-top: 4%">
+          <b-input v-model.trim="name" type="text" :state="isNameValid" placeholder="Enter name" class="form-control" required aria-describedby="basic-addon1"/>
+          <p>{{isNameValidFeedback}}</p>
+        </div>
+      </b-modal>
+    </div>
+
+    <h3 style="margin-top: 4%" class="d-flex justify-content-center"> Patients </h3>
+    <div class="d-flex justify-content-center">
       <template>
         <div>
-          <b-table v-if="patients != []" striped hover :items="patients" :fields="fieldsPatient">
+          <b-table v-if="patients !== []" striped hover :items="patients" :fields="fieldsPatient">
             <template #cell(show_details)="row">
               <b-button size="sm" @click="row.toggleDetails" class="mr-2">
                 {{ row.detailsShowing ? "Hide" : "Show" }} Details
@@ -45,30 +50,44 @@
         </div>
       </template>
     </div>
-    <br>
-    <div>
-      Patient:
-      <select v-model="username">
-        <template v-for="patient in patientsAll">
-          <option v-if="isExist(patient)" :key="patient.username" :value="patient.username">
-            {{ patient.name }}
-          </option>
-        </template>
-      </select>
-      <button @click.prevent="enroll">ADD PATIENT</button>
-    </div>
-    <div>
-      Patient:
-      <select v-model="username">
-        <template v-for="patient in patients">
-          <option :key="patient.username" :value="patient.username">
-            {{ patient.name }}
-          </option>
-        </template>
-      </select>
-      <button @click.prevent="unroll">REMOVE PATIENT</button>
-    </div>
-    </div>
+
+    <b-container >
+      <b-row class="d-flex justify-content-center">
+        <b-col sm="2">
+          <p> Add Patient: </p>
+        </b-col>
+        <b-col sm="2">
+          <b-form-select size="sm" v-model="username">
+            <template v-for="patient in patientsAll">
+              <option v-if="isExist(patient)" :key="patient.username" :value="patient.username">
+                {{ patient.name }}
+              </option>
+            </template>
+          </b-form-select>
+        </b-col>
+        <b-col sm="2">
+          <b-button variant="info" @click.prevent="enroll">Add patient</b-button>
+        </b-col>
+      </b-row>
+
+      <b-row class="d-flex justify-content-center">
+        <b-col sm="2">
+          <p> Remove Patient: </p>
+        </b-col>
+        <b-col sm="2">
+          <b-form-select size="sm" v-model="username">
+            <template v-for="patient in patients">
+              <option :key="patient.username" :value="patient.username">
+                {{ patient.name }}
+              </option>
+            </template>
+          </b-form-select>
+        </b-col>
+        <b-col sm="2">
+          <b-button variant="danger" @click.prevent="unroll">Remove Patient</b-button>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
