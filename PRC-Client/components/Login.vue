@@ -8,7 +8,7 @@
         <br>
         <img src="../static/logoLogin.png" id="icon" alt="User Icon" />
 
-        <h1>Programas de Reabilitação Cardíaca</h1>
+        <h1>Programa de Reabilitação Cardíaca</h1>
       </div>
 
       <!-- Login Form -->

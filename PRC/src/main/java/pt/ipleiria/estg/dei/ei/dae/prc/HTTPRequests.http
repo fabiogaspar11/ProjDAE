@@ -257,4 +257,28 @@ Content-Type: application/json
 DELETE http://localhost:8080/PRC/api/biomedicDataMeasures/1
 
 
+###TOKEN
+
+#ADMINISTRATORS
+#142394274
+#156789014
+
+
+### Get JWT token
+POST http://localhost:8080/PRC/api/auth/login
+Content-Type: application/json
+
+{"username":"A142394274","password":"password"}
+
+
+###Who am I
+GET http://localhost:8080/PRC/api/auth/user
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJBMTQyMzk0Mjc0IiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkFkbWluaXN0cmF0b3IiXSwiZXhwIjoxNjQwNTQ5MTAzfQ.kunQBS0sa8XyPsTDaHy_TRAKumrR1uIHLBV9AcjLfPIqc2lZvINxxTydY6vz-6sZZ1EGaDAxpegArMWkD2C6FwR1RFmOXQjg_hozWF5EIKoHsb_GSwkKD3ezV5pnte-6yTX9xfumwXJdSUyi2zK5hzCFLdZUTz1f0IyfIoVWyjC26NNAzP6z3gr3p1CIJ1pryd_HaBcGwiZlzs3se_s_O7XXOeawCpyT60uZj02BtQG3vYrEQS7Y9c9ywuB0g7i3IU09-v0S3rqHSmaip8ySrf593XZ7J6xHSY_yd6UDVrfYVPpipWnMH0yFlxPZm51S2Y37YLEEXLIdhIXaWTYkLw
+
+
+##### Get administrator
+GET http://localhost:8080/PRC/api/administrators/A142394274
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJBMTQyMzk0Mjc0IiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkFkbWluaXN0cmF0b3IiXSwiZXhwIjoxNjQwNTQ5MTAzfQ.kunQBS0sa8XyPsTDaHy_TRAKumrR1uIHLBV9AcjLfPIqc2lZvINxxTydY6vz-6sZZ1EGaDAxpegArMWkD2C6FwR1RFmOXQjg_hozWF5EIKoHsb_GSwkKD3ezV5pnte-6yTX9xfumwXJdSUyi2zK5hzCFLdZUTz1f0IyfIoVWyjC26NNAzP6z3gr3p1CIJ1pryd_HaBcGwiZlzs3se_s_O7XXOeawCpyT60uZj02BtQG3vYrEQS7Y9c9ywuB0g7i3IU09-v0S3rqHSmaip8ySrf593XZ7J6xHSY_yd6UDVrfYVPpipWnMH0yFlxPZm51S2Y37YLEEXLIdhIXaWTYkLw
 

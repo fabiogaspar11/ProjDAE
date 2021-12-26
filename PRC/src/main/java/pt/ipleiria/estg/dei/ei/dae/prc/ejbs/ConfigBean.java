@@ -43,7 +43,7 @@ public class ConfigBean {
         String usernameH1 = healthcareProfessionalBean.create(111111321, "Clara Sousa", "clara@gmail.com", "1234", "22/10/2000", "924359214", "medic");
 
         administratorBean.create("Ricardo Reis","ricardo.reis@clinic.com", "password", "17/04/1960", "919191911", 142394274);
-        administratorBean.create("Alicia Mendes","alicia.mendes@clinic.com", "qwerty", "02/10/1966", "918347563", 123475471);
+        administratorBean.create("Alicia Mendes","alicia.mendes@clinic.com", "qwerty", "02/10/1966", "918347563", 156789014);
 
         biomedicDataTypeBean.create("Febre","ºC",30,45);
         biomedicDataTypeBean.create( "Obesidade", "Kilogramas", 40, 100);
