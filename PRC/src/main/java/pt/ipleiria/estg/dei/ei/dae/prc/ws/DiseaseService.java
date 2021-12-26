@@ -7,6 +7,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.entities.Disease;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,12 +21,6 @@ import java.util.stream.Collectors;
 public class DiseaseService {
     @EJB
     DiseaseBean diseaseBean;
-
-    @GET // means: to call this endpoint, we need to use the HTTP GET method
-    @Path("/") // means: the relative url path is “/api/diseases/”
-    public List<DiseaseDTO> getAllDiseasesWS() {
-        return toDTOsNoPatients(diseaseBean.getAllDiseases());
-    }
 
     private DiseaseDTO toDTO(Disease disease){
         return new DiseaseDTO(
@@ -49,7 +44,6 @@ public class DiseaseService {
         return diseases.stream().map(this::toDTONoPatients).collect(Collectors.toList());
     }
 
-
     private PatientDTO toDTO(Patient patient) {
         return new PatientDTO(
                 patient.getName(),
@@ -65,9 +59,17 @@ public class DiseaseService {
         return patients.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
+    @GET // means: to call this endpoint, we need to use the HTTP GET method
+    @Path("/") // means: the relative url path is “/api/diseases/”
+    @RolesAllowed({"Administrator","HealthcareProfessional"})
+    public List<DiseaseDTO> getAllDiseasesWS() {
+        return toDTOsNoPatients(diseaseBean.getAllDiseases());
+    }
+
 
     @POST
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public Response createNewDisease (DiseaseDTO diseaseDTO) throws MyEntityExistsException, MyEntityNotFoundException {
         long diseaseCode = diseaseBean.create(diseaseDTO.getName());
         Disease newDisease = diseaseBean.findDisease(diseaseCode);
@@ -78,6 +80,7 @@ public class DiseaseService {
 
     @GET
     @Path("{code}/patients")
+    @RolesAllowed({"HealthcareProfessional"})
     public Response getDiseasePatients(@PathParam("code") int code) throws MyEntityNotFoundException {
         Disease disease = diseaseBean.findDisease(code);
         return Response.status(Response.Status.OK)
@@ -87,6 +90,7 @@ public class DiseaseService {
 
     @GET
     @Path("/{code}")
+    @RolesAllowed({"Administrator","HealthcareProfessional"})
     public Response getDiseaseDetails(@PathParam("code") int code) throws MyEntityNotFoundException {
         Disease disease = diseaseBean.findDisease(code);
         return Response.status(Response.Status.OK)
@@ -98,6 +102,7 @@ public class DiseaseService {
     //TODO
     @PUT
     @Path("/{code}")
+    @RolesAllowed({"Administrator"})
     public Response updateDiseaseWS(@PathParam("code") int code, DiseaseDTO diseaseDTO) throws MyEntityNotFoundException {
         diseaseBean.update(code, diseaseDTO);
         Disease disease = diseaseBean.findDisease(code);
@@ -108,6 +113,7 @@ public class DiseaseService {
 
     @DELETE
     @Path("/{code}")
+    @RolesAllowed({"Administrator"})
     public Response deleteDiseaseWS(@PathParam("code") int code) throws MyEntityNotFoundException {
         Disease disease = diseaseBean.findDisease(code);
         diseaseBean.delete(code);
@@ -119,6 +125,7 @@ public class DiseaseService {
     //TODO - check if needed
     @PUT
     @Path("/{code}/{patient}")
+    @RolesAllowed({"HealthcareProfessional"})
     public Response enrollInPatients(@PathParam("code") int code, @PathParam("patient") String username) throws MyEntityNotFoundException {
         diseaseBean.addDiseaseToPatient(code, username);
         return Response.status(Response.Status.CREATED)
@@ -127,6 +134,7 @@ public class DiseaseService {
 
     @DELETE
     @Path("/{code}/{patient}")
+    @RolesAllowed({"HealthcareProfessional"})
     public Response unrollInPatients(@PathParam("code") int code, @PathParam("patient") String username) throws MyEntityNotFoundException {
         diseaseBean.removeDiseaseFromPatient(code, username);
         return Response.status(Response.Status.CREATED)

@@ -36,6 +36,17 @@ public class HealthcareProfessionalDTO implements Serializable {
         this.healthNumber = healthNumber;
         this.type=type;
     }
+
+    public HealthcareProfessionalDTO(String name, String email, String birthDate, String contact, long healthNumber, String type) {
+        this.username = "H"+healthNumber;
+        this.name = name;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.contact = contact;
+        this.healthNumber = healthNumber;
+        this.type=type;
+    }
+
     public HealthcareProfessionalDTO(String name, String email, String password, String birthDate, String contact, long healthNumber, String type, List<Patient> patients, List<Prescription> prescriptions) {
         this(name, email, password, birthDate, contact, healthNumber, type);
         this.patients = patients;
@@ -46,6 +57,7 @@ public class HealthcareProfessionalDTO implements Serializable {
         this.email = email;
         this.contact = contact;
     }
+
 
     public HealthcareProfessionalDTO(String passwordOld, String password) {
         this.passwordOld = passwordOld;

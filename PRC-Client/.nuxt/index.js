@@ -15,8 +15,10 @@ import { createStore } from './store.js'
 
 import nuxt_plugin_plugin_7af7fce4 from 'nuxt_plugin_plugin_7af7fce4' // Source: .\\components\\plugin.js (mode: 'all')
 import nuxt_plugin_bootstrapvue_e1331040 from 'nuxt_plugin_bootstrapvue_e1331040' // Source: .\\bootstrap-vue.js (mode: 'all')
+import nuxt_plugin_toast_7fb1b140 from 'nuxt_plugin_toast_7fb1b140' // Source: .\\toast.js (mode: 'client')
 import nuxt_plugin_axios_18124a9e from 'nuxt_plugin_axios_18124a9e' // Source: .\\axios.js (mode: 'all')
 import nuxt_plugin_fontawesome_31502533 from 'nuxt_plugin_fontawesome_31502533' // Source: .\\fontawesome.js (mode: 'all')
+import nuxt_plugin_plugin_1b6b7cc0 from 'nuxt_plugin_plugin_1b6b7cc0' // Source: .\\auth\\plugin.js (mode: 'all')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -218,6 +220,10 @@ async function createApp(ssrContext, config = {}) {
     await nuxt_plugin_bootstrapvue_e1331040(app.context, inject)
   }
 
+  if (process.client && typeof nuxt_plugin_toast_7fb1b140 === 'function') {
+    await nuxt_plugin_toast_7fb1b140(app.context, inject)
+  }
+
   if (typeof nuxt_plugin_axios_18124a9e === 'function') {
     await nuxt_plugin_axios_18124a9e(app.context, inject)
   }
@@ -226,8 +232,8 @@ async function createApp(ssrContext, config = {}) {
     await nuxt_plugin_fontawesome_31502533(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_plugin_1ead487c === 'function') {
-    await nuxt_plugin_plugin_1ead487c(app.context, inject)
+  if (typeof nuxt_plugin_plugin_1b6b7cc0 === 'function') {
+    await nuxt_plugin_plugin_1b6b7cc0(app.context, inject)
   }
 
   // Lock enablePreview in context

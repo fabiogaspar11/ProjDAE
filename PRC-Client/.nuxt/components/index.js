@@ -1,4 +1,5 @@
 export { default as Card } from '../..\\components\\Card.vue'
+export { default as Login } from '../..\\components\\Login.vue'
 export { default as NavBar } from '../..\\components\\NavBar.vue'
 export { default as NavBarPatient } from '../..\\components\\NavBarPatient.vue'
 

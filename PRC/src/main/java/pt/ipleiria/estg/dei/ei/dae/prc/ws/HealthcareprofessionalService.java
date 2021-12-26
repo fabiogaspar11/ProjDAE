@@ -9,10 +9,14 @@ import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Prescription;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,12 +27,25 @@ import java.util.stream.Collectors;
 public class HealthcareprofessionalService {
     @EJB
     private HealthcareProfessionalBean healthcareProfessionalBean;
+    @Context
+    private SecurityContext securityContext;
 
     private HealthcareProfessionalDTO toDTONoPatients(HealthcareProfessional healthcareProfessional){
         return new HealthcareProfessionalDTO(
                 healthcareProfessional.getName(),
                 healthcareProfessional.getEmail(),
                 healthcareProfessional.getPassword(),
+                healthcareProfessional.getBirthDate(),
+                healthcareProfessional.getContact(),
+                healthcareProfessional.getHealthNumber(),
+                healthcareProfessional.getType()
+        );
+    }
+
+    private HealthcareProfessionalDTO toDTONoPassword(HealthcareProfessional healthcareProfessional){
+        return new HealthcareProfessionalDTO(
+                healthcareProfessional.getName(),
+                healthcareProfessional.getEmail(),
                 healthcareProfessional.getBirthDate(),
                 healthcareProfessional.getContact(),
                 healthcareProfessional.getHealthNumber(),
@@ -87,12 +104,14 @@ public class HealthcareprofessionalService {
 
     @GET
     @Path("/")
+    @RolesAllowed({"Administrator","HealthcareProfessional"})
     public List<HealthcareProfessionalDTO> getAllHealthcareProfessionalsWS() {
         return toDTOs(healthcareProfessionalBean.getAllHealthcareProfessionals());
     }
 
     @POST
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public Response createNewHealthcareprofessional(HealthcareProfessionalDTO healthcareProfessionalDTO) throws MyEntityExistsException, MyEntityNotFoundException {
         String username = healthcareProfessionalBean.create(
                 healthcareProfessionalDTO.getHealthNumber(),
@@ -112,14 +131,22 @@ public class HealthcareprofessionalService {
     @GET
     @Path("{username}")
     public Response getHealthcareprofessionalDetails(@PathParam("username") String username) throws MyEntityNotFoundException {
+        Principal principal = securityContext.getUserPrincipal();
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
+        if(!(securityContext.isUserInRole("HealthcareProfessional")  && principal.getName().equals(healthcareProfessional.getUsername())) || !securityContext.isUserInRole("Administrator")) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        if(principal.getName().equals(username)) {
+            return Response.ok(toDTO(healthcareProfessional)).build();
+        }
         return Response.status(Response.Status.OK)
-                .entity(toDTONoPatients(healthcareProfessional))
+                .entity(toDTONoPassword(healthcareProfessional))
                 .build();
     }
 
     @DELETE
     @Path("/{username}")
+    @RolesAllowed({"Administrator"})
     public Response deleteHealthcareprofessional(@PathParam("username") String username) throws MyEntityNotFoundException {
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         healthcareProfessionalBean.remove(username);
@@ -131,7 +158,11 @@ public class HealthcareprofessionalService {
     @PUT
     @Path("/{username}")
     public Response updateHealthcareprofessional(@PathParam("username") String username, HealthcareProfessionalDTO healthcareProfessionalDTO) throws MyEntityNotFoundException {
+        Principal principal = securityContext.getUserPrincipal();
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
+        if(!(securityContext.isUserInRole("HealthcareProfessional")  && principal.getName().equals(healthcareProfessional.getUsername()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
         healthcareProfessionalBean.update(healthcareProfessional, healthcareProfessionalDTO);
         return Response.status(Response.Status.OK)
                 .entity(toDTO(healthcareProfessional))
@@ -140,8 +171,11 @@ public class HealthcareprofessionalService {
     @PUT
     @Path("/{username}/password")
     public Response updatePasswordHealthcareprofessional(@PathParam("username") String username, HealthcareProfessionalDTO healthcareProfessionalDTO) throws MyEntityNotFoundException, MyIllegalArgumentException {
-
+        Principal principal = securityContext.getUserPrincipal();
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
+        if(!(securityContext.isUserInRole("HealthcareProfessional")  && principal.getName().equals(healthcareProfessional.getUsername())) || !securityContext.isUserInRole("Administrator")) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
         healthcareProfessionalBean.updatePassword(healthcareProfessional, healthcareProfessionalDTO);
         return Response.status(Response.Status.OK)
                 .entity(toDTO(healthcareProfessional))
@@ -150,6 +184,7 @@ public class HealthcareprofessionalService {
 
     @GET
     @Path("{username}/patients")
+    @RolesAllowed({"HealthcareProfessional"})
     public Response getHealthcareprofessionalPatients(@PathParam("username") String username) throws MyEntityNotFoundException {
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         return Response.status(Response.Status.OK)
@@ -160,7 +195,11 @@ public class HealthcareprofessionalService {
     @GET
     @Path("{username}/prescriptions")
     public Response getHealthcareprofessionalPrescriptions(@PathParam("username") String username) throws MyEntityNotFoundException {
+        Principal principal = securityContext.getUserPrincipal();
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
+        if(!(securityContext.isUserInRole("HealthcareProfessional")  && principal.getName().equals(healthcareProfessional.getUsername()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
         return Response.status(Response.Status.OK)
                 .entity(prescriptionstoDTOs(healthcareProfessional.getPrescriptions()))
                 .build();
@@ -169,8 +208,12 @@ public class HealthcareprofessionalService {
     @POST
     @Path("/{username}/AddPatient/{usernamePatient}")
     public Response addPatient(@PathParam("username") String username, @PathParam("usernamePatient") String usernamePatient) throws MyEntityNotFoundException {
-        healthcareProfessionalBean.addPatientFromHealthcareprofessional(usernamePatient, username);
+        Principal principal = securityContext.getUserPrincipal();
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
+        if(!(securityContext.isUserInRole("HealthcareProfessional")  && principal.getName().equals(healthcareProfessional.getUsername()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        healthcareProfessionalBean.addPatientFromHealthcareprofessional(usernamePatient, username);
         return Response.ok(patientstoDTOs(healthcareProfessional.getPatients())).build();
 
     }
@@ -178,16 +221,24 @@ public class HealthcareprofessionalService {
     @DELETE
     @Path("/{username}/RemovePatient/{usernamePatient}")
     public Response removePatient(@PathParam("username") String username, @PathParam("usernamePatient") String usernamePatient) throws MyEntityNotFoundException {
-        healthcareProfessionalBean.removePatientFromHealthcareprofessional(usernamePatient, username);
+        Principal principal = securityContext.getUserPrincipal();
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
+        if(!(securityContext.isUserInRole("HealthcareProfessional")  && principal.getName().equals(healthcareProfessional.getUsername()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        healthcareProfessionalBean.removePatientFromHealthcareprofessional(usernamePatient, username);
         return Response.ok(patientstoDTOs(healthcareProfessional.getPatients())).build();
     }
 
     @POST
     @Path("/{username}/AddPrescription/{codePrescription}")
     public Response addPrescription(@PathParam("username") String username, @PathParam("codePrescription") Integer codePrescription) throws MyEntityNotFoundException {
-        healthcareProfessionalBean.addPrescriptionFromHealthcareprofessional(codePrescription, username);
+        Principal principal = securityContext.getUserPrincipal();
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
+        if(!(securityContext.isUserInRole("HealthcareProfessional")  && principal.getName().equals(healthcareProfessional.getUsername()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        healthcareProfessionalBean.addPrescriptionFromHealthcareprofessional(codePrescription, username);
         return Response.ok(patientstoDTOs(healthcareProfessional.getPatients())).build();
 
     }
@@ -195,8 +246,12 @@ public class HealthcareprofessionalService {
     @DELETE
     @Path("/{username}/RemovePrescription/{codePrescription}")
     public Response removePatient(@PathParam("username") String username, @PathParam("codePrescription") Integer codePrescription) throws MyEntityNotFoundException {
-        healthcareProfessionalBean.removePrescriptionFromHealthcareprofessional(codePrescription, username);
+        Principal principal = securityContext.getUserPrincipal();
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
+        if(!(securityContext.isUserInRole("HealthcareProfessional")  && principal.getName().equals(healthcareProfessional.getUsername()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        healthcareProfessionalBean.removePrescriptionFromHealthcareprofessional(codePrescription, username);
         return Response.ok(patientstoDTOs(healthcareProfessional.getPatients())).build();
     }
 
