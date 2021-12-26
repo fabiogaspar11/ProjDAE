@@ -12,6 +12,7 @@ const _d3d0f9ac = () => interopDefault(import('..\\pages\\diseases\\index.vue' /
 const _0793d0f4 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/index" */))
 const _3787119a = () => interopDefault(import('..\\pages\\patients\\index.vue' /* webpackChunkName: "pages/patients/index" */))
 const _460d58fa = () => interopDefault(import('..\\pages\\prescriptions\\index.vue' /* webpackChunkName: "pages/prescriptions/index" */))
+const _1d0fdc60 = () => interopDefault(import('..\\pages\\auth\\Login.vue' /* webpackChunkName: "pages/auth/Login" */))
 const _5ed7e5c4 = () => interopDefault(import('..\\pages\\administrators\\_username.vue' /* webpackChunkName: "pages/administrators/_username" */))
 const _4f38d9d3 = () => interopDefault(import('..\\pages\\biomedicData\\_code.vue' /* webpackChunkName: "pages/biomedicData/_code" */))
 const _28dd9548 = () => interopDefault(import('..\\pages\\biomedicMeasures\\_code.vue' /* webpackChunkName: "pages/biomedicMeasures/_code" */))
@@ -64,6 +65,10 @@ export const routerOptions = {
     path: "/prescriptions",
     component: _460d58fa,
     name: "prescriptions"
+  }, {
+    path: "/auth/Login",
+    component: _1d0fdc60,
+    name: "auth-Login"
   }, {
     path: "/administrators/:username",
     component: _5ed7e5c4,

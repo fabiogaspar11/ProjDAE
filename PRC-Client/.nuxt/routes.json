@@ -56,6 +56,13 @@
     "_name": "_460d58fa"
   },
   {
+    "name": "auth-Login",
+    "path": "/auth/Login",
+    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\auth\\\\Login.vue",
+    "chunkName": "pages/auth/Login",
+    "_name": "_1d0fdc60"
+  },
+  {
     "name": "administrators-username",
     "path": "/administrators/:username",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\administrators\\\\_username.vue",

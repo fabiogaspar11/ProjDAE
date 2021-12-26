@@ -257,4 +257,23 @@ Content-Type: application/json
 DELETE http://localhost:8080/PRC/api/biomedicDataMeasures/1
 
 
+##### ****************************** JWT ******************************
 
+### Get JWT PATIENT
+POST http://localhost:8080/PRC/api/auth/login
+Content-Type: application/x-www-form-urlencoded
+
+username=P978675432&password=12345
+
+
+### Get JWT ADMIN
+POST http://localhost:8080/PRC/api/auth/login
+Content-Type: application/x-www-form-urlencoded
+
+username=A142394274&password=password
+
+### Get JWT HEALTHCARE PROF
+POST http://localhost:8080/PRC/api/auth/login
+Content-Type: application/x-www-form-urlencoded
+
+username=H987654321&password=1234
