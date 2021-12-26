@@ -257,28 +257,23 @@ Content-Type: application/json
 DELETE http://localhost:8080/PRC/api/biomedicDataMeasures/1
 
 
-###TOKEN
+##### ****************************** JWT ******************************
 
-#ADMINISTRATORS
-#142394274
-#156789014
-
-
-### Get JWT token
+### Get JWT PATIENT
 POST http://localhost:8080/PRC/api/auth/login
-Content-Type: application/json
+Content-Type: application/x-www-form-urlencoded
 
-{"username":"A142394274","password":"password"}
-
-
-###Who am I
-GET http://localhost:8080/PRC/api/auth/user
-Accept: application/json
-Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJBMTQyMzk0Mjc0IiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkFkbWluaXN0cmF0b3IiXSwiZXhwIjoxNjQwNTQ5MTAzfQ.kunQBS0sa8XyPsTDaHy_TRAKumrR1uIHLBV9AcjLfPIqc2lZvINxxTydY6vz-6sZZ1EGaDAxpegArMWkD2C6FwR1RFmOXQjg_hozWF5EIKoHsb_GSwkKD3ezV5pnte-6yTX9xfumwXJdSUyi2zK5hzCFLdZUTz1f0IyfIoVWyjC26NNAzP6z3gr3p1CIJ1pryd_HaBcGwiZlzs3se_s_O7XXOeawCpyT60uZj02BtQG3vYrEQS7Y9c9ywuB0g7i3IU09-v0S3rqHSmaip8ySrf593XZ7J6xHSY_yd6UDVrfYVPpipWnMH0yFlxPZm51S2Y37YLEEXLIdhIXaWTYkLw
+username=P978675432&password=12345
 
 
-##### Get administrator
-GET http://localhost:8080/PRC/api/administrators/A142394274
-Accept: application/json
-Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJBMTQyMzk0Mjc0IiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkFkbWluaXN0cmF0b3IiXSwiZXhwIjoxNjQwNTQ5MTAzfQ.kunQBS0sa8XyPsTDaHy_TRAKumrR1uIHLBV9AcjLfPIqc2lZvINxxTydY6vz-6sZZ1EGaDAxpegArMWkD2C6FwR1RFmOXQjg_hozWF5EIKoHsb_GSwkKD3ezV5pnte-6yTX9xfumwXJdSUyi2zK5hzCFLdZUTz1f0IyfIoVWyjC26NNAzP6z3gr3p1CIJ1pryd_HaBcGwiZlzs3se_s_O7XXOeawCpyT60uZj02BtQG3vYrEQS7Y9c9ywuB0g7i3IU09-v0S3rqHSmaip8ySrf593XZ7J6xHSY_yd6UDVrfYVPpipWnMH0yFlxPZm51S2Y37YLEEXLIdhIXaWTYkLw
+### Get JWT ADMIN
+POST http://localhost:8080/PRC/api/auth/login
+Content-Type: application/x-www-form-urlencoded
 
+username=A142394274&password=password
+
+### Get JWT HEALTHCARE PROF
+POST http://localhost:8080/PRC/api/auth/login
+Content-Type: application/x-www-form-urlencoded
+
+username=H987654321&password=1234

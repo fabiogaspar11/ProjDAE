@@ -14,11 +14,13 @@ public class UserBean {
     public User authenticate(final String username, final String password) throws
             Exception {
         User user = entityManager.find(User.class, username);
-        if (user != null &&
-                user.getPassword().equals(User.hashPassword(password))) {
+        if(user == null){
+            throw new Exception("Unknown User with username: \'"+username+"\'");
+        }
+        if(user.getPassword().equals(User.hashPassword(password))){
             return user;
         }
-        throw new Exception("Failed logging in with username '" + username + "': nknown username or wrong password");
+        throw new Exception("Wrong password was provided");
     }
 }
 

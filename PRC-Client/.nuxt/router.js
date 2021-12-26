@@ -65,6 +65,10 @@ export const routerOptions = {
     component: _5d9b21bc,
     name: "prescriptions"
   }, {
+    path: "/auth/Login",
+    component: _1d0fdc60,
+    name: "auth-Login"
+  }, {
     path: "/administrators/:username",
     component: _436e8ff6,
     name: "administrators-username"

@@ -28,6 +28,7 @@ public class LoginService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response authenticateUser(AuthDTO authDTO) {
+        String message="";
         try {
             User user = userBean.authenticate(authDTO.getUsername(), authDTO.getPassword());
             if (user != null) {
@@ -40,8 +41,9 @@ public class LoginService {
             }
         } catch (Exception e) {
             log.info(e.getMessage());
+            message = e.getMessage();
         }
-        return Response.status(Response.Status.UNAUTHORIZED).build();
+        return Response.status(Response.Status.UNAUTHORIZED).entity(message).build();
     }
     @GET
     @Path("/user")
