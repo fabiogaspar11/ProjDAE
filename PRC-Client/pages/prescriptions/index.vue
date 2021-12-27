@@ -320,13 +320,14 @@ export default {
     },
     remove(code) {
       this.$axios.$delete(`/api/prescriptions/${code}`).then(() => {
-        alert("Prescription " + code + " was successfully removed");
+        this.$toast.info("Prescription " + code + " was successfully removed").goAway(3000);
+
         this.getData();
       });
     },
     createPrescription() {
       if (!this.isFormValid) {
-        alert("Fields are invalid - Correct them first!");
+           this.$toast.error("Fields are invalid - Correct them first!").goAway(3000);
         return;
       }
       this.$axios
@@ -340,7 +341,8 @@ export default {
           usernameHealthcareProfessional: this.usernameHealthcareProfessional,
         })
         .then((response) => {
-          alert("Prescription created succesfully");
+          this.$toast.success("Prescription created succesfully").goAway(3000);
+
           this.expireDate = null;
           this.isPharmacological = null;
           this.observations = null;
@@ -351,7 +353,8 @@ export default {
           this.getData();
         })
         .catch((error) => {
-          alert("Error when creating Prescription: " + error.response.data);
+          this.$toast.error("Error when creating Prescription: " + error.response.data).goAway(3000);
+
         });
     },
   },

@@ -253,7 +253,7 @@ export default {
       this.$axios
         .$put(`/api/administrators/${this.username}`, adminUpdated)
         .then(() => {
-          alert(`Administrator ${this.username}  updated!`);
+          this.$toast.info(`Administrator ${this.username}  updated!`).goAway(3000);
           this.getAllAdministrator();
         })
         .catch((error) => {

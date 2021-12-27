@@ -117,7 +117,7 @@ export default {
   methods: {
     create() {
       if(!this.isFormValid){
-           alert("Fields are invalid - Correct them first!");
+           this.$toast.error("Fields are invalid - Correct them first!").goAway(3000);
            return;
       }
 
@@ -125,12 +125,13 @@ export default {
         name: this.name
       })
         .then(response => {
-           alert("Disease "+ this.name + " created succesfully");
+          this.$toast.success("Disease "+ this.name + " created succesfully").goAway(3000);
           this.entidade.push(response);
           this.name = null;
         })
         .catch(error => {
-            alert("Error when creating Disease: "+ error.response.data);
+            this.$toast.error("Error when creating Disease: "+ error.response.data).goAway(3000);
+
         });
     },
     remove(code) {

@@ -18,7 +18,7 @@
           <div v-if="this.currentObservations != ''">
             {{ this.currentObservations }}
           </div>
-          <div v-else>There are no observations registered</div>
+          <div v-else>There are no observations registered yet</div>
         </b-list-group-item>
       </b-list-group>
       <br />
@@ -256,7 +256,8 @@ export default {
         this.$axios
           .$put(`/api/prescriptions/${this.code}`, prescriptionUpdate)
           .then(() => {
-            alert(`Prescription ${this.code}  updated!`);
+            this.$toast.info(`Prescription ${this.code} updated!`).goAway(3000);
+
             this.expireDate = null;
             this.isPharmacological = null;
             this.observations = "";
@@ -268,7 +269,8 @@ export default {
             this.getData();
           })
           .catch((error) => {
-            alert(error.response.data);
+            this.$toast.error(`Error updating Prescription - ${error.response.data}`).goAway(3000);
+
           });
       }
     },

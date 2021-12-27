@@ -135,17 +135,24 @@ export default {
       if (!hourRegexValid) {
         return "The hour is invalid - format HH:MM";
       }
+       var dateSplitted = this.date.split("/");
       var currentdate = new Date();
-      var hourSplitted = this.hour.split(":");
-      if (parseInt(hourSplitted[0]) < currentdate.getHours()) {
-        return "";
-      } else if (
-        parseInt(hourSplitted[0]) == currentdate.getHours() &&
-        parseInt(hourSplitted[1]) <= currentdate.getMinutes()
-      ) {
-        return "";
+      if(parseInt(dateSplitted[2]) == currentdate.getFullYear() &&
+         parseInt(dateSplitted[1]) == currentdate.getMonth() + 1 &&
+         parseInt(dateSplitted[0]) == currentdate.getDate()){
+
+           var hourSplitted = this.hour.split(":");
+           if (parseInt(hourSplitted[0]) < currentdate.getHours()){
+             return "";
+           } else if (
+             parseInt(hourSplitted[0]) == currentdate.getHours() &&
+             parseInt(hourSplitted[1]) <= currentdate.getMinutes()
+           ) {
+             return "";
+           }
+           return "The time is bigger than the current time";
       }
-      return "The time is bigger than the current time";
+      return "";
     },
     isHourValid() {
       if (this.isHourValidFeedback === null) {
@@ -216,7 +223,7 @@ export default {
         this.biomedicDataMeasure.value = this.value;
       }
       if (this.biomedicDataMeasure == {}) {
-        alert("Error - Nothing to update");
+           this.$toast.error("Error - Nothing to update").goAway(3000);
         return;
       }
       this.$axios
@@ -225,9 +232,9 @@ export default {
           this.biomedicDataMeasure
         )
         .then(() => {
-          alert(
-            "Biomedic data measure " + this.code + " updated with success!"
-          );
+
+          this.$toast.info("Biomedic data Measure "+response.code+" updated succesfully!").goAway(3000);
+
           this.biomedicDataMeasure = {};
           this.date = null;
           this.hour = null;

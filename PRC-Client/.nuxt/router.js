@@ -18,8 +18,12 @@ const _4f38d9d3 = () => interopDefault(import('..\\pages\\biomedicData\\_code.vu
 const _28dd9548 = () => interopDefault(import('..\\pages\\biomedicMeasures\\_code.vue' /* webpackChunkName: "pages/biomedicMeasures/_code" */))
 const _d03b97b8 = () => interopDefault(import('..\\pages\\diseases\\_code.vue' /* webpackChunkName: "pages/diseases/_code" */))
 const _3efba3d7 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username" */))
-const _a34ddad4 = () => interopDefault(import('..\\pages\\patients\\_username.vue' /* webpackChunkName: "pages/patients/_username" */))
+const _3e1d65a8 = () => interopDefault(import('..\\pages\\patients\\_username\\index.vue' /* webpackChunkName: "pages/patients/_username/index" */))
 const _47d809f4 = () => interopDefault(import('..\\pages\\prescriptions\\_code.vue' /* webpackChunkName: "pages/prescriptions/_code" */))
+const _11dc7de9 = () => interopDefault(import('..\\pages\\patients\\_username\\biomedicMeasures.vue' /* webpackChunkName: "pages/patients/_username/biomedicMeasures" */))
+const _3d02b8e6 = () => interopDefault(import('..\\pages\\patients\\_username\\diseases.vue' /* webpackChunkName: "pages/patients/_username/diseases" */))
+const _682ecbce = () => interopDefault(import('..\\pages\\patients\\_username\\healthcareProfessionals.vue' /* webpackChunkName: "pages/patients/_username/healthcareProfessionals" */))
+const _02b66673 = () => interopDefault(import('..\\pages\\patients\\_username\\prescriptions.vue' /* webpackChunkName: "pages/patients/_username/prescriptions" */))
 const _373b5e41 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
@@ -91,12 +95,28 @@ export const routerOptions = {
     name: "healthCareProfessionals-username"
   }, {
     path: "/patients/:username",
-    component: _a34ddad4,
+    component: _3e1d65a8,
     name: "patients-username"
   }, {
     path: "/prescriptions/:code",
     component: _47d809f4,
     name: "prescriptions-code"
+  }, {
+    path: "/patients/:username/biomedicMeasures",
+    component: _11dc7de9,
+    name: "patients-username-biomedicMeasures"
+  }, {
+    path: "/patients/:username/diseases",
+    component: _3d02b8e6,
+    name: "patients-username-diseases"
+  }, {
+    path: "/patients/:username/healthcareProfessionals",
+    component: _682ecbce,
+    name: "patients-username-healthcareProfessionals"
+  }, {
+    path: "/patients/:username/prescriptions",
+    component: _02b66673,
+    name: "patients-username-prescriptions"
   }, {
     path: "/",
     component: _373b5e41,

@@ -299,7 +299,8 @@ export default {
           password: this.password
         })
           .then(response => {
-             alert("Healthcare professional "+ this.name + " created succesfully");
+            this.$toast.success("Healthcare professional "+ this.name + " created succesfully").goAway(3000);
+
             this.healthNumber = null;
             this.birthDate = null;
             this.name = null;

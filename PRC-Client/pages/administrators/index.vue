@@ -115,14 +115,16 @@ export default {
     },
     remove(username, name){
         this.$axios.$delete(`/api/administrators/${username}`).then(()=>{
-      alert('Administrator '+name +' was successfully removed');
+        this.$toast.info(`Administrator ${this.username} was successfully removed!`).goAway(3000);
+
       this.getAdministrators();
 
       })
     },
      createAdministrator() {
       if(!this.isFormValid){
-          alert("Fields are invalid - Correct them first!");
+           this.$toast.error("Fields are invalid - Correct them first!").goAway(3000);
+
           return;
       }
       this.$axios.$post("/api/administrators", {
@@ -134,7 +136,7 @@ export default {
         healthNumber: this.healthNumber
       })
         .then(() => {
-          alert("Adminstrator "+ this.name + " created succesfully");
+          this.$toast.success("Administrator "+ this.name + " created succesfully").goAway(3000);
           this.password = null;
           this.name = null;
           this.birthDate = null;
@@ -144,7 +146,7 @@ export default {
          this.getAdministrators();
         })
         .catch(error => {
-            alert("Error when creating Adminstrator: "+ error.response.data);
+            this.$toast.error("Error when creating Adminstrator: "+ error.response.data).goAway(3000);
         });
       }
   },

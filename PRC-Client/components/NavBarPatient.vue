@@ -3,11 +3,11 @@
   <!--<NavBar/>-->
    <div>
       <b-navbar toggleable="lg" type="dark" variant="info">
-        <b-navbar-brand ><img src="../dist/logoLogin.png" width="50px" height="30px" ></b-navbar-brand>
+        <b-navbar-brand to="/dashboard"><img src="../dist/logoLogin.png" width="50px" height="30px" ></b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav class="ml-auto"  >
-            <b-nav-item to="/patients/...">
+            <b-nav-item :to='"/patients/"+username'>
           <div class="d-flex align-items-center">
              <div class="p-2">My Profile</div>
              <div class="p-2"><img src="../images/user.png" width="40px" alt=""></div>
@@ -24,5 +24,10 @@
 
 <script>
 export default {
+    computed: {
+     username() {
+      return this.$auth.user.sub;
+    },
+    }
 }
 </script>

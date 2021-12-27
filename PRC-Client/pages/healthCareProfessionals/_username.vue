@@ -389,7 +389,8 @@ export default {
             this.email = null;
             this.contact = null;
             this.birthDate = null;
-            alert(`HealthCare Professional (${this.username})  updated!`);
+            this.$toast.info("HealthCare Professional " + this.username + " updated succesfully").goAway(3000);
+
             this.getHealthCareProfessionalData()
           });
       }
@@ -409,7 +410,8 @@ export default {
           .then(() => {
             this.passwordOld = null;
             this.passwordNew = null;
-            alert(`HealthCare Professional (${this.username})  password updated!`);
+            this.$toast.info(`HealthCare Professional (${this.username}) - password updated!`).goAway(3000);
+
             this.getHealthCareProfessionalData()
           })
           .catch(error => {

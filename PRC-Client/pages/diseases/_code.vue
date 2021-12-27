@@ -167,7 +167,7 @@ export default {
     },
     update() {
       if (!this.isFormValid) {
-        alert("Fields are invalid - Correct them first!");
+           this.$toast.error("Fields are invalid - Correct them first!").goAway(3000);
         return;
       }
 
@@ -176,7 +176,8 @@ export default {
           name: this.name,
         })
         .then(() => {
-          alert("Disease " + this.name + " updated succesfully");
+          this.$toast.info("Disease " + this.name + " updated succesfully").goAway(3000);
+
           this.name = null;
           this.getDisease();
         });

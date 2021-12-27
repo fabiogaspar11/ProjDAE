@@ -250,13 +250,14 @@ export default {
     },
     remove(username) {
       this.$axios.$delete(`/api/patients/${username}`).then(()=>{
-      alert('Patient '+this.username +' was successfully removed');
+       this.$toast.info('Patient '+this.username +' was successfully removed').goAway(3000);
+
        this.getAllPatients();
       })
     },
     createPatient() {
       if(!this.isFormValid){
-          alert("Fields are invalid - Correct them first!");
+           this.$toast.error("Fields are invalid - Correct them first!").goAway(3000);
           return;
       }
       this.$axios.$post("/api/patients", {
@@ -268,7 +269,8 @@ export default {
        healthNumber: this.healthNumber
       })
         .then(response => {
-          alert("Patient "+ this.name + " created succesfully");
+          this.$toast.success("Patient "+ this.name + " created succesfully").goAway(3000);
+
           this.password = null;
           this.name = null;
           this.birthDate = null;
@@ -278,7 +280,8 @@ export default {
           this.getAllPatients();
         })
         .catch(error => {
-            alert("Error when creating Patient: "+ error.response.data);
+            this.$toast.error("Error when creating Patient: "+ error.response.data).goAway(3000);
+
         });
      }
   }

@@ -22,7 +22,11 @@
 
 <script>
 export default {
-
+  computed: {
+    username() {
+      return this.$route.params.username;
+  }
+  }
 }
 </script>
 

@@ -226,7 +226,7 @@ export default {
     },
     create() {
       if(!this.isFormValid){
-          alert("Fields are invalid - Correct them first!");
+           this.$toast.error("Fields are invalid - Correct them first!").goAway(3000);
           return;
       }
       this.$axios
@@ -237,7 +237,8 @@ export default {
           maxValue: this.maxValue,
         })
         .then((response) => {
-          alert("Biomedic data type "+this.name+" created with success!");
+          this.$toast.success("Biomedic data type "+this.name+" created succesfully!").goAway(3000);
+
           this.entidade.push(response);
           this.code = null;
           this.name = null;
@@ -248,7 +249,8 @@ export default {
     },
     remove(code) {
       this.$axios.$delete(`/api/biomedicDataTypes/${code}`).then(() => {
-         alert("Biomedic data type "+this.name+" deleted with success!");
+         this.$toast.info("Biomedic data type "+this.name+" deleted with success!").goAway(3000);
+
         this.$axios.$get("/api/biomedicDataTypes").then((entidade) => {
           this.entidade = entidade;
         });

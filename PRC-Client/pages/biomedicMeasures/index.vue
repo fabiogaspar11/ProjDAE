@@ -160,24 +160,34 @@ export default {
     },
     isHourValidFeedback () {
         if (!this.hour) {
-          return null
-        }
-        if(this.date == null){
-          return 'Date field must be filled first';
-        }
-        var hour_regex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
-        var hourRegexValid = hour_regex.test(this.hour);
-        if(!hourRegexValid){
-         return 'The hour is invalid - format HH:MM';
-        }
-        var currentdate = new Date();
-        var hourSplitted = this.hour.split(':');
-      if(parseInt(hourSplitted[0]) < currentdate.getHours()){
-          return '';
-       }else if(parseInt(hourSplitted[0]) == currentdate.getHours() && parseInt(hourSplitted[1]) <= (currentdate.getMinutes())){
-          return '';
-       }
-        return 'The time is bigger than the current time';
+        return null;
+      }
+      if (this.date == null) {
+        return "Date field must be filled first";
+      }
+      var hour_regex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+      var hourRegexValid = hour_regex.test(this.hour);
+      if (!hourRegexValid) {
+        return "The hour is invalid - format HH:MM";
+      }
+       var dateSplitted = this.date.split("/");
+      var currentdate = new Date();
+      if(parseInt(dateSplitted[2]) == currentdate.getFullYear() &&
+         parseInt(dateSplitted[1]) == currentdate.getMonth() + 1 &&
+         parseInt(dateSplitted[0]) == currentdate.getDate()){
+
+           var hourSplitted = this.hour.split(":");
+           if (parseInt(hourSplitted[0]) < currentdate.getHours()){
+             return "";
+           } else if (
+             parseInt(hourSplitted[0]) == currentdate.getHours() &&
+             parseInt(hourSplitted[1]) <= currentdate.getMinutes()
+           ) {
+             return "";
+           }
+           return "The time is bigger than the current time";
+      }
+      return "";
     },
     isHourValid() {
         if (this.isHourValidFeedback === null) {
@@ -263,10 +273,9 @@ export default {
       },
       create() {
         if(!this.isFormValid){
-          alert("Fields are invalid - Correct them first!");
+           this.$toast.error("Fields are invalid - Correct them first!").goAway(3000);
             return;
         }
-        console.log()
         this.$axios
           .$post("/api/biomedicDataMeasures", {
             date:this.date,
@@ -277,7 +286,8 @@ export default {
           })
           .then((response) => {
             console.log(response)
-            alert("Biomedic data measure "+response.code+" created with success!");
+            this.$toast.success("Biomedic data Measure "+response.code+" created succesfully!").goAway(3000);
+
             this.date = null;
             this.hour = null;
             this.biomedicDataType = null;
@@ -286,12 +296,14 @@ export default {
             this.getBiomedicMeasures();
           })
           .catch((error) => {
-            alert("Error" + error.response.data);
+            this.$toast.error("Error creating Biomedic data Measure - "+error.response.data).goAway(3000);
+
           });
       },
       remove(code) {
         this.$axios.$delete(`/api/biomedicDataMeasures/${code}`).then(() => {
-          alert("Biomedic data measure "+this.code+" deleted with success!");
+          this.$toast.info("Biomedic Data Measure "+this.code+" deleted with success!").goAway(3000);
+
           this.$axios.$get("/api/biomedicDataMeasures").then((entidade) => {
             this.entidade = entidade;
           });

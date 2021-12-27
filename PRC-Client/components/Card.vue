@@ -2,7 +2,7 @@
 <div class="card bg-white" style="width:14rem; height:14rem">
     <div id="headerCard" class="card-header text-center text-info">{{text}}</div>
     <div class="card-body">
-    <nuxt-link :to='"/patient/../"+element' class="d-block">
+    <nuxt-link :to='"/patients/"+username+"/"+element' class="d-block">
     <img class="card-img-top" :src='"../images/"+element+".png"'  alt="Prescriptions Image">
       <p class="card-text text-justify">Click here to see all the information about your {{text}}</p>
     </nuxt-link>
@@ -15,7 +15,12 @@ export default {
   props:{
       text:String,
       element:String
+  },
+  computed: {
+    username() {
+      return this.$auth.user.sub;
   }
+}
 }
 </script>
 

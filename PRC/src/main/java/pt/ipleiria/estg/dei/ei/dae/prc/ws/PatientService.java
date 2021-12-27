@@ -1,14 +1,8 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ws;
 
-import pt.ipleiria.estg.dei.ei.dae.prc.dtos.DiseaseDTO;
-import pt.ipleiria.estg.dei.ei.dae.prc.dtos.HealthcareProfessionalDTO;
-import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PatientDTO;
-import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PrescriptionDTO;
+import pt.ipleiria.estg.dei.ei.dae.prc.dtos.*;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.PatientBean;
-import pt.ipleiria.estg.dei.ei.dae.prc.entities.Disease;
-import pt.ipleiria.estg.dei.ei.dae.prc.entities.HealthcareProfessional;
-import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
-import pt.ipleiria.estg.dei.ei.dae.prc.entities.Prescription;
+import pt.ipleiria.estg.dei.ei.dae.prc.entities.*;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -87,11 +81,14 @@ public class PatientService {
                 disease.getName()
         );
     }
-    private PrescriptionDTO toDTOPrescription(Prescription prescription){
+
+    private PrescriptionDTO toDTOPrescription(Prescription prescription) {
         return new PrescriptionDTO(
                 prescription.getCode(),
                 prescription.getTitle(),
                 prescription.getObservations(),
+                prescription.getIsPharmacological(),
+                prescription.getTreatmentInfo(),
                 prescription.getEmissionDate(),
                 prescription.getExpireDate(),
                 prescription.getPatient().getUsername(),
@@ -115,6 +112,24 @@ public class PatientService {
     private List<HealthcareProfessionalDTO> healthCareProfessionalsToDTOs(List<HealthcareProfessional> healthcareProfessionals){
         return healthcareProfessionals.stream().map(this::toDTOHealthCareProfessional).collect(Collectors.toList());
     }
+
+
+    private BiomedicDataMeasureDTO biomedicMeasuretoDTO(BiomedicDataMeasure biomedicDataMeasure){
+        return new BiomedicDataMeasureDTO(
+                biomedicDataMeasure.getCode(),
+                biomedicDataMeasure.getValue(),
+                biomedicDataMeasure.getDate(),
+                biomedicDataMeasure.getHour(),
+                biomedicDataMeasure.getPatient().getUsername(),
+                biomedicDataMeasure.getBiomedicDataType().getCode()
+        );
+    }
+
+    private List<BiomedicDataMeasureDTO> biomedicMeasuresToDTOs(List<BiomedicDataMeasure> biomedicDataMeasures) {
+        return biomedicDataMeasures.stream().map(this::biomedicMeasuretoDTO).collect(Collectors.toList());
+    }
+
+
     @GET
     @Path("/")
     @RolesAllowed({"HealthcareProfessional"})
@@ -144,13 +159,13 @@ public class PatientService {
 
     
     @GET
-    @Path("{username}")
+    @Path("/{username}")
     public Response getPatientDetails(@PathParam("username") String username) throws MyEntityNotFoundException {
         Principal principal = securityContext.getUserPrincipal();
         if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        if(!securityContext.isUserInRole("HealthcareProfessional")){
+        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         Patient patient  = patientBean.findPatient(username);
@@ -187,13 +202,13 @@ public class PatientService {
     }
 
     @GET
-    @Path("{username}/healthCareProfessionals")
+    @Path("{username}/healthcareProfessionals")
     public Response getPatientHealthCareProfessionals(@PathParam("username") String username) throws MyEntityNotFoundException {
         Principal principal = securityContext.getUserPrincipal();
         if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        if(!securityContext.isUserInRole("HealthcareProfessional")){
+        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         Patient patient = patientBean.findPatient(username);
@@ -201,6 +216,19 @@ public class PatientService {
 
     }
 
+    @GET
+    @Path("{username}/biomedicMeasures")
+    public Response getBiomedicMeasures(@PathParam("username") String username) throws MyEntityNotFoundException {
+        Principal principal = securityContext.getUserPrincipal();
+        if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        Patient patient = patientBean.findPatient(username);
+        return Response.ok(biomedicMeasuresToDTOs(patient.getBiomedicDataMeasures())).build();
+    }
 
     @GET
     @Path("{username}/diseases")
@@ -209,12 +237,11 @@ public class PatientService {
         if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        if(!securityContext.isUserInRole("HealthcareProfessional")){
+        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         Patient patient = patientBean.findPatient(username);
         return Response.ok(diseasesToDTOs(patient.getDiseases())).build();
-
     }
 
     @POST
@@ -246,7 +273,7 @@ public class PatientService {
         if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        if(!securityContext.isUserInRole("HealthcareProfessional")){
+        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         Patient patient = patientBean.findPatient(username);

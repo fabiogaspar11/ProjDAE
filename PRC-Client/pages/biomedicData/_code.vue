@@ -166,7 +166,8 @@ export default {
           maxValue: this.maxValue,
         })
         .then(() => {
-          alert("Biomedic data type " + this.name + " updated with success!");
+           this.$toast.info("Biomedic data type " + this.name + " updated succesfully!").goAway(3000);
+
           this.name = null;
           this.unitMeasure = null;
           this.minValue = null;

@@ -3,7 +3,7 @@
   <!--<NavBar/>-->
    <div>
       <b-navbar toggleable="lg" type="dark" variant="info">
-        <b-navbar-brand ><img src="../dist/logoLogin.png" width="50px" height="30px" ></b-navbar-brand>
+        <b-navbar-brand to="/patients"><img src="../dist/logoLogin.png" width="50px" height="30px" ></b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
