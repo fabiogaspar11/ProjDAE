@@ -268,9 +268,14 @@ username=P978675432&password=12345
 
 ### Get JWT ADMIN
 POST http://localhost:8080/PRC/api/auth/login
-Content-Type: application/x-www-form-urlencoded
+Content-Type: application/json
 
-username=A142394274&password=password
+{"username":"H987654321","password":"1234"}
+
+##### Get patients list
+GET http://localhost:8080/PRC/api/patients
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJIOTg3NjU0MzIxIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkhlYWx0aGNhcmVQcm9mZXNzaW9uYWwiXSwiZXhwIjoxNjQwNTUzNDc0fQ.Mvm5PohQD8fisJxkdVzKJ8x4O9-1IDRmo0vwnPAqJDS-mfU2102GwjV_bq8nWakd2Qhv1lBBOX1F031QdP8a4Nn_bQR7qY1u9nUP6JL8yGgW63mEVm4uybpn43j1hF0YW_lVnsHjLGdQQzsg_zMBCMzczDF2ZDimuRt7bdnjPlO3IwLJEZOZopPV8_wNNXOwhH266YG78E1dglC23GuhXNiyCmwfHyYKpVP1VC94otgPxAKq9h730p-T9WsL3oqNviI4sy9JC8xD2xm9POwQ4t3nBhZLhfvBpx6XVtUF_JBF6twWjdbBJymaDhRX87mQ_PIWg1rW6fu2wtYoWdvZvQ
 
 ### Get JWT HEALTHCARE PROF
 POST http://localhost:8080/PRC/api/auth/login

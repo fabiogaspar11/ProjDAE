@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 public class LoginService {
     private static final Logger log =
             Logger.getLogger(LoginService.class.getName());
+
     @EJB
     JwtBean jwtBean;
     @EJB

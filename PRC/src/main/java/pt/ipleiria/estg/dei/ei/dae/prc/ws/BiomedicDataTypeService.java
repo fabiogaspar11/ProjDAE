@@ -10,6 +10,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -41,6 +42,7 @@ public class BiomedicDataTypeService {
 
     @GET
     @Path("{code}")
+    @RolesAllowed({"HealthcareProfessional","Patient","Administrator"})
     public Response getBiomedicDataType(@PathParam("code") long code) throws MyEntityNotFoundException {
         BiomedicDataType biomedicDataType = bDataTypeBean.findBiomedicDataType(code);
         return Response.ok(toDTO(biomedicDataType)).build();
@@ -49,6 +51,7 @@ public class BiomedicDataTypeService {
 
     @GET
     @Path("/")
+    @RolesAllowed({"HealthcareProfessional","Patient","Administrator"})
     public List<BiomedicDataTypeDTO> getAllBiomedicDataTypesWS() {
         return toDTOs(bDataTypeBean.getAllBiomedicDataType());
     }
@@ -56,6 +59,7 @@ public class BiomedicDataTypeService {
 
     @POST
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public Response createNewBiomedicDataType(BiomedicDataTypeDTO bDataTypeDTO) throws MyEntityExistsException, MyEntityNotFoundException {
         long code = bDataTypeBean.create(bDataTypeDTO.getName(),bDataTypeDTO.getUnitMeasure(),bDataTypeDTO.getMinValue(),bDataTypeDTO.getMaxValue());
         BiomedicDataType biomedicDataType = bDataTypeBean.findBiomedicDataType(code);
@@ -67,6 +71,7 @@ public class BiomedicDataTypeService {
 
     @PUT
     @Path("/{code}")
+    @RolesAllowed({"Administrator"})
     public Response updateBiomedicDataType(@PathParam("code") long code, BiomedicDataTypeDTO biomedicDataTypeDTO) throws MyEntityNotFoundException {
         BiomedicDataType biomedicDataType  = bDataTypeBean.findBiomedicDataType(code);
         bDataTypeBean.update(biomedicDataType,biomedicDataTypeDTO);
@@ -77,6 +82,7 @@ public class BiomedicDataTypeService {
 
     @DELETE
     @Path("/{code}")
+    @RolesAllowed({"Administrator"})
     public Response deleteBiomedicDataType(@PathParam("code") long code) throws MyEntityNotFoundException {
         BiomedicDataType biomedicDataType = bDataTypeBean.findBiomedicDataType(code);
         bDataTypeBean.delete(code);

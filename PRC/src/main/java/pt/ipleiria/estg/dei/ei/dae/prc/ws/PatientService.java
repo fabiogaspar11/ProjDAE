@@ -139,10 +139,8 @@ public class PatientService {
 
     @POST
     @Path("/")
+    @RolesAllowed({"HealthcareProfessional"})
     public Response createNewPatient(PatientDTO patientDTO) throws MyEntityExistsException, MyEntityNotFoundException {
-        if(!securityContext.isUserInRole("HealthcareProfessional")){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
         String username = patientBean.create(
                 patientDTO.getName(),
                 patientDTO.getEmail(),
@@ -176,10 +174,8 @@ public class PatientService {
 
     @DELETE
     @Path("/{username}")
+    @RolesAllowed({"HealthcareProfessional"})
     public Response deletePatient(@PathParam("username") String username) throws MyEntityNotFoundException {
-        if(!securityContext.isUserInRole("HealthcareProfessional")){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
         Patient patient  = patientBean.findPatient(username);
         patientBean.remove(patient);
         return Response.status(Response.Status.OK)
@@ -246,10 +242,8 @@ public class PatientService {
 
     @POST
     @Path("/{username}/addDisease/{disease}")
+    @RolesAllowed({"HealthcareProfessional"})
     public Response addDisease(@PathParam("username") String username, @PathParam("disease") int code) throws MyEntityNotFoundException {
-        if(!securityContext.isUserInRole("HealthcareProfessional")){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
         patientBean.addDiseaseToPatient(username, code);
         Patient patient  = patientBean.findPatient(username);
         return Response.ok(diseasesToDTOs(patient.getDiseases())).build();
@@ -257,10 +251,8 @@ public class PatientService {
 
     @POST
     @Path("/{username}/removeDisease/{disease}")
+    @RolesAllowed({"HealthcareProfessional"})
     public Response removeDisease(@PathParam("username") String username, @PathParam("disease") int code) throws MyEntityNotFoundException {
-        if(!securityContext.isUserInRole("HealthcareProfessional")){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
         patientBean.removeDiseaseFromPatient(username, code);
         Patient patient  = patientBean.findPatient(username);
         return Response.ok(diseasesToDTOs(patient.getDiseases())).build();
@@ -285,10 +277,8 @@ public class PatientService {
     //TODO Duvida 1 - seria necessário estes dos metodos abaixo?
     @POST
     @Path("/{username}/addPrescription/{code}")
+    @RolesAllowed({"HealthcareProfessional"})
     public Response addPrescription(@PathParam("username") String username, @PathParam("code") long code) throws MyEntityNotFoundException, MyIllegalArgumentException {
-        if(!securityContext.isUserInRole("HealthcareProfessional")){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
         patientBean.addPrescription(username, code);
         Patient patient  = patientBean.findPatient(username);
         return Response.ok(prescriptionToDTOs(patient.getPrescriptions())).build();
@@ -296,10 +286,8 @@ public class PatientService {
 
     @POST
     @Path("/{username}/removePrescription/{code}")
+    @RolesAllowed({"HealthcareProfessional"})
     public Response removePrescription(@PathParam("username") String username, @PathParam("code") long code) throws MyEntityNotFoundException {
-        if(!securityContext.isUserInRole("HealthcareProfessional")){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
         patientBean.removePrescription(username, code);
         Patient patient  = patientBean.findPatient(username);
         return Response.ok(prescriptionToDTOs(patient.getPrescriptions())).build();

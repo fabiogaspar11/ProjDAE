@@ -6,10 +6,14 @@ import pt.ipleiria.estg.dei.ei.dae.prc.entities.BiomedicDataMeasure;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +23,8 @@ import java.util.stream.Collectors;
 public class BiomedicDataMeasureService {
     @EJB
     private BiomedicDataMeasureBean biomedicDataMeasureBean;
+    @Context
+    private SecurityContext securityContext;
 
     private List<BiomedicDataMeasureDTO> toDTOs(List<BiomedicDataMeasure> biomedicDataMeasures) {
         return biomedicDataMeasures.stream().map(this::toDTO).collect(Collectors.toList());
@@ -37,6 +43,7 @@ public class BiomedicDataMeasureService {
 
     @GET
     @Path("/")
+    @RolesAllowed({"HealthcareProfessional"})
     public List<BiomedicDataMeasureDTO> getAllbiomedicDataMeasuresWS() {
         return toDTOs(biomedicDataMeasureBean.getAllBiomedicDataMeasures());
     }
@@ -44,12 +51,17 @@ public class BiomedicDataMeasureService {
     @GET
     @Path("{code}")
     public Response getBiomedicDataMeasureDetails(@PathParam("code") long code) throws MyEntityNotFoundException {
+        Principal principal = securityContext.getUserPrincipal();
         BiomedicDataMeasure biomedicDataMeasure = biomedicDataMeasureBean.findBiomedicDataMeasure(code);
+        if(!(securityContext.isUserInRole("Patient")  && principal.getName().equals(biomedicDataMeasure.getPatient().getUsername())) || !securityContext.isUserInRole("HealthcareProfessional")) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
         return Response.ok(toDTO(biomedicDataMeasure)).build();
     }
 
     @POST
     @Path("/")
+    @RolesAllowed({"HealthcareProfessional","Patient"})
     public Response createBiomedicDataMeasure(BiomedicDataMeasureDTO biomedicDataMeasureDTO) throws MyEntityExistsException, MyEntityNotFoundException {
         long code = biomedicDataMeasureBean.create(
                 biomedicDataMeasureDTO.getValue(),
@@ -66,7 +78,11 @@ public class BiomedicDataMeasureService {
     @PUT
     @Path("/{code}")
     public Response updateBiomedicDataMeasure(@PathParam("code") long code, BiomedicDataMeasureDTO biomedicDataMeasureDTO) throws MyEntityNotFoundException {
+        Principal principal = securityContext.getUserPrincipal();
         BiomedicDataMeasure biomedicDataMeasure = biomedicDataMeasureBean.findBiomedicDataMeasure(code);
+        if(!(securityContext.isUserInRole("Patient")  && principal.getName().equals(biomedicDataMeasure.getPatient().getUsername())) || !securityContext.isUserInRole("HealthcareProfessional")) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
         biomedicDataMeasureBean.update(biomedicDataMeasure,biomedicDataMeasureDTO);
         return Response.status(Response.Status.OK)
                 .entity(toDTO(biomedicDataMeasure))
@@ -75,6 +91,7 @@ public class BiomedicDataMeasureService {
 
     @DELETE
     @Path("/{code}")
+    @RolesAllowed({"HealthcareProfessional","Patient"})
     public Response deleteBiomedicDataMeasure(@PathParam("code") long code) throws MyEntityNotFoundException {
         BiomedicDataMeasure biomedicDataMeasure = biomedicDataMeasureBean.findBiomedicDataMeasure(code);
         biomedicDataMeasureBean.remove(biomedicDataMeasure);
