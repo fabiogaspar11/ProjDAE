@@ -1,6 +1,7 @@
 <template>
 <div>
   <NavBarPatientHealthcareProfessional></NavBarPatientHealthcareProfessional>
+  {{this.$store.state.username}}
   <div class="container mt-5 d-flex justify-content-around">
   <div class="row">
     <div class="col mr-5">
@@ -23,6 +24,9 @@ export default {
     username() {
       return this.$route.params.username;
   }
+  },
+  created(){
+      console.log(this.$store.state.username)
   }
 }
 </script>

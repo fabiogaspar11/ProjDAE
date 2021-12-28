@@ -81,7 +81,6 @@
         </b-modal>
       </div>
     </div>
-  </div>
 </template>
 
 

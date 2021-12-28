@@ -60,11 +60,11 @@ export default {
       let promise = this.$auth.loginWith("local", {
         data: {
           username: this.username,
-
           password: this.password,
         },
       });
       promise.then(() => {
+        this.$store.commit("toggleUsername", this.$auth.user.sub);
         this.$toast.success("You are logged in!").goAway(3000);
         // check if the user $auth.user object is set
         // TODO redirect based on the user role

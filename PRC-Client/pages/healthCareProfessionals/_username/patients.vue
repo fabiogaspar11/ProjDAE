@@ -84,6 +84,9 @@ export default {
     NavBar,
   },
   computed:{
+    username() {
+      return this.$auth.user.sub;
+    },
      tableLength: function () {
       return this.entidade.length;
     },
@@ -244,7 +247,7 @@ export default {
       this.currentPage = 1;
     },
     getAllPatients(){
-        this.$axios.$get("/api/patients").then((entidade) => {
+        this.$axios.$get(`api/${username}/patients`).then((entidade) => {
           this.entidade = entidade;
         });
     },
