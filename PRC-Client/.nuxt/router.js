@@ -39,59 +39,59 @@ export const routerOptions = {
 
   routes: [{
     path: "/administrators",
-    component: _f130b6da,
+    component: _a42c148a,
     name: "administrators"
   }, {
     path: "/biomedicData",
-    component: _e88ca49e,
+    component: _4d6e28d9,
     name: "biomedicData"
   }, {
     path: "/biomedicMeasures",
-    component: _d03f85b4,
+    component: _2712e44e,
     name: "biomedicMeasures"
   }, {
     path: "/Dashboard",
-    component: _3dbb0e3b,
+    component: _518fdb63,
     name: "Dashboard"
   }, {
     path: "/diseases",
-    component: _0fd73402,
+    component: _d3d0f9ac,
     name: "diseases"
   }, {
     path: "/healthCareProfessionals",
-    component: _d8dd55c8,
+    component: _0793d0f4,
     name: "healthCareProfessionals"
   }, {
     path: "/patients",
-    component: _5dfc280b,
+    component: _3787119a,
     name: "patients"
   }, {
     path: "/prescriptions",
-    component: _5d9b21bc,
+    component: _460d58fa,
     name: "prescriptions"
   }, {
     path: "/auth/Login",
-    component: _7fa1eea8,
+    component: _1d0fdc60,
     name: "auth-Login"
   }, {
     path: "/administrators/:username",
-    component: _436e8ff6,
+    component: _5ed7e5c4,
     name: "administrators-username"
   }, {
     path: "/biomedicData/:code",
-    component: _e4f742aa,
+    component: _4f38d9d3,
     name: "biomedicData-code"
   }, {
     path: "/biomedicMeasures/:code",
-    component: _ccaa23c0,
+    component: _28dd9548,
     name: "biomedicMeasures-code"
   }, {
     path: "/diseases/:code",
-    component: _11a1e4fc,
+    component: _d03b97b8,
     name: "diseases-code"
   }, {
     path: "/healthCareProfessionals/:username",
-    component: _6a6a5802,
+    component: _3efba3d7,
     name: "healthCareProfessionals-username"
   }, {
     path: "/patients/:username",
@@ -99,7 +99,7 @@ export const routerOptions = {
     name: "patients-username"
   }, {
     path: "/prescriptions/:code",
-    component: _5a05bfc8,
+    component: _47d809f4,
     name: "prescriptions-code"
   }, {
     path: "/patients/:username/biomedicMeasures",
@@ -119,7 +119,7 @@ export const routerOptions = {
     name: "patients-username-prescriptions"
   }, {
     path: "/",
-    component: _a43c85ce,
+    component: _373b5e41,
     name: "index"
   }],
 
