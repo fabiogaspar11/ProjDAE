@@ -1,12 +1,11 @@
 <template>
 <div>
-  <NavBarHealthcareProfessional></NavBarHealthcareProfessional>
+  <NavBarPatientHealthcareProfessional></NavBarPatientHealthcareProfessional>
   <div class="container-sm mt-5">
   <div class="row">
     <div class="col">
     <Card :element="'patients'" :text="'Patients'"></Card>
     </div>
-    <div class="col">
   </div>
 </div>
 </div>
