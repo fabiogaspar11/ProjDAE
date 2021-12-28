@@ -8,6 +8,7 @@ const _a42c148a = () => interopDefault(import('..\\pages\\administrators\\index.
 const _4d6e28d9 = () => interopDefault(import('..\\pages\\biomedicData\\index.vue' /* webpackChunkName: "pages/biomedicData/index" */))
 const _2712e44e = () => interopDefault(import('..\\pages\\biomedicMeasures\\index.vue' /* webpackChunkName: "pages/biomedicMeasures/index" */))
 const _518fdb63 = () => interopDefault(import('..\\pages\\Dashboard.vue' /* webpackChunkName: "pages/Dashboard" */))
+const _6c70e68c = () => interopDefault(import('..\\pages\\DashboardHealthcareProfessionals.vue' /* webpackChunkName: "pages/DashboardHealthcareProfessionals" */))
 const _d3d0f9ac = () => interopDefault(import('..\\pages\\diseases\\index.vue' /* webpackChunkName: "pages/diseases/index" */))
 const _0793d0f4 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/index" */))
 const _3787119a = () => interopDefault(import('..\\pages\\patients\\index.vue' /* webpackChunkName: "pages/patients/index" */))
@@ -53,6 +54,10 @@ export const routerOptions = {
     path: "/Dashboard",
     component: _518fdb63,
     name: "Dashboard"
+  }, {
+    path: "/DashboardHealthcareProfessionals",
+    component: _6c70e68c,
+    name: "DashboardHealthcareProfessionals"
   }, {
     path: "/diseases",
     component: _d3d0f9ac,

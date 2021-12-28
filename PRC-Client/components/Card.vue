@@ -19,7 +19,8 @@ export default {
   computed: {
     username() {
       return this.$auth.user.sub;
-  }
+  },
+
 }
 }
 </script>

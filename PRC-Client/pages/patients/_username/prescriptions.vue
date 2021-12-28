@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavBarPatient></NavBarPatient>
+    <NavBarPatientHealthcareProfessional></NavBarPatientHealthcareProfessional>
     <b-container class="bv-example-row" style="margin-top: 5%">
       <b-row>
         <b-col sm="5">

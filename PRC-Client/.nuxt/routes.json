@@ -28,6 +28,13 @@
     "_name": "_518fdb63"
   },
   {
+    "name": "DashboardHealthcareProfessionals",
+    "path": "/DashboardHealthcareProfessionals",
+    "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\DashboardHealthcareProfessionals.vue",
+    "chunkName": "pages/DashboardHealthcareProfessionals",
+    "_name": "_6c70e68c"
+  },
+  {
     "name": "diseases",
     "path": "/diseases",
     "component": "C:\\\\projects\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\diseases\\\\index.vue",
