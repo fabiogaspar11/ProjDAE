@@ -37,7 +37,7 @@ export default {
     },
     textDescription(){
     if(this.$auth.user.groups.includes("Administrator")){
-      return this.text;
+      return "the " + this.text;
     }
     return "your " + this.text;
   }

@@ -74,7 +74,7 @@ export default {
         } else if (this.$auth.user.groups.includes("HealthcareProfessional")) {
           this.$router.push("/dashboardHealthcareProfessionals");
         } else {
-          this.$router.push("/patients");
+          this.$router.push("/dashboardAdministrators");
         }
       });
       promise.catch(() => {

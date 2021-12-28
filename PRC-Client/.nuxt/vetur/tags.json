@@ -4,8 +4,5 @@
   },
   "NavBar": {
     "description": "Auto imported from components/NavBar.vue"
-  },
-  "NavBarPatientHealthcareProfessional": {
-    "description": "Auto imported from components/NavBarPatientHealthcareProfessional.vue"
   }
 }

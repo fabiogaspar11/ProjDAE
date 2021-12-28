@@ -1,6 +1,6 @@
 <template>
 <div>
-  <NavBarPatientHealthcareProfessional></NavBarPatientHealthcareProfessional>
+  <NavBar></NavBar>
   {{this.$store.state.username}}
   <div class="container mt-5 d-flex justify-content-around">
   <div class="row">

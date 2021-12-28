@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavBar v-if="!isPatient"></NavBar>
-    <NavBarPatientHealthcareProfessional v-else></NavBarPatientHealthcareProfessional>
+    <NavBar v-else></NavBar>
     <div class="container" style="margin-top: 4%">
       <template>
         <div>
