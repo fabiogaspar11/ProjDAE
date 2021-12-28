@@ -82,7 +82,10 @@ public class PrescriptionService {
     public Response getPrescriptionDetails(@PathParam("code") long code) throws MyEntityNotFoundException {
         Principal principal = securityContext.getUserPrincipal();
         Prescription prescription = prescriptionBean.findPrescription(code);
-        if(!(securityContext.isUserInRole("Patient")  && principal.getName().equals(prescription.getPatient().getUsername())) || !securityContext.isUserInRole("HealthcareProfessional")) {
+        if(!(securityContext.isUserInRole("Patient")  && !securityContext.isUserInRole("HealthcareProfessional"))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        if(securityContext.isUserInRole("Patient") && !principal.getName().equals(prescription.getPatient().getUsername())){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         return Response.status(Response.Status.OK)

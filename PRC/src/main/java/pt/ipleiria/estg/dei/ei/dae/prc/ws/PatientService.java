@@ -160,10 +160,10 @@ public class PatientService {
     @Path("/{username}")
     public Response getPatientDetails(@PathParam("username") String username) throws MyEntityNotFoundException {
         Principal principal = securityContext.getUserPrincipal();
-        if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
+        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
+        if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         Patient patient  = patientBean.findPatient(username);
@@ -200,11 +200,11 @@ public class PatientService {
     @GET
     @Path("{username}/healthcareProfessionals")
     public Response getPatientHealthCareProfessionals(@PathParam("username") String username) throws MyEntityNotFoundException {
-        Principal principal = securityContext.getUserPrincipal();
-        if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
+        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
+        Principal principal = securityContext.getUserPrincipal();
+        if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         Patient patient = patientBean.findPatient(username);
@@ -215,13 +215,14 @@ public class PatientService {
     @GET
     @Path("{username}/biomedicMeasures")
     public Response getBiomedicMeasures(@PathParam("username") String username) throws MyEntityNotFoundException {
+        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
         Principal principal = securityContext.getUserPrincipal();
         if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
+
         Patient patient = patientBean.findPatient(username);
         return Response.ok(biomedicMeasuresToDTOs(patient.getBiomedicDataMeasures())).build();
     }
@@ -229,13 +230,14 @@ public class PatientService {
     @GET
     @Path("{username}/diseases")
     public Response getPatientDiseases(@PathParam("username") String username) throws MyEntityNotFoundException {
+        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
         Principal principal = securityContext.getUserPrincipal();
         if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
+
         Patient patient = patientBean.findPatient(username);
         return Response.ok(diseasesToDTOs(patient.getDiseases())).build();
     }
@@ -261,13 +263,14 @@ public class PatientService {
     @GET
     @Path("{username}/prescriptions")
     public Response getPatientPrescriptions(@PathParam("username") String username) throws MyEntityNotFoundException {
+        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
         Principal principal = securityContext.getUserPrincipal();
         if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
+
         Patient patient = patientBean.findPatient(username);
         return Response.ok(prescriptionsToDTOs(patient.getPrescriptions())).build();
 
