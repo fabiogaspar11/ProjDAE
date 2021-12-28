@@ -1,16 +1,15 @@
 <template>
   <div class="card bg-white" style="width: 14rem; height: 14rem">
-    {{element}}
     <div id="headerCard" class="card-header text-center text-info">
       {{ text }}
     </div>
     <div class="card-body">
-      <nuxt-link :to="userType + '/' + username + '/' + element" class="d-block">
-        <img
+  <img
           class="card-img-top"
-          :src="'../images/' + element + '.png'"
+          :src="require(`./../images/${element}.png`)"
           alt="Prescriptions Image"
         />
+      <nuxt-link :to="userType + '/' + username + '/' + element" class="d-block">
     <p class="card-text text-justify">Click here to see all the information about {{textDescription}}</p>
       </nuxt-link>
 
