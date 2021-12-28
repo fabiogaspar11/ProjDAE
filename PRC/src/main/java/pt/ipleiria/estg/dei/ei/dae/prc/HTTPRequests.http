@@ -21,6 +21,15 @@ Content-Type: application/json
 "password":"1234"
 }
 
+########## Get Login Administrator ##########
+POST http://localhost:8080/PRC/api/auth/login
+Content-Type: application/json
+
+{
+  "username":"A142394274",
+  "password":"password"
+}
+
 ##### ************************************ ADMINISTRATORS ************************************
 
 ########## Get all Administrators ##########
@@ -131,11 +140,14 @@ DELETE http://localhost:8080/PRC/api/healthcareProfessionals/H111111321
 
 ########## GET DETAILS ##########
 GET http://localhost:8080/PRC/api/healthcareProfessionals/H111111321
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJIMTExMTExMzIxIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkhlYWx0aGNhcmVQcm9mZXNzaW9uYWwiXSwiZXhwIjoxNjQwNzM2MzYyfQ.RBKOAb1HUJHP0-_7T-XMilag_A-hdHKFvk0_mcOIOtpy5K7qRDUrCQnexDX4r_Vo-b9UjR4q9vuoXFeeV3EY-H0a3SnvxQC1dRwqjlOscAWQ0G_6Xuqj8EcZpeSUGsVZSrFA7oywG21iuxbQWhbRbe8J1HVQ_9Er6pH7BmYTuidsmlQ39H6AQsp-rIy8FzxUEqkuxmqa8tlJm7-nqEFwL-_bfew6af-qzyu8oKQ_1JfT8QbcdAqVVJze9uLFHJaOqFTtn5YdyxE5o_9Fo7JFz4r0xeP1TjxvpSG8ox7soUhSOVwCdgQqw_yiU0PpjUjgrwuD7qakWHtaLSH3e99-9w
 
 
 
 ########## GET PATIENT ##########
 GET http://localhost:8080/PRC/api/healthcareProfessionals/H111111321/patients
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJIMTExMTExMzIxIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkhlYWx0aGNhcmVQcm9mZXNzaW9uYWwiXSwiZXhwIjoxNjQwNzM2MzYyfQ.RBKOAb1HUJHP0-_7T-XMilag_A-hdHKFvk0_mcOIOtpy5K7qRDUrCQnexDX4r_Vo-b9UjR4q9vuoXFeeV3EY-H0a3SnvxQC1dRwqjlOscAWQ0G_6Xuqj8EcZpeSUGsVZSrFA7oywG21iuxbQWhbRbe8J1HVQ_9Er6pH7BmYTuidsmlQ39H6AQsp-rIy8FzxUEqkuxmqa8tlJm7-nqEFwL-_bfew6af-qzyu8oKQ_1JfT8QbcdAqVVJze9uLFHJaOqFTtn5YdyxE5o_9Fo7JFz4r0xeP1TjxvpSG8ox7soUhSOVwCdgQqw_yiU0PpjUjgrwuD7qakWHtaLSH3e99-9w
+
 
 ########## ADD PATIENT ##########
 POST http://localhost:8080/PRC/api/healthcareProfessionals/H111111321/AddPatient/P123456789
@@ -207,7 +219,7 @@ Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJIMTExMTExM
 
 ### GET ALL PATIENTS
 GET http://localhost:8080/PRC/api/patients
-Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJQOTc4Njc1NDMyIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIlBhdGllbnQiXSwiZXhwIjoxNjQwNzE4ODQzfQ.etjJXQQkWKXKHiopEkk12J3SliVecc40H0zRUuIY_7PpO0YZO1i9DVCsHrcy52F4Ywc0XzTKI_a91qC8jmLd9hSrekIYGvmn4GTpV4mi4yw3v8MBik8NVH-JNrF64jOOc8qQdm7GNWcQsBnhL8rrkoIExVLoAoR-oUC9XLXcwhKEzfzgkfCsIutAVCua1K9UNnZwNUQe4e5yqbY0T8eKdiNxzSHnOcA3-qy0zitJ_aCJyS7lkkTLLwWPsSzVVqSjnEQyzeM027tGz-DxKjL92W0sDKFHnXPCbCzT8VhqNqIY4tm7Izh3rLEwLefwrjxHICgY0okkcf00eovN-jGmLA
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJIMTExMTExMzIxIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkhlYWx0aGNhcmVQcm9mZXNzaW9uYWwiXSwiZXhwIjoxNjQwNzM3MDc2fQ.IQIzyNZfQW5qmCkUPSoo07rG5k06de-Ivy_b_zdNJNaOJ7vNbRHNjeYNDJ-iboydmckS86bjN8ME_Kt75G89xReQFkGj5ekDcO-Gnk6uOJezkW7ed6kdIRgwM3D-F3FMNYlpHUfdV7tHHeD-6cmRTATFgEe_9rGSrI9xL0_pmtd-IixmVj3Rq1lR5tTtDW6Iz-D1Xt6Yol3_M-9UfKyz2ra7PRMiCgeep7xzyT9k5w8Og9JrWRgbagePAGIs6iJX_l_Gv4VljeuUV3u72SHd2N1Q9RBbuoem9Swx1YtTbUSvZcgDlb9IHYgq51VlSLupiCmnqKkyE0CIPYocr-KCdg
 
 ########## Create ##########
 POST http://localhost:8080/PRC/api/patients
@@ -245,7 +257,7 @@ Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJIMTExMTExM
 
 ### GET details
 GET http://localhost:8080/PRC/api/patients/P123456789
-Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJQMTIzNDU2Nzg5IiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIlBhdGllbnQiXSwiZXhwIjoxNjQwNzE5MjY4fQ.BnevF6eB6JDG00rXuLg7Rb_Ab7pc_GoIp15OwXnO_GodLXPnUWPJ3iw4Zd6g9XtvFDeHT2aXxYFCGdjDw10O0srPtwXir3AXaTjxE0bMXrnXQ5sVXAOtaTZFF1LXHGGDMnZf9dKBknQIbrtOBsYUWdNrgrt_PWdif4YLCv9RWOTFyJO-Za8IEDdAhA44QTBpUUSmj9IegMpHZJ2gz3VzI-h588eBGM1qX6G1y5f-SNFpIXbIGUAIurTassA2NXjiaUOYghmbmY6JYj3Bzotla5HRW9_2T-mTpfBmCgUP03Hm9yUsdJBk7Q21oHg4upq7I8jIIcKX76sJaemxKA2Upw
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJIMTExMTExMzIxIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkhlYWx0aGNhcmVQcm9mZXNzaW9uYWwiXSwiZXhwIjoxNjQwNzM3MDc2fQ.IQIzyNZfQW5qmCkUPSoo07rG5k06de-Ivy_b_zdNJNaOJ7vNbRHNjeYNDJ-iboydmckS86bjN8ME_Kt75G89xReQFkGj5ekDcO-Gnk6uOJezkW7ed6kdIRgwM3D-F3FMNYlpHUfdV7tHHeD-6cmRTATFgEe_9rGSrI9xL0_pmtd-IixmVj3Rq1lR5tTtDW6Iz-D1Xt6Yol3_M-9UfKyz2ra7PRMiCgeep7xzyT9k5w8Og9JrWRgbagePAGIs6iJX_l_Gv4VljeuUV3u72SHd2N1Q9RBbuoem9Swx1YtTbUSvZcgDlb9IHYgq51VlSLupiCmnqKkyE0CIPYocr-KCdg
 
 
 ### GET diseases
