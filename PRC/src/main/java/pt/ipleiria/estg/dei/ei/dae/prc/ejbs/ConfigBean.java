@@ -53,7 +53,7 @@ public class ConfigBean {
 
 
         prescriptionBean.create("Insuficiência cardíaca","Edema","Yes","Fazer exercicios que estimulem o coração","21/12/2021","21/12/2022","123456789","H111111321");
-        //prescriptionBean.create("Arritmia","Arritmia very nice","No","Fazer dieta à base de carbohidratos","22/12/2021","22/12/2022","978675432","H987654321");
+        prescriptionBean.create("Arritmia","Arritmia very nice","No","Fazer dieta à base de carbohidratos","22/12/2021","22/12/2022","978675432","H987654321");
         long code = diseaseBean.create("Hipertensão");
         diseaseBean.addDiseaseToPatient(code, usernameP1);
 
