@@ -3,7 +3,7 @@
   <!--<NavBar/>-->
    <div>
       <b-navbar toggleable="lg" type="dark" variant="info">
-        <b-navbar-brand to="/dashboard"><img src="../dist/logoLogin.png" width="50px" height="30px" ></b-navbar-brand>
+        <b-navbar-brand :to="urlDashboard"><img src="../dist/logoLogin.png" width="50px" height="30px" ></b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav class="ml-auto"  >
@@ -31,6 +31,10 @@ export default {
     urlUser(){
       return this.$auth.user.groups.includes("Patient") ? "patients" : "healthcareProfessionals";
     },
+    urlDashboard(){
+          return this.$auth.user.groups.includes("Patient") ? "/dashboard" : "/dashboardHealthcareProfessionals";
+
+    }
     }
 }
 </script>
