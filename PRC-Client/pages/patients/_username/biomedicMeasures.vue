@@ -21,17 +21,28 @@
         </b-col>
       </b-row>
     </b-container>
+
+
      <b-modal id="modal-1" title="New Biomedic Measure" @ok="create()">
-       <div class="input-group mb-4">
-          <span class="input-group-text">Date</span>
+
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">Date</span>
+        </div>
           <b-input required  v-model.trim="date" type="text" :state="isDateValid"  placeholder="dd/mm/yyyy" class="form-control" aria-describedby="basic-addon1 "/>
       </div>
           <p>{{isDateValidFeedback}}</p>
-      <div class="input-group mb-4">
-          <span class="input-group-text">Hour</span>
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">Hour</span>
+        </div>
           <b-input required  v-model.trim="hour" type="text" :state="isHourValid"  placeholder="HH:MM" class="form-control" aria-describedby="basic-addon1 "/>
       </div>
           <p>{{isHourValidFeedback}}</p>
+
+
       <div class="input-group mb-4">
       <b-select v-model="biomedicDataType" :options="biomedicDataTypes" :state="isBiomedicDataTypeValid" required value-field="code" text-field="name">
             <template v-slot:first>
@@ -39,11 +50,17 @@
             </template>
        </b-select>
       </div>
-      <div class="input-group mb-4">
-          <span class="input-group-text">Value</span>
+
+
+       <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">Value</span>
+        </div>
           <b-input required  v-model.trim="value" type="number" :state="isValueValid"  placeholder="Enter the value" class="form-control" aria-describedby="basic-addon1 "/>
-          <p>{{isValueValidFeedback}}</p>
       </div>
+          <p>{{isValueValidFeedback}}</p>
+
+
     </b-modal>
 
     <hr style="width: 73%" />
