@@ -4,6 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+
+
 @Table(name = "prescriptions")
 @Entity
 @NamedQueries({
@@ -12,6 +14,7 @@ import java.io.Serializable;
                 query = "SELECT p FROM Prescription p ORDER BY p.code"
         )
 })
+
 public class Prescription implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +39,7 @@ public class Prescription implements Serializable {
     @ManyToOne
     @JoinColumn(name = "healthcareProfessional_username")
     private HealthcareProfessional healthcareProfessional;
+
 
     public Prescription() {
     }

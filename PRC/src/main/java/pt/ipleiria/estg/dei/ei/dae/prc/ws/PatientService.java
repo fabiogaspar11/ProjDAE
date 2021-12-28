@@ -186,14 +186,31 @@ public class PatientService {
     @PUT
     @Path("/{username}")
     public Response updatePatient(@PathParam("username") String username, PatientDTO patientDTO) throws MyEntityNotFoundException {
+        Patient patient  = patientBean.findPatient(username);
         Principal principal = securityContext.getUserPrincipal();
+
+        if(!securityContext.isUserInRole("Patient") && !securityContext.isUserInRole("HealthcareProfessional")){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
         if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        Patient patient  = patientBean.findPatient(username);
+
+        if(securityContext.isUserInRole("HealthcareProfessional")){
+            boolean hasHealthcareProfessionalAssociated = false;
+            for (HealthcareProfessional healthcareProfessional: patient.getHealthcareProfessionals()) {
+                if (healthcareProfessional.getUsername().equals(principal.getName())){
+                    hasHealthcareProfessionalAssociated = true;
+                }
+            }
+            if (!hasHealthcareProfessionalAssociated){
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+        }
         patientBean.update(patient, patientDTO);
         return Response.status(Response.Status.OK)
-                .entity(toDTO(patient))
+                .entity(toDTOnoDetails(patient))
                 .build();
     }
 
