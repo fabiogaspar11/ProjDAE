@@ -1,10 +1,16 @@
 <template>
 <div>
   <NavBarPatientHealthcareProfessional></NavBarPatientHealthcareProfessional>
-  <div class="container-sm mt-5">
+  <div class="container mt-5 d-flex justify-content-around">
   <div class="row">
-    <div class="col">
-    <Card :element="'patients'" :text="'Patients'"></Card>
+    <div class="col mr-5">
+     <Card :element="'patients'" :text="'Patients'"></Card>
+    </div>
+    <div class="col mr-5">
+      <Card :element="'prescriptions'" :text="'Patients Prescriptions'"></Card>
+    </div>
+        <div class="col mr-5">
+      <Card :element="'biomedicMeasures'" :text="'Patients Biomedic Data'"></Card>
     </div>
   </div>
 </div>

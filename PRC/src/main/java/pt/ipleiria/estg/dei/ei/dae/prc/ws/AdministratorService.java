@@ -5,6 +5,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.AdministratorBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Administrator;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -66,10 +67,8 @@ public class AdministratorService {
 
     @GET
     @Path("{username}")
+    @RolesAllowed({"Administrator"})
     public Response getAdministratorDetails(@PathParam("username") String username) throws MyEntityNotFoundException {
-        if(!securityContext.isUserInRole("Administrator")) {
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
         Administrator administrator = administratorBean.findAdministrator(username);
         Principal principal = securityContext.getUserPrincipal();
         if(principal.getName().equals(username)) {
@@ -81,10 +80,8 @@ public class AdministratorService {
 
     @POST // means: to call this endpoint, we need to use the HTTP POST method
     @Path("/")
+    @RolesAllowed({"Administrator"})
     public Response createNewAdministrator(AdministratorDTO administratorDTO) throws MyEntityExistsException, MyEntityNotFoundException {
-        if(!securityContext.isUserInRole("Administrator")) {
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
         String username = administratorBean.create(administratorDTO.getName(), administratorDTO.getEmail(), administratorDTO.getPassword(), administratorDTO.getBirthDate(), administratorDTO.getContact(), administratorDTO.getHealthNumber());
         Administrator administrator = administratorBean.findAdministrator(username);
         return Response.status(Response.Status.CREATED)

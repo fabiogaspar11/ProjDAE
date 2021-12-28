@@ -5,7 +5,7 @@
   "NavBar": {
     "description": "Auto imported from components/NavBar.vue"
   },
-  "NavBarPatient": {
-    "description": "Auto imported from components/NavBarPatient.vue"
+  "NavBarPatientHealthcareProfessional": {
+    "description": "Auto imported from components/NavBarPatientHealthcareProfessional.vue"
   }
 }

@@ -61,8 +61,10 @@ export default {
         // eg:
         if (this.$auth.user.groups.includes("Patient")) {
           this.$router.push("/dashboard");
-        } else if (this.$auth.user.groups.includes("HealthcareProfessional") || this.$auth.user.groups.includes("Administrator") ) {
-          this.$router.push("/patients/");
+        } else if (this.$auth.user.groups.includes("HealthcareProfessional")) {
+          this.$router.push("/dashboardHealthcareProfessionals");
+        }else{
+          this.$router.push("/patients");
         }
       });
       promise.catch(() => {

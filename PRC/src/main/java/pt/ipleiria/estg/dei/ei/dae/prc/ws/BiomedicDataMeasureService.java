@@ -53,7 +53,10 @@ public class BiomedicDataMeasureService {
     public Response getBiomedicDataMeasureDetails(@PathParam("code") long code) throws MyEntityNotFoundException {
         Principal principal = securityContext.getUserPrincipal();
         BiomedicDataMeasure biomedicDataMeasure = biomedicDataMeasureBean.findBiomedicDataMeasure(code);
-        if(!(securityContext.isUserInRole("Patient")  && principal.getName().equals(biomedicDataMeasure.getPatient().getUsername())) || !securityContext.isUserInRole("HealthcareProfessional")) {
+        if (!securityContext.isUserInRole("Patient") && !securityContext.isUserInRole("HealthcareProfessional")) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        if (securityContext.isUserInRole("Patient") && !principal.getName().equals(biomedicDataMeasure.getPatient().getUsername())){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         return Response.ok(toDTO(biomedicDataMeasure)).build();
@@ -80,7 +83,10 @@ public class BiomedicDataMeasureService {
     public Response updateBiomedicDataMeasure(@PathParam("code") long code, BiomedicDataMeasureDTO biomedicDataMeasureDTO) throws MyEntityNotFoundException {
         Principal principal = securityContext.getUserPrincipal();
         BiomedicDataMeasure biomedicDataMeasure = biomedicDataMeasureBean.findBiomedicDataMeasure(code);
-        if(!(securityContext.isUserInRole("Patient")  && principal.getName().equals(biomedicDataMeasure.getPatient().getUsername())) || !securityContext.isUserInRole("HealthcareProfessional")) {
+        if (!securityContext.isUserInRole("Patient") && !securityContext.isUserInRole("HealthcareProfessional")) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        if (securityContext.isUserInRole("Patient") && !principal.getName().equals(biomedicDataMeasure.getPatient().getUsername())){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         biomedicDataMeasureBean.update(biomedicDataMeasure,biomedicDataMeasureDTO);

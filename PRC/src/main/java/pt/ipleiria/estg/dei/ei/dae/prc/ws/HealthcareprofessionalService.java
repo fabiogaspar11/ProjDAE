@@ -131,14 +131,20 @@ public class HealthcareprofessionalService {
     @GET
     @Path("{username}")
     public Response getHealthcareprofessionalDetails(@PathParam("username") String username) throws MyEntityNotFoundException {
-        Principal principal = securityContext.getUserPrincipal();
-        HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
-        if(!(securityContext.isUserInRole("HealthcareProfessional")  && principal.getName().equals(healthcareProfessional.getUsername())) || !securityContext.isUserInRole("Administrator")) {
+        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Administrator")) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        if(principal.getName().equals(username)) {
+
+        Principal principal = securityContext.getUserPrincipal();
+        HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
+        if(securityContext.isUserInRole("HealthcareProfessional") && !principal.getName().equals(healthcareProfessional.getUsername())){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        if(securityContext.isUserInRole("HealthcareProfessional")) {
             return Response.ok(toDTO(healthcareProfessional)).build();
         }
+
         return Response.status(Response.Status.OK)
                 .entity(toDTONoPassword(healthcareProfessional))
                 .build();
@@ -168,14 +174,19 @@ public class HealthcareprofessionalService {
                 .entity(toDTO(healthcareProfessional))
                 .build();
     }
+
     @PUT
     @Path("/{username}/password")
     public Response updatePasswordHealthcareprofessional(@PathParam("username") String username, HealthcareProfessionalDTO healthcareProfessionalDTO) throws MyEntityNotFoundException, MyIllegalArgumentException {
-        Principal principal = securityContext.getUserPrincipal();
-        HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
-        if(!(securityContext.isUserInRole("HealthcareProfessional")  && principal.getName().equals(healthcareProfessional.getUsername())) || !securityContext.isUserInRole("Administrator")) {
+        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Administrator")) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
+        Principal principal = securityContext.getUserPrincipal();
+        HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
+        if(securityContext.isUserInRole("HealthcareProfessional") && !principal.getName().equals(healthcareProfessional.getUsername())){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
         healthcareProfessionalBean.updatePassword(healthcareProfessional, healthcareProfessionalDTO);
         return Response.status(Response.Status.OK)
                 .entity(toDTO(healthcareProfessional))
@@ -226,6 +237,7 @@ public class HealthcareprofessionalService {
         if(!(securityContext.isUserInRole("HealthcareProfessional")  && principal.getName().equals(healthcareProfessional.getUsername()))) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
+        //TODO : NAO DEVIAMOS VERIFICAR SSE O HEALTHCARE TEM O PATIENT ANTES DE FAZER O REMOVE?
         healthcareProfessionalBean.removePatientFromHealthcareprofessional(usernamePatient, username);
         return Response.ok(patientstoDTOs(healthcareProfessional.getPatients())).build();
     }
@@ -238,6 +250,8 @@ public class HealthcareprofessionalService {
         if(!(securityContext.isUserInRole("HealthcareProfessional")  && principal.getName().equals(healthcareProfessional.getUsername()))) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
+
+        //TODO: Nao deviamos verificar se o healthcare tem o patient associado à prescription? E nome do metodo esta esquisito ou parece-me
         healthcareProfessionalBean.addPrescriptionFromHealthcareprofessional(codePrescription, username);
         return Response.ok(patientstoDTOs(healthcareProfessional.getPatients())).build();
 

@@ -8,4 +8,4 @@ You can directly use them in pages and other components without the need to impo
 
 - `<Card>` | `<card>` (components/Card.vue)
 - `<NavBar>` | `<nav-bar>` (components/NavBar.vue)
-- `<NavBarPatient>` | `<nav-bar-patient>` (components/NavBarPatient.vue)
+- `<NavBarPatientHealthcareProfessional>` | `<nav-bar-patient-healthcare-professional>` (components/NavBarPatientHealthcareProfessional.vue)
