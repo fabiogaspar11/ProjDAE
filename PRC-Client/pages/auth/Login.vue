@@ -4,34 +4,44 @@
       <!-- Tabs Titles -->
 
       <!-- Icon -->
-      <div class="fadeIn first">
+      <div class="fadeIn first mb-4">
         <br />
         <img src="../../static/logoLogin.png" id="icon" alt="User Icon" />
 
-        <h1>Cardiac Rehabilitation Programs</h1>
+        <h1>Cardiac Rehabilitation Program</h1>
       </div>
 
       <!-- Login Form -->
-      <form  @submit.prevent="onSubmit" @reset="onReset">
-       <b-form-group label="Username" class="mb-3 ml-1 mr-1">
+      <form @submit.prevent="onSubmit" @reset="onReset">
+        <b-form-group class="text-center">
+          <label label-size="lg">Username:</label>
           <b-input
             name="username"
             placeholder="Your username"
             v-model.trim="username"
+            type="text"
             required
           />
         </b-form-group>
-       <b-form-group label="Password" class=" mb-3 ml-5 mr-5">
-        <b-input
-          name="password"
-          type="password"
-          placeholder="Your password"
-          v-model="password"
-          required
-        />
-      </b-form-group>
-      <b-button type="reset" class="btn-info mb-4 mr-2">Reset</b-button>
-      <b-button type="submit" class="btn-dark mb-4  ml-2">Submit</b-button>
+        <b-form-group class="text-center">
+          <label label-size="lg">Password:</label>
+            <div class="mx-5">
+
+          <b-input
+            class="text-center"
+            id="inputPassword2"
+            type="password"
+            placeholder="Your password"
+            v-model="password"
+            style="background-color:rgb(246, 246, 246)"
+            required
+          />
+            </div>
+        </b-form-group>
+        <div class="m-4">
+          <b-button block type="reset" class="btn-info">Reset</b-button>
+          <b-button block type="submit" class="btn-dark mb-4">Submit</b-button>
+        </div>
       </form>
     </div>
   </div>
@@ -63,7 +73,7 @@ export default {
           this.$router.push("/dashboard");
         } else if (this.$auth.user.groups.includes("HealthcareProfessional")) {
           this.$router.push("/dashboardHealthcareProfessionals");
-        }else{
+        } else {
           this.$router.push("/patients");
         }
       });
