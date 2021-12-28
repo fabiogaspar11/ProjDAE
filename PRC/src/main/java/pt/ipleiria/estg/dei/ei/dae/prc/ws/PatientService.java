@@ -168,7 +168,7 @@ public class PatientService {
         }
         Patient patient  = patientBean.findPatient(username);
         return Response.status(Response.Status.OK)
-                .entity(toDTO(patient))
+                .entity(toDTOnoDetails(patient))
                 .build();
     }
 

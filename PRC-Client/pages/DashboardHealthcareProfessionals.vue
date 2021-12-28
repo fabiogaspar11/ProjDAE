@@ -1,6 +1,6 @@
 <template>
 <div>
-  <NavBarPatientHealthcareProfessional></NavBarPatientHealthcareProfessional>
+  <NavBar></NavBar>
   <div class="container mt-5 d-flex justify-content-around">
   <div class="row">
     <div class="col mr-5">
