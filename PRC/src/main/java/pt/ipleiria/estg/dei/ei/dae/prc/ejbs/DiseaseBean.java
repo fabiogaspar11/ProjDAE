@@ -7,6 +7,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -28,8 +29,8 @@ public class DiseaseBean {
         entityManager.remove(entityManager.merge(disease));
     }
 
-    public void update(int code, DiseaseDTO diseaseDTO) throws MyEntityNotFoundException {
-        Disease disease = findDisease(code);
+    public void update(Disease disease, DiseaseDTO diseaseDTO) throws MyEntityNotFoundException {
+        entityManager.lock(disease, LockModeType.OPTIMISTIC);
         if(diseaseDTO.getName() != null && !disease.getName().equals(diseaseDTO.getName())){
             disease.setName(diseaseDTO.getName());
         }

@@ -6,6 +6,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class AdministratorBean {
     }
 
     public void update(Administrator administrator, AdministratorDTO administratorDTO) throws MyEntityNotFoundException {
+        entityManager.lock(administrator, LockModeType.OPTIMISTIC);
         if(administratorDTO.getName() != null && !administrator.getName().equals(administratorDTO.getName())){
             administrator.setName(administratorDTO.getName());
         }

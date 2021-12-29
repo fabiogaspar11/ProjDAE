@@ -104,8 +104,8 @@ public class DiseaseService {
     @Path("/{code}")
     @RolesAllowed({"Administrator"})
     public Response updateDiseaseWS(@PathParam("code") int code, DiseaseDTO diseaseDTO) throws MyEntityNotFoundException {
-        diseaseBean.update(code, diseaseDTO);
         Disease disease = diseaseBean.findDisease(code);
+        diseaseBean.update(disease, diseaseDTO);
         return Response.status(Response.Status.OK)
                 .entity(toDTO(disease))
                 .build();

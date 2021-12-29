@@ -10,6 +10,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -46,6 +47,7 @@ public class BiomedicDataTypeBean {
 
 
     public void update(BiomedicDataType biomedicDataType, BiomedicDataTypeDTO biomedicDataTypeDTO) throws MyEntityNotFoundException {
+        entityManager.lock(biomedicDataType, LockModeType.PESSIMISTIC_WRITE);
         if(biomedicDataTypeDTO.getName() != null && !biomedicDataType.getName().equals(biomedicDataTypeDTO.getName())){
             biomedicDataType.setName(biomedicDataTypeDTO.getName());
         }
