@@ -42,7 +42,7 @@ public class ConfigBean {
         healthcareProfessionalBean.create(987654321, "Maria Gomes", "maria_gomes@gmail.com", "1234", "22/09/2021", "924359214", "medic");
         String usernameH1 = healthcareProfessionalBean.create(111111321, "Clara Sousa", "clara@gmail.com", "1234", "22/10/2000", "924359214", "medic");
 
-        administratorBean.create("Ricardo Reis","ricardo.reis@clinic.com", "password", "17/04/1960", "919191911", 142394274);
+        administratorBean.create("Ricardo Reis","ricardo.reis@clinic.com", "qwerty", "17/04/1960", "919191911", 978675432);
         administratorBean.create("Alicia Mendes","alicia.mendes@clinic.com", "qwerty", "02/10/1966", "918347563", 156789014);
 
         biomedicDataTypeBean.create("Febre","ºC",30,45);
@@ -53,7 +53,7 @@ public class ConfigBean {
 
 
         prescriptionBean.create("Insuficiência cardíaca","Edema","Yes","Fazer exercicios que estimulem o coração","21/12/2021","21/12/2022","123456789","H111111321");
-        prescriptionBean.create("Arritmia","Arritmia very nice","No","Fazer dieta à base de carbohidratos","22/12/2021","22/12/2022","978675432","H987654321");
+        //prescriptionBean.create("Arritmia","Arritmia very nice","No","Fazer dieta à base de carbohidratos","22/12/2021","22/12/2022","978675432","H987654321");
         long code = diseaseBean.create("Hipertensão");
         diseaseBean.addDiseaseToPatient(code, usernameP1);
 
