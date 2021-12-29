@@ -82,6 +82,9 @@
       </b-table>
 
     </div>
+    <b-button v-b-modal.modal-3 variant="success" @click="">
+      <font-awesome-icon icon="trash" /> Export to excel
+    </b-button>
   </div>
 
 </template>
