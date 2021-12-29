@@ -11,6 +11,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyIllegalArgumentException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -98,12 +99,13 @@ public class PatientBean {
     }
 
     public void update(Patient patient, PatientDTO patientDTO) {
+        entityManager.lock(patient, LockModeType.PESSIMISTIC_READ);
         if(patientDTO.getName() != null && !patient.getName().equals(patientDTO.getName())){
             patient.setName(patientDTO.getName());
         }
-        if(patientDTO.getPassword() != null && !patient.getPassword().equals(patientDTO.getPassword())){
+       /* if(patientDTO.getPassword() != null && !patient.getPassword().equals(patientDTO.getPassword())){
             patient.setPassword(patientDTO.getPassword());
-        }
+        }*/
         if(patientDTO.getEmail() != null && !patient.getEmail().equals(patientDTO.getEmail())){
             patient.setEmail(patientDTO.getEmail());
         }

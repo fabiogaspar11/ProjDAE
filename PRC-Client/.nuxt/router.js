@@ -5,7 +5,7 @@ import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
 const _f130b6da = () => interopDefault(import('..\\pages\\administrators\\index.vue' /* webpackChunkName: "pages/administrators/index" */))
-const _e88ca49e = () => interopDefault(import('..\\pages\\biomedicData\\index.vue' /* webpackChunkName: "pages/biomedicData/index" */))
+const _1f8f9a8a = () => interopDefault(import('..\\pages\\biomedicDataTypes\\index.vue' /* webpackChunkName: "pages/biomedicDataTypes/index" */))
 const _d03f85b4 = () => interopDefault(import('..\\pages\\biomedicMeasures\\index.vue' /* webpackChunkName: "pages/biomedicMeasures/index" */))
 const _3dbb0e3b = () => interopDefault(import('..\\pages\\Dashboard.vue' /* webpackChunkName: "pages/Dashboard" */))
 const _b6f0953e = () => interopDefault(import('..\\pages\\DashboardAdministrators.vue' /* webpackChunkName: "pages/DashboardAdministrators" */))
@@ -16,7 +16,7 @@ const _5dfc280b = () => interopDefault(import('..\\pages\\patients\\index.vue' /
 const _5d9b21bc = () => interopDefault(import('..\\pages\\prescriptions\\index.vue' /* webpackChunkName: "pages/prescriptions/index" */))
 const _7fa1eea8 = () => interopDefault(import('..\\pages\\auth\\Login.vue' /* webpackChunkName: "pages/auth/Login" */))
 const _436e8ff6 = () => interopDefault(import('..\\pages\\administrators\\_username.vue' /* webpackChunkName: "pages/administrators/_username" */))
-const _e4f742aa = () => interopDefault(import('..\\pages\\biomedicData\\_code.vue' /* webpackChunkName: "pages/biomedicData/_code" */))
+const _215a4b84 = () => interopDefault(import('..\\pages\\biomedicDataTypes\\_code.vue' /* webpackChunkName: "pages/biomedicDataTypes/_code" */))
 const _ccaa23c0 = () => interopDefault(import('..\\pages\\biomedicMeasures\\_code.vue' /* webpackChunkName: "pages/biomedicMeasures/_code" */))
 const _11a1e4fc = () => interopDefault(import('..\\pages\\diseases\\_code.vue' /* webpackChunkName: "pages/diseases/_code" */))
 const _718fd3a3 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/index" */))
@@ -50,9 +50,9 @@ export const routerOptions = {
     component: _f130b6da,
     name: "administrators"
   }, {
-    path: "/biomedicData",
-    component: _e88ca49e,
-    name: "biomedicData"
+    path: "/biomedicDataTypes",
+    component: _1f8f9a8a,
+    name: "biomedicDataTypes"
   }, {
     path: "/biomedicMeasures",
     component: _d03f85b4,
@@ -94,9 +94,9 @@ export const routerOptions = {
     component: _436e8ff6,
     name: "administrators-username"
   }, {
-    path: "/biomedicData/:code",
-    component: _e4f742aa,
-    name: "biomedicData-code"
+    path: "/biomedicDataTypes/:code",
+    component: _215a4b84,
+    name: "biomedicDataTypes-code"
   }, {
     path: "/biomedicMeasures/:code",
     component: _ccaa23c0,

@@ -7,11 +7,11 @@
     "_name": "_f130b6da"
   },
   {
-    "name": "biomedicData",
-    "path": "/biomedicData",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicData\\\\index.vue",
-    "chunkName": "pages/biomedicData/index",
-    "_name": "_e88ca49e"
+    "name": "biomedicDataTypes",
+    "path": "/biomedicDataTypes",
+    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicDataTypes\\\\index.vue",
+    "chunkName": "pages/biomedicDataTypes/index",
+    "_name": "_1f8f9a8a"
   },
   {
     "name": "biomedicMeasures",
@@ -84,11 +84,11 @@
     "_name": "_436e8ff6"
   },
   {
-    "name": "biomedicData-code",
-    "path": "/biomedicData/:code",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicData\\\\_code.vue",
-    "chunkName": "pages/biomedicData/_code",
-    "_name": "_e4f742aa"
+    "name": "biomedicDataTypes-code",
+    "path": "/biomedicDataTypes/:code",
+    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\biomedicDataTypes\\\\_code.vue",
+    "chunkName": "pages/biomedicDataTypes/_code",
+    "_name": "_215a4b84"
   },
   {
     "name": "biomedicMeasures-code",

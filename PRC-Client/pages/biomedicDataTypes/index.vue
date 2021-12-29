@@ -85,7 +85,7 @@
       >
 
         <template v-slot:cell(operations)="row">
-          <b-button :to="`/biomedicData/${row.item.code}`" variant="info">
+          <b-button :to="`/biomedicDataTypes/${row.item.code}`" variant="info">
             <font-awesome-icon icon="eye" /> Details
           </b-button>
 
