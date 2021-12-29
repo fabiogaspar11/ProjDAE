@@ -22,11 +22,16 @@ const _11a1e4fc = () => interopDefault(import('..\\pages\\diseases\\_code.vue' /
 const _718fd3a3 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/index" */))
 const _6d31b558 = () => interopDefault(import('..\\pages\\patients\\_username\\index.vue' /* webpackChunkName: "pages/patients/_username/index" */))
 const _5a05bfc8 = () => interopDefault(import('..\\pages\\prescriptions\\_code.vue' /* webpackChunkName: "pages/prescriptions/_code" */))
-const _0c6809cd = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\patients.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/patients" */))
+const _e364f5a0 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\biomedicMeasures\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/biomedicMeasures/index" */))
+const _6a61cbd6 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\patients\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/patients/index" */))
+const _c5119950 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\prescriptions\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/prescriptions/index" */))
 const _54dd067e = () => interopDefault(import('..\\pages\\patients\\_username\\biomedicMeasures.vue' /* webpackChunkName: "pages/patients/_username/biomedicMeasures" */))
 const _e9a80b36 = () => interopDefault(import('..\\pages\\patients\\_username\\diseases.vue' /* webpackChunkName: "pages/patients/_username/diseases" */))
 const _4637b841 = () => interopDefault(import('..\\pages\\patients\\_username\\healthcareProfessionals.vue' /* webpackChunkName: "pages/patients/_username/healthcareProfessionals" */))
 const _e2f4d2ca = () => interopDefault(import('..\\pages\\patients\\_username\\prescriptions.vue' /* webpackChunkName: "pages/patients/_username/prescriptions" */))
+const _dfcf93ac = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\biomedicMeasures\\_code.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/biomedicMeasures/_code" */))
+const _e0d5a3c6 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\patients\\_usernemaPatient.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/patients/_usernemaPatient" */))
+const _c17c375c = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\prescriptions\\_code.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/prescriptions/_code" */))
 const _a43c85ce = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
@@ -113,9 +118,17 @@ export const routerOptions = {
     component: _5a05bfc8,
     name: "prescriptions-code"
   }, {
+    path: "/healthCareProfessionals/:username/biomedicMeasures",
+    component: _e364f5a0,
+    name: "healthCareProfessionals-username-biomedicMeasures"
+  }, {
     path: "/healthCareProfessionals/:username/patients",
-    component: _0c6809cd,
+    component: _6a61cbd6,
     name: "healthCareProfessionals-username-patients"
+  }, {
+    path: "/healthCareProfessionals/:username/prescriptions",
+    component: _c5119950,
+    name: "healthCareProfessionals-username-prescriptions"
   }, {
     path: "/patients/:username/biomedicMeasures",
     component: _54dd067e,
@@ -132,6 +145,18 @@ export const routerOptions = {
     path: "/patients/:username/prescriptions",
     component: _e2f4d2ca,
     name: "patients-username-prescriptions"
+  }, {
+    path: "/healthCareProfessionals/:username/biomedicMeasures/:code",
+    component: _dfcf93ac,
+    name: "healthCareProfessionals-username-biomedicMeasures-code"
+  }, {
+    path: "/healthCareProfessionals/:username/patients/:usernemaPatient",
+    component: _e0d5a3c6,
+    name: "healthCareProfessionals-username-patients-usernemaPatient"
+  }, {
+    path: "/healthCareProfessionals/:username/prescriptions/:code",
+    component: _c17c375c,
+    name: "healthCareProfessionals-username-prescriptions-code"
   }, {
     path: "/",
     component: _a43c85ce,

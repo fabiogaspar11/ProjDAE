@@ -31,7 +31,7 @@ export default {
       let groupUser = this.$auth.user.groups[0]
 
       if(groupUser == "HealthcareProfessional")
-        return "healthCareProfessionals"
+        return "healthcareProfessionals"
       if(groupUser == "Patient")
         return "patients"
     },
