@@ -7,6 +7,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -50,6 +51,7 @@ public class BiomedicDataMeasureBean {
         entityManager.remove(entityManager.merge(biomedicDataMeasure));
     }
     public void update(BiomedicDataMeasure biomedicDataMeasure, BiomedicDataMeasureDTO biomedicDataMeasureDTO) throws MyEntityNotFoundException {
+        entityManager.lock(biomedicDataMeasure, LockModeType.PESSIMISTIC_WRITE);
         if(biomedicDataMeasureDTO.getValue() != 0 && biomedicDataMeasure.getValue() != biomedicDataMeasureDTO.getValue() && biomedicDataMeasureDTO.getValue() >= biomedicDataMeasure.getBiomedicDataType().getMinValue() && biomedicDataMeasureDTO.getValue() <= biomedicDataMeasure.getBiomedicDataType().getMaxValue()){
             biomedicDataMeasure.setValue(biomedicDataMeasureDTO.getValue());
         }

@@ -10,6 +10,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -59,6 +60,7 @@ public class PrescriptionBean {
     }
 
     public void update(Prescription prescription, PrescriptionDTO prescriptionDTO) throws MyEntityNotFoundException {
+        entityManager.lock(prescription, LockModeType.PESSIMISTIC_WRITE);
         if(prescriptionDTO.getTitle() != null && !prescription.getTitle().equals(prescriptionDTO.getTitle())){
             prescription.setTitle(prescriptionDTO.getTitle());
         }
