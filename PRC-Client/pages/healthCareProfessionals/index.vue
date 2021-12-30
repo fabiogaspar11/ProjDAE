@@ -60,8 +60,6 @@
     </b-modal>
 
     <hr style="width:73%;">
-    <div class="d-flex justify-content-center" style="margin-top: 3%">
-
       <b-table
         :items="this.entidade"
         :fields="fields"
@@ -81,7 +79,6 @@
         </template>
       </b-table>
 
-    </div>
     <b-button v-b-modal.modal-3 variant="success" @click="">
       <font-awesome-icon icon="trash" /> Export to excel
     </b-button>

@@ -8,8 +8,11 @@
           <b-table striped hover :items="entidade" :fields="fields"></b-table>
         </div>
       </template>
-      <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
-
+      <div class="text-center mt-3">
+        <b-button v-b-modal.modal-1 class="justify-content-center"
+          >Edit</b-button
+        >
+      </div>
       <b-modal id="modal-1" title="Edit" @ok="update()">
         <div class="input-group mb-4">
           <span class="input-group-text">Name</span>

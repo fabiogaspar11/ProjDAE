@@ -1,7 +1,6 @@
 <template>
 <div>
   <NavBar></NavBar>
-  {{this.$store.state.username}}
   <div class="container mt-5 d-flex justify-content-around">
   <div class="row">
     <div class="col mr-5">
@@ -22,11 +21,11 @@
 export default {
   computed: {
     username() {
-      return this.$store.state.username;
+      return this.$auth.user.sub;
     }
   },
   created(){
-    console.log(this.$store.state.username)
+    console.log(this.$auth.user.sub)
   }
 }
 </script>

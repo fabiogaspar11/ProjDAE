@@ -24,7 +24,7 @@
 export default {
   computed: {
     username() {
-      return this.$store.state.username
+      return this.$auth.user.sub
     }
   }
 }

@@ -295,7 +295,7 @@ export default {
   },
   methods: {
     getHealthCareProfessionalData(){
-      this.$axios.$get(`/api/healthcareProfessionals/${this.$store.state.username}`).then((entidade) => {
+      this.$axios.$get(`/api/healthcareProfessionals/${this.$auth.user.sub}`).then((entidade) => {
         this.healthCareProfessional = [entidade];
       });
     },
@@ -307,7 +307,7 @@ export default {
     update(bvModalEvt) {
       if (this.isFormValid){
         this.$axios
-          .$put(`/api/healthcareProfessionals/${this.$store.state.username}`, {
+          .$put(`/api/healthcareProfessionals/${this.$auth.user.sub}`, {
             name: this.name,
             type: this.type,
             email: this.email,
@@ -320,7 +320,7 @@ export default {
             this.email = null;
             this.contact = null;
             this.birthDate = null;
-            this.$toast.info("HealthCare Professional " + this.$store.state.username + " updated succesfully").goAway(3000);
+            this.$toast.info("HealthCare Professional " + this.$auth.user.sub + " updated succesfully").goAway(3000);
 
             this.getHealthCareProfessionalData()
           });

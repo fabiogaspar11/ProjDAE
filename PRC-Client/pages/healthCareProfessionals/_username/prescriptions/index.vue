@@ -1,137 +1,140 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <b-container class="bv-example-row" style="margin-top: 5%">
-      <b-row>
-        <b-col sm="3">
-          <h1>Prescriptions ({{ tableLength }})</h1>
-        </b-col>
-        <b-col sm="5">
-          <b-form-input v-model="filter" type="search" placeholder="Search...">
-          </b-form-input>
-        </b-col>
-        <b-col>
-          <b-button v-b-modal.modal-1 variant="info">
-            <font-awesome-icon icon="plus" /> New Prescription
-          </b-button>
-        </b-col>
-      </b-row>
-    </b-container>
+    <b-container class="mt-3">
+      <h3>Prescriptions ({{ tableLength }})</h3>
+      <b-form-input v-model="filter" type="search" placeholder="Search...">
+      </b-form-input>
+      <div class="mt-3 mb-5 text-center">
+        <b-button v-b-modal.modal-1 variant="info">
+          <font-awesome-icon icon="plus" /> New Prescription
+        </b-button>
+      </div>
 
-    <b-modal
-      id="modal-1"
-      title="New Prescription"
-      @ok.prevent="createPrescription()"
-    >
-      <div class="input-group mb-4">
-        <span class="input-group-text">Healthcare Professional username</span>
-        <b-input
-          v-model="usernameHealthcareProfessional"
-          type="text"
-          class="form-control"
-          aria-describedby="basic-addon1"
-        />
-      </div>
-      <div class="input-group mb-4">
-        <span class="input-group-text">Patient Health Number</span>
-        <b-input
-          required
-          v-model="usernamePatient"
-          type="number"
-          :state="isusernamePatientValid"
-          class="form-control"
-          aria-describedby="basic-addon1"
-          placeholder="Enter patient health number"
-        />
-        <p>{{ isusernamePatientValidFeedback }}</p>
-      </div>
-      <div class="input-group mb-4">
-        <span class="input-group-text">Title</span>
-        <b-input
-          required
-          v-model="title"
-          type="text"
-          :state="isTitleValid"
-          class="form-control"
-          aria-describedby="basic-addon1"
-          placeholder="Enter prescription title"
-        />
-        <p>{{ isTitleValidFeedback }}</p>
-      </div>
-      <div>
-        Pharmacological prescription:
-        <b-form-select
-          v-model="isPharmacological"
-          :options="options"
-          :state="isOptionValid"
-        ></b-form-select>
-        <p>{{ isOptionValidFeedback }}</p>
-      </div>
-      <br />
-      <span>Treatment information:</span>
-      <div>
-        <b-form-textarea
-          id="textarea"
-          v-model="treatmentInfo"
-          :state="isTreatmentInfoValid"
-          placeholder="Treatment information..."
-          rows="3"
-          max-rows="6"
-        ></b-form-textarea>
-        <p>{{ isTreatmentInfoValidFeedback }}</p>
-      </div>
-      <br />
-      <span>Observations:</span>
-      <div>
-        <b-form-textarea
-          id="textarea"
-          v-model="observations"
-          placeholder="Enter observations..."
-          rows="3"
-          max-rows="6"
-        ></b-form-textarea>
-      </div>
-      <br />
-      <div class="input-group mb-4">
-        <span class="input-group-text">Expire Date</span>
-        <b-input
-          required
-          v-model.trim="expireDate"
-          type="text"
-          :state="isDateValid"
-          class="form-control"
-          aria-describedby="basic-addon1"
-          placeholder="dd/mm/yyyy"
-        />
-      </div>
-        <p>{{ isDateValidFeedback }}</p>
-    </b-modal>
-    <hr style="width: 73%" />
-    <div class="d-flex justify-content-center" style="margin-top: 3%">
-      <b-table
-        :items="this.entidade"
-        :fields="fields"
-        striped
-        responsive="sm"
-        class="w-75 p-3"
-        :filter="filter"
-        @filtered="search"
+      <b-modal
+        id="modal-1"
+        title="New Prescription"
+        @ok.prevent="createPrescription()"
       >
-        <template v-slot:cell(operations)="row">
-          <b-button :to="`./prescriptions/${row.item.code}`" variant="info">
-            <font-awesome-icon icon="eye" /> Details
-          </b-button>
+        <div class="input-group mb-4">
+          <span class="input-group-text">Healthcare Professional</span>
+          <b-input
+            disabled
+            v-model="usernameHealthcareProfessional"
+            type="text"
+            class="form-control"
+            aria-describedby="basic-addon1"
+          />
+        </div>
+        <div class="input-group mb-4">
+          <span class="input-group-text">Patient Health Number</span>
+          <b-input
+            required
+            v-model="usernamePatient"
+            type="number"
+            :state="isusernamePatientValid"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            placeholder="Enter patient health number"
+          />
+          <p>{{ isusernamePatientValidFeedback }}</p>
+        </div>
+        <div class="input-group mb-4">
+          <span class="input-group-text">Title</span>
+          <b-input
+            required
+            v-model="title"
+            type="text"
+            :state="isTitleValid"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            placeholder="Enter prescription title"
+          />
+          <p>{{ isTitleValidFeedback }}</p>
+        </div>
+        <div>
+          Pharmacological prescription:
+          <b-form-select
+            v-model="isPharmacological"
+            :options="options"
+            :state="isOptionValid"
+          ></b-form-select>
+          <p>{{ isOptionValidFeedback }}</p>
+        </div>
+        <br />
+        <span>Treatment information:</span>
+        <div>
+          <b-form-textarea
+            id="textarea"
+            v-model="treatmentInfo"
+            :state="isTreatmentInfoValid"
+            placeholder="Treatment information..."
+            rows="3"
+            max-rows="6"
+          ></b-form-textarea>
+          <p>{{ isTreatmentInfoValidFeedback }}</p>
+        </div>
+        <br />
+        <span>Observations:</span>
+        <div>
+          <b-form-textarea
+            id="textarea"
+            v-model="observations"
+            placeholder="Enter observations..."
+            rows="3"
+            max-rows="6"
+          ></b-form-textarea>
+        </div>
+        <br />
+        <div class="input-group mb-4">
+          <span class="input-group-text">Expire Date</span>
+          <b-input
+            required
+            v-model.trim="expireDate"
+            type="text"
+            :state="isDateValid"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            placeholder="dd/mm/yyyy"
+          />
+        </div>
+        <p>{{ isDateValidFeedback }}</p>
+      </b-modal>
+      <div class="mt-1">
+        <b-table
+          id="table"
+          :per-page="perPage"
+          :current-page="currentPagePaginatePrincipal"
+          :items="this.entidade"
+          :fields="fields"
+          striped
+          responsive="sm"
+          :filter="filter"
+          @filtered="search"
+        >
+          <template v-slot:cell(operations)="row">
+            <b-button :to="`./prescriptions/${row.item.code}`" variant="info">
+              <font-awesome-icon icon="eye" /> Details
+            </b-button>
 
-          <b-button
-            v-b-modal.modal-3
-            variant="danger"
-            @click="remove(row.item.code)"
-          >
-            <font-awesome-icon icon="trash" /> Remove
-          </b-button>
-        </template>
-      </b-table>
-    </div>
+            <b-button
+              v-b-modal.modal-3
+              variant="danger"
+              @click="remove(row.item.code)"
+            >
+              <font-awesome-icon icon="trash" /> Remove
+            </b-button>
+          </template>
+        </b-table>
+         <b-pagination
+        class="fixed-bottom justify-content-center"
+        v-model="currentPagePaginatePrincipal"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="table"
+      ></b-pagination>
+      </div>
+    </b-container>
   </div>
 </template>
 
@@ -145,15 +148,16 @@ export default {
   data() {
     return {
       fields: [
-          { key: "code", label: "Code", sortable: true, sortDirection: "desc" },
-          { key: "title", label: "Title", sortable: true, sortDirection: "desc" },
-          { key: "emissionDate", label: "Emission Date", sortable: true, sortDirection: "desc"},
-          { key: "usernamePatient", label: "Patient username" },
-          {
-            key: "usernameHealthcareProfessional",
-            label: "Healthcare professional",
-          },
-          "operations",
+        { key: "code", label: "Code", sortable: true, sortDirection: "desc" },
+        {
+          key: "emissionDate",
+          label: "Emission Date",
+          sortable: true,
+          sortDirection: "desc",
+        },
+        { key: "usernamePatient", label: "Patient username" },
+
+        "operations",
       ],
       options: [
         { value: null, text: "Please select an option" },
@@ -171,11 +175,12 @@ export default {
       isPharmacological: null,
       code: null,
       usernamePatient: null,
-      usernameHealthcareProfessional: null,
+      usernameHealthcareProfessional: this.$auth.user.sub,
       filter: null,
       totalRows: null,
-      currentPage: null,
       emissionDate: null,
+      perPage: 5,
+      currentPagePaginatePrincipal: 1,
     };
   },
   created() {
@@ -301,28 +306,37 @@ export default {
       }
       return true;
     },
+    rows() {
+      return this.entidade.length;
+    },
   },
   methods: {
     getData() {
-      this.$axios.$get(`/api/healthcareProfessionals/${this.$store.state.username}/prescriptions`).then((entidade) => {
-        this.entidade = entidade;
-        console.log(entidade);
-      });
+      this.$axios
+        .$get(
+          `/api/healthcareProfessionals/${this.$auth.user.sub}/prescriptions`
+        )
+        .then((entidade) => {
+          this.entidade = entidade;
+          console.log(entidade);
+        });
     },
     search(filteredItems) {
       this.totalRows = filteredItems.length;
-      this.currentPage = 1;
     },
     remove(code) {
       this.$axios.$delete(`/api/prescriptions/${code}`).then(() => {
-        this.$toast.info("Prescription " + code + " was successfully removed").goAway(3000);
-
+        this.$toast
+          .info("Prescription " + code + " was successfully removed")
+          .goAway(3000);
         this.getData();
       });
     },
     createPrescription() {
       if (!this.isFormValid) {
-           this.$toast.error("Fields are invalid - Correct them first!").goAway(3000);
+        this.$toast
+          .error("Fields are invalid - Correct them first!")
+          .goAway(3000);
         return;
       }
       this.$axios
@@ -344,12 +358,12 @@ export default {
           this.title = null;
           this.treatmentInfo = null;
           this.usernamePatient = null;
-          this.usernameHealthcareProfessional = null;
           this.getData();
         })
         .catch((error) => {
-          this.$toast.error("Error when creating Prescription: " + error.response.data).goAway(3000);
-
+          this.$toast
+            .error("Error when creating Prescription: " + error.response.data)
+            .goAway(3000);
         });
     },
   },

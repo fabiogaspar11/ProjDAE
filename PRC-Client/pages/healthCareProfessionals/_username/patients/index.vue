@@ -1,26 +1,19 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <b-container class="bv-example-row" style="margin-top: 5%">
-      <b-row>
-        <b-col sm="3">
-          <h1>Patients ({{ tableLength }})</h1>
-        </b-col>
-        <b-col sm="5">
-          <b-form-input v-model="filter" type="search" placeholder="Search...">
-          </b-form-input>
-        </b-col>
-        <b-col>
-          <b-button v-b-modal.modal-1 variant="info">
-            <font-awesome-icon icon="plus" /> Create Patient
-          </b-button>
-        </b-col>
-        <b-col>
-          <b-button v-b-modal.modal-2 variant="info">
-            <font-awesome-icon icon="plus" /> Associate Patient
-          </b-button>
-        </b-col>
-      </b-row>
+    <b-container class="mt-3">
+       <h3>Patients ({{ tableLength }})</h3>
+      <b-form-input v-model="filter" type="search" placeholder="Search...">
+      </b-form-input>
+
+      <div class="mt-3 mb-5 text-center">
+        <b-button v-b-modal.modal-1 variant="btn btn-outline-primary">
+          <font-awesome-icon icon="plus" /> Create
+        </b-button>
+        <b-button v-b-modal.modal-2 variant="primary">
+          <font-awesome-icon icon="book" /> Associate
+        </b-button>
+      </div>
     </b-container>
     <b-modal id="modal-1" title="New Patient" @ok.prevent="createPatient()">
       <div class="input-group mb-4">
@@ -104,26 +97,17 @@
       </div>
     </b-modal>
 
-    <b-modal
-      id="modal-2"
-      title="Associate Patient"
-      @ok.prevent="createPatient()"
-    >
+    <b-modal ok-only ok-title="Close" id="modal-2" title="Associate Patient">
       <b-container>
         <div class="overflow-auto">
           <b-form-input
-            class="mb-5"
+            class="mb-3"
             v-model="filterAssociateds"
             type="search"
             placeholder="Search..."
           >
           </b-form-input>
-          <b-pagination
-            v-model="currentPagePaginate"
-            :total-rows="rows"
-            :per-page="perPage"
-            aria-controls="tableAssociateds"
-          ></b-pagination>
+
           <b-table
             striped
             hover
@@ -132,7 +116,7 @@
             :filter="filterAssociateds"
             @filtered="search"
             id="tableAssociateds"
-            :current-page="currentPagePaginate"
+            :current-page="currentPagePaginateSecondary"
             :per-page="perPage"
           >
             <template v-slot:cell(operations)="row">
@@ -153,17 +137,26 @@
               </b-button>
             </template>
           </b-table>
+          <b-pagination
+            class="justify-content-center"
+            v-model="currentPagePaginateSecondary"
+            :total-rows="rows"
+            :per-page="perPage"
+            aria-controls="tableAssociateds"
+          ></b-pagination>
         </div>
       </b-container>
     </b-modal>
 
-    <div class="d-flex justify-content-center" style="margin-top: 3%">
+    <b-container class="mt-1">
       <b-table
+        id="tablePrincipal"
+        :per-page="perPage"
+        :current-page="currentPagePaginatePrincipal"
         :items="this.entidade"
         :fields="fields"
         striped
         responsive="sm"
-        class="w-75 p-3"
         :filter="filter"
         @filtered="search"
       >
@@ -173,7 +166,15 @@
           </b-button>
         </template>
       </b-table>
-    </div>
+
+      <b-pagination
+        class="fixed-bottom justify-content-center"
+        v-model="currentPagePaginatePrincipal"
+        :total-rows="rowsPrincipal"
+        :per-page="perPage"
+        aria-controls="tablePrincipal"
+      ></b-pagination>
+    </b-container>
   </div>
 </template>
 <script>
@@ -330,6 +331,9 @@ export default {
     rows() {
       return this.patientsAll.length;
     },
+    rowsPrincipal() {
+      return this.entidade.length;
+    },
   },
   data() {
     return {
@@ -364,8 +368,8 @@ export default {
       usernamePatient: null,
       fieldsPatient: ["healthNumber", "name", "operations"],
       perPage: 5,
-      currentPage: 1,
-      currentPagePaginate: 1,
+      currentPagePaginatePrincipal: 1,
+      currentPagePaginateSecondary: 1,
     };
   },
   created() {
@@ -374,13 +378,10 @@ export default {
   methods: {
     search(filteredItems) {
       this.totalRows = filteredItems.length;
-      this.currentPage = 1;
     },
     getAllPatients() {
       this.$axios
-        .$get(
-          `api/healthcareProfessionals/${this.$store.state.username}/patients`
-        )
+        .$get(`api/healthcareProfessionals/${this.$auth.user.sub}/patients`)
         .then((entidade) => {
           this.entidade = entidade;
           this.patients = entidade;
@@ -437,9 +438,9 @@ export default {
     enroll(usernamePatient) {
       this.$axios
         .$post(
-          `/api/healthcareProfessionals/${this.$store.state.username}/AddPatient/${usernamePatient}`,
+          `/api/healthcareProfessionals/${this.$auth.user.sub}/AddPatient/${usernamePatient}`,
           {
-            username: this.$store.state.username,
+            username: this.$auth.user.sub,
             usernamePatient: usernamePatient,
           }
         )
@@ -450,7 +451,7 @@ export default {
     unroll(usernamePatient) {
       this.$axios
         .delete(
-          `/api/healthcareProfessionals/${this.$store.state.username}/RemovePatient/${usernamePatient}`
+          `/api/healthcareProfessionals/${this.$auth.user.sub}/RemovePatient/${usernamePatient}`
         )
         .then(() => {
           this.getAllPatients();
