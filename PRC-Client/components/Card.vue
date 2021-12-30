@@ -9,10 +9,9 @@
           :src="require(`./../images/${element}.png`)"
           alt="Prescriptions Image"
         />
-      <nuxt-link :to="userType + '/' + username + '/' + element" class="d-block">
-    <p class="card-text text-justify">Click here to see all the information about {{textDescription}}</p>
+      <nuxt-link :to="url" class="d-block">
+        <p class="card-text text-justify">Click here to see all the information about {{textDescription}}</p>
       </nuxt-link>
-
     </div>
   </div>
 </template>
@@ -22,6 +21,7 @@ export default {
   props: {
     text: String,
     element: String,
+    url: String,
   },
   computed: {
     username() {
@@ -31,16 +31,16 @@ export default {
       let groupUser = this.$auth.user.groups[0]
 
       if(groupUser == "HealthcareProfessional")
-        return "healthCareProfessionals"
+        return "healthcareProfessionals"
       if(groupUser == "Patient")
         return "patients"
     },
     textDescription(){
-    if(this.$auth.user.groups.includes("Administrator")){
-      return "the " + this.text;
-    }
-    return "your " + this.text;
-  }
+      if(this.$auth.user.groups.includes("Administrator")){
+        return "the " + this.text;
+      }
+      return "your " + this.text;
+    },
   },
 };
 </script>

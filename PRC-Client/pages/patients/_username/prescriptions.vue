@@ -27,7 +27,7 @@
          <template #cell(show_details)="row">
               <b-button size="sm" @click="row.toggleDetails" class="mr-2">
                 {{ row.detailsShowing ? "Hide" : "Show" }} Details
-              </b-button>
+              </b-button> 
             </template>
 
             <template #row-details="row">

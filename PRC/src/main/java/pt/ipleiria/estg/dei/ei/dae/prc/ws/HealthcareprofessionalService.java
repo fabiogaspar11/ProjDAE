@@ -4,6 +4,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.dtos.HealthcareProfessionalDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PatientDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PrescriptionDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.HealthcareProfessionalBean;
+import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.PrescriptionBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.HealthcareProfessional;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Prescription;
@@ -27,22 +28,14 @@ import java.util.stream.Collectors;
 public class HealthcareprofessionalService {
     @EJB
     private HealthcareProfessionalBean healthcareProfessionalBean;
+    @EJB
+    private PrescriptionBean prescriptionBean;
+
     @Context
     private SecurityContext securityContext;
 
-    private HealthcareProfessionalDTO toDTONoPatients(HealthcareProfessional healthcareProfessional){
-        return new HealthcareProfessionalDTO(
-                healthcareProfessional.getName(),
-                healthcareProfessional.getEmail(),
-                healthcareProfessional.getPassword(),
-                healthcareProfessional.getBirthDate(),
-                healthcareProfessional.getContact(),
-                healthcareProfessional.getHealthNumber(),
-                healthcareProfessional.getType()
-        );
-    }
 
-    private HealthcareProfessionalDTO toDTONoPassword(HealthcareProfessional healthcareProfessional){
+    private HealthcareProfessionalDTO toDTO(HealthcareProfessional healthcareProfessional){
         return new HealthcareProfessionalDTO(
                 healthcareProfessional.getName(),
                 healthcareProfessional.getEmail(),
@@ -50,20 +43,6 @@ public class HealthcareprofessionalService {
                 healthcareProfessional.getContact(),
                 healthcareProfessional.getHealthNumber(),
                 healthcareProfessional.getType()
-        );
-    }
-
-    private HealthcareProfessionalDTO toDTO(HealthcareProfessional healthcareProfessional) {
-        return new HealthcareProfessionalDTO(
-                healthcareProfessional.getName(),
-                healthcareProfessional.getEmail(),
-                healthcareProfessional.getPassword(),
-                healthcareProfessional.getBirthDate(),
-                healthcareProfessional.getContact(),
-                healthcareProfessional.getHealthNumber(),
-                healthcareProfessional.getType(),
-                healthcareProfessional.getPatients(),
-                healthcareProfessional.getPrescriptions()
         );
     }
 
@@ -75,7 +54,9 @@ public class HealthcareprofessionalService {
                 prescription.getIsPharmacological(),
                 prescription.getTreatmentInfo(),
                 prescription.getEmissionDate(),
-                prescription.getExpireDate()
+                prescription.getExpireDate(),
+                prescription.getPatient().getUsername(),
+                prescription.getHealthcareProfessional().getUsername()
         );
     }
 
@@ -91,7 +72,7 @@ public class HealthcareprofessionalService {
     }
 
     private List<HealthcareProfessionalDTO> toDTOs(List<HealthcareProfessional> healthcareProfessionals) {
-        return healthcareProfessionals.stream().map(this::toDTONoPatients).collect(Collectors.toList());
+        return healthcareProfessionals.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     private List<PrescriptionDTO> prescriptionstoDTOs(List<Prescription> prescriptions) {
@@ -124,7 +105,7 @@ public class HealthcareprofessionalService {
         );
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         return Response.status(Response.Status.CREATED)
-                .entity(toDTONoPatients(healthcareProfessional))
+                .entity(toDTO(healthcareProfessional))
                 .build();
     }
 
@@ -146,7 +127,7 @@ public class HealthcareprofessionalService {
         }
 
         return Response.status(Response.Status.OK)
-                .entity(toDTONoPassword(healthcareProfessional))
+                .entity(toDTO(healthcareProfessional))
                 .build();
     }
 
@@ -157,7 +138,7 @@ public class HealthcareprofessionalService {
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         healthcareProfessionalBean.remove(username);
         return Response.status(Response.Status.OK)
-                .entity(toDTONoPatients(healthcareProfessional))
+                .entity(toDTO(healthcareProfessional))
                 .build();
     }
 
@@ -215,6 +196,23 @@ public class HealthcareprofessionalService {
                 .entity(prescriptionstoDTOs(healthcareProfessional.getPrescriptions()))
                 .build();
     }
+
+
+    @GET
+    @Path("{username}/prescriptions/{code}")
+    public Response getHealthcareprofessionalPrescription(@PathParam("username") String username,@PathParam("code") long code) throws MyEntityNotFoundException {
+        Principal principal = securityContext.getUserPrincipal();
+        HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
+        if(!(securityContext.isUserInRole("HealthcareProfessional")  && principal.getName().equals(healthcareProfessional.getUsername()))) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        return Response.status(Response.Status.OK)
+                .entity(prescriptionstoDTOs(healthcareProfessional.getPrescriptions()))
+                .build();
+    }
+
+
+
 
     @POST
     @Path("/{username}/AddPatient/{usernamePatient}")

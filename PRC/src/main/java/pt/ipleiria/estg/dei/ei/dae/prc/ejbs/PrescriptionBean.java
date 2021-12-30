@@ -61,7 +61,9 @@ public class PrescriptionBean {
 
     public void remove(Prescription prescription){
         prescription.getPatient().removePrescription(prescription);
+        prescription.getHealthcareProfessional().removePrescription(prescription);
         entityManager.merge(prescription.getPatient());
+        entityManager.merge(prescription.getHealthcareProfessional());
         entityManager.remove(entityManager.merge(prescription));
     }
 

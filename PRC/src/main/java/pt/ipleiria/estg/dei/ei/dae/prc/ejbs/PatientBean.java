@@ -103,9 +103,7 @@ public class PatientBean {
         if(patientDTO.getName() != null && !patient.getName().equals(patientDTO.getName())){
             patient.setName(patientDTO.getName());
         }
-       /* if(patientDTO.getPassword() != null && !patient.getPassword().equals(patientDTO.getPassword())){
-            patient.setPassword(patientDTO.getPassword());
-        }*/
+
         if(patientDTO.getEmail() != null && !patient.getEmail().equals(patientDTO.getEmail())){
             patient.setEmail(patientDTO.getEmail());
         }

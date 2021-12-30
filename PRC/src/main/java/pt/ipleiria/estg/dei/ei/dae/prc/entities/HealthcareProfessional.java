@@ -85,7 +85,7 @@ public class HealthcareProfessional extends User implements Serializable {
     }
 
     public void removePrescription(Prescription prescription){
-        if(prescription == null || prescriptions.contains(prescription)){
+        if(prescription == null || !prescriptions.contains(prescription)){
             return;
         }
         prescriptions.remove(prescription);
