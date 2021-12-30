@@ -34,19 +34,8 @@ public class HealthcareprofessionalService {
     @Context
     private SecurityContext securityContext;
 
-    private HealthcareProfessionalDTO toDTONoPatients(HealthcareProfessional healthcareProfessional){
-        return new HealthcareProfessionalDTO(
-                healthcareProfessional.getName(),
-                healthcareProfessional.getEmail(),
-                healthcareProfessional.getPassword(),
-                healthcareProfessional.getBirthDate(),
-                healthcareProfessional.getContact(),
-                healthcareProfessional.getHealthNumber(),
-                healthcareProfessional.getType()
-        );
-    }
 
-    private HealthcareProfessionalDTO toDTONoPassword(HealthcareProfessional healthcareProfessional){
+    private HealthcareProfessionalDTO toDTO(HealthcareProfessional healthcareProfessional){
         return new HealthcareProfessionalDTO(
                 healthcareProfessional.getName(),
                 healthcareProfessional.getEmail(),
@@ -54,20 +43,6 @@ public class HealthcareprofessionalService {
                 healthcareProfessional.getContact(),
                 healthcareProfessional.getHealthNumber(),
                 healthcareProfessional.getType()
-        );
-    }
-
-    private HealthcareProfessionalDTO toDTO(HealthcareProfessional healthcareProfessional) {
-        return new HealthcareProfessionalDTO(
-                healthcareProfessional.getName(),
-                healthcareProfessional.getEmail(),
-                healthcareProfessional.getPassword(),
-                healthcareProfessional.getBirthDate(),
-                healthcareProfessional.getContact(),
-                healthcareProfessional.getHealthNumber(),
-                healthcareProfessional.getType(),
-                healthcareProfessional.getPatients(),
-                healthcareProfessional.getPrescriptions()
         );
     }
 
@@ -97,7 +72,7 @@ public class HealthcareprofessionalService {
     }
 
     private List<HealthcareProfessionalDTO> toDTOs(List<HealthcareProfessional> healthcareProfessionals) {
-        return healthcareProfessionals.stream().map(this::toDTONoPatients).collect(Collectors.toList());
+        return healthcareProfessionals.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     private List<PrescriptionDTO> prescriptionstoDTOs(List<Prescription> prescriptions) {
@@ -130,7 +105,7 @@ public class HealthcareprofessionalService {
         );
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         return Response.status(Response.Status.CREATED)
-                .entity(toDTONoPatients(healthcareProfessional))
+                .entity(toDTO(healthcareProfessional))
                 .build();
     }
 
@@ -152,7 +127,7 @@ public class HealthcareprofessionalService {
         }
 
         return Response.status(Response.Status.OK)
-                .entity(toDTONoPassword(healthcareProfessional))
+                .entity(toDTO(healthcareProfessional))
                 .build();
     }
 
@@ -163,7 +138,7 @@ public class HealthcareprofessionalService {
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         healthcareProfessionalBean.remove(username);
         return Response.status(Response.Status.OK)
-                .entity(toDTONoPatients(healthcareProfessional))
+                .entity(toDTO(healthcareProfessional))
                 .build();
     }
 

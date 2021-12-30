@@ -8,38 +8,65 @@
           <b-table striped hover :items="entidade" :fields="fields"></b-table>
         </div>
       </template>
-          <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
+      <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
 
       <b-modal id="modal-1" title="Edit" @ok="update()">
-      <div class="input-group mb-4">
+        <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
-          <b-input required v-model.trim="name" type="text" :state="isNameValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your name"/>
-          <p>{{isNameValidFeedback}}</p>
-      </div>
-       <div class="input-group mb-4">
+          <b-input
+            required
+            v-model.trim="name"
+            type="text"
+            :state="isNameValid"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            placeholder="Enter name"
+          />
+          <p>{{ isNameValidFeedback }}</p>
+        </div>
+        <div class="input-group mb-4">
           <span class="input-group-text">Birthdate</span>
-          <b-input required  v-model.trim="birthDate" type="text" :state="isbirthDateValid"  placeholder="dd/mm/yyyy" class="form-control" aria-describedby="basic-addon1"/>
-          <p>{{isbirthDateValidFeedback}}</p>
-      </div>
-      <div class="input-group mb-4">
+          <b-input
+            required
+            v-model.trim="birthDate"
+            type="text"
+            :state="isbirthDateValid"
+            placeholder="dd/mm/yyyy"
+            class="form-control"
+            aria-describedby="basic-addon1"
+          />
+          <p>{{ isbirthDateValidFeedback }}</p>
+        </div>
+        <div class="input-group mb-4">
           <span class="input-group-text">Email</span>
-          <b-input required v-model.trim="email" ref="email" type="email" :state="isEmailValid" class="form-control" aria-describedby="basic-addon1" placeholder="Enter your email"/>
-           <p>{{isEmailValidFeedback}}</p>
-      </div>
-       <div class="input-group mb-4">
-          <span class="input-group-text">Password</span>
-          <b-input required v-model.trim="password" type="password" :state="isPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your password"/>
-          <p>{{isPasswordValidFeedback}}</p>
-      </div>
-       <div class="input-group mb-4">
+          <b-input
+            required
+            v-model.trim="email"
+            ref="email"
+            type="email"
+            :state="isEmailValid"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            placeholder="Enter email"
+          />
+          <p>{{ isEmailValidFeedback }}</p>
+        </div>
+        <div class="input-group mb-4">
           <span class="input-group-text">Contact</span>
-          <b-input required v-model.trim="contact" type="number"  :state="isContactValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your contact"/>
-          <p>{{isContactValidFeedback}}</p>
-      </div>
+          <b-input
+            required
+            v-model.trim="contact"
+            type="number"
+            :state="isContactValid"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            placeholder="Enter contact"
+          />
+          <p>{{ isContactValidFeedback }}</p>
+        </div>
       </b-modal>
     </div>
   </div>
-
 </template>
 
 
@@ -60,7 +87,6 @@ export default {
       state: true,
       name: null,
       email: null,
-      password: null,
       birthDate: null,
       contact: null,
     };
@@ -69,7 +95,7 @@ export default {
     url: String,
   },
   computed: {
-    isPatient(){
+    isPatient() {
       return this.$auth.user.groups.includes("Patient");
     },
     username() {
@@ -111,22 +137,7 @@ export default {
       }
       return this.isContactValidFeedback === "";
     },
-    isPasswordValidFeedback() {
-      if (!this.password) {
-        return null;
-      }
-      let passwordLen = this.password.length;
-      if (passwordLen < 3 || passwordLen > 255) {
-        return "Password is too short, lenght must be between 3 and 255";
-      }
-      return "";
-    },
-    isPasswordValid() {
-      if (this.isPasswordValidFeedback === null) {
-        return null;
-      }
-      return this.isPasswordValidFeedback === "";
-    },
+
     isEmailValidFeedback() {
       if (!this.email) {
         return null;
@@ -180,9 +191,6 @@ export default {
         return false;
       }
       if (!this.isEmailValid) {
-        return false;
-      }
-      if (!this.isPasswordValid) {
         return false;
       }
       if (!this.isbirthDateValid) {

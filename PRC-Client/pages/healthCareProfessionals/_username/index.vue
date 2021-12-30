@@ -27,71 +27,11 @@
     <hr style="margin-top: 2%; margin-bottom: 2%; background-color: grey">
 
     <b-container class="bv-example-row">
-      <b-row class="text-center">
-        <b-col cols="6">
-          <h3 style="margin-top: 4%;  "> Patients </h3>
-        </b-col>
-        <b-col>
           <h3 style="margin-top: 4%;  "> Prescriptions </h3>
-        </b-col>
-      </b-row>
-
-      <b-row class="text-center">
-        <b-col cols="6">
-          <template>
-            <b-table striped hover :items="patients" :fields="fieldsPatient"></b-table>
-          </template>
-        </b-col>
-        <b-col>
-          <template>
             <b-table striped hover :items="prescriptions" :fields="fieldsPrescription"></b-table>
-          </template>
-        </b-col>
-      </b-row>
     </b-container>
 
-    <b-container>
-      <b-row class="text-center">
-        <b-col cols="6">
-          <b-row>
-            <b-col sm="4">
-              <p> Add Patient: </p>
-            </b-col>
-            <b-col sm="4">
-              <b-form-select size="sm" v-model="usernamePatient">
-                <template v-for="patient in patientsAll">
-                  <option v-if="isExist(patient)" :key="patient.username" :value="patient.username">
-                    {{ patient.name }}
-                  </option>
-                </template>
-              </b-form-select>
-            </b-col>
-            <b-col sm="4">
-              <b-button variant="info" @click.prevent="enroll">Add patient</b-button>
-            </b-col>
-          </b-row>
 
-          <b-row>
-            <b-col sm="4">
-              <p> Remove Patient: </p>
-            </b-col>
-            <b-col sm="4">
-              <b-form-select size="sm" v-model="usernamePatient">
-                <template v-for="patient in patients">
-                  <option :key="patient.username" :value="patient.username">
-                    {{ patient.name }}
-                  </option>
-                </template>
-              </b-form-select>
-            </b-col>
-            <b-col sm="4">
-              <b-button variant="danger" @click.prevent="unroll">Remove Patient</b-button>
-            </b-col>
-          </b-row>
-        </b-col>
-
-      </b-row>
-    </b-container>
 
     <b-modal id="modal-1" title="Edit" @ok="update">
       <div class="input-group mb-4">
@@ -153,6 +93,7 @@ export default {
         "type",
         "email",
         "contact",
+        "password",
       ],
       fieldsPrescription: [
         "code",
@@ -187,7 +128,6 @@ export default {
   },
   created() {
     this.getHealthCareProfessionalData()
-    this.getHealthCareProfessionalPatients()
     this.getHealthCareProfessionalPrescriptions()
   },
   computed: {
@@ -355,18 +295,9 @@ export default {
   },
   methods: {
     getHealthCareProfessionalData(){
-      this.$axios.$get(`/api/healthcareProfessionals/${this.username}`).then((entidade) => {
+      this.$axios.$get(`/api/healthcareProfessionals/${this.$store.state.username}`).then((entidade) => {
         this.healthCareProfessional = [entidade];
-        console.log(this.healthCareProfessional)
       });
-    },
-    getHealthCareProfessionalPatients() {
-      this.$axios.$get(`/api/healthcareProfessionals/${this.username}/patients`).then((entidade) => {
-        this.patients = entidade;
-      });
-      this.$axios.$get(`/api/patients`).then(patients => {
-        this.patientsAll = patients
-      })
     },
     getHealthCareProfessionalPrescriptions(){
       this.$axios.$get(`/api/healthcareProfessionals/${this.username}/prescriptions`).then((entidade) => {
@@ -376,7 +307,7 @@ export default {
     update(bvModalEvt) {
       if (this.isFormValid){
         this.$axios
-          .$put(`/api/healthcareProfessionals/${this.username}`, {
+          .$put(`/api/healthcareProfessionals/${this.$store.state.username}`, {
             name: this.name,
             type: this.type,
             email: this.email,
@@ -389,7 +320,7 @@ export default {
             this.email = null;
             this.contact = null;
             this.birthDate = null;
-            this.$toast.info("HealthCare Professional " + this.username + " updated succesfully").goAway(3000);
+            this.$toast.info("HealthCare Professional " + this.$store.state.username + " updated succesfully").goAway(3000);
 
             this.getHealthCareProfessionalData()
           });
@@ -423,14 +354,6 @@ export default {
         this.showDismissibleAlertPassword = true;
       }
     },
-    isExist: function (patient){
-      for (let studentInSubject of this.patients){
-        if (studentInSubject.username === patient.username){
-          return false
-        }
-      }
-      return true
-    },
     isExistPrescriptions: function (prescription){
       for (let studentInSubject of this.prescriptions){
         if (studentInSubject.code === prescription.code){
@@ -438,21 +361,6 @@ export default {
         }
       }
       return true
-    },
-    enroll() {
-      this.$axios.$post(`/api/healthcareProfessionals/${this.username}/AddPatient/${this.usernamePatient}`, {
-        username: this.username,
-        usernamePatient: this.usernamePatient
-      })
-      this.$axios.get(`/api/healthcareProfessionals/${this.username}`)
-        .then(() => this.$axios.$get(`/api/healthcareProfessionals/${this.username}/patients`))
-        .then(patients => this.patients = patients)
-    },
-    unroll() {
-      this.$axios.delete(`/api/healthcareProfessionals/${this.username}/RemovePatient/${this.usernamePatient}`)
-      this.$axios.get(`/api/healthcareProfessionals/${this.username}`)
-        .then(() => this.$axios.$get(`/api/healthcareProfessionals/${this.username}/patients`))
-        .then(patients => this.patients = patients)
     },
   },
 };
