@@ -28,7 +28,7 @@ echo "=> Waiting for the server to boot"
 wait_for_server
 
 source $WILDFLY_HOME/bin/setup_datasource.sh
-
+source $WILDFLY_HOME/bin/setup_mail.sh
 source $WILDFLY_HOME/bin/setup_elytron.sh
 
 echo "=> Shutdown Wildfly"

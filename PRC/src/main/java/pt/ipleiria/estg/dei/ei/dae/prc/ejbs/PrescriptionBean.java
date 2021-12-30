@@ -8,7 +8,9 @@ import pt.ipleiria.estg.dei.ei.dae.prc.entities.Prescription;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
@@ -19,9 +21,11 @@ public class PrescriptionBean {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @EJB
+    EmailBean emailBean;
     //emission date = data e hora atual
     //code devia ser automático
-    public long create(String title, String observations,String isPharmacological,String treatmentInfo, String emissionDate, String expireDate, String healthNumberPatient, String usernameHealthcareProfessional) throws MyEntityExistsException, MyEntityNotFoundException {
+    public long create(String title, String observations,String isPharmacological,String treatmentInfo, String emissionDate, String expireDate, String healthNumberPatient, String usernameHealthcareProfessional) throws MyEntityExistsException, MyEntityNotFoundException, MessagingException {
         String usernamePatient = "P" + healthNumberPatient;
         Patient patient = entityManager.find(Patient.class,usernamePatient);
         if(patient == null) {
@@ -40,6 +44,8 @@ public class PrescriptionBean {
         healthcareProfessional.addPatient(patient);
         entityManager.persist(prescription);
         entityManager.flush();
+
+        emailBean.send(patient.getEmail(), "Prescription n:" + prescription.getCode(), prescription.toString());
         return prescription.getCode();
     }
 
@@ -62,7 +68,7 @@ public class PrescriptionBean {
     }
 
     public void update(Prescription prescription, PrescriptionDTO prescriptionDTO) throws MyEntityNotFoundException {
-        entityManager.lock(prescription, LockModeType.PESSIMISTIC_WRITE);
+        entityManager.lock(entityManager.merge(prescription), LockModeType.PESSIMISTIC_WRITE);
         if(prescriptionDTO.getTitle() != null && !prescription.getTitle().equals(prescriptionDTO.getTitle())){
             prescription.setTitle(prescriptionDTO.getTitle());
         }

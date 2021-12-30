@@ -99,7 +99,7 @@ public class PatientBean {
     }
 
     public void update(Patient patient, PatientDTO patientDTO) {
-        entityManager.lock(patient, LockModeType.PESSIMISTIC_READ);
+        entityManager.lock(entityManager.merge(patient), LockModeType.PESSIMISTIC_READ);
         if(patientDTO.getName() != null && !patient.getName().equals(patientDTO.getName())){
             patient.setName(patientDTO.getName());
         }
