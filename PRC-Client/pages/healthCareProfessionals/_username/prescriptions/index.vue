@@ -318,7 +318,6 @@ export default {
         )
         .then((entidade) => {
           this.entidade = entidade;
-          console.log(entidade);
         });
     },
     search(filteredItems) {

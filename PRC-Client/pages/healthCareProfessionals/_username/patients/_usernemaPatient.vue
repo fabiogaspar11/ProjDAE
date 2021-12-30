@@ -2,7 +2,9 @@
   <div>
     <NavBar v-if="!isPatient"></NavBar>
     <NavBar v-else></NavBar>
-    <div class="container" style="margin-top: 4%">
+    <b-container class="mt-3">
+       <h3>Patients</h3>
+
       <template>
         <div>
           <b-table striped hover :items="entidade" :fields="fields"></b-table>
@@ -68,8 +70,34 @@
           <p>{{ isContactValidFeedback }}</p>
         </div>
       </b-modal>
+      <!---------------------------------------------PRESCRIPTIONS ---------------------------------------------->
+
+    <h3 class="mt-3">Prescribed Recipes ({{ tableLength }})</h3>
+     <b-table
+          class="mt-1"
+          id="tablePatientPrescriptions"
+          :per-page="perPage"
+          :current-page="currentPagePaginate"
+          :items="this.patientPrescriptions"
+          :fields="fieldsPrescriptions"
+          striped
+          responsive="sm"
+        >
+          <template v-slot:cell(operations)="row">
+            <b-button :to="`/healthCareProfessionals/${username}/prescriptions/${row.item.code}`" variant="info">
+              <font-awesome-icon icon="eye" /> Details
+            </b-button>
+          </template>
+        </b-table>
+         <b-pagination
+        class="fixed-bottom justify-content-center"
+        v-model="currentPagePaginate"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="tablePatientPrescriptions"
+      ></b-pagination>
+ </b-container>
     </div>
-  </div>
 </template>
 
 
@@ -86,20 +114,41 @@ export default {
         "contact",
         "email",
       ],
+      fieldsPrescriptions: [
+        { key: "code", label: "Code", sortable: true, sortDirection: "desc" },
+        {
+          key: "emissionDate",
+          label: "Emission Date",
+          sortable: true,
+          sortDirection: "desc",
+        },
+        { key: "usernamePatient", label: "Patient username" },
+
+        "operations",
+      ],
       entidade: [],
       state: true,
       name: null,
       email: null,
       birthDate: null,
       contact: null,
+      patientPrescriptions: [],
+      currentPagePaginate: 1,
+      perPage: 5,
     };
   },
   props: {
     url: String,
   },
   computed: {
+    username() {
+      return this.$auth.user.sub;
+    },
     isPatient() {
       return this.$auth.user.groups.includes("Patient");
+    },
+    tableLength: function () {
+      return this.patientPrescriptions.length;
     },
     username() {
       return this.$route.params.usernemaPatient;
@@ -204,8 +253,12 @@ export default {
       }
       return true;
     },
+    rows() {
+      return this.patientPrescriptions.length;
+    },
   },
   created() {
+    console.log(this.$auth.user.sub)
     this.getPatient();
   },
   methods: {
@@ -213,6 +266,14 @@ export default {
       this.$axios.$get(`/api/patients/${this.username}`).then((entidade) => {
         this.entidade = [entidade];
       });
+      this.$axios
+        .$get(
+          `/api/healthcareProfessionals/${this.$auth.user.sub}/patients/${this.username}/prescriptions`
+        )
+        .then((response) => {
+          console.log([response]);
+          this.patientPrescriptions = response;
+        });
     },
     update() {
       this.$axios

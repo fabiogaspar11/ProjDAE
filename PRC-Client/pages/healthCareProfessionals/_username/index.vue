@@ -24,14 +24,6 @@
       </b-row>
     </b-container>
 
-    <hr style="margin-top: 2%; margin-bottom: 2%; background-color: grey">
-
-    <b-container class="bv-example-row">
-          <h3 style="margin-top: 4%;  "> Prescriptions </h3>
-            <b-table striped hover :items="prescriptions" :fields="fieldsPrescription"></b-table>
-    </b-container>
-
-
 
     <b-modal id="modal-1" title="Edit" @ok="update">
       <div class="input-group mb-4">

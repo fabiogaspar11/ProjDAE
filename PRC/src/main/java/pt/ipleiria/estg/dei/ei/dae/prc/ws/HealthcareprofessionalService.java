@@ -4,6 +4,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.dtos.HealthcareProfessionalDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PatientDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PrescriptionDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.HealthcareProfessionalBean;
+import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.PatientBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.PrescriptionBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.HealthcareProfessional;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
@@ -30,6 +31,9 @@ public class HealthcareprofessionalService {
     private HealthcareProfessionalBean healthcareProfessionalBean;
     @EJB
     private PrescriptionBean prescriptionBean;
+    @EJB
+    private PatientBean patientBean;
+
 
     @Context
     private SecurityContext securityContext;
@@ -199,20 +203,19 @@ public class HealthcareprofessionalService {
 
 
     @GET
-    @Path("{username}/prescriptions/{code}")
-    public Response getHealthcareprofessionalPrescription(@PathParam("username") String username,@PathParam("code") long code) throws MyEntityNotFoundException {
-        Principal principal = securityContext.getUserPrincipal();
+    @Path("{username}/patients/{usernamePatient}/prescriptions")
+    @RolesAllowed({"HealthcareProfessional"})
+    public Response getHealthcareprofessionalPatientPrescription(@PathParam("username") String username,@PathParam("usernamePatient") String usernamePatient) throws MyEntityNotFoundException {
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
-        if(!(securityContext.isUserInRole("HealthcareProfessional")  && principal.getName().equals(healthcareProfessional.getUsername()))) {
+        Patient patient = patientBean.findPatient(usernamePatient);
+
+        if(!patient.getHealthcareProfessionals().contains(healthcareProfessional))
             return Response.status(Response.Status.FORBIDDEN).build();
-        }
+
         return Response.status(Response.Status.OK)
-                .entity(prescriptionstoDTOs(healthcareProfessional.getPrescriptions()))
+                .entity(prescriptionstoDTOs(healthcareProfessionalBean.getHealthcareProfessioanlPatientPrescriptions(username,usernamePatient)))
                 .build();
     }
-
-
-
 
     @POST
     @Path("/{username}/AddPatient/{usernamePatient}")

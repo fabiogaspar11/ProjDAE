@@ -353,6 +353,12 @@ export default {
         },
         "operations",
       ],
+      options: [
+        { value: null, text: "Please select an option" },
+        { value: "No", text: "No" },
+        { value: "Yes", text: "Yes" },
+        { value: "Both", text: "Both" },
+      ],
       entidade: [],
       name: null,
       birthDate: null,
@@ -385,7 +391,6 @@ export default {
         .then((entidade) => {
           this.entidade = entidade;
           this.patients = entidade;
-          console.log(this.entidade);
         });
       this.$axios.$get(`/api/patients`).then((response) => {
         this.patientsAll = response;

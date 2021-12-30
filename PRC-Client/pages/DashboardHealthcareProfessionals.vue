@@ -24,9 +24,6 @@ export default {
       return this.$auth.user.sub;
     }
   },
-  created(){
-    console.log(this.$auth.user.sub)
-  }
 }
 </script>
 

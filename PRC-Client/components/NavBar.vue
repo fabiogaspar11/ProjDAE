@@ -21,8 +21,6 @@
         </b-collapse>
       </b-navbar>
     </div>
-
-    <!--<Table :url="url" />-->
   </div>
 </template>
 

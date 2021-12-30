@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
+import java.util.LinkedList;
 import java.util.List;
 
 @Stateless
@@ -137,6 +138,18 @@ public class HealthcareProfessionalBean {
 
         healthcareProfessional.setPassword(healthcareProfessionalDTO.getPassword());
         entityManager.merge(healthcareProfessional);
+    }
+
+    public List<Prescription> getHealthcareProfessioanlPatientPrescriptions(String healthcareUsername, String patientUsername ){
+        HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class, healthcareUsername);
+        Patient patient = entityManager.find(Patient.class, patientUsername);
+
+        List<Prescription> prescriptionList = new LinkedList<>();
+        for (Prescription prescription : patient.getPrescriptions()) {
+            if(prescription.getHealthcareProfessional().getUsername() == healthcareProfessional.getUsername())
+                prescriptionList.add(prescription);
+        }
+        return prescriptionList;
     }
 
 }
