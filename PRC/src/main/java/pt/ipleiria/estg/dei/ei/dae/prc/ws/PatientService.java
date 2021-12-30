@@ -7,6 +7,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.mail.MessagingException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -140,11 +141,10 @@ public class PatientService {
     @POST
     @Path("/")
     @RolesAllowed({"HealthcareProfessional"})
-    public Response createNewPatient(PatientDTO patientDTO) throws MyEntityExistsException, MyEntityNotFoundException {
+    public Response createNewPatient(PatientDTO patientDTO) throws MyEntityExistsException, MyEntityNotFoundException, MessagingException {
         String username = patientBean.create(
                 patientDTO.getName(),
                 patientDTO.getEmail(),
-                patientDTO.getPassword(),
                 patientDTO.getBirthDate(),
                 patientDTO.getContact(),
                 patientDTO.getHealthNumber()

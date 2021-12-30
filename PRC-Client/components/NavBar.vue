@@ -17,6 +17,9 @@
                 </div>
               </div>
             </b-nav-item>
+            <div class="d-flex align-items-center">
+                <b-nav-item @click.prevent="signOut">Sign Out</b-nav-item>
+            </div>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -26,6 +29,12 @@
 
 <script>
 export default {
+  methods:{
+    signOut() {
+      this.$auth.logout()
+      this.$router.push('/')
+    }
+  },
   computed: {
     username() {
       return this.$auth.user.sub;

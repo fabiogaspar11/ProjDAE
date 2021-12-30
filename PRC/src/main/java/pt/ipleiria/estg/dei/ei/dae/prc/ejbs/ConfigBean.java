@@ -35,13 +35,13 @@ public class ConfigBean {
     @PostConstruct
     public void populateDB() throws MyEntityExistsException, MyEntityNotFoundException {
         try{
-        String usernameP1 = patientBean.create("Fábio Gaspar", "2191264@my.ipleiria.pt", "12345", "04/12/2001", "916364061", 123456789);
-        patientBean.create("Carla Mendes","2191111@my.ipleiria.pt","12345","05/06/1999","916345345",978675432);
-        patientBean.create("Carlos Costa","2191131@my.ipleiria.pt","12345","11/04/1984","912343274",987654321);
-        patientBean.create("Daniel Carreira","2191215@my.ipleiria.pt","12345","11/08/2001","917766763",987654345);
-        patientBean.create("Rafael Pereira","2191266@my.ipleiria.pt","12345","05/05/1999","987786541",981104345);
-        patientBean.create("Bruna Leitão","2191268@my.ipleiria.pt","12345","23/06/1999","900086541",981066345);
-        patientBean.create("Rodrigo Domingues","2198732@my.ipleiria.pt","12345","09/06/1960","901236541",981009345);
+        String usernameP1 = patientBean.create("Fábio Gaspar", "2191264@my.ipleiria.pt", "04/12/2001", "916364061", 123456789);
+        patientBean.create("Carla Mendes","2191111@my.ipleiria.pt","05/06/1999","916345345",978675432);
+        patientBean.create("Carlos Costa","2191131@my.ipleiria.pt","11/04/1984","912343274",987654321);
+        patientBean.create("Daniel Carreira","2191215@my.ipleiria.pt","11/08/2001","917766763",987654345);
+        patientBean.create("Rafael Pereira","2191266@my.ipleiria.pt","05/05/1999","987786541",981104345);
+        patientBean.create("Bruna Leitão","2191268@my.ipleiria.pt","23/06/1999","900086541",981066345);
+        patientBean.create("Rodrigo Domingues","2198732@my.ipleiria.pt","09/06/1960","901236541",981009345);
 
 
         healthcareProfessionalBean.create(987635151, "Maria Gomes", "mariagomes@mail.com", "12345", "22/09/1966", "924315414", "medic");
