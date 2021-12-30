@@ -9,10 +9,13 @@ import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyIllegalArgumentException;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
+import java.security.SecureRandom;
 import java.util.List;
 
 @Stateless
@@ -21,13 +24,31 @@ public class PatientBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public String create(String name, String email, String password, String birthDate, String contact, long healthNumber) throws MyEntityExistsException {
+
+    @EJB
+    EmailBean emailBean;
+
+    public String create(String name, String email, String birthDate, String contact, long healthNumber) throws MyEntityExistsException, MessagingException {
         String username = "P"+healthNumber;
+        String password = generatePassword();
         Patient patient = entityManager.find(Patient.class, username);
         if(patient != null) throw new MyEntityExistsException("A patient with the username \'" + username + "\' already exists");
         patient = new Patient(username,name,email,password,birthDate,contact,healthNumber);
         entityManager.persist(patient);
+        emailBean.send(email, "PRC Register - Welcome!", "Thank you for joining our healthcare platform!\n The Password for your account was randomly generated.\nThe current password is: " +password);
+
         return patient.getUsername();
+    }
+
+    public static String generatePassword() {
+        String lettersSymbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*_=+-/";
+        SecureRandom random = new SecureRandom();
+        char[] characters = (lettersSymbols).toCharArray();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 8; i++) {
+            sb.append(characters[random.nextInt(characters.length)]);
+        }
+        return sb.toString();
     }
 
     public List<Patient> getAllPatients() {
