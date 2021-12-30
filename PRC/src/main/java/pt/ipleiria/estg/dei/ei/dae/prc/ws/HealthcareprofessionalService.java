@@ -208,10 +208,10 @@ public class HealthcareprofessionalService {
     public Response getHealthcareprofessionalPatientPrescription(@PathParam("username") String username,@PathParam("usernamePatient") String usernamePatient) throws MyEntityNotFoundException {
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         Patient patient = patientBean.findPatient(usernamePatient);
-
+/*
         if(!patient.getHealthcareProfessionals().contains(healthcareProfessional))
             return Response.status(Response.Status.FORBIDDEN).build();
-
+*/
         return Response.status(Response.Status.OK)
                 .entity(prescriptionstoDTOs(healthcareProfessionalBean.getHealthcareProfessioanlPatientPrescriptions(username,usernamePatient)))
                 .build();
