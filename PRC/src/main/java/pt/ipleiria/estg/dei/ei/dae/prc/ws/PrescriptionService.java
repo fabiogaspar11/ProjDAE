@@ -11,6 +11,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
+import javax.mail.MessagingException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -76,7 +77,7 @@ public class PrescriptionService {
     @POST
     @Path("/")
     @RolesAllowed({"HealthcareProfessional"})
-    public Response createNewPrescription(PrescriptionDTO prescriptionDTO) throws MyEntityExistsException, MyEntityNotFoundException {
+    public Response createNewPrescription(PrescriptionDTO prescriptionDTO) throws MyEntityExistsException, MyEntityNotFoundException, MessagingException {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDateTime emissionDate = LocalDateTime.now();
 

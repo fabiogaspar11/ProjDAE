@@ -45,9 +45,8 @@ public class BiomedicDataTypeBean {
         entityManager.remove(biomedicDataType);
     }
 
-
     public void update(BiomedicDataType biomedicDataType, BiomedicDataTypeDTO biomedicDataTypeDTO) throws MyEntityNotFoundException {
-        entityManager.lock(biomedicDataType, LockModeType.PESSIMISTIC_WRITE);
+        entityManager.lock(entityManager.merge(biomedicDataType), LockModeType.PESSIMISTIC_WRITE);
         if(biomedicDataTypeDTO.getName() != null && !biomedicDataType.getName().equals(biomedicDataTypeDTO.getName())){
             biomedicDataType.setName(biomedicDataTypeDTO.getName());
         }

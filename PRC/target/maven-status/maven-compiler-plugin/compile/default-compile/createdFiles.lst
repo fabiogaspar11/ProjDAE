@@ -16,6 +16,7 @@ pt\ipleiria\estg\dei\ei\dae\prc\ws\AdministratorService.class
 pt\ipleiria\estg\dei\ei\dae\prc\Data.class
 pt\ipleiria\estg\dei\ei\dae\prc\dtos\DiseaseDTO.class
 pt\ipleiria\estg\dei\ei\dae\prc\dtos\HealthcareProfessionalDTO.class
+pt\ipleiria\estg\dei\ei\dae\prc\dtos\EmailDTO.class
 pt\ipleiria\estg\dei\ei\dae\prc\dtos\BiomedicDataTypeDTO.class
 pt\ipleiria\estg\dei\ei\dae\prc\exceptions\MyIllegalArgumentExceptionMapper.class
 pt\ipleiria\estg\dei\ei\dae\prc\exceptions\MyEntityNotFoundException.class
@@ -27,6 +28,7 @@ pt\ipleiria\estg\dei\ei\dae\prc\dtos\AdministratorDTO.class
 pt\ipleiria\estg\dei\ei\dae\prc\dtos\PrescriptionDTO.class
 pt\ipleiria\estg\dei\ei\dae\prc\entities\HealthcareProfessional.class
 pt\ipleiria\estg\dei\ei\dae\prc\exceptions\MyEntityExistsException.class
+pt\ipleiria\estg\dei\ei\dae\prc\ejbs\EmailBean.class
 pt\ipleiria\estg\dei\ei\dae\prc\ejbs\JwtBean.class
 pt\ipleiria\estg\dei\ei\dae\prc\PRC_Application.class
 pt\ipleiria\estg\dei\ei\dae\prc\dtos\AuthDTO.class
