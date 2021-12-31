@@ -13,6 +13,26 @@
         <b-button v-b-modal.modal-2 variant="primary">
           <font-awesome-icon icon="book" /> Associate
         </b-button>
+
+        <download-excel
+          class="btn btn-default"
+          :data="entidade"
+          :fields="json_fields"
+          worksheet="Patients"
+          :name="'patients'+typeExcel"
+          :type="typeExcel"
+        >
+          <b-dropdown id="dropdown-1" text="Download" class="m-md-2" variant="success">
+            <b-dropdown-item @click.prevent="typeExcel = '.xls'">.xls</b-dropdown-item>
+            <b-dropdown-item @click.prevent="typeExcel = '.csv'">.csv</b-dropdown-item>
+          </b-dropdown>
+        </download-excel>
+
+        <b-form-file
+          placeholder="Choose a file or drop it here..."
+          drop-placeholder="Drop file here..."
+          @change="onChange"
+        ></b-form-file>
       </div>
     </b-container>
     <b-modal id="modal-1" title="New Patient" @ok.prevent="createPatient()">
@@ -175,13 +195,67 @@
         aria-controls="tablePrincipal"
       ></b-pagination>
     </b-container>
+
   </div>
 </template>
 <script>
 import NavBar from "/components/NavBar.vue";
+import XLSX from "xlsx"
+
 export default {
   components: {
     NavBar,
+    XLSX
+  },
+  data() {
+    return {
+      fields: [
+        { key: "name", label: "Name", sortable: true, sortDirection: "desc" },
+        {
+          key: "birthDate",
+          label: "Birthdate",
+          sortable: true,
+          sortDirection: "desc",
+        },
+        {
+          key: "healthNumber",
+          label: "Health Number",
+          sortable: true,
+          sortDirection: "desc",
+        },
+        "operations",
+      ],
+      options: [
+        { value: null, text: "Please select an option" },
+        { value: "No", text: "No" },
+        { value: "Yes", text: "Yes" },
+        { value: "Both", text: "Both" },
+      ],
+      entidade: [],
+      name: null,
+      birthDate: null,
+      contact: null,
+      email: null,
+      password: null,
+      healthNumber: null,
+      filter: null,
+      filterAssociateds: null,
+      totalRows: null,
+      patientsAll: [],
+      patients: [],
+      usernamePatient: null,
+      fieldsPatient: ["healthNumber", "name", "operations"],
+      perPage: 5,
+      currentPagePaginatePrincipal: 1,
+      currentPagePaginateSecondary: 1,
+      json_fields: {
+        Name: "name",
+        BirthDate: "birthDate",
+        HealthNumber: "healthNumber",
+      },
+      typeExcel:"",
+      file: null,
+    };
   },
   computed: {
     username() {
@@ -335,49 +409,7 @@ export default {
       return this.entidade.length;
     },
   },
-  data() {
-    return {
-      fields: [
-        { key: "name", label: "Name", sortable: true, sortDirection: "desc" },
-        {
-          key: "birthDate",
-          label: "Birthdate",
-          sortable: true,
-          sortDirection: "desc",
-        },
-        {
-          key: "healthNumber",
-          label: "Health Number",
-          sortable: true,
-          sortDirection: "desc",
-        },
-        "operations",
-      ],
-      options: [
-        { value: null, text: "Please select an option" },
-        { value: "No", text: "No" },
-        { value: "Yes", text: "Yes" },
-        { value: "Both", text: "Both" },
-      ],
-      entidade: [],
-      name: null,
-      birthDate: null,
-      contact: null,
-      email: null,
-      password: null,
-      healthNumber: null,
-      filter: null,
-      filterAssociateds: null,
-      totalRows: null,
-      patientsAll: [],
-      patients: [],
-      usernamePatient: null,
-      fieldsPatient: ["healthNumber", "name", "operations"],
-      perPage: 5,
-      currentPagePaginatePrincipal: 1,
-      currentPagePaginateSecondary: 1,
-    };
-  },
+
   created() {
     this.getAllPatients();
   },
@@ -390,6 +422,7 @@ export default {
         .$get(`api/healthcareProfessionals/${this.$auth.user.sub}/patients`)
         .then((entidade) => {
           this.entidade = entidade;
+          console.log(entidade)
           this.patients = entidade;
         });
       this.$axios.$get(`/api/patients`).then((response) => {
@@ -461,6 +494,28 @@ export default {
         .then(() => {
           this.getAllPatients();
         });
+    },
+    onChange(event) {
+      this.file = event.target.files ? event.target.files[0] : null;
+      console.log(this.file)
+      if (this.file) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+          /* Parse data */
+          const bstr = e.target.result;
+          const wb = XLSX.read(bstr, { type: 'binary' });
+          /* Get first worksheet */
+          const wsname = wb.SheetNames[0];
+          const ws = wb.Sheets[wsname];
+          /* Convert array of arrays */
+          console.log(this.entidade)
+          const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+          console.log(data)
+        }
+
+        reader.readAsBinaryString(this.file);
+      }
     },
   },
 };

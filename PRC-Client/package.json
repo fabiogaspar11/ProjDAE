@@ -18,7 +18,9 @@
     "core-js": "^3.15.1",
     "next": "^12.0.2",
     "nuxt": "^2.15.7",
-    "vuex": "^3.6.2"
+    "vue-json-excel": "^0.3.0",
+    "vuex": "^3.6.2",
+    "xlsx": "^0.17.4"
   },
   "devDependencies": {
     "@fortawesome/free-brands-svg-icons": "^5.15.4",

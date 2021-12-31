@@ -1,6 +1,7 @@
 <template>
   <div>
     <NavBar></NavBar>
+
     <b-container class="bv-example-row" style="margin-top: 5%">
       <b-row>
         <b-col sm="3">
@@ -17,7 +18,8 @@
         </b-col>
       </b-row>
     </b-container>
-  <b-modal id="modal-1" title="New Patient" @ok.prevent="createPatient()">
+
+    <b-modal id="modal-1" title="New Patient" @ok.prevent="createPatient()">
       <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
           <b-input required v-model.trim="name" type="text" :state="isNameValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your name"/>
@@ -73,8 +75,6 @@
         </template>
       </b-table>
     </div>
-
-
   </div>
 </template>
 <script>
