@@ -170,7 +170,7 @@ public class HealthcareProfessionalBean {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
         return new String(encoded);
-
+    }
     public List<Prescription> getPrescriptions(String username) {
         List<Prescription> prescriptions = new LinkedList<>();
         HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class,username);
