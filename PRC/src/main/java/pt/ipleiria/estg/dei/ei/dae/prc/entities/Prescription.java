@@ -131,13 +131,14 @@ public class Prescription implements Serializable {
     @Override
     public String toString()
     {
-        return "\tPrescription n:" + this.code  + "\n\n" +
-               "Prescribing Doctor: " + this.healthcareProfessional.getName() + " Phone Number: " + this.healthcareProfessional.getContact() + "\n\n" +
-               "Patient: " + this.patient.getName()  + "\n\n" +
-               "\tEmission Date: " + this.emissionDate + " | Expire Date: " + this.expireDate  + "\n\n" +
-               "\tTitle: "+ this.title + "\n" +
-               "Prescription contains medication: " + this.isPharmacological + "\n\n" +
-                "Treatment details: " + "\n\t" + this.treatmentInfo + "\n\n" +
-                "Observations: " + "\n\t" + this.observations + "\n\n";
+        return "\t\t   ***Prescription number:" + this.code  + "***\n\n" +
+                "\tEmission Date: " + this.emissionDate + " | Expire Date: " + this.expireDate  + "\n\n" +
+                "Prescribing: " + this.healthcareProfessional.getName() +
+                "\nPhone Number: " + this.healthcareProfessional.getContact() + "\n\n" +
+                "Patient: " + this.patient.getName()  + "\n\n" +
+               "\t\t   Title: "+ this.title + "\n" +
+               "\nPrescription contains medication: " + this.isPharmacological + "\n" +
+                "\nTreatment details: " + "\n" + this.treatmentInfo + "\n\n" +
+                "Observations: " + "\n" + this.observations;
     }
 }
