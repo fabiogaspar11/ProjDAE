@@ -201,6 +201,7 @@
 <script>
 import NavBar from "/components/NavBar.vue";
 import XLSX from "xlsx"
+import moment from 'moment';
 
 export default {
   components: {
@@ -252,6 +253,8 @@ export default {
         Name: "name",
         BirthDate: "birthDate",
         HealthNumber: "healthNumber",
+        Contact: "contact",
+        Email: "email",
       },
       typeExcel:"",
       file: null,
@@ -422,7 +425,6 @@ export default {
         .$get(`api/healthcareProfessionals/${this.$auth.user.sub}/patients`)
         .then((entidade) => {
           this.entidade = entidade;
-          console.log(entidade)
           this.patients = entidade;
         });
       this.$axios.$get(`/api/patients`).then((response) => {
@@ -497,7 +499,6 @@ export default {
     },
     onChange(event) {
       this.file = event.target.files ? event.target.files[0] : null;
-      console.log(this.file)
       if (this.file) {
         const reader = new FileReader();
 
@@ -509,14 +510,58 @@ export default {
           const wsname = wb.SheetNames[0];
           const ws = wb.Sheets[wsname];
           /* Convert array of arrays */
-          console.log(this.entidade)
           const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
-          console.log(data)
-        }
 
+          console.log(data)
+
+          for (let i = 1; i < data.length; i++){
+            let name = data[i][0]
+            console.log("DATA ANTES:" + data[i][1])
+            let birthDate = this.excelDateToJSDate(data[i][1])
+            let healthNumber = data[i][2]
+            let contact = data[i][3]
+            let email = data[i][4]
+
+            console.log(name)
+            console.log(birthDate)
+            console.log(healthNumber)
+            console.log(contact)
+            console.log(email)
+            this.$axios.$post("/api/patients", {
+                email: email,
+                birthDate: birthDate,
+                name: name,
+                contact: contact,
+                healthNumber: healthNumber,
+              })
+              .then((response) => {
+                this.$toast.success("Patient " + this.name + " created succesfully").goAway(3000);
+              })
+              .catch((error) => {
+                this.$toast
+                  .error("Error when creating Patient: " + error.response.data)
+                  .goAway(3000);
+              });
+
+            }
+          }
         reader.readAsBinaryString(this.file);
       }
     },
+    excelDateToJSDate(serial) {
+      const utc_days  = Math.floor(serial - 25569);
+      const utc_value = utc_days * 86400;
+      const date_info = new Date(utc_value * 1000);
+
+      let today = new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate());
+
+      let dd = String(today.getDate()).padStart(2, '0');
+      let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      let yyyy = today.getFullYear();
+
+      return dd + '/' + mm + '/' + yyyy;
+
+    }
   },
 };
 </script>
