@@ -8,6 +8,7 @@
         </div>
       </template>
             <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
+            <b-button v-b-modal.modal-2 class="text-center" variant="primary">Change Password</b-button>
         <b-modal id="modal-1" title="Edit" @ok="update()">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -65,20 +66,19 @@
               :state="isContactValid"
             />
           </div>
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">Password</span>
-            </div>
-            <b-input
-              v-model.trim="password"
-              type="password"
-              class="form-control"
-              aria-describedby="basic-addon1"
-              placeholder="Enter your password"
-              :state="isPasswordValid"
-            />
-          </div>
         </b-modal>
+          <b-modal id="modal-2" title="Edit" @ok="updatePassword()">
+            <div class="input-group mb-4">
+              <span class="input-group-text">Current Password</span>
+              <b-input required v-model.trim="oldPassword" type="password" :state="isOLDPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your old password"/>
+              <p>{{isOLDPasswordValidFeedback}}</p>
+          </div>
+          <div class="input-group mb-4">
+              <span class="input-group-text">New Password</span>
+              <b-input required v-model.trim="newPassword" type="password" :state="isPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your new password"/>
+              <p>{{isPasswordValidFeedback}}</p>
+          </div>
+      </b-modal>
       </div>
     </div>
 </template>
@@ -103,7 +103,8 @@ export default {
       birthDate: null,
       email: null,
       contact: null,
-      password: null,
+      oldPassword: null,
+      newPassword: null
     };
   },
   props: {
@@ -149,12 +150,27 @@ export default {
       }
       return this.isContactValidFeedback === "";
     },
-
-    isPasswordValidFeedback() {
-      if (!this.password) {
+    isOLDPasswordValidFeedback() {
+      if (!this.oldPassword) {
         return null;
       }
-      let passwordLen = this.password.length;
+      let passwordLen = this.oldPassword.length;
+      if (passwordLen < 3 || passwordLen > 255) {
+        return "Old Password is too short, lenght must be between 3 and 255";
+      }
+      return "";
+    },
+    isOLDPasswordValid() {
+      if (this.isOLDPasswordValidFeedback === null) {
+        return null;
+      }
+      return this.isOLDPasswordValidFeedback === "";
+    },
+    isPasswordValidFeedback() {
+      if (!this.newPassword) {
+        return null;
+      }
+      let passwordLen = this.newPassword.length;
       if (passwordLen < 3 || passwordLen > 255) {
         return "Password is too short, lenght must be between 3 and 255";
       }
@@ -216,10 +232,10 @@ export default {
     },
   },
   created() {
-    this.getAllAdministrator();
+    this.getAdministrator();
   },
   methods: {
-    getAllAdministrator() {
+    getAdministrator() {
       this.$axios
         .$get(`/api/administrators/${this.username}`)
         .then((entidade) => {
@@ -228,7 +244,7 @@ export default {
     },
     remove() {
       this.$axios.$delete(`/api/administrators/${this.username}`).then(() => {
-        this.getAllAdministrator();
+        this.getAdministrator();
       });
     },
     update() {
@@ -238,9 +254,6 @@ export default {
       }
       if (this.email != null) {
         adminUpdated.email = this.email;
-      }
-      if (this.password != null) {
-        adminUpdated.password = this.password;
       }
       if (this.contact != null) {
         adminUpdated.contact = this.contact;
@@ -253,12 +266,37 @@ export default {
         .$put(`/api/administrators/${this.username}`, adminUpdated)
         .then(() => {
           this.$toast.info(`Administrator ${this.username}  updated!`).goAway(3000);
-          this.getAllAdministrator();
+          this.getAdministrator();
         })
         .catch((error) => {
           console.log(error.response.data);
         });
     },
+      updatePassword(){
+       let administrator = {};
+      if(this.isOLDPasswordValid){
+          administrator.passwordOld = this.oldPassword;
+      }
+      if(this.isPasswordValid){
+          administrator.password = this.newPassword;
+      }
+      if(Object.keys(administrator).length != 2){
+        this.$toast.error(`Nothing to update!`).goAway(3000);
+        return;
+      }
+      this.$axios
+        .$put(`/api/administrators/${this.username}/password`, administrator)
+        .then(() => {
+          this.oldPassword = null;
+          this.newPassword = null;
+          this.$toast.info(`Administrator ${this.username}  password updated!`).goAway(3000);
+          this.getAdministrator();
+        })
+        .catch((response) => {
+            this.$toast.info(`Error - ${response.response.data}`).goAway(3000);
+             this.getAdministrator();
+        });
+    }
   },
 };
 </script>

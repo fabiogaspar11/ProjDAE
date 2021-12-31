@@ -1,10 +1,8 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ejbs;
 
+import pt.ipleiria.estg.dei.ei.dae.prc.dtos.HealthcareProfessionalDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PatientDTO;
-import pt.ipleiria.estg.dei.ei.dae.prc.entities.Disease;
-import pt.ipleiria.estg.dei.ei.dae.prc.entities.HealthcareProfessional;
-import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
-import pt.ipleiria.estg.dei.ei.dae.prc.entities.Prescription;
+import pt.ipleiria.estg.dei.ei.dae.prc.entities.*;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyIllegalArgumentException;
@@ -15,8 +13,16 @@ import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
+import java.math.BigInteger;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Stateless
 public class PatientBean {
@@ -168,5 +174,30 @@ public class PatientBean {
         entityManager.merge(patient);
         entityManager.merge(prescription);
         return true;
+    }
+
+    public void updatePassword(Patient patient, PatientDTO patientDTO) throws MyIllegalArgumentException {
+        if (!patient.getPassword().equals(hashPassword(patientDTO.getPasswordOld()))){
+            throw new MyIllegalArgumentException("Password field must be the same as current password");
+        }
+        if (hashPassword(patientDTO.getPassword()).equals(hashPassword(patientDTO.getPasswordOld()))){
+            throw new MyIllegalArgumentException("Old Password and New password cannot be the same");
+        }
+        patient.setPassword(patientDTO.getPassword());
+        entityManager.merge(patient);
+    }
+    private static String hashPassword(String password) {
+        char[] encoded = null;
+        try {
+            ByteBuffer passwdBuffer =
+                    Charset.defaultCharset().encode(CharBuffer.wrap(password));
+            byte[] passwdBytes = passwdBuffer.array();
+            MessageDigest mdEnc = MessageDigest.getInstance("SHA-256");
+            mdEnc.update(passwdBytes, 0, password.toCharArray().length);
+            encoded = new BigInteger(1, mdEnc.digest()).toString(16).toCharArray();
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return new String(encoded);
     }
 }

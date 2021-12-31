@@ -13,12 +13,12 @@
       <b-row class="d-flex justify-content-center">
         <b-col sm="2">
           <div class="d-flex justify-content-center">
-            <b-button v-b-modal.modal-1 variant="info">Edit</b-button>
+            <b-button v-b-modal.modal-1>Edit</b-button>
           </div>
         </b-col>
         <b-col sm="2">
           <div class="d-flex justify-content-center">
-            <b-button v-b-modal.modal-2 variant="secondary">Change password</b-button>
+            <b-button v-b-modal.modal-2 variant="primary">Change password</b-button>
           </div>
         </b-col>
       </b-row>

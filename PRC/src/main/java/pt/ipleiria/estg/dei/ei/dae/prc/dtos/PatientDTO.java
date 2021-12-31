@@ -15,6 +15,7 @@ public class PatientDTO implements Serializable {
     private String name;
     private String email;
     private String password;
+    private String passwordOld;
     private String birthDate;
     private String contact;
     private long healthNumber;
@@ -28,6 +29,11 @@ public class PatientDTO implements Serializable {
         this.prescriptionList = new LinkedList<>();
         this.biomedicDataList = new LinkedList<>();
         this.diseases = new LinkedList<>();
+    }
+
+    public PatientDTO(String password, String passwordOld) {
+        this.password = password;
+        this.passwordOld = passwordOld;
     }
 
     //Constructor without password
@@ -69,6 +75,14 @@ public class PatientDTO implements Serializable {
 
     public void setHealthcareProfessionals(List<HealthcareProfessional> healthcareProfessionals) {
         this.healthcareProfessionals = healthcareProfessionals;
+    }
+
+    public String getPasswordOld() {
+        return passwordOld;
+    }
+
+    public void setPasswordOld(String passwordOld) {
+        this.passwordOld = passwordOld;
     }
 
     public String getUsername() {

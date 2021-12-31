@@ -313,4 +313,22 @@ public class PatientService {
         return Response.ok(prescriptionToDTOs(patient.getPrescriptions())).build();
     }
 
+    @PUT
+    @Path("/{username}/password")
+    public Response updatePasswordPatient(@PathParam("username") String username, PatientDTO patientDTO) throws MyEntityNotFoundException, MyIllegalArgumentException {
+        if(!securityContext.isUserInRole("Patient")){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        Principal principal = securityContext.getUserPrincipal();
+        if(!principal.getName().equals(username)){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        Patient patient = patientBean.findPatient(username);
+        patientBean.updatePassword(patient, patientDTO);
+        return Response.status(Response.Status.OK)
+                .entity(toDTOnoDetails(patient))
+                .build();
+    }
+
 }
