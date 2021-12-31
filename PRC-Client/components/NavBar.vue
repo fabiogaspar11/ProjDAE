@@ -33,21 +33,32 @@ export default {
     signOut() {
       this.$auth.logout()
       this.$router.push('/')
-    }
+    },
   },
   computed: {
     username() {
       return this.$auth.user.sub;
     },
-    urlUser() {
-      return this.$auth.user.groups.includes("Patient")
-        ? "patients"
-        : "healthcareProfessionals";
+      urlDashboard() {
+        if(this.$auth.user.groups.length == 0){
+          return "";
+        }
+      if (this.$auth.user.groups.includes("Patient")) {
+        return "/dashboard";
+      } else if (this.$auth.user.groups.includes("HealthcareProfessional")) {
+        return "/dashboardHealthcareProfessionals";
+      } else {
+       return "/dashboardAdministrators";
+      }
     },
-    urlDashboard() {
-      return this.$auth.user.groups.includes("Patient")
-        ? "/dashboard"
-        : "/dashboardHealthcareProfessionals";
+    urlUser() {
+        if (this.$auth.user.groups.includes("Patient")) {
+          return "patients";
+        } else if (this.$auth.user.groups.includes("HealthcareProfessional")) {
+          return "healthcareProfessionals";
+        } else {
+          return "administrators";
+        }
     },
   },
 };

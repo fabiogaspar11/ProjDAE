@@ -1,8 +1,11 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ws;
 
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.AdministratorDTO;
+import pt.ipleiria.estg.dei.ei.dae.prc.dtos.HealthcareProfessionalDTO;
+import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PatientDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.AdministratorBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Administrator;
+import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -102,7 +105,23 @@ public class AdministratorService {
                 .entity(toDTO(administrator))
                 .build();
     }
+    @PUT
+    @Path("/{username}/password")
+    public Response updatePasswordHealthcareProfessional(@PathParam("username") String username, AdministratorDTO administratorDTO) throws MyEntityNotFoundException, MyIllegalArgumentException {
+        if(!securityContext.isUserInRole("Administrator")){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+        Principal principal = securityContext.getUserPrincipal();
+        if(!principal.getName().equals(username)){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
 
+        Administrator administrator = administratorBean.findAdministrator(username);
+        administratorBean.updatePassword(administrator, administratorDTO);
+        return Response.status(Response.Status.OK)
+                .entity(toDTO(administrator))
+                .build();
+    }
     @DELETE
     @Path("/{username}")
     public Response deleteAdministrator(@PathParam("username") String username) throws MyEntityNotFoundException {

@@ -9,7 +9,7 @@
         </div>
       </template>
           <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
-
+          <b-button v-b-modal.modal-2 class="text-center" variant="primary">Change Password</b-button>
       <b-modal id="modal-1" title="Edit" @ok="update()">
       <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
@@ -27,15 +27,22 @@
            <p>{{isEmailValidFeedback}}</p>
       </div>
        <div class="input-group mb-4">
-          <span class="input-group-text">Password</span>
-          <b-input required v-model.trim="password" type="password" :state="isPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your password"/>
-          <p>{{isPasswordValidFeedback}}</p>
-      </div>
-       <div class="input-group mb-4">
           <span class="input-group-text">Contact</span>
           <b-input required v-model.trim="contact" type="number"  :state="isContactValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your contact"/>
           <p>{{isContactValidFeedback}}</p>
       </div>
+      </b-modal>
+          <b-modal id="modal-2" title="Edit" @ok="updatePassword()">
+            <div class="input-group mb-4">
+              <span class="input-group-text">Current Password</span>
+              <b-input required v-model.trim="oldPassword" type="password" :state="isOLDPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your old password"/>
+              <p>{{isOLDPasswordValidFeedback}}</p>
+          </div>
+          <div class="input-group mb-4">
+              <span class="input-group-text">New Password</span>
+              <b-input required v-model.trim="newPassword" type="password" :state="isPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your new password"/>
+              <p>{{isPasswordValidFeedback}}</p>
+          </div>
       </b-modal>
     </div>
   </div>
@@ -60,9 +67,10 @@ export default {
       state: true,
       name: null,
       email: null,
-      password: null,
       birthDate: null,
       contact: null,
+      newPassword: null,
+      oldPassword: null
     };
   },
   props: {
@@ -91,6 +99,38 @@ export default {
       }
       return this.isNameValidFeedback === "";
     },
+    isPasswordValidFeedback() {
+      if (!this.newPassword) {
+        return null;
+      }
+      let passwordLen = this.newPassword.length;
+      if (passwordLen < 3 || passwordLen > 255) {
+        return "New Password is too short, lenght must be between 3 and 255";
+      }
+      return "";
+    },
+    isPasswordValid() {
+      if (this.isPasswordValidFeedback === null) {
+        return null;
+      }
+      return this.isPasswordValidFeedback === "";
+    },
+    isOLDPasswordValidFeedback() {
+      if (!this.oldPassword) {
+        return null;
+      }
+      let passwordLen = this.oldPassword.length;
+      if (passwordLen < 3 || passwordLen > 255) {
+        return "Old Password is too short, lenght must be between 3 and 255";
+      }
+      return "";
+    },
+    isOLDPasswordValid() {
+      if (this.isOLDPasswordValidFeedback === null) {
+        return null;
+      }
+      return this.isOLDPasswordValidFeedback === "";
+    },
     isContactValidFeedback() {
       if (!this.contact) {
         return null;
@@ -110,22 +150,6 @@ export default {
         return null;
       }
       return this.isContactValidFeedback === "";
-    },
-    isPasswordValidFeedback() {
-      if (!this.password) {
-        return null;
-      }
-      let passwordLen = this.password.length;
-      if (passwordLen < 3 || passwordLen > 255) {
-        return "Password is too short, lenght must be between 3 and 255";
-      }
-      return "";
-    },
-    isPasswordValid() {
-      if (this.isPasswordValidFeedback === null) {
-        return null;
-      }
-      return this.isPasswordValidFeedback === "";
     },
     isEmailValidFeedback() {
       if (!this.email) {
@@ -175,24 +199,6 @@ export default {
       }
       return this.isbirthDateValidFeedback === "";
     },
-    isFormValid() {
-      if (!this.isNameValid) {
-        return false;
-      }
-      if (!this.isEmailValid) {
-        return false;
-      }
-      if (!this.isPasswordValid) {
-        return false;
-      }
-      if (!this.isbirthDateValid) {
-        return false;
-      }
-      if (!this.isContactValid) {
-        return false;
-      }
-      return true;
-    },
   },
   created() {
     this.getPatient();
@@ -204,23 +210,64 @@ export default {
       });
     },
     update() {
+
+      let patient = {};
+      if(this.isNameValid){
+          patient.name = this.name;
+      }
+      if(this.isEmailValid){
+          patient.email = this.email;
+      }
+      if(this.isContactValid){
+        patient.contact = this.contact;
+      }
+      if(this.isbirthDateValid){
+        patient.birthDate = this.birthDate;
+      }
+      if(Object.keys(patient).length == 0){
+        this.$toast.error(`Nothing to update!`).goAway(3000);
+        return;
+      }
       this.$axios
-        .$put(`/api/patients/${this.username}`, {
-          name: this.name,
-          email: this.email,
-          contact: this.contact,
-          birthDate: this.birthDate,
-        })
+        .$put(`/api/patients/${this.username}`, patient)
         .then(() => {
           this.name = null;
           this.email = null;
           this.contact = null;
           this.birthDate = null;
           this.$toast.info(`Patient ${this.username}  updated!`).goAway(3000);
-
           this.getPatient();
+        })
+        .catch(() => {
+            this.$toast.info(`Could not update patient`).goAway(3000);
+             this.getPatient();
         });
     },
+    updatePassword(){
+       let patient = {};
+      if(this.isOLDPasswordValid){
+          patient.passwordOld = this.oldPassword;
+      }
+      if(this.isPasswordValid){
+          patient.password = this.newPassword;
+      }
+      if(Object.keys(patient).length != 2){
+        this.$toast.error(`Nothing to update!`).goAway(3000);
+        return;
+      }
+      this.$axios
+        .$put(`/api/patients/${this.username}/password`, patient)
+        .then(() => {
+          this.oldPassword = null;
+          this.newPassword = null;
+          this.$toast.info(`Patient ${this.username}  password updated!`).goAway(3000);
+          this.getPatient();
+        })
+        .catch((response) => {
+            this.$toast.info(`Error - ${response.response.data}`).goAway(3000);
+             this.getPatient();
+        });
+    }
   },
 };
 </script>

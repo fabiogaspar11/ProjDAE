@@ -25,7 +25,6 @@
 
      <b-modal id="modal-1" title="New Biomedic Measure" @ok="create()">
 
-
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-default">Date</span>
@@ -78,7 +77,7 @@
           <b-button v-if="!isPatient" :to="`/biomedicMeasures/${row.item.code}`" variant="info">
             <font-awesome-icon icon="eye" /> Details
           </b-button>
-          <b-button v-else @click="sendInfo(row.item.code, row.item.biomedicDataType)" v-b-modal.modal-2 variant="info">Edit</b-button>
+          <b-button v-else @click="sendInfo(row.item)" v-b-modal.modal-2 variant="info">Edit</b-button>
           <b-button v-b-modal.modal-3 variant="danger" @click="remove(row.item.code)">
             <font-awesome-icon icon="trash" /> Remove
           </b-button>
@@ -87,45 +86,45 @@
     </div>
     <div v-else class="w-75 mx-auto alert alert-info">No Biomedic Measures registered yet</div>
 
-    <b-modal id="modal-2" :title="'Edit Biomedic Measure nº ' +this.biomedicUpdate" @ok="update()">
+    <b-modal v-if="this.biomedicUpdate != null"  id="modal-2" :title="'Edit Biomedic Measure nº ' +this.biomedicUpdate.code" @ok="update()">
         <div class="input-group mb-4">
           <span class="input-group-text">Date</span>
           <b-input
             required
-            v-model.trim="date"
+            v-model.trim="dateEdit"
             type="text"
-            :state="isDateValid"
+            :state="isDateEditValid"
             placeholder="dd/mm/yyyy"
             class="form-control"
             aria-describedby="basic-addon1"
           />
-          <p>{{ isDateValidFeedback }}</p>
+          <p>{{isDateEditValidFeedback }}</p>
         </div>
         <div class="input-group mb-4">
           <span class="input-group-text">Hour</span>
           <b-input
             required
-            v-model.trim="hour"
+            v-model.trim="hourEdit"
             type="text"
-            :state="isHourValid"
+            :state="isHourEditValid"
             placeholder="HH:MM"
             class="form-control"
             aria-describedby="basic-addon1 "
           />
-          <p>{{ isHourValidFeedback }}</p>
+          <p>{{ isHourEditValidFeedback }}</p>
         </div>
         <div class="input-group mb-4">
           <span class="input-group-text">Value</span>
           <b-input
             required
-            v-model.trim="value"
+            v-model.trim="valueEdit"
             type="number"
-            :state="isValueValid"
+            :state="isValueEditValid"
             placeholder="Enter the value"
             class="form-control"
             aria-describedby="basic-addon1 "
           />
-          <p>{{ isValueValidFeedback }}</p>
+          <p>{{ isValueEditValidFeedback }}</p>
         </div>
       </b-modal>
 
@@ -165,7 +164,9 @@ export default {
       minVal:null,
       maxVal:null,
       biomedicUpdate:null,
-      biomedicUpdateType:null
+      dateEdit: null,
+      hourEdit: null,
+      valueEdit: null
     };
   },
   computed: {
@@ -179,9 +180,9 @@ export default {
       return this.entidade.length;
     },
     isDateValidFeedback () {
-      if (!this.date) {
-        return null;
-      }
+         if (!this.date) {
+          return null;
+        }
        var date_regex = /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
        var currentdate = new Date();
        var dateSplitted = this.date.split('/');
@@ -204,20 +205,56 @@ export default {
         }
         return this.isDateValidFeedback === ''
     },
+    isDateEditValidFeedback () {
+         if (!this.dateEdit) {
+          return null;
+        }
+
+        if (this.dateEdit == this.date) {
+          return "New Date is the same as the old one";
+        }
+
+       var date_regex = /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
+       var currentdate = new Date();
+       var dateSplitted = this.dateEdit.split('/');
+       var dateRegexValid = date_regex.test(this.dateEdit);
+       if(!dateRegexValid){
+         return 'The date is invalid - format dd/mm/yyyy';
+       }
+       if(parseInt(dateSplitted[2]) < currentdate.getFullYear()){
+          return '';
+       }else if(parseInt(dateSplitted[2]) == currentdate.getFullYear() && parseInt(dateSplitted[1]) < (currentdate.getMonth()+1)){
+          return '';
+       }else if(parseInt(dateSplitted[2]) == currentdate.getFullYear() && parseInt(dateSplitted[1]) == (currentdate.getMonth()+1) && parseInt(dateSplitted[0]) <= currentdate.getDate()){
+          return '';
+       }
+       return 'The date is bigger than todays date';
+    },
+    isDateEditValid () {
+        if (this.isDateEditValidFeedback === null) {
+          return null
+        }
+        return this.isDateEditValidFeedback === ''
+    },
     isHourValidFeedback () {
-     if (!this.hour) {
+       if (!this.hour) {
         return null;
-      }
-      if (this.date == null) {
-        return "Date field must be filled first";
       }
       var hour_regex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
       var hourRegexValid = hour_regex.test(this.hour);
       if (!hourRegexValid) {
         return "The hour is invalid - format HH:MM";
       }
-       var dateSplitted = this.date.split("/");
-      var currentdate = new Date();
+       var currentdate = new Date();
+       if (this.dateEdit == null || this.dateEdit == "") {
+        var dateSplitted = this.date.split("/");
+      } else {
+        if (!this.isDateValid) {
+          return "Date is incorrent. Correct it first";
+        }
+        var dateSplitted = this.dateEdit.split("/");
+      }
+
       if(parseInt(dateSplitted[2]) == currentdate.getFullYear() &&
          parseInt(dateSplitted[1]) == currentdate.getMonth() + 1 &&
          parseInt(dateSplitted[0]) == currentdate.getDate()){
@@ -241,6 +278,53 @@ export default {
         }
         return this.isHourValidFeedback === ''
     },
+    isHourEditValidFeedback () {
+       if (!this.hourEdit) {
+        return null;
+      }
+
+      if (this.hourEdit == this.hour) {
+        return "New hour is the same as the old one";
+      }
+
+      var hour_regex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+      var hourRegexValid = hour_regex.test(this.hourEdit);
+      if (!hourRegexValid) {
+        return "The hour is invalid - format HH:MM";
+      }
+       var currentdate = new Date();
+       if (this.dateEdit == null || this.dateEdit == "") {
+        var dateSplitted = this.date.split("/");
+      } else {
+        if (!this.isDateValid) {
+          return "Date is incorrent. Correct it first";
+        }
+        var dateSplitted = this.dateEdit.split("/");
+      }
+
+      if(parseInt(dateSplitted[2]) == currentdate.getFullYear() &&
+         parseInt(dateSplitted[1]) == currentdate.getMonth() + 1 &&
+         parseInt(dateSplitted[0]) == currentdate.getDate()){
+
+           var hourSplitted = this.hour.split(":");
+           if (parseInt(hourSplitted[0]) < currentdate.getHours()){
+             return "";
+           } else if (
+             parseInt(hourSplitted[0]) == currentdate.getHours() &&
+             parseInt(hourSplitted[1]) <= currentdate.getMinutes()
+           ) {
+             return "";
+           }
+           return "The time is bigger than the current time";
+      }
+      return "";
+    },
+    isHourEditValid() {
+        if (this.isHourEditValidFeedback === null) {
+          return null
+        }
+        return this.isHourEditValidFeedback === ''
+    },
     isBiomedicDataTypeValid () {
         if (!this.biomedicDataType) {
             return null
@@ -255,10 +339,11 @@ export default {
         })
     },
     isValueValidFeedback (){
-        if (!this.value) {
-          return null
-        }
-        let valueLen = this.value.length
+  if (!this.value) {
+        return null;
+      }
+
+      let valueLen = this.value.length;
         if (valueLen < 1 || valueLen > 25) {
            return 'The value is mandatory and must have between 1 and 25 digits'
         }
@@ -277,6 +362,32 @@ export default {
            return null
         }
         return this.isValueValidFeedback === ''
+    },
+     isValueEditValidFeedback (){
+      if (!this.valueEdit) {
+        return null;
+      }
+      if(this.value == this.valueEdit)
+         return "New value is the same as the old one";
+      let valueLen = this.valueEdit.length;
+        if (valueLen < 1 || valueLen > 25) {
+           return 'The value is mandatory and must have between 1 and 25 digits'
+        }
+        if(this.minVal == null || this.maxVal == null){
+          return 'The Biomedic Data Type must be choosen first';
+        }
+
+        if(this.valueEdit < this.minVal || this.valueEdit > this.maxVal){
+          return 'The value is invalid, the value must be between ' + "["+this.minVal+" , "+this.maxVal+" ]";
+        }
+
+        return ''
+    },
+    isValueEditValid () {
+        if (this.isValueEditValidFeedback === null) {
+           return null
+        }
+        return this.isValueEditValidFeedback === ''
     },
     isFormValid () {
       if (!this.isDateValid) {
@@ -333,7 +444,6 @@ export default {
               usernamePatient:this.username
           })
           .then((response) => {
-            console.log(response)
             this.$toast.success("Biomedic data Measure "+response.code+" created succesfully!").goAway(3000);
             this.date = null;
             this.hour = null;
@@ -348,16 +458,19 @@ export default {
       },
       remove(code) {
         this.$axios.$delete(`/api/biomedicDataMeasures/${code}`).then(() => {
-          this.$toast.info("Biomedic Data Measure "+this.code+" deleted with success!").goAway(3000);
+          this.$toast.info("Biomedic Data Measure "+code+" deleted with success!").goAway(3000);
 
           this.getBiomedicMeasures();
         });
       },
-      sendInfo(code, biomedicType){
-        this.biomedicUpdate = code;
-        this.biomedicUpdateType = biomedicType;
+      sendInfo(row){
+        this.biomedicUpdate = row;
+        this.hour = row.hour;
+        this.date = row.date;
+        this.value = row.value.split(" ")[0];
+        console.log(this.value)
         this.biomedicDataTypes.some(biomedicDT => {
-          if(biomedicType === biomedicDT.name){
+          if(row.biomedicDataType === biomedicDT.name){
             this.minVal = biomedicDT.minValue;
             this.maxVal = biomedicDT.maxValue;
           }
@@ -365,22 +478,22 @@ export default {
       },
       update() {
       this.biomedicDataMeasure = {};
-      if (this.isDateValid) {
-        this.biomedicDataMeasure.date = this.date;
+      if (this.isDateEditValid) {
+        this.biomedicDataMeasure.date = this.dateEdit;
       }
-      if (this.isHourValid) {
-        this.biomedicDataMeasure.hour = this.hour;
+      if (this.isHourEditValid) {
+        this.biomedicDataMeasure.hour = this.hourEdit;
       }
-      if (this.isValueValid) {
-        this.biomedicDataMeasure.value = this.value;
+      if (this.isValueEditValid) {
+        this.biomedicDataMeasure.value = this.valueEdit;
       }
-      if (this.biomedicDataMeasure == {}) {
-           this.$toast.error("Error - Nothing to update").goAway(3000);
+      if(Object.keys(this.biomedicDataMeasure).length == 0){
+        this.$toast.error(`Nothing to update!`).goAway(3000);
         return;
       }
       this.$axios
         .$put(
-          `/api/biomedicDataMeasures/${this.biomedicUpdate}`,
+          `/api/biomedicDataMeasures/${this.biomedicUpdate.code}`,
           this.biomedicDataMeasure
         )
         .then((response) => {
@@ -389,11 +502,13 @@ export default {
           this.date = null;
           this.hour = null;
           this.value = null;
+          this.hourEdit = null;
+          this.valueEdit = null;
+          this.dateEdit = null;
           this.getBiomedicMeasures();
         })
-        //SHIT IS HAPPENING HERE
         .catch(error => {
-            this.$toast.error("Error when creating Biomedic Measure: "+ error.response.data).goAway(3000);
+            this.$toast.error("Error when updating Biomedic Measure: "+ error.response.data).goAway(3000);
          });
     },
       search(filteredItems) {
