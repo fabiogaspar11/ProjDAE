@@ -24,7 +24,7 @@
       <br />
       <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
 
-      <b-modal id="modal-1" title="New Prescription" @ok.prevent="update()">
+      <b-modal id="modal-1" title="Edit Prescription" @ok.prevent="update()">
         <div class="input-group mb-4">
           <span class="input-group-text">Title</span>
           <b-input
