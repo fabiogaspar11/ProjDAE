@@ -40,6 +40,9 @@ export default {
       return this.$auth.user.sub;
     },
       urlDashboard() {
+        if(this.$auth.user.groups.length == 0){
+          return "";
+        }
       if (this.$auth.user.groups.includes("Patient")) {
         return "/dashboard";
       } else if (this.$auth.user.groups.includes("HealthcareProfessional")) {

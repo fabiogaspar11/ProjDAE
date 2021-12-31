@@ -41,7 +41,7 @@ public class PatientBean {
         if(patient != null) throw new MyEntityExistsException("A patient with the username \'" + username + "\' already exists");
         patient = new Patient(username,name,email,password,birthDate,contact,healthNumber);
         entityManager.persist(patient);
-        emailBean.send(email, "PRC Register - Welcome!", "Thank you for joining our healthcare platform!\n The Password for your account was randomly generated.\nThe current password is: " +password);
+        emailBean.send(email, "PRC Register - Welcome!", "Thank you for joining our healthcare platform!\n The Credentials for your account are as follows.\nUsername: " + username + "\nPassword: "+password);
 
         return patient.getUsername();
     }

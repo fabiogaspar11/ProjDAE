@@ -225,7 +225,7 @@ export default {
             this.entidade = [entidade];
             this.hour = entidade.hour;
             this.date = entidade.date;
-            this.value = entidade.value
+            this.value = entidade.value;
             this.biomedicDataTypes.forEach((b) => {
               if (this.entidade[0].biomedicDataTypeCode === b.code) {
                 this.entidade[0].biomedicDataType = b.name;
