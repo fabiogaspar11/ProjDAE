@@ -1,33 +1,29 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <b-container class="bv-example-row" style="margin-top: 5%">
-      <b-row>
-        <b-col sm="5">
-          <h1>Prescriptions ({{ tableLength }})</h1>
-        </b-col>
-        <b-col v-if="this.noPrescriptions == false"  sm="6">
-          <b-form-input v-model="filter" type="search" placeholder="Search...">
-          </b-form-input>
-        </b-col>
-      </b-row>
-    </b-container>
-
-    <hr style="width: 73%" />
-    <div  v-if="this.noPrescriptions == false" class="d-flex justify-content-center" style="margin-top: 3%">
+    <b-container>
+        <h3 class="mt-3">Prescriptions ({{ tableLength }})</h3>
+        <div class="mt-3" v-if="this.tableLength == 0">
+              <div class="mx-auto alert alert-info">No prescriptions prescribed to you yet</div>
+        </div>
+    <div class="" v-else>
+      <b-form-input v-model="filter" type="search" placeholder="Search..."></b-form-input>
       <b-table
+        class="mt-5"
+        id="tablePrincipal"
+        :per-page="perPage"
+        :current-page="currentPagePaginatePrincipal"
         :items="this.entidade"
         :fields="fields"
         striped
         responsive="sm"
-        class="w-75 p-3"
         :filter="filter"
         @filtered="search"
       >
          <template #cell(show_details)="row">
               <b-button size="sm" @click="row.toggleDetails" class="mr-2">
                 {{ row.detailsShowing ? "Hide" : "Show" }} Details
-              </b-button> 
+              </b-button>
             </template>
 
             <template #row-details="row">
@@ -43,8 +39,15 @@
               </b-card>
             </template>
       </b-table>
+       <b-pagination
+        class="fixed-bottom justify-content-center"
+        v-model="currentPagePaginatePrincipal"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="tablePrincipal"
+      ></b-pagination>
     </div>
-    <div v-else class="w-75 mx-auto alert alert-info">No prescriptions prescribed to your yet</div>
+        </b-container>
   </div>
 </template>
 
@@ -66,7 +69,6 @@ export default {
           sortable: true,
           sortDirection: "desc",
         },
-        { key: "usernamePatient", label: "Patient" },
         {
           key: "usernameHealthcareProfessional",
           label: "Healthcare professional",
@@ -78,13 +80,17 @@ export default {
       code: null,
       filter: null,
       totalRows: null,
-      currentPage: null,
+      perPage: 6,
+      currentPagePaginatePrincipal: 1,
     };
   },
   created() {
     this.getData();
   },
   computed: {
+    rows() {
+      return this.entidade.length;
+    },
     tableLength: function () {
       return this.entidade.length;
     },
@@ -95,10 +101,6 @@ export default {
   methods: {
     getData() {
       this.$axios.$get(`/api/patients/${this.username}/prescriptions`).then((entidade) => {
-        if(entidade.length == 0){
-          this.noPrescriptions = true;
-          return;
-        }
         this.entidade = entidade;
       })
     },

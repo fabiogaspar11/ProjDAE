@@ -2,33 +2,37 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <b-container class="bv-example-row" style="margin-top: 5%">
-      <b-row>
-        <b-col sm="5">
-          <h3>Healthcare Professionals ({{ tableLength }})</h3>
-        </b-col>
-        <b-col v-if="this.noHealthcareProf == false" sm="5">
-          <b-form-input v-model="filter" type="search" placeholder="Search...">
-          </b-form-input>
-        </b-col>
+    <b-container>
+        <h3 class="mt-3">Healthcare Professionals ({{ tableLength }})</h3>
+        <div class="mt-3" v-if="this.tableLength == 0">
+              <div class="mx-auto alert alert-info">No Healthcare Professionals assigned to you yet</div>
+        </div>
 
-      </b-row>
-    </b-container>
-    <hr style="width: 73%" />
-    <div v-if="this.noHealthcareProf == false" class="d-flex justify-content-center" style="margin-top: 3%">
+    <div v-else class="mt-3">
+         <b-form-input v-model="filter" type="search" placeholder="Search...">
+          </b-form-input>
       <b-table
+        class="mt-5"
+        id="tablePrincipal"
+        :per-page="perPage"
+        :current-page="currentPagePaginatePrincipal"
         :items="this.entidade"
         :fields="fields"
         striped
         responsive="sm"
-        class="w-75 p-3"
         :filter="filter"
         @filtered="search"
       >
       </b-table>
+        <b-pagination
+        class="fixed-bottom justify-content-center"
+        v-model="currentPagePaginatePrincipal"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="tablePrincipal"
+      ></b-pagination>
     </div>
-    <div v-else class="w-75 mx-auto alert alert-info">No Healthcare Professionals assigned to you yet</div>
-
+    </b-container>
   </div>
 </template>
 
@@ -52,10 +56,14 @@ export default {
       noHealthcareProf:false,
       filter: null,
       totalRows: null,
-      currentPage: null
+      perPage: 8,
+      currentPagePaginatePrincipal: 1,
     };
   },
   computed: {
+    rows() {
+      return this.entidade.length;
+    },
      username() {
       return this.$auth.user.sub;
     },
