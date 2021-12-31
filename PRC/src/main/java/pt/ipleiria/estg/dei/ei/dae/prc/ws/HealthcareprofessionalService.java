@@ -196,8 +196,9 @@ public class HealthcareprofessionalService {
         if(!(securityContext.isUserInRole("HealthcareProfessional")  && principal.getName().equals(healthcareProfessional.getUsername()))) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
+
         return Response.status(Response.Status.OK)
-                .entity(prescriptionstoDTOs(healthcareProfessional.getPrescriptions()))
+                .entity(prescriptionstoDTOs(healthcareProfessionalBean.getPrescriptions(username)))
                 .build();
     }
 
@@ -225,7 +226,7 @@ public class HealthcareprofessionalService {
         if(!(securityContext.isUserInRole("HealthcareProfessional")  && principal.getName().equals(healthcareProfessional.getUsername()))) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        healthcareProfessionalBean.addPatientFromHealthcareprofessional(usernamePatient, username);
+        healthcareProfessionalBean.addPatientToHealthcareprofessional(usernamePatient, username);
         return Response.ok(patientstoDTOs(healthcareProfessional.getPatients())).build();
 
     }
@@ -253,7 +254,7 @@ public class HealthcareprofessionalService {
         }
 
         //TODO: Nao deviamos verificar se o healthcare tem o patient associado à prescription? E nome do metodo esta esquisito ou parece-me
-        healthcareProfessionalBean.addPrescriptionFromHealthcareprofessional(codePrescription, username);
+        healthcareProfessionalBean.addPrescriptionToHealthcareprofessional(codePrescription, username);
         return Response.ok(patientstoDTOs(healthcareProfessional.getPatients())).build();
 
     }

@@ -45,8 +45,6 @@ public class HealthcareProfessionalBean {
             removePrescriptionFromHealthcareprofessional(p.getCode(), healthcareProfessional.getUsername());
             entityManager.remove(entityManager.merge(p));
         }
-
-
         entityManager.remove(entityManager.merge(healthcareProfessional));
     }
 
@@ -72,7 +70,7 @@ public class HealthcareProfessionalBean {
         return true;
     }
 
-    public boolean addPrescriptionFromHealthcareprofessional(long code, String usernameHealthcareprofessional) throws MyEntityNotFoundException {
+    public boolean addPrescriptionToHealthcareprofessional(long code, String usernameHealthcareprofessional) throws MyEntityNotFoundException {
         HealthcareProfessional healthcareProfessional = findHealthcareProfessional(usernameHealthcareprofessional);
         Prescription prescription = entityManager.find(Prescription.class, code);
         if (prescription == null){
@@ -98,7 +96,7 @@ public class HealthcareProfessionalBean {
         return true;
     }
 
-    public boolean addPatientFromHealthcareprofessional(String usernamePatient, String usernameHealthcareprofessional) throws MyEntityNotFoundException {
+    public boolean addPatientToHealthcareprofessional(String usernamePatient, String usernameHealthcareprofessional) throws MyEntityNotFoundException {
         HealthcareProfessional healthcareProfessional = findHealthcareProfessional(usernameHealthcareprofessional);
         Patient patient = entityManager.find(Patient.class, usernamePatient);
         if (patient == null){
@@ -172,5 +170,17 @@ public class HealthcareProfessionalBean {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
         return new String(encoded);
+
+    public List<Prescription> getPrescriptions(String username) {
+        List<Prescription> prescriptions = new LinkedList<>();
+        HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class,username);
+
+        for (Patient patient:healthcareProfessional.getPatients()) {
+          for(Prescription prescription : patient.getPrescriptions()){
+              if(prescription.getHealthcareProfessional().getUsername() == healthcareProfessional.getUsername())
+                  prescriptions.add(prescription);
+          }
+        }
+        return prescriptions;
     }
 }

@@ -23,8 +23,6 @@ public class PrescriptionBean {
 
     @EJB
     EmailBean emailBean;
-    //emission date = data e hora atual
-    //code devia ser automático
     public long create(String title, String observations,String isPharmacological,String treatmentInfo, String emissionDate, String expireDate, String healthNumberPatient, String usernameHealthcareProfessional) throws MyEntityExistsException, MyEntityNotFoundException, MessagingException {
         String usernamePatient = "P" + healthNumberPatient;
         Patient patient = entityManager.find(Patient.class,usernamePatient);
@@ -32,6 +30,16 @@ public class PrescriptionBean {
             throw new MyEntityNotFoundException("There is no Patient with the health number \'" + healthNumberPatient + "\'");
         }
         HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class, usernameHealthcareProfessional);
+
+        boolean hasPatient = false;
+        for (Patient patient1: healthcareProfessional.getPatients()) {
+            if(patient1.getUsername() == patient.getUsername())
+                hasPatient = true;
+        }
+        if(hasPatient == false){
+            throw new MyEntityNotFoundException("Healthcare Professional can only create prescriptions for his patients");
+        }
+
         if(healthcareProfessional == null) {
             throw new MyEntityNotFoundException("There is no Healthcare Professional with the username \'" + usernameHealthcareProfessional + "\'");
         }
