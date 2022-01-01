@@ -54,6 +54,7 @@ public class PrescriptionBean {
         entityManager.flush();
 
         emailBean.send(patient.getEmail(), "Prescription n:" + prescription.getCode(), prescription.toString());
+
         return prescription.getCode();
     }
 
