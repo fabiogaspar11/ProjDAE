@@ -36,11 +36,13 @@ public class PatientBean {
 
     public String create(String name, String email, String birthDate, String contact, long healthNumber) throws MyEntityExistsException, MessagingException {
         String username = "P"+healthNumber;
-        String password = generatePassword();
+        String password = generatePassword(); //"12345"; //generatePassword();
         Patient patient = entityManager.find(Patient.class, username);
         if(patient != null) throw new MyEntityExistsException("A patient with the username \'" + username + "\' already exists");
         patient = new Patient(username,name,email,password,birthDate,contact,healthNumber);
         entityManager.persist(patient);
+        entityManager.flush();
+
         emailBean.send(email, "PRC Register - Welcome!", "Thank you for joining our healthcare platform!\n The Credentials for your account are as follows.\nUsername: " + username + "\nPassword: "+password);
 
         return patient.getUsername();

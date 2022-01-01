@@ -19,12 +19,12 @@
           :data="entidade"
           :fields="json_fields"
           worksheet="Patients"
-          :name="'patients'+typeExcel"
+          :name="'patients.'+typeExcel"
           :type="typeExcel"
         >
           <b-dropdown id="dropdown-1" text="Download" class="m-md-2" variant="success">
-            <b-dropdown-item @click.prevent="typeExcel = '.xls'">.xls</b-dropdown-item>
-            <b-dropdown-item @click.prevent="typeExcel = '.csv'">.csv</b-dropdown-item>
+            <b-dropdown-item @click.prevent="typeExcel = 'xls'">.xls</b-dropdown-item>
+            <b-dropdown-item @click.prevent="typeExcel = 'csv'">.csv</b-dropdown-item>
           </b-dropdown>
         </download-excel>
 
@@ -499,7 +499,7 @@ export default {
     },
     onChange(event) {
       this.file = event.target.files ? event.target.files[0] : null;
-      if (this.file) {
+      if (this.file && (this.file.name.endsWith('.xls') || this.file.name.endsWith('.xlsx') || this.file.name.endsWith('.csv'))) {
         const reader = new FileReader();
 
         reader.onload = (e) => {
@@ -516,17 +516,21 @@ export default {
 
           for (let i = 1; i < data.length; i++){
             let name = data[i][0]
-            console.log("DATA ANTES:" + data[i][1])
-            let birthDate = this.excelDateToJSDate(data[i][1])
+            console.log("DATA ANTES: " + data[i][1])
+            let birthDate = data[i][1].toString()
+            if (!birthDate.includes("/")){
+              birthDate = this.convertToDate(data[i][1])
+            }
             let healthNumber = data[i][2]
             let contact = data[i][3]
             let email = data[i][4]
 
-            console.log(name)
-            console.log(birthDate)
-            console.log(healthNumber)
-            console.log(contact)
-            console.log(email)
+            console.log("Name: " + name)
+            console.log("DATA NOVA: " + birthDate)
+            console.log("HealthNumber: "+healthNumber)
+            console.log("Contact: " + contact)
+            console.log("Email: " + email)
+            console.log("---------------------------------------------------------------------------------")
             this.$axios.$post("/api/patients", {
                 email: email,
                 birthDate: birthDate,
@@ -535,7 +539,7 @@ export default {
                 healthNumber: healthNumber,
               })
               .then((response) => {
-                this.$toast.success("Patient " + this.name + " created succesfully").goAway(3000);
+                this.$toast.success("Patient " + name + " created succesfully").goAway(3000);
               })
               .catch((error) => {
                 this.$toast
@@ -547,21 +551,19 @@ export default {
           }
         reader.readAsBinaryString(this.file);
       }
+      else{
+        this.$toast
+          .error("File type invalid: ")
+          .goAway(3000);
+      }
     },
-    excelDateToJSDate(serial) {
+    convertToDate(serial) {
       const utc_days  = Math.floor(serial - 25569);
       const utc_value = utc_days * 86400;
       const date_info = new Date(utc_value * 1000);
 
-      let today = new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate());
-
-      let dd = String(today.getDate()).padStart(2, '0');
-      let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-      let yyyy = today.getFullYear();
-
-      return dd + '/' + mm + '/' + yyyy;
-
-    }
+      return new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate()+1).toLocaleDateString('en-US');
+    },
   },
 };
 </script>
