@@ -20,24 +20,24 @@
         :filter="filter"
         @filtered="search"
       >
-         <template #cell(show_details)="row">
-              <b-button size="sm" @click="row.toggleDetails" class="mr-2">
-                {{ row.detailsShowing ? "Hide" : "Show" }} Details
-              </b-button>
-            </template>
+        <template #cell(show_details)="row">
+          <b-button size="sm" @click="row.toggleDetails" class="mr-2">
+            {{ row.detailsShowing ? "Hide" : "Show" }} Details
+          </b-button>
+        </template>
 
-            <template #row-details="row">
-              <b-card>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Treatment information:</b></b-col>
-                  <b-col>{{ row.item.treatmentInfo }}</b-col>
-                </b-row>
-                <b-row class="mb-2">
-                  <b-col sm="3" class="text-sm-right"><b>Observations:</b></b-col>
-                  <b-col>{{ row.item.observations }}</b-col>
-                </b-row>
-              </b-card>
-            </template>
+        <template #row-details="row">
+          <b-card>
+            <b-row class="mb-2">
+              <b-col sm="3" class="text-sm-right"><b>Treatment information:</b></b-col>
+              <b-col>{{ row.item.treatmentInfo }}</b-col>
+            </b-row>
+            <b-row class="mb-2">
+              <b-col sm="3" class="text-sm-right"><b>Observations:</b></b-col>
+              <b-col>{{ row.item.observations }}</b-col>
+            </b-row>
+          </b-card>
+        </template>
       </b-table>
        <b-pagination
         class="fixed-bottom justify-content-center"

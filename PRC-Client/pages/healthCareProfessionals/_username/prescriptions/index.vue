@@ -26,6 +26,7 @@
             aria-describedby="basic-addon1"
           />
         </div>
+        <hr/>
         <div class="input-group mb-4">
           <span class="input-group-text">Patient Health Number</span>
           <b-input
@@ -39,6 +40,41 @@
           />
           <p>{{ isusernamePatientValidFeedback }}</p>
         </div>
+
+        <div class="overflow-auto">
+          <b-form-input
+            class="mb-3"
+            v-model="filterAssociateds"
+            type="search"
+            placeholder="Search..."
+          >
+          </b-form-input>
+
+          <b-table
+            striped
+            hover
+            :items="this.patients"
+            :fields="fieldsPatient"
+            :filter="filterAssociateds"
+            @filtered="search"
+            id="tableAssociateds"
+            :current-page="currentPagePaginateSecondary"
+            :per-page="perPage"
+            :select-mode="'single'"
+            selectable
+            @row-selected="onRowSelected"
+          >
+          </b-table>
+          <b-pagination
+            class="justify-content-center"
+            v-model="currentPagePaginateSecondary"
+            :total-rows="rows"
+            :per-page="perPage"
+            aria-controls="tableAssociateds"
+          ></b-pagination>
+
+        </div>
+        <hr/>
         <div class="input-group mb-4">
           <span class="input-group-text">Title</span>
           <b-input
@@ -165,12 +201,29 @@ export default {
         { value: "Yes", text: "Yes" },
         { value: "Both", text: "Both" },
       ],
-
+      fieldsPatient: [
+        { key: "name", label: "Name", sortable: true, sortDirection: "desc" },
+        {
+          key: "birthDate",
+          label: "Birthdate",
+          sortable: true,
+          sortDirection: "desc",
+        },
+        {
+          key: "healthNumber",
+          label: "Health Number",
+          sortable: true,
+          sortDirection: "desc",
+        },
+      ],
+      selected: [],
       entidade: [],
+      patients: [],
       treatmentInfo: null,
       name: null,
       title: null,
       observations: "",
+      filterAssociateds: null,
       expireDate: null,
       isPharmacological: null,
       code: null,
@@ -179,12 +232,18 @@ export default {
       filter: null,
       totalRows: null,
       emissionDate: null,
-      perPage: 5,
+      perPage: 3,
       currentPagePaginatePrincipal: 1,
+      currentPagePaginateSecondary: 1,
     };
   },
   created() {
     this.getData();
+    this.$axios
+      .$get(`api/healthcareProfessionals/${this.$auth.user.sub}/patients`)
+      .then((entidade) => {
+        this.patients = entidade;
+      });
   },
   computed: {
     tableLength: function () {
@@ -364,6 +423,11 @@ export default {
             .error("Error when creating Prescription: " + error.response.data)
             .goAway(3000);
         });
+    },
+    onRowSelected(items) {
+      if (items.length !== 0){
+        this.usernamePatient = items[0].healthNumber
+      }
     },
   },
 };

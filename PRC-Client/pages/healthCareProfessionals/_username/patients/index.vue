@@ -451,7 +451,7 @@ export default {
           this.$toast
             .success("Patient " + this.name + " created succesfully")
             .goAway(3000);
-
+          this.enroll("P" + this.healthNumber)
           this.password = null;
           this.name = null;
           this.birthDate = null;
@@ -540,6 +540,7 @@ export default {
               })
               .then((response) => {
                 this.$toast.success("Patient " + name + " created succesfully").goAway(3000);
+                this.enroll("P"+healthNumber)
               })
               .catch((error) => {
                 this.$toast
@@ -550,6 +551,7 @@ export default {
             }
           }
         reader.readAsBinaryString(this.file);
+        this.getAllPatients();
       }
       else{
         this.$toast
