@@ -51,14 +51,14 @@
           <span class="input-group-text">Patient Health Number</span>
           <b-input
             required
-            v-model="usernamePatient"
+            v-model="healthNumberPatient"
             type="number"
-            :state="isusernamePatientValid"
+            :state="ishealthNumberPatientValid"
             class="form-control"
             aria-describedby="basic-addon1"
             placeholder="Enter patient health number"
           />
-          <p>{{ isusernamePatientValidFeedback }}</p>
+          <p>{{ ishealthNumberPatientValidFeedback }}</p>
         </div>
 
         <div class="overflow-auto">
@@ -249,7 +249,7 @@ export default {
       expireDate: null,
       isPharmacological: null,
       code: null,
-      usernamePatient: null,
+      healthNumberPatient: null,
       usernameHealthcareProfessional: this.$auth.user.sub,
       filter: null,
       totalRows: null,
@@ -341,22 +341,22 @@ export default {
       }
       return "The expire date should be bigger than the actual date";
     },
-    isusernamePatientValidFeedback() {
-      if (!this.usernamePatient) {
+    ishealthNumberPatientValidFeedback() {
+      if (!this.healthNumberPatient) {
         return null;
       }
-      let healthNumberString = this.usernamePatient.toString();
+      let healthNumberString = this.healthNumberPatient.toString();
       let healthNumberLen = healthNumberString.length;
       if (healthNumberLen != 9) {
         return "The healh number is invalid - the number must have 9 digits";
       }
       return "";
     },
-    isusernamePatientValid() {
-      if (this.isusernamePatientValidFeedback === null) {
+    ishealthNumberPatientValid() {
+      if (this.ishealthNumberPatientValidFeedback === null) {
         return null;
       }
-      return this.isusernamePatientValidFeedback === "";
+      return this.ishealthNumberPatientValidFeedback === "";
     },
     isOptionValidFeedback() {
       if (this.isPharmacological == null) {
@@ -436,7 +436,7 @@ export default {
       console.log(this.observations);
       console.log(this.title);
       console.log(this.treatmentInfo);
-      console.log(this.usernamePatient);
+      console.log(this.healthNumberPatient);
       console.log(this.usernameHealthcareProfessional);
 
       this.$axios
@@ -446,7 +446,7 @@ export default {
           observations: this.observations,
           title: this.title,
           treatmentInfo: this.treatmentInfo,
-          usernamePatient: this.usernamePatient,
+          usernamePatient: this.healthNumberPatient,
           usernameHealthcareProfessional: this.usernameHealthcareProfessional,
         })
         .then((response) => {
@@ -457,7 +457,7 @@ export default {
           this.observations = null;
           this.title = null;
           this.treatmentInfo = null;
-          this.usernamePatient = null;
+          this.healthNumberPatient = null;
           this.getData();
         })
         .catch((error) => {
@@ -468,7 +468,7 @@ export default {
     },
     onRowSelected(items) {
       if (items.length !== 0){
-        this.usernamePatient = items[0].healthNumber
+        this.healthNumberPatient = items[0].healthNumber
       }
     },
     onChange(event) {
