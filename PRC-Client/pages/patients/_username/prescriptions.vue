@@ -7,6 +7,7 @@
               <div class="mx-auto alert alert-info">No prescriptions prescribed to you yet</div>
         </div>
     <div class="" v-else>
+      <b-form-input v-model="filter" type="search" placeholder="Search..."></b-form-input>
       <div class="mt-3 mb-5 text-center">
 
         <download-excel
@@ -24,7 +25,6 @@
         </download-excel>
       </div>
 
-      <b-form-input v-model="filter" type="search" placeholder="Search..."></b-form-input>
       <b-table
         class="mt-5"
         id="table"
@@ -97,7 +97,7 @@ export default {
       code: null,
       filter: null,
       totalRows: null,
-      perPage: 6,
+      perPage: 5,
       currentPagePaginatePrincipal: 1,
       json_fields: {
         Code: "code",

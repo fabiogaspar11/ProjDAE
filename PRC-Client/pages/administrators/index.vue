@@ -173,7 +173,7 @@ export default {
       healthNumber: null,
       filter: null,
       totalRows: null,
-      perPage: 6,
+      perPage: 5,
       currentPagePaginate: 1,
     };
   },

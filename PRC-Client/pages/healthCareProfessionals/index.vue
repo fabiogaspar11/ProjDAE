@@ -160,7 +160,7 @@ export default {
       totalRows: null,
       alertData: "",
       showDismissibleAlert: false,
-      perPage: 6,
+      perPage: 5,
       currentPagePaginate: 1,
     };
   },

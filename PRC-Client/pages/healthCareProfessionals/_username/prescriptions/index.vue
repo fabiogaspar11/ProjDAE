@@ -263,7 +263,7 @@ export default {
       filter: null,
       totalRows: null,
       emissionDate: null,
-      perPage: 6,
+      perPage: 5,
       perPagePatients: 3,
       currentPagePaginatePrincipal: 1,
       currentPagePaginateSecondary: 1,
