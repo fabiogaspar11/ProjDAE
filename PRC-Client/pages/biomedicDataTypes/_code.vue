@@ -55,6 +55,7 @@
             v-model="maxValue"
             type="number"
             class="form-control"
+             :state="isMaxValueValid"
             aria-describedby="basic-addon1"
             placeholder="Enter maximum value"
           />
@@ -77,6 +78,10 @@ export default {
       unitMeasure: null,
       minValue: null,
       maxValue: null,
+      currentName: null,
+      currentUnitMeasure: null,
+      currentMinValue: null,
+      currentMaxValue: null,
     };
   },
   props: {
@@ -89,6 +94,9 @@ export default {
     isNameValidFeedback() {
       if (!this.name) {
         return null;
+      }
+      if(this.name == this.currentName){
+          return "Name is equal to current name";
       }
       let nameLen = this.name.length;
       if (nameLen < 3 || nameLen > 25) {
@@ -106,6 +114,9 @@ export default {
       if (!this.unitMeasure) {
         return null;
       }
+      if(this.unitMeasure == this.currentUnitMeasure){
+          return "Unit Measure is equal to current unit Measure";
+      }
       let unitMeasureLen = this.unitMeasure.length;
       if (unitMeasureLen < 1 || unitMeasureLen > 25) {
         return "The unit is too short - length must be between 1 and 25";
@@ -121,6 +132,9 @@ export default {
     isMinValueValidFeedback() {
       if (!this.minValue) {
         return null;
+      }
+       if(this.minValue == this.currentMinValue){
+          return "Minimum value is equal to current minimum value";
       }
       let minValueLen = this.minValue.length;
       if (minValueLen <= 0 || minValueLen > 25) {
@@ -138,6 +152,9 @@ export default {
       if (!this.maxValue) {
         return null;
       }
+        if(this.maxValue == this.currentMaxValue){
+          return "Maximum value is equal to current maximum value";
+      }
       let maxValueLen = this.maxValue.length;
       if (maxValueLen <= 0 || maxValueLen > 25) {
         return "The maximum value is mandatory or is too big in size";
@@ -154,17 +171,34 @@ export default {
   created() {
     this.$axios.$get(`/api/biomedicDataTypes/${this.code}`).then((entidade) => {
       this.entidade = [entidade];
+      this.currentName = entidade.name;
+      this.currentUnitMeasure = entidade.unitMeasure;
+      this.currentMinValue = entidade.minValue;
+      this.currentMaxValue = entidade.maxValue;
     });
   },
   methods: {
     update() {
+         let biomedicDataUpdated = {};
+      if (this.isNameValid) {
+        biomedicDataUpdated.name = this.name;
+      }
+      if (this.isUnitValid) {
+        biomedicDataUpdated.unitMeasure = this.unitMeasure;
+      }
+      if (this.isMinValueValid) {
+        biomedicDataUpdated.minValue = this.minValue;
+      }
+      if (this.isMaxValueValid) {
+        biomedicDataUpdated.maxValue = this.maxValue;
+      }
+      if(Object.keys(biomedicDataUpdated).length == 0){
+        this.$toast.error(`Nothing to update!`).goAway(3000);
+        return;
+      }
+
       this.$axios
-        .$put(`/api/biomedicDataTypes/${this.code}`, {
-          name: this.name,
-          unitMeasure: this.unitMeasure,
-          minValue: this.minValue,
-          maxValue: this.maxValue,
-        })
+        .$put(`/api/biomedicDataTypes/${this.code}`,biomedicDataUpdated)
         .then(() => {
            this.$toast.info("Biomedic data type " + this.name + " updated succesfully!").goAway(3000);
 

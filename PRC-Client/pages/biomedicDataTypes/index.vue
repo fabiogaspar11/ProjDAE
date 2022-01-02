@@ -219,11 +219,14 @@ export default {
     },
   },
   created() {
-    this.$axios.$get("/api/biomedicDataTypes").then((entidade) => {
-      this.entidade = entidade;
-    });
+    this.getBiomedicDataType();
   },
   methods: {
+    getBiomedicDataType(){
+      this.$axios.$get("/api/biomedicDataTypes").then((entidade) => {
+      this.entidade = entidade;
+    });
+    },
     getCode(code) {
       this.code = code;
     },
@@ -259,13 +262,17 @@ export default {
     remove(code) {
       this.$axios.$delete(`/api/biomedicDataTypes/${code}`).then(() => {
         this.$toast
-          .info("Biomedic data type " + this.name + " deleted with success!")
+          .info("Biomedic data type " + code + " deleted with success!")
           .goAway(3000);
 
         this.$axios.$get("/api/biomedicDataTypes").then((entidade) => {
           this.entidade = entidade;
         });
-      });
+      })
+      .catch((response) => {
+            this.$toast.info(`Error - ${response.response.data}`).goAway(3000);
+              this.getBiomedicDataType();
+        });
     },
     search(filteredItems) {
       this.totalRows = filteredItems.length;

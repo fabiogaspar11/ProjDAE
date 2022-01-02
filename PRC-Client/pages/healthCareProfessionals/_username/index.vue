@@ -100,6 +100,11 @@ export default {
       showDismissibleAlertPassword: false,
       alertData: '',
       alertPasswordInvalid: '',
+      currentName:null,
+      currentType:null,
+      currentBirthDate: null,
+      currentEmail: null,
+      currentContact: null
     };
   },
   props: {
@@ -123,6 +128,9 @@ export default {
       if (!this.name) {
         return null
       }
+       if(this.name == this.currentName){
+        return "Name is equal to current name";
+      }
       let nameLen = this.name.length
       if (nameLen < 3 || nameLen > 25) {
         return 'The name is too short - length must be between 3 and 25'
@@ -139,6 +147,9 @@ export default {
       if (!this.type) {
         return null
       }
+       if(this.type == this.currentType){
+        return "Type is equal to current type";
+      }
       let typeLen = this.type.length
       if (typeLen > 25) {
         return 'The type is too short - length must be under 25'
@@ -154,6 +165,9 @@ export default {
     isContactValidFeedback (){
       if (!this.contact) {
         return null
+      }
+       if(this.contact == this.currentContact){
+        return "Contact is equal to current contact";
       }
       let contactString = this.contact.toString();
       let contactLen = contactString.length
@@ -208,6 +222,10 @@ export default {
       if (!this.email) {
         return null
       }
+       if(this.email == this.currentEmail){
+        return "Email is equal to current email";
+      }
+
       return this.$refs.email.checkValidity() ? '' : 'Email is not valid - the email format must be like name@domain'
     },
     isEmailValid () {
@@ -219,6 +237,9 @@ export default {
     isbirthDateValidFeedback () {
       if (!this.birthDate) {
         return null
+      }
+       if(this.birthDate == this.currentBirthDate){
+        return "Birthdate is equal to current birthdate";
       }
       var date_regex = /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
       return date_regex.test(this.birthDate) ? '':'The birth date is invalid - format dd/mm/yyyy';
@@ -245,7 +266,7 @@ export default {
     },
     isFormValid () {
       this.showDismissibleAlertEdit = false;
-      if (this.name == null && this.type == null && this.email == null && this.email == null && this.contact == null && this.birthDate == null) {
+      if (this.name == null && this.type == null && this.email == null  && this.contact == null && this.birthDate == null) {
         this.alertData = 'You need to change some data to update'
         return false
       }
@@ -282,6 +303,10 @@ export default {
     getHealthCareProfessionalData(){
       this.$axios.$get(`/api/healthcareProfessionals/${this.username}`).then((entidade) => {
         this.healthCareProfessional = [entidade];
+        this.currentName = entidade.name;
+        this.currentBirthDate = entidade.birthDate;
+        this.currentEmail = entidade.email;
+        this.currentContact = entidade.contact;
       });
     },
     update(bvModalEvt) {

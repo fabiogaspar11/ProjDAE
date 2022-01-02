@@ -280,6 +280,8 @@ export default {
 
           });
       }
+      this.$toast.info("Nothing to update - Fields are all missing or equal to current data").goAway(3000);
+
     },
     getData() {
       this.$axios.$get(`/api/prescriptions/${this.code}`).then((entidade) => {

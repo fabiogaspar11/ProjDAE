@@ -226,6 +226,10 @@ export default {
       patientPrescriptions: [],
       currentPagePaginate: 1,
       perPage: 6,
+       currentName:null,
+      currentBirthDate: null,
+      currentEmail: null,
+      currentContact: null
     };
   },
   props: {
@@ -245,6 +249,9 @@ export default {
       if (!this.name) {
         return null;
       }
+       if(this.name == this.currentName){
+        return "Name is equal to current name";
+      }
       let nameLen = this.name.length;
       if (nameLen < 3 || nameLen > 25) {
         return "The name is too short - length must be between 3 and 25";
@@ -260,6 +267,9 @@ export default {
     isContactValidFeedback() {
       if (!this.contact) {
         return null;
+      }
+       if(this.contact == this.currentContact){
+        return "Contact is equal to current contact";
       }
       let contactString = this.contact.toString();
       let contactLen = contactString.length;
@@ -282,6 +292,10 @@ export default {
       if (!this.email) {
         return null;
       }
+        if(this.email == this.currentEmail){
+        return "Email is equal to current email";
+      }
+
       return this.$refs.email.checkValidity()
         ? ""
         : "Email is not valid - the email format must be like name@domain";
@@ -295,6 +309,9 @@ export default {
     isbirthDateValidFeedback() {
       if (!this.birthDate) {
         return null;
+      }
+       if(this.birthDate == this.currentBirthDate){
+        return "Birthdate is equal to current birthdate";
       }
       var date_regex =
         /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
@@ -378,6 +395,10 @@ export default {
     getPatient() {
       this.$axios.$get(`/api/patients/${this.username}`).then((entidade) => {
         this.entidade = [entidade];
+          this.currentName = entidade.name;
+          this.currentBirthDate = entidade.birthDate;
+          this.currentEmail = entidade.email;
+          this.currentContact = entidade.contact;
         this.$axios.$get(`/api/diseases`).then((response) => {
           this.diseasesAll = response;
       });
@@ -399,13 +420,25 @@ export default {
         });
     },
     update() {
+      let patientUpdated = {};
+      if (this.isNameValid) {
+        patientUpdated.name = this.name;
+      }
+      if (this.isEmailValid) {
+        patientUpdated.email = this.email;
+      }
+      if (this.isContactValid) {
+        patientUpdated.contact = this.contact;
+      }
+      if (this.isbirthDateValid) {
+        patientUpdated.birthDate = this.birthDate;
+      }
+      if(Object.keys(patientUpdated).length == 0){
+        this.$toast.error(`Nothing to update!`).goAway(3000);
+        return;
+      }
       this.$axios
-        .$put(`/api/patients/${this.username}`, {
-          name: this.name,
-          email: this.email,
-          contact: this.contact,
-          birthDate: this.birthDate,
-        })
+        .$put(`/api/patients/${this.username}`, patientUpdated)
         .then(() => {
           this.name = null;
           this.email = null;
