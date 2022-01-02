@@ -4,16 +4,9 @@
     <NavBar></NavBar>
     <b-container>
       <h3 class="mt-3">Biomedic Data Measures ({{ tableLength }})</h3>
-      <div v-if="this.tableLength == 0">
-        <div class="w-75 mx-auto alert alert-info">
-          No Biomedic Measures registered yet
-        </div>
-      </div>
-      <div class="mt-3 mb-5 text-center" v-else>
+      <div class="mt-3 mb-5 text-center">
 
         <b-form-input v-model="filter" type="search" placeholder="Search..."></b-form-input>
-
-
         <b-button
           v-if="Object.keys(biomedicDataTypes).length != 0"
           v-b-modal.modal-1
@@ -58,6 +51,7 @@
           ></b-form-file>
 
         <b-table
+         v-if="this.tableLength != 0"
           class="mt-5"
           :items="this.entidade"
           :fields="fields"
@@ -90,6 +84,9 @@
             </b-button>
           </template>
         </b-table>
+        <div v-else class="w-75 mx-auto alert alert-info">
+          No Biomedic Measures created yet
+      </div>
       </div>
 
       <b-modal id="modal-1" title="New Biomedic Measure" @ok="create()">
