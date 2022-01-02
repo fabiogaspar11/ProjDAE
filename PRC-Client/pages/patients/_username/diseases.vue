@@ -56,7 +56,7 @@ export default {
       noDiseases: false,
       filter: null,
       totalRows: null,
-      perPage: 6,
+      perPage: 5,
       currentPagePaginatePrincipal: 1,
     };
   },

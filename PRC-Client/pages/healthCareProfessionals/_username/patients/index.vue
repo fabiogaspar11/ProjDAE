@@ -28,10 +28,10 @@
           </b-dropdown>
         </download-excel>
 
- <b-form-file
+        <b-form-file
           placeholder="Import data (.xls,.xlsx,.csv)"
           @change="onChange"
-          class="w-25"
+          class="w-25 text-left"
         ></b-form-file>
       </div>
     </b-container>
@@ -248,7 +248,7 @@ export default {
       patients: [],
       usernamePatient: null,
       fieldsPatient: ["healthNumber", "name", "operations"],
-      perPage: 6,
+      perPage: 5,
       currentPagePaginatePrincipal: 1,
       currentPagePaginateSecondary: 1,
       json_fields: {

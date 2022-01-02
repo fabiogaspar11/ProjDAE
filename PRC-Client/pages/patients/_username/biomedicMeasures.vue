@@ -2,53 +2,64 @@
 <template>
   <div>
     <NavBar></NavBar>
+
     <b-container>
       <h3 class="mt-3">Biomedic Data Measures ({{ tableLength }})</h3>
-      <div class="mt-3 mb-5 text-center">
 
-        <b-form-input v-model="filter" type="search" placeholder="Search..."></b-form-input>
-        <b-button
-          v-if="Object.keys(biomedicDataTypes).length != 0"
-          v-b-modal.modal-1
-          variant="info"
-        >
+      <div
+        class="mt-3 text-center"
+        v-if="Object.keys(biomedicDataTypes).length != 0"
+      >
+        <b-button v-b-modal.modal-1 variant="info">
           <font-awesome-icon icon="plus" /> New Biomedic Measure
         </b-button>
+      </div>
+      <div v-else class="w-75 mx-auto alert alert-info">
+        <p>
+          Cannot insert Biomedic Measures without having Biomedic Data Types
+        </p>
+      </div>
 
-        <div v-else class="w-75 mx-auto alert alert-info">
-          <p>
-            Cannot insert Biomedic Measures without having Biomedic Data Types
-          </p>
+      <div v-if="this.tableLength == 0">
+        <div class="w-75 mx-auto alert alert-info">
+          No Biomedic Measures registered yet
         </div>
+      </div>
+      <div class="mt-3 mb-5 text-center" v-else>
+        <b-form-input
+          v-model="filter"
+          type="search"
+          placeholder="Search..."
+        ></b-form-input>
 
         <download-excel
-            class="btn btn-default"
-            :data="entidade"
-            :fields="json_fields"
-            worksheet="Biomedic Data Measures"
-            :name="'biomedicDataMeasures.' + typeExcel"
-            :type="typeExcel"
+          class="btn btn-default"
+          :data="entidade"
+          :fields="json_fields"
+          worksheet="Biomedic Data Measures"
+          :name="'biomedicDataMeasures.' + typeExcel"
+          :type="typeExcel"
+        >
+          <b-dropdown
+            id="dropdown-1"
+            text="Download Data"
+            class="m-md-2"
+            variant="success"
           >
-            <b-dropdown
-              id="dropdown-1"
-              text="Download Data"
-              class="m-md-2"
-              variant="success"
+            <b-dropdown-item @click.prevent="typeExcel = 'xls'"
+              >.xls</b-dropdown-item
             >
-              <b-dropdown-item @click.prevent="typeExcel = 'xls'"
-                >.xls</b-dropdown-item
-              >
-              <b-dropdown-item @click.prevent="typeExcel = 'csv'"
-                >.csv</b-dropdown-item
-              >
-            </b-dropdown>
-          </download-excel>
+            <b-dropdown-item @click.prevent="typeExcel = 'csv'"
+              >.csv</b-dropdown-item
+            >
+          </b-dropdown>
+        </download-excel>
 
-          <b-form-file
-            placeholder="Import data (.xls,.xlsx,.csv)"
-            @change="onChange"
-            class="w-25 text-lg-left"
-          ></b-form-file>
+        <b-form-file
+          placeholder="Import data (.xls,.xlsx,.csv)"
+          @change="onChange"
+          class="w-25 text-lg-left"
+        ></b-form-file>
 
         <b-table
          v-if="this.tableLength != 0"
@@ -59,6 +70,9 @@
           responsive="sm"
           :filter="filter"
           @filtered="search"
+          id="table"
+          :per-page="perPage"
+          :current-page="currentPagePaginate"
         >
           <template v-slot:cell(operations)="row">
             <b-button
@@ -84,9 +98,13 @@
             </b-button>
           </template>
         </b-table>
-        <div v-else class="w-75 mx-auto alert alert-info">
-          No Biomedic Measures created yet
-      </div>
+         <b-pagination
+        class="fixed-bottom justify-content-center"
+        v-model="currentPagePaginate"
+        :total-rows="tableLength"
+        :per-page="perPage"
+        aria-controls="table"
+      ></b-pagination>
       </div>
 
       <b-modal id="modal-1" title="New Biomedic Measure" @ok="create()">
@@ -284,6 +302,8 @@ export default {
       valueUpdate: null,
       minValueUpdate: null,
       maxValueUpdate: null,
+      perPage: 4,
+      currentPagePaginate: 1,
       json_fields: {
         Code: "code",
         PatientUsername: "usernamePatient",
@@ -293,6 +313,7 @@ export default {
         Hour: "hour",
       },
       typeExcel: "",
+
     };
   },
   computed: {
@@ -525,7 +546,10 @@ export default {
         return "The Biomedic Data Type must be choosen first";
       }
 
-      if (this.valueEdit < this.minValueUpdate || this.valueEdit > this.maxValueUpdate) {
+      if (
+        this.valueEdit < this.minValueUpdate ||
+        this.valueEdit > this.maxValueUpdate
+      ) {
         return (
           "The value is invalid, the value must be between " +
           "[" +

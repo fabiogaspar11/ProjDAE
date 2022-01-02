@@ -57,7 +57,7 @@
             class="form-control"
             aria-describedby="basic-addon1 "
           />
-             <b-input-group-append>
+            <b-input-group-append>
             <b-form-datepicker
               id="ex-disabled-readonly"
               button-only
@@ -211,7 +211,7 @@ export default {
       totalRows: null,
       minVal: null,
       maxVal: null,
-      perPage: 6,
+      perPage: 5,
       currentPagePaginatePrincipal: 1,
       json_fields: {
         Code: "code",

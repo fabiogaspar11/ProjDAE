@@ -22,8 +22,15 @@
             class="form-control"
             aria-describedby="basic-addon1 "
           />
-          <p>{{ isDateValidFeedback }}</p>
+           <b-input-group-append>
+            <b-form-datepicker
+              id="ex-disabled-readonly"
+              button-only
+              readonly
+            ></b-form-datepicker>
+          </b-input-group-append>
         </div>
+          <p>{{ isDateValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Hour</span>
           <b-input
@@ -35,8 +42,8 @@
             class="form-control"
             aria-describedby="basic-addon1 "
           />
-          <p>{{ isHourValidFeedback }}</p>
         </div>
+          <p>{{ isHourValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Value</span>
           <b-input
@@ -48,8 +55,8 @@
             class="form-control"
             aria-describedby="basic-addon1 "
           />
-          <p>{{ isValueValidFeedback }}</p>
         </div>
+          <p>{{ isValueValidFeedback }}</p>
       </b-modal>
     </div>
   </div>
