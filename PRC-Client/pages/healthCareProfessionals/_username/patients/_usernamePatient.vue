@@ -14,7 +14,60 @@
         <b-button v-b-modal.modal-1 class="justify-content-center"
           >Edit</b-button
         >
+        <b-button v-b-modal.modal-2 class="justify-content-center"
+         variant="primary" >Diseases</b-button
+        >
       </div>
+       <b-modal ok-only ok-title="Close" id="modal-2" title="Diseases">
+      <b-container>
+        <div class="overflow-auto">
+          <b-form-input
+            class="mb-3"
+            v-model="filterDiseases"
+            type="search"
+            placeholder="Search..."
+          >
+          </b-form-input>
+
+          <b-table
+            striped
+            hover
+            :items="this.diseasesAll"
+            :fields="fieldsDiseases"
+            :filter="filterDiseases"
+            @filtered="search"
+            id="tableAssociateds"
+            :current-page="currentPagePaginateSecondary"
+            :per-page="perPage"
+          >
+            <template v-slot:cell(operations)="row">
+              <b-button
+                v-if="isExist(row.item)"
+                @click.prevent="undiagnose(row.item.code)"
+                variant="dark"
+              >
+                <font-awesome-icon icon="times" /> Undiagnose
+              </b-button>
+              <b-button
+                v-else
+                @click.prevent="diagnose(row.item.code)"
+                variant="success"
+              >
+                <font-awesome-icon icon="check" /> Diagnose
+              </b-button>
+            </template>
+          </b-table>
+          <b-pagination
+            class="justify-content-center"
+            v-model="currentPagePaginateSecondary"
+            :total-rows="rows"
+            :per-page="perPage"
+            aria-controls="tableAssociateds"
+          ></b-pagination>
+        </div>
+      </b-container>
+    </b-modal>
+
       <b-modal id="modal-1" title="Edit" @ok="update()">
         <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
@@ -77,6 +130,32 @@
         </div>
           <p>{{ isContactValidFeedback }}</p>
       </b-modal>
+
+
+    <b-container class="mt-1">
+      <h3 class="mt-3">Diseases ({{ this.diseases.length }})</h3>
+      <b-table
+        id="tablePrincipal"
+        :per-page="perPage"
+        :current-page="currentPagePaginatePrincipalDiseases"
+        :items="this.diseases"
+        :fields="fieldsDiseasesTable"
+        striped
+        responsive="sm"
+        :filter="filterDiseases"
+        @filtered="search"
+      >
+      </b-table>
+
+      <b-pagination
+        class="fixed-bottom justify-content-center"
+        v-model="currentPagePaginatePrincipal"
+        :total-rows="rowsPrincipal"
+        :per-page="perPage"
+        aria-controls="tablePrincipal"
+      ></b-pagination>
+    </b-container>
+
       <!---------------------------------------------PRESCRIPTIONS ---------------------------------------------->
 
     <h3 class="mt-3">Prescribed Recipes ({{ tableLength }})</h3>
@@ -133,8 +212,13 @@ export default {
 
         "operations",
       ],
+      fieldsDiseases: ["code", "name", "operations"],
+      fieldsDiseasesTable: ["code", "name"],
+      diseasesAll:[],
+      filterDiseases: null,
       entidade: [],
       state: true,
+      diseases: [],
       name: null,
       email: null,
       birthDate: null,
@@ -259,20 +343,58 @@ export default {
     },
   },
   created() {
-    console.log(this.$auth.user.sub)
     this.getPatient();
   },
   methods: {
+     diagnose(diseaseCode) {
+      this.$axios
+        .$put(
+          `/api/patients/${this.username}/addDisease/${diseaseCode}`
+        )
+        .then(() => {
+          this.getPatient();
+        });
+    },
+    undiagnose(diseaseCode) {
+      this.$axios
+        .put(
+          `/api/patients/${this.username}/removeDisease/${diseaseCode}`
+        )
+        .then(() => {
+         this.getPatient();
+        });
+    },
+     isExist: function (disease) {
+      for (let item of this.diseases) {
+        if (item.code === disease.code) {
+          return true;
+        }
+      }
+      return false;
+    },
+     search(filteredItems) {
+      this.totalRows = filteredItems.length;
+    },
     getPatient() {
       this.$axios.$get(`/api/patients/${this.username}`).then((entidade) => {
         this.entidade = [entidade];
+        this.$axios.$get(`/api/diseases`).then((response) => {
+          this.diseasesAll = response;
       });
+      });
+      this.$axios
+        .$get(
+          `/api/patients/${this.username}/diseases`
+        )
+        .then((response) => {
+         this.diseases = response;
+        });
+
       this.$axios
         .$get(
           `/api/patients/${this.username}/prescriptions`
         )
         .then((response) => {
-          console.log([response]);
           this.patientPrescriptions = response;
         });
     },
