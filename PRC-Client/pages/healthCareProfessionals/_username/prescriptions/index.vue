@@ -80,6 +80,7 @@
           </b-form-input>
 
           <b-table
+          v-if="this.tableLength != 0"
             striped
             hover
             :items="this.patients"
@@ -95,12 +96,16 @@
           >
           </b-table>
           <b-pagination
+            v-if="this.tableLength != 0"
             class="justify-content-center"
             v-model="currentPagePaginateSecondary"
             :total-rows="rows"
             :per-page="perPagePatients"
             aria-controls="tableAssociateds"
           ></b-pagination>
+          <div  v-if="this.tableLength == 0" class="w-75 mx-auto alert alert-info">
+            No Prescriptions created yet
+          </div>
         </div>
         <hr />
         <div class="input-group mb-4">

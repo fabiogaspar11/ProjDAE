@@ -62,6 +62,8 @@
         ></b-form-file>
 
         <b-table
+         v-if="this.tableLength != 0"
+          class="mt-5"
           :items="this.entidade"
           :fields="fields"
           striped

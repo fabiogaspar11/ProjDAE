@@ -159,7 +159,7 @@
       <!---------------------------------------------PRESCRIPTIONS ---------------------------------------------->
 
     <h3 class="mt-3">Prescribed Recipes ({{ tableLength }})</h3>
-     <b-table
+     <b-table v-if="this.tableLength != 0"
           class="mt-1"
           id="table"
           :per-page="perPage"
@@ -176,12 +176,16 @@
           </template>
         </b-table>
          <b-pagination
+        v-if="this.tableLength != 0"
         class="fixed-bottom justify-content-center"
         v-model="currentPagePaginate"
         :total-rows="tableLength"
         :per-page="perPage"
         aria-controls="table"
       ></b-pagination>
+      <div  v-if="this.tableLength == 0" class="w-75 mx-auto alert alert-info">
+          No Prescriptions created yet
+      </div>
  </b-container>
     </div>
 </template>

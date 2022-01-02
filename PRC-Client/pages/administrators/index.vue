@@ -98,7 +98,7 @@
         </div>
       </b-modal>
 
-      <div class="mt-3">
+      <div v-if="this.tableLength != 0" class="mt-3">
         <b-table
           :items="this.entidade"
           :fields="fields"
@@ -134,6 +134,9 @@
           :per-page="perPage"
           aria-controls="table"
         ></b-pagination>
+      </div>
+       <div v-else class="w-75 mx-auto alert alert-info">
+            No administrators created yet
       </div>
     </b-container>
   </div>

@@ -140,9 +140,6 @@ export default {
     code() {
       return this.$route.params.code;
     },
-    tableLength: function () {
-      return this.entidade.length;
-    },
     isTitleValid() {
       if (this.isTitleValidFeedback === null) {
         return null;
