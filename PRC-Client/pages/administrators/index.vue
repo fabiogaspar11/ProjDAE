@@ -107,6 +107,11 @@ export default {
     getAdministrators(){
         this.$axios.$get("/api/administrators").then((entidade) => {
         this.entidade = entidade;
+         entidade.forEach(h => {//SHIT
+          if(h.username==this.$auth.user.sub){
+              this.entidade.splice("");
+          }
+        });
       });
     },
     search(filteredItems) {

@@ -58,9 +58,14 @@
         {{alertData}}
       </b-alert>
     </b-modal>
-
-    <hr style="width:73%;">
+    <div v-if="this.tableLength == 0">
+      <div class="w-75 mx-auto alert alert-info">
+        No Healthcare Professionals registered yet
+      </div>
+      <hr style="width:73%;">
+     </div>
       <b-table
+        v-else
         :items="this.entidade"
         :fields="fields"
         striped

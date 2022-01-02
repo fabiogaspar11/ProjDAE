@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ws;
 
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.*;
+import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.HealthcareProfessionalBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.PatientBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.*;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.*;
@@ -14,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.security.Principal;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
 public class PatientService {
     @EJB
     private PatientBean patientBean;
+    @EJB
+    private HealthcareProfessionalBean healthcareProfessionalBean;
     @Context
     private SecurityContext securityContext;
     //Patient with everything
@@ -72,6 +76,13 @@ public class PatientService {
         );
     }
 
+    private PatientDTO toDTOBasic(Patient patient) {
+        return new PatientDTO(
+                patient.getName(),
+                patient.getHealthNumber()
+        );
+    }
+
     private List<PatientDTO> toDTOsNoDetails(List<Patient> patients) {
         return patients.stream().map(this::toDTOnoDetails).collect(Collectors.toList());
     }
@@ -93,7 +104,7 @@ public class PatientService {
                 prescription.getEmissionDate(),
                 prescription.getExpireDate(),
                 prescription.getPatient().getUsername(),
-                prescription.getHealthcareProfessional().getUsername()
+                prescription.getHealthcareProfessional().getName()
         );
     }
     private HealthcareProfessionalDTO toDTOHealthCareProfessional(HealthcareProfessional healthcareProfessional){
@@ -134,8 +145,22 @@ public class PatientService {
     @GET
     @Path("/")
     @RolesAllowed({"HealthcareProfessional"})
-    public List<PatientDTO> getAllPatientsWS() {
-        return toDTOsNoDetails(patientBean.getAllPatients());
+    public List<PatientDTO> getAllPatientsWS() throws MyEntityNotFoundException {
+
+        Principal principal = securityContext.getUserPrincipal();
+        List<Patient> patients = patientBean.getAllPatients();
+        List<PatientDTO> patientDTOS = new LinkedList<>();
+        PatientDTO patientDTO;
+        for (Patient p:patients) {
+            boolean hasHealthcareProfessionalAssociated = healthcareProfIsAssociatedToPatient(principal.getName(), p.getUsername());
+            if(hasHealthcareProfessionalAssociated){
+                patientDTO = toDTOnoDetails(p);
+            }else{
+                patientDTO = toDTOBasic(p);
+            }
+            patientDTOS.add(patientDTO);
+        }
+        return patientDTOS;
     }
 
     @POST
@@ -149,7 +174,7 @@ public class PatientService {
                 patientDTO.getContact(),
                 patientDTO.getHealthNumber()
         );
-        Patient patient = patientBean.findPatient(username);
+         Patient patient = patientBean.findPatient(username);
         return Response.status(Response.Status.CREATED)
                 .entity(toDTOnoDetails(patient))
                 .build();
@@ -158,15 +183,27 @@ public class PatientService {
     
     @GET
     @Path("/{username}")
+    @RolesAllowed({"HealthcareProfessional","Patient"})
     public Response getPatientDetails(@PathParam("username") String username) throws MyEntityNotFoundException {
         Principal principal = securityContext.getUserPrincipal();
-        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
+
         if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         Patient patient  = patientBean.findPatient(username);
+        if(securityContext.isUserInRole("HealthcareProfessional")){
+            boolean hasHealthcareProfessionalAssociated = healthcareProfIsAssociatedToPatient(principal.getName(), username);
+            if(hasHealthcareProfessionalAssociated){
+                return Response.status(Response.Status.OK)
+                        .entity(toDTOnoDetails(patient))
+                        .build();
+            }else{
+                return Response.status(Response.Status.OK)
+                        .entity(toDTOBasic(patient))
+                        .build();
+            }
+        }
+
         return Response.status(Response.Status.OK)
                 .entity(toDTOnoDetails(patient))
                 .build();
@@ -176,7 +213,12 @@ public class PatientService {
     @Path("/{username}")
     @RolesAllowed({"HealthcareProfessional"})
     public Response deletePatient(@PathParam("username") String username) throws MyEntityNotFoundException {
+        Principal principal = securityContext.getUserPrincipal();
         Patient patient  = patientBean.findPatient(username);
+        boolean hasHealthcareProfessionalAssociated = healthcareProfIsAssociatedToPatient(principal.getName(), username);
+        if (!hasHealthcareProfessionalAssociated){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
         patientBean.remove(patient);
         return Response.status(Response.Status.OK)
                 .entity(toDTOnoDetails(patient))
@@ -185,29 +227,22 @@ public class PatientService {
 
     @PUT
     @Path("/{username}")
+    @RolesAllowed({"HealthcareProfessional","Patient"})
     public Response updatePatient(@PathParam("username") String username, PatientDTO patientDTO) throws MyEntityNotFoundException {
-        Patient patient  = patientBean.findPatient(username);
-        Principal principal = securityContext.getUserPrincipal();
 
-        if(!securityContext.isUserInRole("Patient") && !securityContext.isUserInRole("HealthcareProfessional")){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
+        Principal principal = securityContext.getUserPrincipal();
 
         if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
         if(securityContext.isUserInRole("HealthcareProfessional")){
-            boolean hasHealthcareProfessionalAssociated = false;
-            for (HealthcareProfessional healthcareProfessional: patient.getHealthcareProfessionals()) {
-                if (healthcareProfessional.getUsername().equals(principal.getName())){
-                    hasHealthcareProfessionalAssociated = true;
-                }
-            }
+            boolean hasHealthcareProfessionalAssociated = healthcareProfIsAssociatedToPatient(principal.getName(), username);
             if (!hasHealthcareProfessionalAssociated){
-                return Response.status(Response.Status.NOT_FOUND).build();
+                return Response.status(Response.Status.FORBIDDEN).build();
             }
         }
+        Patient patient  = patientBean.findPatient(username);
         patientBean.update(patient, patientDTO);
         return Response.status(Response.Status.OK)
                 .entity(toDTOnoDetails(patient))
@@ -216,10 +251,9 @@ public class PatientService {
 
     @GET
     @Path("{username}/healthcareProfessionals")
+    @RolesAllowed({"HealthcareProfessional","Patient"})
     public Response getPatientHealthCareProfessionals(@PathParam("username") String username) throws MyEntityNotFoundException {
-        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
+
         Principal principal = securityContext.getUserPrincipal();
         if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
             return Response.status(Response.Status.FORBIDDEN).build();
@@ -231,47 +265,65 @@ public class PatientService {
 
     @GET
     @Path("{username}/biomedicMeasures")
+    @RolesAllowed({"HealthcareProfessional","Patient"})
     public Response getBiomedicMeasures(@PathParam("username") String username) throws MyEntityNotFoundException {
-        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
-        Principal principal = securityContext.getUserPrincipal();
-        if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
 
+        Principal principal = securityContext.getUserPrincipal();
+        if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
         Patient patient = patientBean.findPatient(username);
         return Response.ok(biomedicMeasuresToDTOs(patient.getBiomedicDataMeasures())).build();
     }
 
     @GET
     @Path("{username}/diseases")
+    @RolesAllowed({"HealthcareProfessional","Patient"})
     public Response getPatientDiseases(@PathParam("username") String username) throws MyEntityNotFoundException {
-        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
+
         Principal principal = securityContext.getUserPrincipal();
+
         if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-
         Patient patient = patientBean.findPatient(username);
+        if(securityContext.isUserInRole("HealthcareProfessional")){
+            boolean hasHealthcareProfessionalAssociated = healthcareProfIsAssociatedToPatient(principal.getName(), username);
+            if (!hasHealthcareProfessionalAssociated){
+                return Response.status(Response.Status.FORBIDDEN).build();
+            }
+        }
+
         return Response.ok(diseasesToDTOs(patient.getDiseases())).build();
     }
 
-    @POST
+    @PUT
     @Path("/{username}/addDisease/{disease}")
     @RolesAllowed({"HealthcareProfessional"})
     public Response addDisease(@PathParam("username") String username, @PathParam("disease") int code) throws MyEntityNotFoundException {
+        Principal principal = securityContext.getUserPrincipal();
+        boolean hasHealthcareProfessionalAssociated = healthcareProfIsAssociatedToPatient(principal.getName(), username);
+
+        if (!hasHealthcareProfessionalAssociated){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
         patientBean.addDiseaseToPatient(username, code);
         Patient patient  = patientBean.findPatient(username);
         return Response.ok(diseasesToDTOs(patient.getDiseases())).build();
     }
 
-    @POST
+    @PUT
     @Path("/{username}/removeDisease/{disease}")
     @RolesAllowed({"HealthcareProfessional"})
     public Response removeDisease(@PathParam("username") String username, @PathParam("disease") int code) throws MyEntityNotFoundException {
+        Principal principal = securityContext.getUserPrincipal();
+
+        boolean hasHealthcareProfessionalAssociated = healthcareProfIsAssociatedToPatient(principal.getName(), username);
+        if (!hasHealthcareProfessionalAssociated){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
         patientBean.removeDiseaseFromPatient(username, code);
         Patient patient  = patientBean.findPatient(username);
         return Response.ok(diseasesToDTOs(patient.getDiseases())).build();
@@ -279,35 +331,50 @@ public class PatientService {
 
     @GET
     @Path("{username}/prescriptions")
+    @RolesAllowed({"HealthcareProfessional","Patient"})
     public Response getPatientPrescriptions(@PathParam("username") String username) throws MyEntityNotFoundException {
-        if(!securityContext.isUserInRole("HealthcareProfessional") && !securityContext.isUserInRole("Patient")){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
+
         Principal principal = securityContext.getUserPrincipal();
         if(securityContext.isUserInRole("Patient") && !principal.getName().equals(username)){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-
         Patient patient = patientBean.findPatient(username);
+
+        if(securityContext.isUserInRole("HealthcareProfessional")){
+            boolean hasHealthcareProfessionalAssociated = healthcareProfIsAssociatedToPatient(principal.getName(), username);
+            if (!hasHealthcareProfessionalAssociated){
+                return Response.status(Response.Status.FORBIDDEN).build();
+            }
+                return Response.ok(prescriptionsToDTOs(healthcareProfessionalBean.getHealthcareProfessionalPatientPrescriptions(principal.getName(),username))).build();
+        }
+
         return Response.ok(prescriptionsToDTOs(patient.getPrescriptions())).build();
 
     }
 
-
-    //TODO Duvida 1 - seria necessário estes dos metodos abaixo?
-    @POST
+    @PUT
     @Path("/{username}/addPrescription/{code}")
     @RolesAllowed({"HealthcareProfessional"})
     public Response addPrescription(@PathParam("username") String username, @PathParam("code") long code) throws MyEntityNotFoundException, MyIllegalArgumentException {
+        Principal principal = securityContext.getUserPrincipal();
+        boolean hasHealthcareProfessionalAssociated = healthcareProfIsAssociatedToPatient(principal.getName(), username);
+        if (!hasHealthcareProfessionalAssociated){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
         patientBean.addPrescription(username, code);
         Patient patient  = patientBean.findPatient(username);
         return Response.ok(prescriptionToDTOs(patient.getPrescriptions())).build();
     }
 
-    @POST
+    @PUT
     @Path("/{username}/removePrescription/{code}")
     @RolesAllowed({"HealthcareProfessional"})
     public Response removePrescription(@PathParam("username") String username, @PathParam("code") long code) throws MyEntityNotFoundException {
+        Principal principal = securityContext.getUserPrincipal();
+        boolean hasHealthcareProfessionalAssociated = healthcareProfIsAssociatedToPatient(principal.getName(), username);
+        if (!hasHealthcareProfessionalAssociated){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
         patientBean.removePrescription(username, code);
         Patient patient  = patientBean.findPatient(username);
         return Response.ok(prescriptionToDTOs(patient.getPrescriptions())).build();
@@ -315,10 +382,8 @@ public class PatientService {
 
     @PUT
     @Path("/{username}/password")
+    @RolesAllowed({"Patient"})
     public Response updatePasswordPatient(@PathParam("username") String username, PatientDTO patientDTO) throws MyEntityNotFoundException, MyIllegalArgumentException {
-        if(!securityContext.isUserInRole("Patient")){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
         Principal principal = securityContext.getUserPrincipal();
         if(!principal.getName().equals(username)){
             return Response.status(Response.Status.FORBIDDEN).build();
@@ -331,4 +396,15 @@ public class PatientService {
                 .build();
     }
 
+    private boolean healthcareProfIsAssociatedToPatient(String usernameHealthcareProf, String usernamePatient) throws MyEntityNotFoundException {
+        boolean hasHealthcareProfessionalAssociated = false;
+        Patient patient  = patientBean.findPatient(usernamePatient);
+        for (HealthcareProfessional healthcareProfessional: patient.getHealthcareProfessionals()) {
+            if (healthcareProfessional.getUsername().equals(usernameHealthcareProf)){
+                hasHealthcareProfessionalAssociated = true;
+                break;
+            }
+        }
+        return hasHealthcareProfessionalAssociated;
+    }
 }

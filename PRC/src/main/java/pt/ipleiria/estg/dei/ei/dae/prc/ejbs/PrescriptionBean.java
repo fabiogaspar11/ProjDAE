@@ -30,19 +30,20 @@ public class PrescriptionBean {
             throw new MyEntityNotFoundException("There is no Patient with the health number \'" + healthNumberPatient + "\'");
         }
         HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class, usernameHealthcareProfessional);
-
-        boolean hasPatient = false;
-        for (Patient patient1: healthcareProfessional.getPatients()) {
-            if(patient1.getUsername() == patient.getUsername())
-                hasPatient = true;
-        }
-        if(hasPatient == false){
-            throw new MyEntityNotFoundException("Healthcare Professional can only create prescriptions for his patients");
-        }
-
         if(healthcareProfessional == null) {
             throw new MyEntityNotFoundException("There is no Healthcare Professional with the username \'" + usernameHealthcareProfessional + "\'");
         }
+        boolean hasPatient = false;
+        for (Patient patient1: healthcareProfessional.getPatients()) {
+            if(patient1.getUsername().equals(patient.getUsername())) {
+                hasPatient = true;
+                break;
+            }
+        }
+        if(!hasPatient){
+            throw new MyEntityNotFoundException("Healthcare Professional can only create prescriptions for his patients");
+        }
+
         if(observations==null){
             observations = "";
         }

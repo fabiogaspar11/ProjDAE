@@ -146,13 +146,15 @@ public class HealthcareProfessionalBean {
         entityManager.merge(healthcareProfessional);
     }
 
-    public List<Prescription> getHealthcareProfessioanlPatientPrescriptions(String healthcareUsername, String patientUsername ){
-        HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class, healthcareUsername);
+    public List<Prescription> getHealthcareProfessionalPatientPrescriptions(String healthcareUsername, String patientUsername ) throws MyEntityNotFoundException {
+        HealthcareProfessional healthcareProfessional = findHealthcareProfessional(healthcareUsername);
         Patient patient = entityManager.find(Patient.class, patientUsername);
-
+        if(patient == null){
+            throw new MyEntityNotFoundException("There is no Patient with the username: \'"+patientUsername+"\'");
+        }
         List<Prescription> prescriptionList = new LinkedList<>();
         for (Prescription prescription : patient.getPrescriptions()) {
-            if(prescription.getHealthcareProfessional().getUsername() == healthcareProfessional.getUsername())
+            if(prescription.getHealthcareProfessional().getUsername().equals(healthcareProfessional.getUsername()))
                 prescriptionList.add(prescription);
         }
         return prescriptionList;

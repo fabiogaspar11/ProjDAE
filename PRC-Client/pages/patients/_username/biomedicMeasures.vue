@@ -227,6 +227,11 @@ export default {
       dateEdit: null,
       hourEdit: null,
       valueEdit: null,
+      dateUpdate: null,
+      hourUpdate: null,
+      valueUpdate: null,
+      minValueUpdate: null,
+      maxValueUpdate: null
     };
   },
   computed: {
@@ -278,7 +283,7 @@ export default {
         return null;
       }
 
-      if (this.dateEdit == this.date) {
+      if (this.dateEdit == this.dateUpdate) {
         return "New Date is the same as the old one";
       }
 
@@ -322,14 +327,11 @@ export default {
         return "The hour is invalid - format HH:MM";
       }
       var currentdate = new Date();
-      if (this.dateEdit == null || this.dateEdit == "") {
-        var dateSplitted = this.date.split("/");
-      } else {
-        if (!this.isDateValid) {
-          return "Date is incorrent. Correct it first";
-        }
-        var dateSplitted = this.dateEdit.split("/");
+
+      if (!this.isDateValid) {
+        return "Date is incorrect. Correct it first";
       }
+      var dateSplitted = this.date.split("/");
 
       if (
         parseInt(dateSplitted[2]) == currentdate.getFullYear() &&
@@ -360,7 +362,7 @@ export default {
         return null;
       }
 
-      if (this.hourEdit == this.hour) {
+      if (this.hourEdit == this.hourUpdate) {
         return "New hour is the same as the old one";
       }
 
@@ -371,10 +373,10 @@ export default {
       }
       var currentdate = new Date();
       if (this.dateEdit == null || this.dateEdit == "") {
-        var dateSplitted = this.date.split("/");
+        var dateSplitted = this.dateUpdate.split("/");
       } else {
-        if (!this.isDateValid) {
-          return "Date is incorrent. Correct it first";
+        if (!this.isDateEditValid) {
+          return "Date is incorrect. Correct it first";
         }
         var dateSplitted = this.dateEdit.split("/");
       }
@@ -384,7 +386,7 @@ export default {
         parseInt(dateSplitted[1]) == currentdate.getMonth() + 1 &&
         parseInt(dateSplitted[0]) == currentdate.getDate()
       ) {
-        var hourSplitted = this.hour.split(":");
+        var hourSplitted = this.hourEdit.split(":");
         if (parseInt(hourSplitted[0]) < currentdate.getHours()) {
           return "";
         } else if (
@@ -452,23 +454,23 @@ export default {
       if (!this.valueEdit) {
         return null;
       }
-      if (this.value == this.valueEdit)
+      if (this.minValueUpdate == this.valueEdit)
         return "New value is the same as the old one";
       let valueLen = this.valueEdit.length;
       if (valueLen < 1 || valueLen > 25) {
         return "The value is mandatory and must have between 1 and 25 digits";
       }
-      if (this.minVal == null || this.maxVal == null) {
+      if (this.minValueUpdate == null || this.maxValueUpdate == null) {
         return "The Biomedic Data Type must be choosen first";
       }
 
-      if (this.valueEdit < this.minVal || this.valueEdit > this.maxVal) {
+      if (this.valueEdit < this.minValueUpdate || this.valueEdit > this.maxValueUpdate) {
         return (
           "The value is invalid, the value must be between " +
           "[" +
-          this.minVal +
+          this.minValueUpdate +
           " , " +
-          this.maxVal +
+          this.maxValueUpdate +
           " ]"
         );
       }
@@ -570,14 +572,13 @@ export default {
     },
     sendInfo(row) {
       this.biomedicUpdate = row;
-      this.hour = row.hour;
-      this.date = row.date;
-      this.value = row.value.split(" ")[0];
-      console.log(this.value);
+      this.hourUpdate = row.hour;
+      this.dateUpdate = row.date;
+      this.valueUpdate = row.value.split(" ")[0];
       this.biomedicDataTypes.some((biomedicDT) => {
         if (row.biomedicDataType === biomedicDT.name) {
-          this.minVal = biomedicDT.minValue;
-          this.maxVal = biomedicDT.maxValue;
+          this.minValueUpdate = biomedicDT.minValue;
+          this.maxValueUpdate = biomedicDT.maxValue;
         }
       });
     },
@@ -614,6 +615,11 @@ export default {
           this.hourEdit = null;
           this.valueEdit = null;
           this.dateEdit = null;
+          this.minValueUpdate = null;
+          this.maxValueUpdate = null;
+          this.dateUpdate = null;
+          this.hourUpdate = null;
+          this.valueUpdate = null;
           this.getBiomedicMeasures();
         })
         .catch((error) => {
@@ -622,6 +628,11 @@ export default {
               "Error when updating Biomedic Measure: " + error.response.data
             )
             .goAway(3000);
+          this.minValueUpdate = null;
+          this.maxValueUpdate = null;
+          this.dateUpdate = null;
+          this.hourUpdate = null;
+          this.valueUpdate = null;
         });
     },
     search(filteredItems) {

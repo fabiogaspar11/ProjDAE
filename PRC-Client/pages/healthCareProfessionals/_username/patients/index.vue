@@ -142,15 +142,14 @@
             <template v-slot:cell(operations)="row">
               <b-button
                 v-if="isExist(row.item)"
-                @click.prevent="unroll(row.item.username)"
+                @click.prevent="dissociate(row.item.healthNumber)"
                 variant="dark"
               >
                 <font-awesome-icon icon="times" /> Remove
               </b-button>
-
               <b-button
                 v-else
-                @click.prevent="enroll(row.item.username)"
+                @click.prevent="associate(row.item.healthNumber)"
                 variant="success"
               >
                 <font-awesome-icon icon="check" /> Associate
@@ -451,7 +450,7 @@ export default {
           this.$toast
             .success("Patient " + this.name + " created succesfully")
             .goAway(3000);
-          this.enroll("P" + this.healthNumber)
+          this.associate("P" + this.healthNumber)
           this.password = null;
           this.name = null;
           this.birthDate = null;
@@ -475,9 +474,10 @@ export default {
       }
       return false;
     },
-    enroll(usernamePatient) {
+    associate(usernamePatient) {
+      usernamePatient = 'P'+usernamePatient;
       this.$axios
-        .$post(
+        .$put(
           `/api/healthcareProfessionals/${this.$auth.user.sub}/AddPatient/${usernamePatient}`,
           {
             username: this.$auth.user.sub,
@@ -488,9 +488,10 @@ export default {
           this.getAllPatients();
         });
     },
-    unroll(usernamePatient) {
+    dissociate(usernamePatient) {
+      usernamePatient = 'P' + usernamePatient;
       this.$axios
-        .delete(
+        .put(
           `/api/healthcareProfessionals/${this.$auth.user.sub}/RemovePatient/${usernamePatient}`
         )
         .then(() => {
@@ -512,8 +513,6 @@ export default {
           /* Convert array of arrays */
           const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
-          console.log(data)
-
           for (let i = 1; i < data.length; i++){
             let name = data[i][0]
             console.log("DATA ANTES: " + data[i][1])
@@ -524,14 +523,7 @@ export default {
             let healthNumber = data[i][2]
             let contact = data[i][3]
             let email = data[i][4]
-
-            console.log("Name: " + name)
-            console.log("DATA NOVA: " + birthDate)
-            console.log("HealthNumber: "+healthNumber)
-            console.log("Contact: " + contact)
-            console.log("Email: " + email)
-            console.log("---------------------------------------------------------------------------------")
-            this.$axios.$post("/api/patients", {
+             this.$axios.$post("/api/patients", {
                 email: email,
                 birthDate: birthDate,
                 name: name,
@@ -540,7 +532,7 @@ export default {
               })
               .then((response) => {
                 this.$toast.success("Patient " + name + " created succesfully").goAway(3000);
-                this.enroll("P"+healthNumber)
+                this.associate("P"+healthNumber)
               })
               .catch((error) => {
                 this.$toast

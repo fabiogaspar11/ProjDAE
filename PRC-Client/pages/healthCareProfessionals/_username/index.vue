@@ -18,7 +18,7 @@
         </b-col>
         <b-col sm="2">
           <div class="d-flex justify-content-center">
-            <b-button v-b-modal.modal-2 variant="primary">Change password</b-button>
+            <b-button v-if="!this.isAdmin" v-b-modal.modal-2 variant="primary">Change password</b-button>
           </div>
         </b-col>
       </b-row>
@@ -85,21 +85,8 @@ export default {
         "type",
         "email",
         "contact",
-        "password",
-      ],
-      fieldsPrescription: [
-        "code",
-        "title",
-      ],
-      fieldsPatient: [
-        "healthNumber",
-        "name",
       ],
       healthCareProfessional: [],
-      prescriptions: [],
-      patients: [],
-      patientsAll:[],
-      usernamePatient: null,
       state: true,
       healthNumber : null,
       name : null,
@@ -120,9 +107,15 @@ export default {
   },
   created() {
     this.getHealthCareProfessionalData()
-    this.getHealthCareProfessionalPrescriptions()
+
   },
   computed: {
+    isAdmin(){
+      if(this.$auth.user.groups.includes("Administrator")){
+        return true;
+      }
+      return false;
+    },
     username() {
       return this.$route.params.username;
     },
@@ -287,19 +280,14 @@ export default {
   },
   methods: {
     getHealthCareProfessionalData(){
-      this.$axios.$get(`/api/healthcareProfessionals/${this.$auth.user.sub}`).then((entidade) => {
+      this.$axios.$get(`/api/healthcareProfessionals/${this.username}`).then((entidade) => {
         this.healthCareProfessional = [entidade];
-      });
-    },
-    getHealthCareProfessionalPrescriptions(){
-      this.$axios.$get(`/api/healthcareProfessionals/${this.username}/prescriptions`).then((entidade) => {
-        this.prescriptions = entidade;
       });
     },
     update(bvModalEvt) {
       if (this.isFormValid){
         this.$axios
-          .$put(`/api/healthcareProfessionals/${this.$auth.user.sub}`, {
+          .$put(`/api/healthcareProfessionals/${this.username}`, {
             name: this.name,
             type: this.type,
             email: this.email,
@@ -312,7 +300,7 @@ export default {
             this.email = null;
             this.contact = null;
             this.birthDate = null;
-            this.$toast.info("HealthCare Professional " + this.$auth.user.sub + " updated succesfully").goAway(3000);
+            this.$toast.info("HealthCare Professional " + this.username + " updated succesfully").goAway(3000);
 
             this.getHealthCareProfessionalData()
           });
@@ -345,14 +333,6 @@ export default {
       else{
         this.showDismissibleAlertPassword = true;
       }
-    },
-    isExistPrescriptions: function (prescription){
-      for (let studentInSubject of this.prescriptions){
-        if (studentInSubject.code === prescription.code){
-          return false
-        }
-      }
-      return true
     },
   },
 };

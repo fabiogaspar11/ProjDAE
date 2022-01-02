@@ -59,10 +59,8 @@ public class AdministratorService {
 
     @GET // means: to call this endpoint, we need to use the HTTP GET method
     @Path("/") // means: the relative url path is “/api/students/”
+    @RolesAllowed({"Administrator"})
     public Response getAllAdministratorsWS() {
-        if(!securityContext.isUserInRole("Administrator")) {
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
         return Response.status(Response.Status.OK)
                 .entity(toDTOs(administratorBean.getAllAdministrators()))
                 .build();
@@ -94,9 +92,10 @@ public class AdministratorService {
 
     @PUT
     @Path("/{username}")
+    @RolesAllowed({"Administrator"})
     public Response updateAdministrator(@PathParam("username") String username, AdministratorDTO administratorDTO) throws MyEntityNotFoundException {
         Principal principal = securityContext.getUserPrincipal();
-        if(!(securityContext.isUserInRole("Administrator")  && principal.getName().equals(username))) {
+        if(!principal.getName().equals(username)) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         Administrator administrator  = administratorBean.findAdministrator(username);
@@ -107,10 +106,9 @@ public class AdministratorService {
     }
     @PUT
     @Path("/{username}/password")
+    @RolesAllowed({"Administrator"})
     public Response updatePasswordHealthcareProfessional(@PathParam("username") String username, AdministratorDTO administratorDTO) throws MyEntityNotFoundException, MyIllegalArgumentException {
-        if(!securityContext.isUserInRole("Administrator")){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
+
         Principal principal = securityContext.getUserPrincipal();
         if(!principal.getName().equals(username)){
             return Response.status(Response.Status.FORBIDDEN).build();
@@ -122,11 +120,13 @@ public class AdministratorService {
                 .entity(toDTO(administrator))
                 .build();
     }
+
     @DELETE
     @Path("/{username}")
+    @RolesAllowed({"Administrator"})
     public Response deleteAdministrator(@PathParam("username") String username) throws MyEntityNotFoundException {
         Principal principal = securityContext.getUserPrincipal();
-        if(!(securityContext.isUserInRole("Administrator")) && principal.getName().equals(username)) { //Proprio user nao se consegur eliminar
+        if(principal.getName().equals(username)) { //Administrator cannot delete itself
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         Administrator administrator = administratorBean.findAdministrator(username);

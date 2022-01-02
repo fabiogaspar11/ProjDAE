@@ -92,7 +92,7 @@
          <b-pagination
         class="fixed-bottom justify-content-center"
         v-model="currentPagePaginate"
-        :total-rows="rows"
+        :total-rows="tableLength"
         :per-page="perPage"
         aria-controls="tablePatientPrescriptions"
       ></b-pagination>
@@ -141,9 +141,6 @@ export default {
     url: String,
   },
   computed: {
-    username() {
-      return this.$auth.user.sub;
-    },
     isPatient() {
       return this.$auth.user.groups.includes("Patient");
     },
@@ -151,7 +148,7 @@ export default {
       return this.patientPrescriptions.length;
     },
     username() {
-      return this.$route.params.usernemaPatient;
+      return this.$route.params.usernamePatient;
     },
     isNameValidFeedback() {
       if (!this.name) {
@@ -253,9 +250,6 @@ export default {
       }
       return true;
     },
-    rows() {
-      return this.patientPrescriptions.length;
-    },
   },
   created() {
     console.log(this.$auth.user.sub)
@@ -268,7 +262,7 @@ export default {
       });
       this.$axios
         .$get(
-          `/api/healthcareProfessionals/${this.$auth.user.sub}/patients/${this.username}/prescriptions`
+          `/api/patients/${this.username}/prescriptions`
         )
         .then((response) => {
           console.log([response]);
