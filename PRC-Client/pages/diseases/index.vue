@@ -15,7 +15,7 @@
       </div>
 
     <hr style="width:73%;">
-    <div v-if="this.tableLength != 0" class="d-flex justify-content-center" style="margin-top: 3%">
+    <div class="d-flex justify-content-center" style="margin-top: 3%">
       <b-modal id="modal-1" title="New disease" @ok="create()">
         <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
@@ -32,7 +32,7 @@
         </div>
       </b-modal>
 
-      <b-table
+      <b-table v-if="this.tableLength != 0"
         class="mt-3"
         :items="this.entidade"
         :fields="fields"
@@ -51,7 +51,9 @@
           </b-button>
         </template>
       </b-table>
-
+      <div v-else class="w-75 mx-auto alert alert-info">
+          No diseases created yet
+    </div>
    <div class="d-flex justify-content-center">
       <b-modal id="modal-2" :title="'Edit Disease nº '+this.currentCode" @ok="update()">
         <div class="input-group mb-4">
@@ -62,13 +64,10 @@
       </b-modal>
     </div>
     </div>
-      <div v-else class="w-75 mx-auto alert alert-info">
-      No diseases created yet
-    </div>
       <b-pagination
         class="fixed-bottom justify-content-center"
         v-model="currentPagePaginatePrincipal"
-        :total-rows="rows"
+        :total-rows="tableLength"
         :per-page="perPage"
         aria-controls="table"
       ></b-pagination>

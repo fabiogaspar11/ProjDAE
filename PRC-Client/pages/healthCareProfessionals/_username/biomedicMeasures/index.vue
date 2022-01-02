@@ -422,12 +422,9 @@ export default {
     remove(code) {
       this.$axios.$delete(`/api/biomedicDataMeasures/${code}`).then(() => {
         this.$toast
-          .info("Biomedic Data Measure " + this.code + " deleted with success!")
+          .info("Biomedic Data Measure " + code + " deleted with success!")
           .goAway(3000);
-
-        this.$axios.$get("/api/biomedicDataMeasures").then((entidade) => {
-          this.entidade = entidade;
-        });
+        this.getBiomedicMeasures();
       });
     },
     search(filteredItems) {

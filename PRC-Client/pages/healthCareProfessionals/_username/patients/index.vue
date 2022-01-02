@@ -64,19 +64,6 @@
         <p>{{ isEmailValidFeedback }}</p>
       </div>
       <div class="input-group mb-4">
-        <span class="input-group-text">Password</span>
-        <b-input
-          required
-          v-model.trim="password"
-          type="password"
-          :state="isPasswordValid"
-          class="form-control"
-          aria-describedby="basic-addon1"
-          placeholder="Enter your password"
-        />
-        <p>{{ isPasswordValidFeedback }}</p>
-      </div>
-      <div class="input-group mb-4">
         <span class="input-group-text">Birthdate</span>
         <b-input
           required
@@ -236,7 +223,6 @@ export default {
       birthDate: null,
       contact: null,
       email: null,
-      password: null,
       healthNumber: null,
       filter: null,
       filterAssociateds: null,
@@ -319,22 +305,7 @@ export default {
       }
       return this.isHealthNumberValidFeedback === "";
     },
-    isPasswordValidFeedback() {
-      if (!this.password) {
-        return null;
-      }
-      let passwordLen = this.password.length;
-      if (passwordLen < 3 || passwordLen > 255) {
-        return "Password is too short, lenght must be between 3 and 255";
-      }
-      return "";
-    },
-    isPasswordValid() {
-      if (this.isPasswordValidFeedback === null) {
-        return null;
-      }
-      return this.isPasswordValidFeedback === "";
-    },
+
     isEmailValidFeedback() {
       if (!this.email) {
         return null;
@@ -390,9 +361,6 @@ export default {
       if (!this.isEmailValid) {
         return false;
       }
-      if (!this.isPasswordValid) {
-        return false;
-      }
       if (!this.isbirthDateValid) {
         return false;
       }
@@ -439,7 +407,6 @@ export default {
       }
       this.$axios
         .$post("/api/patients", {
-          password: this.password,
           email: this.email,
           birthDate: this.birthDate,
           name: this.name,
@@ -450,8 +417,7 @@ export default {
           this.$toast
             .success("Patient " + this.name + " created succesfully")
             .goAway(3000);
-          this.associate("P" + this.healthNumber)
-          this.password = null;
+          this.associate(this.healthNumber)
           this.name = null;
           this.birthDate = null;
           this.contact = null;
@@ -478,11 +444,7 @@ export default {
       usernamePatient = 'P'+usernamePatient;
       this.$axios
         .$put(
-          `/api/healthcareProfessionals/${this.$auth.user.sub}/AddPatient/${usernamePatient}`,
-          {
-            username: this.$auth.user.sub,
-            usernamePatient: usernamePatient,
-          }
+          `/api/healthcareProfessionals/${this.$auth.user.sub}/AddPatient/${usernamePatient}`
         )
         .then(() => {
           this.getAllPatients();
@@ -532,7 +494,7 @@ export default {
               })
               .then((response) => {
                 this.$toast.success("Patient " + name + " created succesfully").goAway(3000);
-                this.associate("P"+healthNumber)
+                this.associate(healthNumber)
               })
               .catch((error) => {
                 this.$toast

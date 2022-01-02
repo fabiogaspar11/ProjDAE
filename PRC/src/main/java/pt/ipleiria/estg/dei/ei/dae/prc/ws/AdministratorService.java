@@ -95,9 +95,6 @@ public class AdministratorService {
     @RolesAllowed({"Administrator"})
     public Response updateAdministrator(@PathParam("username") String username, AdministratorDTO administratorDTO) throws MyEntityNotFoundException {
         Principal principal = securityContext.getUserPrincipal();
-        if(!principal.getName().equals(username)) {
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
         Administrator administrator  = administratorBean.findAdministrator(username);
         administratorBean.update(administrator,administratorDTO);
         return Response.status(Response.Status.OK)
