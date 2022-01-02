@@ -14,6 +14,8 @@
         </b-button>
       </div>
 
+    <hr style="width:73%;">
+    <div v-if="this.tableLength != 0" class="d-flex justify-content-center" style="margin-top: 3%">
       <b-modal id="modal-1" title="New disease" @ok="create()">
         <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
@@ -43,18 +45,26 @@
         :current-page="currentPagePaginatePrincipal"
       >
         <template v-slot:cell(operations)="row">
-          <b-button :to="`/diseases/${row.item.code}`" variant="info">
-            <font-awesome-icon icon="eye" /> Details
-          </b-button>
-          <b-button
-            v-b-modal.modal-3
-            variant="danger"
-            @click="remove(row.item.code)"
-          >
+          <b-button v-b-modal.modal-2 variant="primary" @click="sendInfo(row.item.code,row.item.name)">Edit</b-button>
+          <b-button variant="danger" @click="remove(row.item.code)">
             <font-awesome-icon icon="trash" /> Remove
           </b-button>
         </template>
       </b-table>
+
+   <div class="d-flex justify-content-center">
+      <b-modal id="modal-2" :title="'Edit Disease nº '+this.currentCode" @ok="update()">
+        <div class="input-group mb-4">
+          <span class="input-group-text">Name</span>
+          <b-input v-model.trim="nameEdit" type="text" :state="isNameEditValid" placeholder="Enter name" class="form-control" required aria-describedby="basic-addon1"/>
+          <p>{{isNameEditValidFeedback}}</p>
+        </div>
+      </b-modal>
+    </div>
+    </div>
+      <div v-else class="w-75 mx-auto alert alert-info">
+      No diseases created yet
+    </div>
       <b-pagination
         class="fixed-bottom justify-content-center"
         v-model="currentPagePaginatePrincipal"
@@ -86,9 +96,12 @@ export default {
       modalShow: false,
       code: null,
       name: null,
+      nameEdit: null,
       filter: null,
       totalRows: null,
       currentPage: null,
+      currentName: null,
+      currentCode:null,
       perPage: 6,
       currentPagePaginatePrincipal: 1,
     };
@@ -97,8 +110,15 @@ export default {
     tableLength: function () {
       return this.entidade.length;
     },
-    rows() {
-      return this.entidade.length;
+    isNameValidFeedback (){
+        if (!this.name) {
+          return null
+        }
+        let nameLen = this.name.length
+        if (nameLen < 3 || nameLen > 25) {
+           return 'The name is too short - length must be between 3 and 25'
+        }
+        return ''
     },
     isNameValidFeedback() {
       if (!this.name) {
@@ -116,19 +136,67 @@ export default {
       }
       return this.isNameValidFeedback === "";
     },
-    isFormValid() {
-      if (!this.isNameValid) {
-        return false;
-      }
-      return true;
+
+    isFormValid () {
+    if (!this.isNameValid) {
+      return false
+    }
+      return true
     },
-  },
-  created() {
-    this.$axios.$get("/api/diseases").then((entidade) => {
-      this.entidade = entidade;
-    });
+    isNameEditValidFeedback(){
+        if (!this.nameEdit) {
+          return null
+        }
+        if(this.nameEdit == this.currentName){
+          return 'The name is equal to current name';
+        }
+        let nameLen = this.nameEdit.length
+        if (nameLen < 3 || nameLen > 25) {
+           return 'The name is too short - length must be between 3 and 25'
+        }
+        return ''
+    },
+    isNameEditValid () {
+        if (this.isNameEditValidFeedback === null) {
+           return null
+        }
+        return this.isNameEditValidFeedback === ''
+    }
   },
   methods: {
+     sendInfo(code,name) {
+       this.nameEdit = null;
+       this.currentCode = code;
+       this.currentName = name;
+     },
+    getDiseases(){
+        this.$axios.$get("/api/diseases").then((entidade) => {
+        this.entidade = entidade;
+      });
+    },
+      update() {
+      if (!this.isNameEditValid) {
+           this.$toast.error("Field is invalid - Correct it first!").goAway(3000);
+          return;
+      }
+
+      this.$axios
+        .$put(`/api/diseases/${this.currentCode}`, {
+          name: this.nameEdit
+        })
+        .then(() => {
+          this.$toast.info("Disease " + this.name + " updated succesfully").goAway(3000);
+          this.nameEdit = null;
+          this.currentName = null;
+          this.currentCode = null;
+          this.getDiseases();
+        })
+        .catch(error => {
+            this.$toast.error("Error when update Disease: "+ error.response.data).goAway(3000);
+            this.currentName = null;
+            this.currentCode = null;
+        });
+    },
     create() {
       if (!this.isFormValid) {
         this.$toast
@@ -137,55 +205,32 @@ export default {
         return;
       }
 
-      this.$axios
-        .$post("/api/diseases", {
-          name: this.name,
-        })
-        .then((response) => {
-          this.$toast
-            .success("Disease " + this.name + " created succesfully")
-            .goAway(3000);
-          this.entidade.push(response);
+      this.$axios.$post("/api/diseases", {
+        name: this.name
+      })
+        .then(() => {
+          this.$toast.success("Disease "+ this.name + " created succesfully").goAway(3000);
+          this.getDiseases();
           this.name = null;
         })
-        .catch((error) => {
-          this.$toast
-            .error("Error when creating Disease: " + error.response.data)
-            .goAway(3000);
+        .catch(error => {
+            this.$toast.error("Error when creating Disease: "+ error.response.data).goAway(3000);
         });
     },
     remove(code) {
-      this.$axios.$delete("/api/diseases/" + code).then(() => {
-        const index = this.entidade.findIndex(
-          (disease) => disease.code === code
-        ); // find the post index
-        console.log(index);
-        if (index >= 0)
-          // if the post exists in array
-          this.entidade.splice(index, 1); //delete the post
-      });
-    },
-    update(code) {
-      this.$axios
-        .$put("/api/diseases/" + code, {
-          name: this.name || "",
-        })
-        .then((response) => {
-          const index = this.entidade.findIndex(
-            (disease) => disease.code === code
-          ); // find the post index
-          if (index) {
-            // if the post exists in array
-            this.entidade.splice(index, 1);
-            this.entidade.splice(index, 0, response);
-          }
-          this.name = null;
+      this.$axios.$delete('/api/diseases/' + code)
+        .then(() => {
+            this.$toast.info("Disease: "+ code + " removed with success").goAway(3000);
+            this.getDiseases();
         });
     },
     search(filteredItems) {
-      this.totalRows = filteredItems.length;
-      this.currentPage = 1;
-    },
+      this.totalRows = filteredItems.length
+      this.currentPage = 1
+    }
+  },
+   created() {
+    this.getDiseases();
   },
 };
 </script>

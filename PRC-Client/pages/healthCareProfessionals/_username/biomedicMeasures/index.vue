@@ -365,8 +365,8 @@ export default {
   methods: {
     getBiomedicMeasures() {
       this.$axios.$get("/api/biomedicDataTypes").then((entidade) => {
-        this.biomedicDataTypes = entidade;
-        this.$axios.$get("/api/biomedicDataMeasures").then((entidade) => {
+        this.biomedicDataTypes = entidade; //TODO missing route!!!
+        this.$axios.$get(`/api/healthcareProfessionals/${this.$auth.user.sub}/biomedicDataMeasures`).then((entidade) => {
           this.entidade = entidade;
           let i = 0;
           entidade.forEach((e) => {
@@ -510,7 +510,6 @@ export default {
     }
   },
   created() {
-    //HERE qd for o healthcare prof meter apenas os seus pacientes
     this.$axios
       .$get(`api/healthcareProfessionals/${this.$auth.user.sub}/patients`)
       .then((entidade) => {

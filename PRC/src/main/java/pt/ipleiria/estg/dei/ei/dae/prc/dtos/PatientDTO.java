@@ -35,6 +35,10 @@ public class PatientDTO implements Serializable {
         this.password = password;
         this.passwordOld = passwordOld;
     }
+    public PatientDTO(String name, long healthNumber){
+        this.name = name;
+        this.healthNumber = healthNumber;
+    }
 
     //Constructor without password
     public PatientDTO(String name, String email, String birthDate, String contact, long healthNumber) {

@@ -37,10 +37,13 @@ export default {
   },
   computed: {
     username() {
+      if(!this.$auth.user){
+          return "";
+        }
       return this.$auth.user.sub;
     },
       urlDashboard() {
-        if(this.$auth.user.groups.length == 0){
+        if(!this.$auth.user){
           return "";
         }
       if (this.$auth.user.groups.includes("Patient")) {
@@ -52,6 +55,9 @@ export default {
       }
     },
     urlUser() {
+      if(!this.$auth.user){
+          return "";
+        }
         if (this.$auth.user.groups.includes("Patient")) {
           return "patients";
         } else if (this.$auth.user.groups.includes("HealthcareProfessional")) {

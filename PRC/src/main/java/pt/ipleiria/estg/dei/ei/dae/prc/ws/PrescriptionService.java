@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.dae.prc.ws;
 
 
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PrescriptionDTO;
+import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.PatientBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.PrescriptionBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.HealthcareProfessional;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
@@ -33,7 +34,8 @@ public class PrescriptionService {
     private PrescriptionBean prescriptionBean;
     @Context
     private SecurityContext securityContext;
-
+    @EJB
+    private PatientBean patientBean;
     private PrescriptionDTO toDTO(Prescription prescription) {
         return new PrescriptionDTO(
                 prescription.getCode(),
@@ -52,38 +54,19 @@ public class PrescriptionService {
         return prescriptions.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-    @GET
-    @Path("/")
-    @RolesAllowed({"HealthcareProfessional"})
-    public Response getAllPrescriptionsWS() {
-
-        if(!securityContext.isUserInRole("HealthcareProfessional")){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
-
-        Principal principal = securityContext.getUserPrincipal();
-        List<Prescription> prescriptionsH = new ArrayList<>();
-        for (Prescription prescription: prescriptionBean.getAllPrescriptions()) {
-            if (prescription.getHealthcareProfessional().getUsername().equals(principal.getName())){
-                prescriptionsH.add(prescription);
-            }
-        }
-
-        return Response.status(Response.Status.CREATED)
-                .entity(toDTOs(prescriptionsH))
-                .build();
-    }
 
     @POST
     @Path("/")
     @RolesAllowed({"HealthcareProfessional"})
     public Response createNewPrescription(PrescriptionDTO prescriptionDTO) throws MyEntityExistsException, MyEntityNotFoundException, MessagingException {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDateTime emissionDate = LocalDateTime.now();
-
-        if(!securityContext.isUserInRole("HealthcareProfessional")){
+        Principal principal = securityContext.getUserPrincipal();
+        boolean hasHealthcareProfessionalAssociated = healthcareProfIsAssociatedToPatient(principal.getName(), prescriptionDTO.getUsernamePatient());
+        if (!hasHealthcareProfessionalAssociated){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDateTime emissionDate = LocalDateTime.now();
 
         long code = prescriptionBean.create(
                 prescriptionDTO.getTitle(),
@@ -101,10 +84,10 @@ public class PrescriptionService {
     }
 
     @GET
-    @Path("{code}")
+    @Path("/{code}")
+    @RolesAllowed({"HealthcareProfessional","Patient"})
     public Response getPrescriptionDetails(@PathParam("code") long code) throws MyEntityNotFoundException {
         Prescription prescription = prescriptionBean.findPrescription(code);
-
         if (verifyRoles(prescription)) return Response.status(Response.Status.FORBIDDEN).build();
 
         return Response.status(Response.Status.OK)
@@ -117,7 +100,6 @@ public class PrescriptionService {
     @RolesAllowed({"HealthcareProfessional"})
     public Response deletePrescription(@PathParam("code") long code) throws MyEntityNotFoundException {
         Prescription prescription = prescriptionBean.findPrescription(code);
-
         if (verifyRoles(prescription)) return Response.status(Response.Status.FORBIDDEN).build();
 
         prescriptionBean.remove(prescription);
@@ -132,7 +114,6 @@ public class PrescriptionService {
     @RolesAllowed({"HealthcareProfessional"})
     public Response updatePrescription(@PathParam("code") long code, PrescriptionDTO prescriptionDTO) throws MyEntityNotFoundException {
         Prescription prescription = prescriptionBean.findPrescription(code);
-
         if (verifyRoles(prescription)) return Response.status(Response.Status.FORBIDDEN).build();
 
         prescriptionBean.update(prescription, prescriptionDTO);
@@ -143,14 +124,23 @@ public class PrescriptionService {
 
     private boolean verifyRoles(Prescription prescription) {
         Principal principal = securityContext.getUserPrincipal();
-        if(!securityContext.isUserInRole("Patient") && !securityContext.isUserInRole("HealthcareProfessional")){
-            return true;
-        }
 
         if(securityContext.isUserInRole("Patient") && !principal.getName().equals(prescription.getPatient().getUsername())){
             return true;
         }
         return securityContext.isUserInRole("HealthcareProfessional") && !principal.getName().equals(prescription.getHealthcareProfessional().getUsername());
+    }
+
+    private boolean healthcareProfIsAssociatedToPatient(String usernameHealthcareProf, String usernamePatient) throws MyEntityNotFoundException {
+        boolean hasHealthcareProfessionalAssociated = false;
+        Patient patient  = patientBean.findPatient(usernamePatient);
+        for (HealthcareProfessional healthcareProfessional: patient.getHealthcareProfessionals()) {
+            if (healthcareProfessional.getUsername().equals(usernameHealthcareProf)){
+                hasHealthcareProfessionalAssociated = true;
+                break;
+            }
+        }
+        return hasHealthcareProfessionalAssociated;
     }
 
 }

@@ -55,59 +55,36 @@
         </div>
         <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
-          <b-input
-            required
-            v-model.trim="name"
-            type="text"
-            :state="isNameValid"
-            class="form-control"
-            aria-describedby="basic-addon1"
-          />
-          <p>{{ isNameValidFeedback }}</p>
-        </div>
-        <div class="input-group mb-4">
-          <span class="input-group-text">Email</span>
-          <b-input
-            required
-            v-model.trim="email"
-            type="email"
-            ref="email"
-            :state="isEmailValid"
-            class="form-control"
-            aria-describedby="basic-addon1"
-          />
-          <p>{{ isEmailValidFeedback }}</p>
-        </div>
-        <div class="input-group mb-4">
-          <span class="input-group-text">Contact</span>
-          <b-input
-            required
-            v-model.trim="contact"
-            type="number"
-            :state="isContactValid"
-            class="form-control"
-            aria-describedby="basic-addon1"
-          />
-          <p>{{ isContactValidFeedback }}</p>
-        </div>
-        <div class="input-group mb-4">
-          <span class="input-group-text">Password</span>
-          <b-input
-            required
-            v-model.trim="password"
-            type="password"
-            :state="isPasswordValid"
-            class="form-control"
-            aria-describedby="basic-addon1"
-          />
-          <p>{{ isPasswordValidFeedback }}</p>
-        </div>
-        <b-alert v-model="showDismissibleAlert" variant="danger" dismissible>
-          {{ alertData }}
-        </b-alert>
-      </b-modal>
-
+        <b-input required v-model.trim="name" type="text" :state="isNameValid" class="form-control" aria-describedby="basic-addon1"/>
+        <p>{{isNameValidFeedback}}</p>
+      </div>
+      <div class="input-group mb-4">
+        <span class="input-group-text">Email</span>
+        <b-input required v-model.trim="email" type="email"  ref="email" :state="isEmailValid" class="form-control" aria-describedby="basic-addon1"/>
+        <p>{{isEmailValidFeedback}}</p>
+      </div>
+      <div class="input-group mb-4">
+        <span class="input-group-text">Contact</span>
+        <b-input required v-model.trim="contact" type="number" :state="isContactValid" class="form-control" aria-describedby="basic-addon1"/>
+        <p>{{isContactValidFeedback}}</p>
+      </div>
+      <div class="input-group mb-4">
+        <span class="input-group-text">Password</span>
+        <b-input required v-model.trim="password" type="password" :state="isPasswordValid" class="form-control" aria-describedby="basic-addon1"/>
+        <p>{{isPasswordValidFeedback}}</p>
+      </div>
+      <b-alert v-model="showDismissibleAlert" variant="danger" dismissible>
+        {{alertData}}
+      </b-alert>
+    </b-modal>
+    <div v-if="this.tableLength == 0">
+      <div class="w-75 mx-auto alert alert-info">
+        No Healthcare Professionals registered yet
+      </div>
+      <hr style="width:73%;">
+     </div>
       <b-table
+        v-else
         :items="this.entidade"
         :fields="fields"
         striped

@@ -25,8 +25,7 @@ public class DiseaseService {
     private DiseaseDTO toDTO(Disease disease){
         return new DiseaseDTO(
                 disease.getCode(),
-                disease.getName(),
-                patientsToDTOs(disease.getPatients())
+                disease.getName()
         );
     }
 
@@ -79,16 +78,6 @@ public class DiseaseService {
     }
 
     @GET
-    @Path("{code}/patients")
-    @RolesAllowed({"HealthcareProfessional"})
-    public Response getDiseasePatients(@PathParam("code") int code) throws MyEntityNotFoundException {
-        Disease disease = diseaseBean.findDisease(code);
-        return Response.status(Response.Status.OK)
-                .entity(patientsToDTOs(disease.getPatients()))
-                .build();
-    }
-
-    @GET
     @Path("/{code}")
     @RolesAllowed({"Administrator","HealthcareProfessional"})
     public Response getDiseaseDetails(@PathParam("code") int code) throws MyEntityNotFoundException {
@@ -99,7 +88,6 @@ public class DiseaseService {
     }
 
 
-    //TODO
     @PUT
     @Path("/{code}")
     @RolesAllowed({"Administrator"})
@@ -121,25 +109,5 @@ public class DiseaseService {
                 .entity(toDTO(disease))
                 .build();
     }
-
-    //TODO - check if needed
-    @PUT
-    @Path("/{code}/{patient}")
-    @RolesAllowed({"HealthcareProfessional"})
-    public Response enrollInPatients(@PathParam("code") int code, @PathParam("patient") String username) throws MyEntityNotFoundException {
-        diseaseBean.addDiseaseToPatient(code, username);
-        return Response.status(Response.Status.CREATED)
-                .build();
-    }
-
-    @DELETE
-    @Path("/{code}/{patient}")
-    @RolesAllowed({"HealthcareProfessional"})
-    public Response unrollInPatients(@PathParam("code") int code, @PathParam("patient") String username) throws MyEntityNotFoundException {
-        diseaseBean.removeDiseaseFromPatient(code, username);
-        return Response.status(Response.Status.CREATED)
-                .build();
-    }
-
 
 }
