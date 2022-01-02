@@ -27,7 +27,7 @@
       <b-form-input v-model="filter" type="search" placeholder="Search..."></b-form-input>
       <b-table
         class="mt-5"
-        id="tablePrincipal"
+        id="table"
         :per-page="perPage"
         :current-page="currentPagePaginatePrincipal"
         :items="this.entidade"
@@ -61,7 +61,7 @@
         v-model="currentPagePaginatePrincipal"
         :total-rows="rows"
         :per-page="perPage"
-        aria-controls="tablePrincipal"
+        aria-controls="table"
       ></b-pagination>
     </div>
         </b-container>

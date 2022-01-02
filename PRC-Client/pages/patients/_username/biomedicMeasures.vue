@@ -570,8 +570,8 @@ export default {
           date: this.date,
           hour: this.hour,
           biomedicDataTypeCode: this.biomedicDataType,
-          value: this.value,
-          usernamePatient: this.username.slice(1),
+          value: this.value,  
+          usernamePatient: this.username,
         })
         .then((response) => {
           this.$toast

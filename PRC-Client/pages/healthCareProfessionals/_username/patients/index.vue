@@ -28,10 +28,10 @@
           </b-dropdown>
         </download-excel>
 
-        <b-form-file
+ <b-form-file
           placeholder="Import data (.xls,.xlsx,.csv)"
           @change="onChange"
-          class="w-25 text-lg-left"
+          plain
         ></b-form-file>
       </div>
     </b-container>
@@ -246,7 +246,7 @@ export default {
       patients: [],
       usernamePatient: null,
       fieldsPatient: ["healthNumber", "name", "operations"],
-      perPage: 5,
+      perPage: 6,
       currentPagePaginatePrincipal: 1,
       currentPagePaginateSecondary: 1,
       json_fields: {
@@ -525,12 +525,12 @@ export default {
             let contact = data[i][3]
             let email = data[i][4]
 
-            console.log("Name: " + name)
-            console.log("DATA NOVA: " + birthDate)
-            console.log("HealthNumber: "+healthNumber)
-            console.log("Contact: " + contact)
-            console.log("Email: " + email)
-            console.log("---------------------------------------------------------------------------------")
+            // console.log("Name: " + name)
+            // console.log("DATA NOVA: " + birthDate)
+            // console.log("HealthNumber: "+healthNumber)
+            // console.log("Contact: " + contact)
+            // console.log("Email: " + email)
+            // console.log("---------------------------------------------------------------------------------")
             this.$axios.$post("/api/patients", {
                 email: email,
                 birthDate: birthDate,

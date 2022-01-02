@@ -197,7 +197,7 @@ export default {
       totalRows: null,
       minVal: null,
       maxVal: null,
-      perPage: 5,
+      perPage: 6,
       currentPagePaginatePrincipal: 1,
       json_fields: {
         Code: "code",

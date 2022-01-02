@@ -75,7 +75,7 @@
     <h3 class="mt-3">Prescribed Recipes ({{ tableLength }})</h3>
      <b-table
           class="mt-1"
-          id="tablePatientPrescriptions"
+          id="table"
           :per-page="perPage"
           :current-page="currentPagePaginate"
           :items="this.patientPrescriptions"
@@ -94,7 +94,7 @@
         v-model="currentPagePaginate"
         :total-rows="rows"
         :per-page="perPage"
-        aria-controls="tablePatientPrescriptions"
+        aria-controls="table"
       ></b-pagination>
  </b-container>
     </div>
@@ -134,7 +134,7 @@ export default {
       contact: null,
       patientPrescriptions: [],
       currentPagePaginate: 1,
-      perPage: 5,
+      perPage: 6,
     };
   },
   props: {

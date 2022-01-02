@@ -254,7 +254,7 @@ export default {
       filter: null,
       totalRows: null,
       emissionDate: null,
-      perPage: 3,
+      perPage: 6,
       currentPagePaginatePrincipal: 1,
       currentPagePaginateSecondary: 1,
       json_fields: {

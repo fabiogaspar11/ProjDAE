@@ -30,7 +30,7 @@
 
       <b-table
         class="mt-5"
-        id="tablePrincipal"
+        id="table"
         :per-page="perPage"
         :current-page="currentPagePaginatePrincipal"
         :items="this.entidade"
@@ -46,7 +46,7 @@
         v-model="currentPagePaginatePrincipal"
         :total-rows="rows"
         :per-page="perPage"
-        aria-controls="tablePrincipal"
+        aria-controls="table"
       ></b-pagination>
     </div>
     </b-container>
@@ -73,7 +73,7 @@ export default {
       noHealthcareProf:false,
       filter: null,
       totalRows: null,
-      perPage: 8,
+      perPage: 6,
       currentPagePaginatePrincipal: 1,
       json_fields: {
         Name: "name",
