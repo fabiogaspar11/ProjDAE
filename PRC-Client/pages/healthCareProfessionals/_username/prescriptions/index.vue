@@ -9,6 +9,26 @@
         <b-button v-b-modal.modal-1 variant="info">
           <font-awesome-icon icon="plus" /> New Prescription
         </b-button>
+
+        <download-excel
+          class="btn btn-default"
+          :data="entidade"
+          :fields="json_fields"
+          worksheet="Patients"
+          :name="'prescriptions.'+typeExcel"
+          :type="typeExcel"
+        >
+          <b-dropdown id="dropdown-1" text="Download Data" class="m-md-2" variant="success">
+            <b-dropdown-item @click.prevent="typeExcel = 'xls'">.xls</b-dropdown-item>
+            <b-dropdown-item @click.prevent="typeExcel = 'csv'">.csv</b-dropdown-item>
+          </b-dropdown>
+        </download-excel>
+
+        <b-form-file
+          placeholder="Import data (.xls,.xlsx,.csv)"
+          @change="onChange"
+          class="w-25 text-lg-left"
+        ></b-form-file>
       </div>
 
       <b-modal
@@ -176,10 +196,12 @@
 
 <script>
 import NavBar from "/components/NavBar.vue";
+import XLSX from "xlsx";
 
 export default {
   components: {
     NavBar,
+    XLSX
   },
   data() {
     return {
@@ -235,6 +257,18 @@ export default {
       perPage: 3,
       currentPagePaginatePrincipal: 1,
       currentPagePaginateSecondary: 1,
+      json_fields: {
+        Code: "code",
+        "Emission Date": "emissionDate",
+        "Expire Date": "expireDate",
+        Pharmacological: "isPharmacological",
+        Title: "title",
+        "Treatment Information": "treatmentInfo",
+        Observations: "observations",
+        PatientUsername: "usernamePatient",
+        HealthcareProfessional: "usernameHealthcareProfessional",
+      },
+      typeExcel:"",
     };
   },
   created() {
@@ -397,6 +431,14 @@ export default {
           .goAway(3000);
         return;
       }
+      console.log(this.expireDate);
+      console.log(this.isPharmacological);
+      console.log(this.observations);
+      console.log(this.title);
+      console.log(this.treatmentInfo);
+      console.log(this.usernamePatient);
+      console.log(this.usernameHealthcareProfessional);
+
       this.$axios
         .$post("/api/prescriptions", {
           expireDate: this.expireDate,
@@ -428,6 +470,70 @@ export default {
       if (items.length !== 0){
         this.usernamePatient = items[0].healthNumber
       }
+    },
+    onChange(event) {
+      this.file = event.target.files ? event.target.files[0] : null;
+      if (this.file && (this.file.name.endsWith('.xls') || this.file.name.endsWith('.xlsx') || this.file.name.endsWith('.csv'))) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+          /* Parse data */
+          const bstr = e.target.result;
+          const wb = XLSX.read(bstr, { type: 'binary' });
+          /* Get first worksheet */
+          const wsname = wb.SheetNames[0];
+          const ws = wb.Sheets[wsname];
+          /* Convert array of arrays */
+          const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+
+          for (let i = 1; i < data.length; i++){
+            let expireDate = data[i][2].toString()
+            if (!expireDate.includes("/")){
+              expireDate = this.convertToDate(data[i][2])
+            }
+            let isPharmacological = data[i][3]
+            let title = data[i][4]
+            let treatmentInfo = data[i][5]
+            let observations = data[i][6]
+            let usernamePatient = data[i][7].slice(1)
+            let usernameHealthcareProfessional = data[i][8].slice(1);
+            console.log(usernameHealthcareProfessional)
+
+            this.$axios.$post("/api/prescriptions", {
+              expireDate: expireDate,
+              isPharmacological: isPharmacological,
+              title: title,
+              treatmentInfo: treatmentInfo,
+              observations: observations,
+              usernamePatient: usernamePatient,
+              usernameHealthcareProfessional: usernameHealthcareProfessional,
+            })
+              .then((response) => {
+                this.$toast.success("Prescription created succesfully").goAway(3000);
+                this.getData();
+              })
+              .catch((error) => {
+                this.$toast
+                  .error("Error when creating Prescription: " + error.response.data)
+                  .goAway(3000);
+              });
+
+          }
+        }
+        reader.readAsBinaryString(this.file);
+      }
+      else{
+        this.$toast
+          .error("File type invalid: ")
+          .goAway(3000);
+      }
+    },
+    convertToDate(serial) {
+      const utc_days  = Math.floor(serial - 25569);
+      const utc_value = utc_days * 86400;
+      const date_info = new Date(utc_value * 1000);
+
+      return new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate()+1).toLocaleDateString('en-US');
     },
   },
 };

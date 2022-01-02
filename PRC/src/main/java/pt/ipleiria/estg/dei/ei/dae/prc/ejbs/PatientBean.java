@@ -30,10 +30,8 @@ public class PatientBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-
     @EJB
     EmailBean emailBean;
-    public boolean portConnected;
 
     public String create(String name, String email, String birthDate, String contact, long healthNumber) throws MyEntityExistsException, MessagingException {
         String username = "P"+healthNumber;

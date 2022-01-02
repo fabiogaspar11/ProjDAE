@@ -70,12 +70,12 @@ public class ConfigBean {
             for (int j = 1; j < 8; j++) {
                 String codePatient = String.valueOf(j);
                 healthcareProfessionalBean.addPatientToHealthcareprofessional("P90000001" + codePatient,"H90000000" + code);
-                prescriptionBean.create("Pressão arterial - Controlo","","Yes","O paciente deve continuar com as caminhadas 6 dias por semana. Realizar testes arteriais com a ajuda de um farmaceutico","01/11/2020","28/12/2022","90000001" + codePatient ,"H90000000" + code);
-                prescriptionBean.create("Insuficiência cardíaca","Edema","Yes","Fazer exercicios que estimulem o coração","21/12/2021","21/12/2022","90000001" + codePatient,"H90000000" + code);
-                prescriptionBean.create("insuficiência cardíaca sistólica","","Yes","Lisinopril 20 a 30 mg uma vez ao dia e ramipril 5 mg duas vezes","17/08/2021","17/08/2022","90000001" + codePatient,"H90000000" + code);
-                prescriptionBean.create("Insuficiência cardíaca com fração de ejeção preservada","","Yes","Enalapril 10 a 20 mg","15/09/2021","12/06/2022","90000001" + codePatient,"H90000000" + code);
-                prescriptionBean.create("Acumulação de gordura abdominal","","Yes","Caminhadas 6 dias por semana. O paciente deve ainda tomar vitaminas B12 durante 10 dias","03/10/2021","10/12/2022","90000001" + codePatient,"H90000000" + code);
-                prescriptionBean.create("Pressão arterial - Controlo","","Yes","O paciente deve continuar com as caminhadas 6 dias por semana. O paciente deve ainda tomar vitaminas B12 e C até a proxima consulta","28/12/2021","28/12/2022","90000001" + codePatient,"H90000000" + code);
+                prescriptionBean.create("Pressão arterial - Controlo","","Yes","O paciente deve continuar com as caminhadas 6 dias por semana. Realizar testes arteriais com a ajuda de um farmaceutico","01/11/2020","28/12/2022","90000001" + codePatient ,"90000000" + code);
+                prescriptionBean.create("Insuficiência cardíaca","Edema","Yes","Fazer exercicios que estimulem o coração","21/12/2021","21/12/2022","90000001" + codePatient,"90000000" + code);
+                prescriptionBean.create("insuficiência cardíaca sistólica","","Yes","Lisinopril 20 a 30 mg uma vez ao dia e ramipril 5 mg duas vezes","17/08/2021","17/08/2022","90000001" + codePatient,"90000000" + code);
+                prescriptionBean.create("Insuficiência cardíaca com fração de ejeção preservada","","Yes","Enalapril 10 a 20 mg","15/09/2021","12/06/2022","90000001" + codePatient,"90000000" + code);
+                prescriptionBean.create("Acumulação de gordura abdominal","","Yes","Caminhadas 6 dias por semana. O paciente deve ainda tomar vitaminas B12 durante 10 dias","03/10/2021","10/12/2022","90000001" + codePatient,"90000000" + code);
+                prescriptionBean.create("Pressão arterial - Controlo","","Yes","O paciente deve continuar com as caminhadas 6 dias por semana. O paciente deve ainda tomar vitaminas B12 e C até a proxima consulta","28/12/2021","28/12/2022","90000001" + codePatient,"90000000" + code);
             }
         }
 

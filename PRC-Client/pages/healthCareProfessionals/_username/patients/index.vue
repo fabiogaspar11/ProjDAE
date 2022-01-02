@@ -22,16 +22,16 @@
           :name="'patients.'+typeExcel"
           :type="typeExcel"
         >
-          <b-dropdown id="dropdown-1" text="Download" class="m-md-2" variant="success">
+          <b-dropdown id="dropdown-1" text="Download Data" class="m-md-2" variant="success">
             <b-dropdown-item @click.prevent="typeExcel = 'xls'">.xls</b-dropdown-item>
             <b-dropdown-item @click.prevent="typeExcel = 'csv'">.csv</b-dropdown-item>
           </b-dropdown>
         </download-excel>
 
         <b-form-file
-          placeholder="Choose a file or drop it here..."
-          drop-placeholder="Drop file here..."
+          placeholder="Import data (.xls,.xlsx,.csv)"
           @change="onChange"
+          class="w-25 text-lg-left"
         ></b-form-file>
       </div>
     </b-container>
@@ -551,7 +551,6 @@ export default {
             }
           }
         reader.readAsBinaryString(this.file);
-        this.getAllPatients();
       }
       else{
         this.$toast
