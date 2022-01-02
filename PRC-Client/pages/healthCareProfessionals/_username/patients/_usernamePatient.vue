@@ -3,8 +3,7 @@
     <NavBar v-if="!isPatient"></NavBar>
     <NavBar v-else></NavBar>
     <b-container class="mt-3">
-       <h3>Patients</h3>
-
+      <h3>Patient</h3>
       <template>
         <div>
           <b-table striped hover :items="entidade" :fields="fields"></b-table>
@@ -14,59 +13,62 @@
         <b-button v-b-modal.modal-1 class="justify-content-center"
           >Edit</b-button
         >
-        <b-button v-b-modal.modal-2 class="justify-content-center"
-         variant="primary" >Diseases</b-button
+        <b-button
+          v-b-modal.modal-2
+          class="justify-content-center"
+          variant="primary"
+          >Diseases</b-button
         >
       </div>
-       <b-modal ok-only ok-title="Close" id="modal-2" title="Diseases">
-      <b-container>
-        <div class="overflow-auto">
-          <b-form-input
-            class="mb-3"
-            v-model="filterDiseases"
-            type="search"
-            placeholder="Search..."
-          >
-          </b-form-input>
+     <b-modal ok-only ok-title="Close" id="modal-2" title="Diseases">
+        <b-container>
+          <div class="overflow-auto">
+            <b-form-input
+              class="mb-3"
+              v-model="filterDiseases"
+              type="search"
+              placeholder="Search..."
+            >
+            </b-form-input>
 
-          <b-table
-            striped
-            hover
-            :items="this.diseasesAll"
-            :fields="fieldsDiseases"
-            :filter="filterDiseases"
-            @filtered="search"
-            id="tableAssociateds"
-            :current-page="currentPagePaginateSecondary"
-            :per-page="perPage"
-          >
-            <template v-slot:cell(operations)="row">
-              <b-button
-                v-if="isExist(row.item)"
-                @click.prevent="undiagnose(row.item.code)"
-                variant="dark"
-              >
-                <font-awesome-icon icon="times" /> Undiagnose
-              </b-button>
-              <b-button
-                v-else
-                @click.prevent="diagnose(row.item.code)"
-                variant="success"
-              >
-                <font-awesome-icon icon="check" /> Diagnose
-              </b-button>
-            </template>
-          </b-table>
-          <b-pagination
-            class="justify-content-center"
-            v-model="currentPagePaginateSecondary"
-            :total-rows="rows"
-            :per-page="perPage"
-            aria-controls="tableAssociateds"
-          ></b-pagination>
-        </div>
-      </b-container>
-    </b-modal>
+            <b-table
+              striped
+              hover
+              :items="this.diseasesAll"
+              :fields="fieldsDiseases"
+              :filter="filterDiseases"
+              @filtered="search"
+              id="tableDiseasesAll"
+              :current-page="currentPagePaginateDiseasesAll"
+              :per-page="perPage"
+            >
+              <template v-slot:cell(operations)="row">
+                <b-button
+                  v-if="isExist(row.item)"
+                  @click.prevent="undiagnose(row.item.code)"
+                  variant="dark"
+                >
+                  <font-awesome-icon icon="times" /> Undiagnose
+                </b-button>
+                <b-button
+                  v-else
+                  @click.prevent="diagnose(row.item.code)"
+                  variant="success"
+                >
+                  <font-awesome-icon icon="check" /> Diagnose
+                </b-button>
+              </template>
+            </b-table>
+            <b-pagination
+              class="justify-content-center"
+              v-model="currentPagePaginateDiseasesAll"
+              :total-rows="diseasesAll.length"
+              :per-page="perPage"
+              aria-controls="tableDiseasesAll"
+            ></b-pagination>
+          </div>
+        </b-container>
+      </b-modal>
 
       <b-modal id="modal-1" title="Edit" @ok="update()">
         <div class="input-group mb-4">
@@ -81,7 +83,7 @@
             placeholder="Enter name"
           />
         </div>
-          <p>{{ isNameValidFeedback }}</p>
+        <p>{{ isNameValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Birthdate</span>
           <b-input
@@ -93,7 +95,7 @@
             class="form-control"
             aria-describedby="basic-addon1"
           />
-             <b-input-group-append>
+          <b-input-group-append>
             <b-form-datepicker
               id="ex-disabled-readonly"
               button-only
@@ -101,7 +103,7 @@
             ></b-form-datepicker>
           </b-input-group-append>
         </div>
-          <p>{{ isbirthDateValidFeedback }}</p>
+        <p>{{ isbirthDateValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Email</span>
           <b-input
@@ -115,7 +117,7 @@
             placeholder="Enter email"
           />
         </div>
-          <p>{{ isEmailValidFeedback }}</p>
+        <p>{{ isEmailValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Contact</span>
           <b-input
@@ -128,66 +130,70 @@
             placeholder="Enter contact"
           />
         </div>
-          <p>{{ isContactValidFeedback }}</p>
+        <p>{{ isContactValidFeedback }}</p>
       </b-modal>
 
+      <b-container class="mt-1">
+        <h3 class="mt-3">Diseases ({{ this.diseases.length }})</h3>
+        <b-table
+          id="tableDiseases"
+          :per-page="perPageDiseases"
+          :current-page="currentPagePaginateDiseases"
+          :items="this.diseases"
+          :fields="fieldsDiseasesTable"
+          striped
+          responsive="sm"
+          :filter="filterDiseases"
+          @filtered="search"
+        >
+        </b-table>
 
-    <b-container class="mt-1">
-      <h3 class="mt-3">Diseases ({{ this.diseases.length }})</h3>
-      <b-table
-        id="tablePrincipal"
-        :per-page="perPage"
-        :current-page="currentPagePaginatePrincipalDiseases"
-        :items="this.diseases"
-        :fields="fieldsDiseasesTable"
-        striped
-        responsive="sm"
-        :filter="filterDiseases"
-        @filtered="search"
-      >
-      </b-table>
-
-      <b-pagination
-        class="fixed-bottom justify-content-center"
-        v-model="currentPagePaginatePrincipal"
-        :total-rows="rowsPrincipal"
-        :per-page="perPage"
-        aria-controls="tablePrincipal"
-      ></b-pagination>
-    </b-container>
+        <b-pagination
+          class="justify-content-center"
+          v-model="currentPagePaginateDiseases"
+          :total-rows="diseases.length"
+          :per-page="perPageDiseases"
+          aria-controls="tableDiseases"
+        ></b-pagination>
+      </b-container>
 
       <!---------------------------------------------PRESCRIPTIONS ---------------------------------------------->
 
-    <h3 class="mt-3">Prescribed Recipes ({{ tableLength }})</h3>
-     <b-table v-if="this.tableLength != 0"
-          class="mt-1"
-          id="table"
-          :per-page="perPage"
-          :current-page="currentPagePaginate"
-          :items="this.patientPrescriptions"
-          :fields="fieldsPrescriptions"
-          striped
-          responsive="sm"
-        >
-          <template v-slot:cell(operations)="row">
-            <b-button :to="`/healthCareProfessionals/${username}/prescriptions/${row.item.code}`" variant="info">
-              <font-awesome-icon icon="eye" /> Details
-            </b-button>
-          </template>
-        </b-table>
-         <b-pagination
+      <h3 class="mt-5">Prescribed Recipes ({{ tableLength }})</h3>
+      <b-table
         v-if="this.tableLength != 0"
-        class="fixed-bottom justify-content-center"
+        class="mt-1"
+        id="table"
+        :per-page="perPage"
+        :current-page="currentPagePaginate"
+        :items="this.patientPrescriptions"
+        :fields="fieldsPrescriptions"
+        striped
+        responsive="sm"
+      >
+        <template v-slot:cell(operations)="row">
+          <b-button
+            :to="`/healthCareProfessionals/${username}/prescriptions/${row.item.code}`"
+            variant="info"
+          >
+            <font-awesome-icon icon="eye" /> Details
+          </b-button>
+        </template>
+      </b-table>
+      <b-pagination
+        v-if="this.tableLength != 0"
+        class="justify-content-center"
         v-model="currentPagePaginate"
         :total-rows="tableLength"
         :per-page="perPage"
         aria-controls="table"
       ></b-pagination>
-      <div  v-if="this.tableLength == 0" class="w-75 mx-auto alert alert-info">
-          No Prescriptions created yet
+      <br />
+      <div v-if="this.tableLength == 0" class="w-75 mx-auto alert alert-info">
+        No Prescriptions created yet
       </div>
- </b-container>
-    </div>
+    </b-container>
+  </div>
 </template>
 
 
@@ -218,7 +224,7 @@ export default {
       ],
       fieldsDiseases: ["code", "name", "operations"],
       fieldsDiseasesTable: ["code", "name"],
-      diseasesAll:[],
+      diseasesAll: [],
       filterDiseases: null,
       entidade: [],
       state: true,
@@ -229,11 +235,14 @@ export default {
       contact: null,
       patientPrescriptions: [],
       currentPagePaginate: 1,
-      perPage: 6,
-       currentName:null,
+      currentPagePaginateDiseases:1,
+      currentPagePaginateDiseasesAll:1,
+      perPage: 5,
+      perPageDiseases: 3,
+      currentName: null,
       currentBirthDate: null,
       currentEmail: null,
-      currentContact: null
+      currentContact: null,
     };
   },
   props: {
@@ -253,7 +262,7 @@ export default {
       if (!this.name) {
         return null;
       }
-       if(this.name == this.currentName){
+      if (this.name == this.currentName) {
         return "Name is equal to current name";
       }
       let nameLen = this.name.length;
@@ -272,7 +281,7 @@ export default {
       if (!this.contact) {
         return null;
       }
-       if(this.contact == this.currentContact){
+      if (this.contact == this.currentContact) {
         return "Contact is equal to current contact";
       }
       let contactString = this.contact.toString();
@@ -296,7 +305,7 @@ export default {
       if (!this.email) {
         return null;
       }
-        if(this.email == this.currentEmail){
+      if (this.email == this.currentEmail) {
         return "Email is equal to current email";
       }
 
@@ -314,7 +323,7 @@ export default {
       if (!this.birthDate) {
         return null;
       }
-       if(this.birthDate == this.currentBirthDate){
+      if (this.birthDate == this.currentBirthDate) {
         return "Birthdate is equal to current birthdate";
       }
       var date_regex =
@@ -367,25 +376,21 @@ export default {
     this.getPatient();
   },
   methods: {
-     diagnose(diseaseCode) {
+    diagnose(diseaseCode) {
       this.$axios
-        .$put(
-          `/api/patients/${this.username}/addDisease/${diseaseCode}`
-        )
+        .$put(`/api/patients/${this.username}/addDisease/${diseaseCode}`)
         .then(() => {
           this.getPatient();
         });
     },
     undiagnose(diseaseCode) {
       this.$axios
-        .put(
-          `/api/patients/${this.username}/removeDisease/${diseaseCode}`
-        )
+        .put(`/api/patients/${this.username}/removeDisease/${diseaseCode}`)
         .then(() => {
-         this.getPatient();
+          this.getPatient();
         });
     },
-     isExist: function (disease) {
+    isExist: function (disease) {
       for (let item of this.diseases) {
         if (item.code === disease.code) {
           return true;
@@ -393,32 +398,28 @@ export default {
       }
       return false;
     },
-     search(filteredItems) {
+    search(filteredItems) {
       this.totalRows = filteredItems.length;
     },
     getPatient() {
       this.$axios.$get(`/api/patients/${this.username}`).then((entidade) => {
         this.entidade = [entidade];
-          this.currentName = entidade.name;
-          this.currentBirthDate = entidade.birthDate;
-          this.currentEmail = entidade.email;
-          this.currentContact = entidade.contact;
+        this.currentName = entidade.name;
+        this.currentBirthDate = entidade.birthDate;
+        this.currentEmail = entidade.email;
+        this.currentContact = entidade.contact;
         this.$axios.$get(`/api/diseases`).then((response) => {
           this.diseasesAll = response;
-      });
+        });
       });
       this.$axios
-        .$get(
-          `/api/patients/${this.username}/diseases`
-        )
+        .$get(`/api/patients/${this.username}/diseases`)
         .then((response) => {
-         this.diseases = response;
+          this.diseases = response;
         });
 
       this.$axios
-        .$get(
-          `/api/patients/${this.username}/prescriptions`
-        )
+        .$get(`/api/patients/${this.username}/prescriptions`)
         .then((response) => {
           this.patientPrescriptions = response;
         });
@@ -437,7 +438,7 @@ export default {
       if (this.isbirthDateValid) {
         patientUpdated.birthDate = this.birthDate;
       }
-      if(Object.keys(patientUpdated).length == 0){
+      if (Object.keys(patientUpdated).length == 0) {
         this.$toast.error(`Nothing to update!`).goAway(3000);
         return;
       }

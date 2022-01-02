@@ -415,7 +415,6 @@ export default {
       return true;
     },
     rows() {
-      console.log(this.patients.length);
       return this.patients.length;
     },
   },
