@@ -104,7 +104,7 @@
             aria-controls="tableAssociateds"
           ></b-pagination>
           <div  v-if="this.tableLength == 0" class="w-75 mx-auto alert alert-info">
-            No Prescriptions created yet
+            No Patients created yet
           </div>
         </div>
         <hr />
@@ -176,7 +176,7 @@
         </div>
         <p>{{ isDateValidFeedback }}</p>
       </b-modal>
-      <div class="mt-1">
+      <div class="mt-1"  v-if="this.tableLength != 0">
         <b-table
           id="table"
           :per-page="perPage"
@@ -210,6 +210,9 @@
           aria-controls="table"
         ></b-pagination>
       </div>
+        <div  v-else class="w-75 mx-auto alert alert-info">
+          No prescriptions created yet
+        </div>
     </b-container>
   </div>
 </template>
