@@ -57,6 +57,13 @@
             class="form-control"
             aria-describedby="basic-addon1 "
           />
+             <b-input-group-append>
+            <b-form-datepicker
+              id="ex-disabled-readonly"
+              button-only
+              readonly
+            ></b-form-datepicker>
+          </b-input-group-append>
         </div>
         <p>{{ isDateValidFeedback }}</p>
         <div class="input-group mb-4">

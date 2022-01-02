@@ -81,6 +81,13 @@
             aria-describedby="basic-addon1"
             placeholder="dd/mm/yyyy"
           />
+           <b-input-group-append>
+            <b-form-datepicker
+              id="ex-disabled-readonly"
+              button-only
+              readonly
+            ></b-form-datepicker>
+          </b-input-group-append>
           <p>{{ isDateValidFeedback }}</p>
         </div>
       </b-modal>

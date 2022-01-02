@@ -15,12 +15,21 @@
           :data="entidade"
           :fields="json_fields"
           worksheet="Prescriptions"
-          :name="'prescriptions.'+typeExcel"
+          :name="'prescriptions.' + typeExcel"
           :type="typeExcel"
         >
-          <b-dropdown id="dropdown-1" text="Download Data" class="m-md-2" variant="success">
-            <b-dropdown-item @click.prevent="typeExcel = 'xls'">.xls</b-dropdown-item>
-            <b-dropdown-item @click.prevent="typeExcel = 'csv'">.csv</b-dropdown-item>
+          <b-dropdown
+            id="dropdown-1"
+            text="Download Data"
+            class="m-md-2"
+            variant="success"
+          >
+            <b-dropdown-item @click.prevent="typeExcel = 'xls'"
+              >.xls</b-dropdown-item
+            >
+            <b-dropdown-item @click.prevent="typeExcel = 'csv'"
+              >.csv</b-dropdown-item
+            >
           </b-dropdown>
         </download-excel>
 
@@ -46,7 +55,7 @@
             aria-describedby="basic-addon1"
           />
         </div>
-        <hr/>
+        <hr />
         <div class="input-group mb-4">
           <span class="input-group-text">Patient Health Number</span>
           <b-input
@@ -92,9 +101,8 @@
             :per-page="perPagePatients"
             aria-controls="tableAssociateds"
           ></b-pagination>
-
         </div>
-        <hr/>
+        <hr />
         <div class="input-group mb-4">
           <span class="input-group-text">Title</span>
           <b-input
@@ -153,6 +161,13 @@
             aria-describedby="basic-addon1"
             placeholder="dd/mm/yyyy"
           />
+          <b-input-group-append>
+            <b-form-datepicker
+              id="ex-disabled-readonly"
+              button-only
+              readonly
+            ></b-form-datepicker>
+          </b-input-group-append>
         </div>
         <p>{{ isDateValidFeedback }}</p>
       </b-modal>
@@ -182,13 +197,13 @@
             </b-button>
           </template>
         </b-table>
-         <b-pagination
-        class="fixed-bottom justify-content-center"
-        v-model="currentPagePaginatePrincipal"
-        :total-rows="rows"
-        :per-page="perPage"
-        aria-controls="table"
-      ></b-pagination>
+        <b-pagination
+          class="fixed-bottom justify-content-center"
+          v-model="currentPagePaginatePrincipal"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="table"
+        ></b-pagination>
       </div>
     </b-container>
   </div>
@@ -201,7 +216,7 @@ import XLSX from "xlsx";
 export default {
   components: {
     NavBar,
-    XLSX
+    XLSX,
   },
   data() {
     return {
@@ -263,7 +278,7 @@ export default {
         PatientUsername: "usernamePatient",
         HealthcareProfessional: "usernameHealthcareProfessional",
       },
-      typeExcel:"",
+      typeExcel: "",
     };
   },
   created() {
@@ -395,7 +410,7 @@ export default {
       return true;
     },
     rows() {
-  console.log(this.patients.length)
+      console.log(this.patients.length);
       return this.patients.length;
     },
   },
@@ -463,73 +478,83 @@ export default {
         });
     },
     onRowSelected(items) {
-      if (items.length !== 0){
-        this.healthNumberPatient = items[0].healthNumber
+      if (items.length !== 0) {
+        this.healthNumberPatient = items[0].healthNumber;
       }
     },
     onChange(event) {
       this.file = event.target.files ? event.target.files[0] : null;
-      if (this.file && (this.file.name.endsWith('.xls') || this.file.name.endsWith('.xlsx') || this.file.name.endsWith('.csv'))) {
+      if (
+        this.file &&
+        (this.file.name.endsWith(".xls") ||
+          this.file.name.endsWith(".xlsx") ||
+          this.file.name.endsWith(".csv"))
+      ) {
         const reader = new FileReader();
 
         reader.onload = (e) => {
           /* Parse data */
           const bstr = e.target.result;
-          const wb = XLSX.read(bstr, { type: 'binary' });
+          const wb = XLSX.read(bstr, { type: "binary" });
           /* Get first worksheet */
           const wsname = wb.SheetNames[0];
           const ws = wb.Sheets[wsname];
           /* Convert array of arrays */
           const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
-          for (let i = 1; i < data.length; i++){
-            let expireDate = data[i][2].toString()
-            if (!expireDate.includes("/")){
-              expireDate = this.convertToDate(data[i][2])
+          for (let i = 1; i < data.length; i++) {
+            let expireDate = data[i][2].toString();
+            if (!expireDate.includes("/")) {
+              expireDate = this.convertToDate(data[i][2]);
             }
-            let isPharmacological = data[i][3]
-            let title = data[i][4]
-            let treatmentInfo = data[i][5]
-            let observations = data[i][6]
-            let usernamePatient = data[i][7].slice(1)
+            let isPharmacological = data[i][3];
+            let title = data[i][4];
+            let treatmentInfo = data[i][5];
+            let observations = data[i][6];
+            let usernamePatient = data[i][7].slice(1);
             let usernameHealthcareProfessional = data[i][8].slice(1);
-            console.log(usernameHealthcareProfessional)
+            console.log(usernameHealthcareProfessional);
 
-            this.$axios.$post("/api/prescriptions", {
-              expireDate: expireDate,
-              isPharmacological: isPharmacological,
-              title: title,
-              treatmentInfo: treatmentInfo,
-              observations: observations,
-              usernamePatient: usernamePatient,
-              usernameHealthcareProfessional: usernameHealthcareProfessional,
-            })
+            this.$axios
+              .$post("/api/prescriptions", {
+                expireDate: expireDate,
+                isPharmacological: isPharmacological,
+                title: title,
+                treatmentInfo: treatmentInfo,
+                observations: observations,
+                usernamePatient: usernamePatient,
+                usernameHealthcareProfessional: usernameHealthcareProfessional,
+              })
               .then((response) => {
-                this.$toast.success("Prescription created succesfully").goAway(3000);
+                this.$toast
+                  .success("Prescription created succesfully")
+                  .goAway(3000);
                 this.getData();
               })
               .catch((error) => {
                 this.$toast
-                  .error("Error when creating Prescription: " + error.response.data)
+                  .error(
+                    "Error when creating Prescription: " + error.response.data
+                  )
                   .goAway(3000);
               });
-
           }
-        }
+        };
         reader.readAsBinaryString(this.file);
-      }
-      else{
-        this.$toast
-          .error("File type invalid: ")
-          .goAway(3000);
+      } else {
+        this.$toast.error("File type invalid: ").goAway(3000);
       }
     },
     convertToDate(serial) {
-      const utc_days  = Math.floor(serial - 25569);
+      const utc_days = Math.floor(serial - 25569);
       const utc_value = utc_days * 86400;
       const date_info = new Date(utc_value * 1000);
 
-      return new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate()+1).toLocaleDateString('en-US');
+      return new Date(
+        date_info.getFullYear(),
+        date_info.getMonth(),
+        date_info.getDate() + 1
+      ).toLocaleDateString("en-US");
     },
   },
 };

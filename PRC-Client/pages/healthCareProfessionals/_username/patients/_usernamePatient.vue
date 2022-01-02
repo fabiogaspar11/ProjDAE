@@ -27,8 +27,8 @@
             aria-describedby="basic-addon1"
             placeholder="Enter name"
           />
-          <p>{{ isNameValidFeedback }}</p>
         </div>
+          <p>{{ isNameValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Birthdate</span>
           <b-input
@@ -40,8 +40,15 @@
             class="form-control"
             aria-describedby="basic-addon1"
           />
-          <p>{{ isbirthDateValidFeedback }}</p>
+             <b-input-group-append>
+            <b-form-datepicker
+              id="ex-disabled-readonly"
+              button-only
+              readonly
+            ></b-form-datepicker>
+          </b-input-group-append>
         </div>
+          <p>{{ isbirthDateValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Email</span>
           <b-input
@@ -54,8 +61,8 @@
             aria-describedby="basic-addon1"
             placeholder="Enter email"
           />
-          <p>{{ isEmailValidFeedback }}</p>
         </div>
+          <p>{{ isEmailValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Contact</span>
           <b-input
@@ -67,8 +74,8 @@
             aria-describedby="basic-addon1"
             placeholder="Enter contact"
           />
-          <p>{{ isContactValidFeedback }}</p>
         </div>
+          <p>{{ isContactValidFeedback }}</p>
       </b-modal>
       <!---------------------------------------------PRESCRIPTIONS ---------------------------------------------->
 
