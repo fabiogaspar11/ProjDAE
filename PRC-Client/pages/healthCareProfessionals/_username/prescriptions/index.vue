@@ -14,7 +14,7 @@
           class="btn btn-default"
           :data="entidade"
           :fields="json_fields"
-          worksheet="Patients"
+          worksheet="Prescriptions"
           :name="'prescriptions.'+typeExcel"
           :type="typeExcel"
         >

@@ -9,8 +9,25 @@
         </div>
 
     <div v-else class="mt-3">
-         <b-form-input v-model="filter" type="search" placeholder="Search...">
-          </b-form-input>
+      <b-form-input v-model="filter" type="search" placeholder="Search...">
+      </b-form-input>
+
+      <div class="mt-3 mb-5 text-center">
+        <download-excel
+          class="btn btn-default"
+          :data="entidade"
+          :fields="json_fields"
+          worksheet="Healthcare Professionals"
+            :name="'HealthcareProfessionals.'+typeExcel"
+          :type="typeExcel"
+        >
+          <b-dropdown id="dropdown-1" text="Download Data" class="m-md-2" variant="success">
+            <b-dropdown-item @click.prevent="typeExcel = 'xls'">.xls</b-dropdown-item>
+            <b-dropdown-item @click.prevent="typeExcel = 'csv'">.csv</b-dropdown-item>
+          </b-dropdown>
+        </download-excel>
+      </div>
+
       <b-table
         class="mt-5"
         id="tablePrincipal"
@@ -58,6 +75,12 @@ export default {
       totalRows: null,
       perPage: 8,
       currentPagePaginatePrincipal: 1,
+      json_fields: {
+        Name: "name",
+        Email: "email",
+        Contact: "contact",
+      },
+      typeExcel:"",
     };
   },
   computed: {
