@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ws;
 
+import pt.ipleiria.estg.dei.ei.dae.prc.dtos.BiomedicDataMeasureDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.HealthcareProfessionalDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PatientDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PrescriptionDTO;
@@ -77,6 +78,16 @@ public class HealthcareprofessionalService {
         );
     }
 
+    private BiomedicDataMeasureDTO biomedicDataMeasureToDTO(BiomedicDataMeasure biomedicDataMeasure){
+        return new BiomedicDataMeasureDTO(
+                biomedicDataMeasure.getCode(),
+                biomedicDataMeasure.getValue(),
+                biomedicDataMeasure.getDate(),
+                biomedicDataMeasure.getHour(),
+                biomedicDataMeasure.getPatient().getUsername(),
+                biomedicDataMeasure.getBiomedicDataType().getCode()
+        );
+    }
     private List<HealthcareProfessionalDTO> toDTOs(List<HealthcareProfessional> healthcareProfessionals) {
         return healthcareProfessionals.stream().map(this::toDTO).collect(Collectors.toList());
     }
@@ -89,6 +100,9 @@ public class HealthcareprofessionalService {
         return patients.stream().map(this::patientToDTO).collect(Collectors.toList());
     }
 
+    private List<BiomedicDataMeasureDTO> biomedicDataMeasuresToDTOs(List<BiomedicDataMeasure> biomedicDataMeasures){
+        return biomedicDataMeasures.stream().map(this::biomedicDataMeasureToDTO).collect(Collectors.toList());
+    }
     @GET
     @Path("/")
     @RolesAllowed({"Administrator"})
@@ -184,8 +198,8 @@ public class HealthcareprofessionalService {
                 .build();
     }
 
-    //TODO
-   /* @GET
+
+   @GET
     @Path("{username}/biomedicDataMeasures")
     @RolesAllowed({"HealthcareProfessional"})
     public Response getHealthcareprofessionalBiomedicMeasures(@PathParam("username") String username) throws MyEntityNotFoundException {
@@ -198,14 +212,13 @@ public class HealthcareprofessionalService {
         for (Patient p: healthcareProfessional.getPatients()
              ) {
             for (BiomedicDataMeasure b: p.getBiomedicDataMeasures()) {
-
+                biomedicDataMeasures.add(b);
             }
-
         }
         return Response.status(Response.Status.OK)
-                .entity(patientstoDTOs(healthcareProfessional.getPatients()))
+                .entity(biomedicDataMeasuresToDTOs(biomedicDataMeasures))
                 .build();
-    }*/
+    }
 
 
     @GET

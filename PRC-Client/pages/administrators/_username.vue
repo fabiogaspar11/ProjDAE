@@ -8,7 +8,7 @@
         </div>
       </template>
             <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
-            <b-button v-b-modal.modal-2 class="text-center" variant="primary">Change Password</b-button>
+            <b-button v-if="this.isAdminItselfLogged" v-b-modal.modal-2 class="text-center" variant="primary">Change Password</b-button>
         <b-modal id="modal-1" title="Edit" @ok="update()">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -22,6 +22,7 @@
               placeholder="Enter your name"
               :state="isNameValid"
             />
+             <p>{{isNameValidFeedback}}</p>
           </div>
 
           <div class="input-group mb-3">
@@ -36,6 +37,7 @@
               placeholder="dd/mm/yyyy"
               :state="isbirthDateValid"
             />
+                <p>{{isbirthDateValidFeedback}}</p>
           </div>
 
           <div class="input-group mb-3">
@@ -51,6 +53,7 @@
               placeholder="Enter your email"
               :state="isEmailValid"
             />
+              <p>{{isEmailValidFeedback}}</p>
           </div>
 
           <div class="input-group mb-3">
@@ -65,6 +68,7 @@
               placeholder="Enter your contact"
               :state="isContactValid"
             />
+              <p>{{isContactValidFeedback}}</p>
           </div>
         </b-modal>
           <b-modal id="modal-2" title="Edit" @ok="updatePassword()">
@@ -104,19 +108,29 @@ export default {
       email: null,
       contact: null,
       oldPassword: null,
-      newPassword: null
+      newPassword: null,
+      currentName:null,
+      currentBirthDate: null,
+      currentEmail: null,
+      currentContact: null
     };
   },
   props: {
     url: String,
   },
   computed: {
+    isAdminItselfLogged(){
+      return this.$route.params.username == this.$auth.user.sub;
+    },
     username() {
       return this.$route.params.username;
     },
     isNameValidFeedback() {
       if (!this.name) {
         return null;
+      }
+      if(this.name == this.currentName){
+        return "Name is equal to current name";
       }
       let nameLen = this.name.length;
       if (nameLen < 3 || nameLen > 25) {
@@ -133,6 +147,9 @@ export default {
     isContactValidFeedback() {
       if (!this.contact) {
         return null;
+      }
+      if(this.contact == this.currentContact){
+        return "Contact is equal to current contact";
       }
       let contactString = this.contact.toString();
       let contactLen = contactString.length;
@@ -186,6 +203,11 @@ export default {
       if (!this.email) {
         return null;
       }
+
+      if(this.email == this.currentEmail){
+        return "Email is equal to current email";
+      }
+
       return this.$refs.email.checkValidity()
         ? ""
         : "Email is not valid - the email format must be like name@domain";
@@ -200,6 +222,11 @@ export default {
       if (!this.birthDate) {
         return null;
       }
+       if(this.birthDate == this.currentBirthDate){
+        return "Birthdate is equal to current birthdate";
+      }
+
+
       var date_regex =
         /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
       var currentdate = new Date();
@@ -240,6 +267,10 @@ export default {
         .$get(`/api/administrators/${this.username}`)
         .then((entidade) => {
           this.entidade = [entidade];
+          this.currentName = entidade.name;
+          this.currentBirthDate = entidade.birthDate;
+          this.currentEmail = entidade.email;
+          this.currentContact = entidade.contact;
         });
     },
     remove() {
@@ -249,17 +280,21 @@ export default {
     },
     update() {
       let adminUpdated = {};
-      if (this.name != null) {
+      if (this.isNameValid) {
         adminUpdated.name = this.name;
       }
-      if (this.email != null) {
+      if (this.isEmailValid) {
         adminUpdated.email = this.email;
       }
-      if (this.contact != null) {
+      if (this.isContactValid) {
         adminUpdated.contact = this.contact;
       }
-      if (this.birthDate != null) {
+      if (this.isbirthDateValid) {
         adminUpdated.birthDate = this.birthDate;
+      }
+      if(Object.keys(adminUpdated).length == 0){
+        this.$toast.error(`Nothing to update!`).goAway(3000);
+        return;
       }
 
       this.$axios

@@ -396,7 +396,7 @@ export default {
         return false;
       }
 
-      if (!this.isusernamePatientValid) {
+      if (!this.ishealthNumberPatientValid) {
         return false;
       }
 
@@ -457,7 +457,7 @@ export default {
           observations: this.observations,
           title: this.title,
           treatmentInfo: this.treatmentInfo,
-          usernamePatient: this.healthNumberPatient,
+          usernamePatient: "P"+ this.healthNumberPatient,
           usernameHealthcareProfessional: this.usernameHealthcareProfessional,
         })
         .then((response) => {

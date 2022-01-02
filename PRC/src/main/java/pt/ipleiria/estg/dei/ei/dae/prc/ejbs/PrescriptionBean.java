@@ -23,11 +23,10 @@ public class PrescriptionBean {
 
     @EJB
     EmailBean emailBean;
-    public long create(String title, String observations,String isPharmacological,String treatmentInfo, String emissionDate, String expireDate, String healthNumberPatient, String usernameHealthcareProfessional) throws MyEntityExistsException, MyEntityNotFoundException, MessagingException {
-        String usernamePatient = "P" + healthNumberPatient;
+    public long create(String title, String observations,String isPharmacological,String treatmentInfo, String emissionDate, String expireDate, String usernamePatient, String usernameHealthcareProfessional) throws MyEntityExistsException, MyEntityNotFoundException, MessagingException {
         Patient patient = entityManager.find(Patient.class,usernamePatient);
         if(patient == null) {
-            throw new MyEntityNotFoundException("There is no Patient with the health number \'" + healthNumberPatient + "\'");
+            throw new MyEntityNotFoundException("There is no Patient with the username \'" + usernamePatient + "\'");
         }
         HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class, usernameHealthcareProfessional);
         if(healthcareProfessional == null) {
