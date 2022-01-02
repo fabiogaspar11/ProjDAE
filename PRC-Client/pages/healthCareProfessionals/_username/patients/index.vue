@@ -159,8 +159,8 @@
             :per-page="perPage"
             aria-controls="tableAssociateds"
           ></b-pagination>
-            <div  v-if="this.tableLength == 0" class="w-75 mx-auto alert alert-info">
-            No Prescriptions created yet
+            <div v-if="this.tableLength == 0" class="w-75 mx-auto alert alert-info">
+            No Patients created yet
         </div>
         </div>
       </b-container>
@@ -169,6 +169,7 @@
     <b-container class="mt-1">
       <b-table
         id="tablePrincipal"
+         v-if="this.tableLength != 0"
         :per-page="perPage"
         :current-page="currentPagePaginatePrincipal"
         :items="this.entidade"
@@ -186,12 +187,16 @@
       </b-table>
 
       <b-pagination
+       v-if="this.tableLength != 0"
         class="fixed-bottom justify-content-center"
         v-model="currentPagePaginatePrincipal"
         :total-rows="rowsPrincipal"
         :per-page="perPage"
         aria-controls="tablePrincipal"
       ></b-pagination>
+        <div v-if="this.tableLength == 0" class="w-75 mx-auto alert alert-info">
+            No Patients created yet
+        </div>
     </b-container>
 
   </div>
