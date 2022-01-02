@@ -31,7 +31,7 @@
  <b-form-file
           placeholder="Import data (.xls,.xlsx,.csv)"
           @change="onChange"
-          plain
+          class="w-25"
         ></b-form-file>
       </div>
     </b-container>

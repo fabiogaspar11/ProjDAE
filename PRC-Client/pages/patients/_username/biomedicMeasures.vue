@@ -5,26 +5,49 @@
     <b-container>
       <h3 class="mt-3">Biomedic Data Measures ({{ tableLength }})</h3>
       <div v-if="this.tableLength == 0">
-      <div class="w-75 mx-auto alert alert-info">
-        No Biomedic Measures registered yet
+        <div class="w-75 mx-auto alert alert-info">
+          No Biomedic Measures registered yet
+        </div>
       </div>
-      </div>
-      <div v-else>
-        <b-form-input v-model="filter" type="search" placeholder="Search...">
-        </b-form-input>
+      <div class="mt-3 mb-5 text-center" v-else>
 
-        <div class="mt-3 mb-5 text-center">
-          <download-excel
+        <b-form-input v-model="filter" type="search" placeholder="Search..."></b-form-input>
+
+
+        <b-button
+          v-if="Object.keys(biomedicDataTypes).length != 0"
+          v-b-modal.modal-1
+          variant="info"
+        >
+          <font-awesome-icon icon="plus" /> New Biomedic Measure
+        </b-button>
+
+        <div v-else class="w-75 mx-auto alert alert-info">
+          <p>
+            Cannot insert Biomedic Measures without having Biomedic Data Types
+          </p>
+        </div>
+
+        <download-excel
             class="btn btn-default"
             :data="entidade"
             :fields="json_fields"
             worksheet="Biomedic Data Measures"
-            :name="'biomedicDataMeasures.'+typeExcel"
+            :name="'biomedicDataMeasures.' + typeExcel"
             :type="typeExcel"
           >
-            <b-dropdown id="dropdown-1" text="Download Data" class="m-md-2" variant="success">
-              <b-dropdown-item @click.prevent="typeExcel = 'xls'">.xls</b-dropdown-item>
-              <b-dropdown-item @click.prevent="typeExcel = 'csv'">.csv</b-dropdown-item>
+            <b-dropdown
+              id="dropdown-1"
+              text="Download Data"
+              class="m-md-2"
+              variant="success"
+            >
+              <b-dropdown-item @click.prevent="typeExcel = 'xls'"
+                >.xls</b-dropdown-item
+              >
+              <b-dropdown-item @click.prevent="typeExcel = 'csv'"
+                >.csv</b-dropdown-item
+              >
             </b-dropdown>
           </download-excel>
 
@@ -33,7 +56,6 @@
             @change="onChange"
             class="w-25 text-lg-left"
           ></b-form-file>
-        </div>
 
         <b-table
           class="mt-5"
@@ -68,22 +90,6 @@
             </b-button>
           </template>
         </b-table>
-      </div>
-
-      <div class="mt-3 mb-5 text-center">
-        <b-button
-          class="mt-3"
-          v-if="Object.keys(biomedicDataTypes).length != 0"
-          v-b-modal.modal-1
-          variant="info"
-        >
-          <font-awesome-icon icon="plus" /> New Biomedic Measure
-        </b-button>
-        <div v-else class="w-75 mx-auto alert alert-info">
-          <p>
-            Cannot insert Biomedic Measures without having Biomedic Data Types
-          </p>
-        </div>
       </div>
 
       <b-modal id="modal-1" title="New Biomedic Measure" @ok="create()">
@@ -140,21 +146,32 @@
           </b-select>
         </div>
 
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroup-sizing-default"
-              >Value</span
-            >
-          </div>
+        <div class="input-group mb-4 justify-content-center">
+          <span class="input-group-text">Value</span>
           <b-input
-            required
-            v-model.trim="value"
-            type="number"
-            :state="isValueValid"
-            placeholder="Enter the value"
-            class="form-control"
-            aria-describedby="basic-addon1 "
-          />
+            :disabled="!biomedicDataType"
+            v-model="value"
+            :state="this.isValueValid"
+            class="col-md-2"
+            >{{ this.value }}</b-input
+          >
+          <b-input-group
+            :prepend="this.minVal"
+            :append="this.maxVal"
+            class="mt-3"
+          >
+            <b-input
+              :disabled="!biomedicDataType"
+              required
+              v-model.trim="value"
+              type="range"
+              :min="minVal"
+              :max="maxVal"
+              placeholder="Enter the value"
+              class="form-control"
+              aria-describedby="basic-addon1 "
+            />
+          </b-input-group>
         </div>
         <p>{{ isValueValidFeedback }}</p>
       </b-modal>
@@ -191,17 +208,30 @@
           />
           <p>{{ isHourEditValidFeedback }}</p>
         </div>
-        <div class="input-group mb-4">
+        <div class="input-group mb-4 justify-content-center">
           <span class="input-group-text">Value</span>
           <b-input
-            required
-            v-model.trim="valueEdit"
-            type="number"
-            :state="isValueEditValid"
-            placeholder="Enter the value"
-            class="form-control"
-            aria-describedby="basic-addon1 "
-          />
+            v-model="valueEdit"
+            :state="this.isValueEditValid"
+            class="col-md-2"
+            >{{ this.value }}</b-input
+          >
+          <b-input-group
+            :prepend="this.minVal"
+            :append="this.maxVal"
+            class="mt-3"
+          >
+            <b-input
+              required
+              v-model.trim="valueEdit"
+              type="range"
+              :min="minVal"
+              :max="maxVal"
+              placeholder="Enter the value"
+              class="form-control"
+              aria-describedby="basic-addon1 "
+            />
+          </b-input-group>
           <p>{{ isValueEditValidFeedback }}</p>
         </div>
       </b-modal>
@@ -265,7 +295,7 @@ export default {
         Date: "date",
         Hour: "hour",
       },
-      typeExcel:"",
+      typeExcel: "",
     };
   },
   computed: {
@@ -675,30 +705,35 @@ export default {
     },
     onChange(event) {
       this.file = event.target.files ? event.target.files[0] : null;
-      if (this.file && (this.file.name.endsWith('.xls') || this.file.name.endsWith('.xlsx') || this.file.name.endsWith('.csv'))) {
+      if (
+        this.file &&
+        (this.file.name.endsWith(".xls") ||
+          this.file.name.endsWith(".xlsx") ||
+          this.file.name.endsWith(".csv"))
+      ) {
         const reader = new FileReader();
 
         reader.onload = (e) => {
           /* Parse data */
           const bstr = e.target.result;
-          const wb = XLSX.read(bstr, { type: 'binary' });
+          const wb = XLSX.read(bstr, { type: "binary" });
           /* Get first worksheet */
           const wsname = wb.SheetNames[0];
           const ws = wb.Sheets[wsname];
           /* Convert array of arrays */
           const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
-          for (let i = 1; i < data.length; i++){
+          for (let i = 1; i < data.length; i++) {
             let usernameHealthcareProfessional = data[i][1].slice(1);
-            let biomedicDataType = data[i][2]
-            let biomedicDataTypeNumber = this.getBiomedicDataTypeNumber(biomedicDataType)
-            let value = data[i][3]
-            let date = data[i][4].toString()
-            if (!date.includes("/")){
-              date = this.convertToDate(data[i][4])
+            let biomedicDataType = data[i][2];
+            let biomedicDataTypeNumber =
+              this.getBiomedicDataTypeNumber(biomedicDataType);
+            let value = data[i][3];
+            let date = data[i][4].toString();
+            if (!date.includes("/")) {
+              date = this.convertToDate(data[i][4]);
             }
-            let hour = data[i][5].toString()
-
+            let hour = data[i][5].toString();
 
             this.$axios
               .$post("/api/biomedicDataMeasures", {
@@ -709,45 +744,54 @@ export default {
                 usernamePatient: usernameHealthcareProfessional,
               })
               .then((response) => {
-                this.$toast.success("Biomedic data Measure " + response.code + " created succesfully!")
+                this.$toast
+                  .success(
+                    "Biomedic data Measure " +
+                      response.code +
+                      " created succesfully!"
+                  )
                   .goAway(3000);
                 this.getBiomedicMeasures();
               })
               .catch((error) => {
-                this.$toast.error("Error creating Biomedic data Measure - " + error.response.data)
+                this.$toast
+                  .error(
+                    "Error creating Biomedic data Measure - " +
+                      error.response.data
+                  )
                   .goAway(3000);
               });
-
           }
-        }
+        };
         reader.readAsBinaryString(this.file);
-      }
-      else{
-        this.$toast
-          .error("File type invalid: ")
-          .goAway(3000);
+      } else {
+        this.$toast.error("File type invalid: ").goAway(3000);
       }
     },
     convertToDate(serial) {
-      const utc_days  = Math.floor(serial - 25569);
+      const utc_days = Math.floor(serial - 25569);
       const utc_value = utc_days * 86400;
       const date_info = new Date(utc_value * 1000);
 
-      return new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate()+1).toLocaleDateString('en-US');
+      return new Date(
+        date_info.getFullYear(),
+        date_info.getMonth(),
+        date_info.getDate() + 1
+      ).toLocaleDateString("en-US");
     },
-    getBiomedicDataTypeNumber(biomedicDataTypeName){
+    getBiomedicDataTypeNumber(biomedicDataTypeName) {
       this.$axios.$get("/api/biomedicDataTypes").then((entidade) => {
         this.biomedicDataTypes = entidade;
       });
 
-      for (let item of this.biomedicDataTypes){
-        if (item.name === biomedicDataTypeName){
-          return item.code
+      for (let item of this.biomedicDataTypes) {
+        if (item.name === biomedicDataTypeName) {
+          return item.code;
         }
       }
 
-      return this.biomedicDataTypes
-    }
+      return this.biomedicDataTypes;
+    },
   },
   created() {
     this.getBiomedicMeasures();

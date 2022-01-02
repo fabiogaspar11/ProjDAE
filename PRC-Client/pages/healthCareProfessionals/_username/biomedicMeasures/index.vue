@@ -88,17 +88,21 @@
             </template>
           </b-select>
         </div>
-        <div class="input-group mb-4">
+        <div class="input-group mb-4 justify-content-center">
           <span class="input-group-text">Value</span>
-          <b-input
-            required
-            v-model.trim="value"
-            type="number"
-            :state="isValueValid"
-            placeholder="Enter the value"
-            class="form-control"
-            aria-describedby="basic-addon1 "
-          />
+          <b-input v-model="value"  :disabled="!biomedicDataType" :state="this.isValueValid" class="col-md-2">{{this.value}}</b-input>
+          <b-input-group :prepend="this.minVal" :append="this.maxVal" class="mt-3">
+            <b-input
+            :disabled="!biomedicDataType"
+              required
+              v-model.trim="value"
+              type="range"
+              :min="minVal" :max="maxVal"
+              placeholder="Enter the value"
+              class="form-control"
+              aria-describedby="basic-addon1 "
+            />
+          </b-input-group>
           <p>{{ isValueValidFeedback }}</p>
         </div>
         <div class="input-group mb-4">
