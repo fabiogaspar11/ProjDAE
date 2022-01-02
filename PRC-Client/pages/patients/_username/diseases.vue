@@ -11,7 +11,7 @@
 
       <div class="mt-5" v-if="this.noDiseases == false">
         <b-table
-              id="tablePrincipal"
+              id="table"
         :per-page="perPage"
         :current-page="currentPagePaginatePrincipal"
           :items="this.entidade"
@@ -27,7 +27,7 @@
         v-model="currentPagePaginatePrincipal"
         :total-rows="rows"
         :per-page="perPage"
-        aria-controls="tablePrincipal"
+        aria-controls="table"
       ></b-pagination>
       </div>
       <div v-else class="w-75 mx-auto alert alert-info">
@@ -56,7 +56,7 @@ export default {
       noDiseases: false,
       filter: null,
       totalRows: null,
-      perPage: 8,
+      perPage: 6,
       currentPagePaginatePrincipal: 1,
     };
   },

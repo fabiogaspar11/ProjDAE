@@ -17,8 +17,8 @@ POST http://localhost:8080/PRC/api/auth/login
 Content-Type: application/json
 
 {
-"username":"H111111321",
-"password":"1234"
+"username":"H900000001",
+"password":"12345"
 }
 
 ########## Get Login Administrator ##########
@@ -175,20 +175,21 @@ Content-Type: application/json
 
 ########## All ##########
 GET http://localhost:8080/PRC/api/prescriptions
-Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJIMTExMTExMzIxIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkhlYWx0aGNhcmVQcm9mZXNzaW9uYWwiXSwiZXhwIjoxNjQwNzIwODc5fQ.kQYqZibdReHqQ_WRGN3JYWqFC68Ng2hkxHTcJD1YjJwkxsyCWWfa8sflcuq1pdAULuEDIh3ifTmCgLvpY8SmFHVhLVmBw3CIh_OviIlcFsKZBwVifmkKVng2-qJydAIRirjBoaPnfkEg_AmZDtR63Rmc3J4pyatHouUTubRI_qSbxBmlZmkVmlJj3uhbksint6meAcBjnsR0qW-el6_KY2o-oqxxJNTbtZeq9VEWoMZ2kIgKh-8pjPZkA7U4HhUA580VzH9Q1l_sHXjJtpKF5wEuYihiiJnk6IEMZKwDI5ccoPlmgO_XezJ_EmpgDwWBi3uzBig3KMt3Ve4HwwbZ3w
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJIOTAwMDAwMDAxIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkhlYWx0aGNhcmVQcm9mZXNzaW9uYWwiXSwiZXhwIjoxNjQxMTM3NDQ2fQ.Yh_zSuN21X8MeMSWeK6qcJx5LnS4TYK8uVzeh0kEtA2Z6pTNvX7tPFMjbbLw7k7PrseTYn_2fgKZRbQ7OTikuH23JmbEihjpvEtFdNsrbEUpODeJ3_xqMnb0B8_YGpxS_BIf_fCO2ShPmIWVV1xMmGxmZYWFiMa1ERiLRmMx_vWcTC7XzXqTfdwbDLtiqny9JSDLfIYYt4EcMNUvFQdEnYPtbWSCIo2GrfdvPaI5jLA4zbAz-ZFGuekkVpF_RcGVD_u9401LMuV9elAaGkRzgnIDfBPRL3aWUAQbdRKQtVcl00KU-q4MOCFifyoYXf5IEV6hXgQMxH1NEhLDzRB5iQ
 
 ########## Create ##########
 POST http://localhost:8080/PRC/api/prescriptions
 Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJIOTAwMDAwMDAxIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkhlYWx0aGNhcmVQcm9mZXNzaW9uYWwiXSwiZXhwIjoxNjQxMTM3NDQ2fQ.Yh_zSuN21X8MeMSWeK6qcJx5LnS4TYK8uVzeh0kEtA2Z6pTNvX7tPFMjbbLw7k7PrseTYn_2fgKZRbQ7OTikuH23JmbEihjpvEtFdNsrbEUpODeJ3_xqMnb0B8_YGpxS_BIf_fCO2ShPmIWVV1xMmGxmZYWFiMa1ERiLRmMx_vWcTC7XzXqTfdwbDLtiqny9JSDLfIYYt4EcMNUvFQdEnYPtbWSCIo2GrfdvPaI5jLA4zbAz-ZFGuekkVpF_RcGVD_u9401LMuV9elAaGkRzgnIDfBPRL3aWUAQbdRKQtVcl00KU-q4MOCFifyoYXf5IEV6hXgQMxH1NEhLDzRB5iQ
 
 {
-  "code": 2,
-  "title": "Medications list",
+  "expireDate": "22/10/2021",
+  "isPharmacological": "Yes",
   "observations": "acetaminophen 650 mg tablets, prednisone 50 mg",
-  "emissionDate": "20/10/2021",
-  "expireDate": "20/12/2021",
-  "usernamePatient":"P248364182",
-  "usernameHealthcareProfessional":"H987654321"
+  "title": "Medications list",
+  "treatmentInfo": "gg",
+  "usernamePatient":"900000011",
+  "usernameHealthcareProfessional":"900000001"
 }
 
 ########## Details ##########
@@ -282,17 +283,18 @@ POST http://localhost:8080/PRC/api/patients/P248364182/removePrescription/1
 
 ### GET ALL
 GET http://localhost:8080/PRC/api/biomedicDataMeasures
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJIOTAwMDAwMDAxIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkhlYWx0aGNhcmVQcm9mZXNzaW9uYWwiXSwiZXhwIjoxNjQxMTQ0MDk4fQ.kdIeV6F2s7-cGzfAQ7VR1fyq-5DorJviDwY2yRBpEAAsPKFvVfXljH39SdtMaispaimBZPq506mHvp6kSczaFOZRClyeItnFrOAInyuXUgU1p6B1DbKvpQ2lu_Sjd5pG5prlaYIi_ZHnqxozvRfcSDa3fN6yzPtnysRozVWG36TVxq1HYGtIt2VKUZhdAToBLsmu3NbnXNva1VOvLcctyWWCHZzPU54hrl7Rr_i_5nGNUCXSP3Y__2h_fHEvcaiS679nOu97pQHOuG6BzCuN5RWVazKByeCK368FIU4xK2lagWYfX0vfoJ-bx3RIE0ydOiJeyC9WQ1iExqmc9EIFyw
 
 ########## Create ##########
 POST http://localhost:8080/PRC/api/biomedicDataMeasures
 Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJIOTAwMDAwMDAxIiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkhlYWx0aGNhcmVQcm9mZXNzaW9uYWwiXSwiZXhwIjoxNjQxMTQ0MDk4fQ.kdIeV6F2s7-cGzfAQ7VR1fyq-5DorJviDwY2yRBpEAAsPKFvVfXljH39SdtMaispaimBZPq506mHvp6kSczaFOZRClyeItnFrOAInyuXUgU1p6B1DbKvpQ2lu_Sjd5pG5prlaYIi_ZHnqxozvRfcSDa3fN6yzPtnysRozVWG36TVxq1HYGtIt2VKUZhdAToBLsmu3NbnXNva1VOvLcctyWWCHZzPU54hrl7Rr_i_5nGNUCXSP3Y__2h_fHEvcaiS679nOu97pQHOuG6BzCuN5RWVazKByeCK368FIU4xK2lagWYfX0vfoJ-bx3RIE0ydOiJeyC9WQ1iExqmc9EIFyw
 
 {
-  "code": 1,
   "value": 37.2,
   "date": "01/11/2021",
   "hour": "12:35",
-  "usernamePatient": "P987654321",
+  "usernamePatient": "900000011",
   "biomedicDataTypeCode": 1
 }
 

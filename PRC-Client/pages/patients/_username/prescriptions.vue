@@ -7,10 +7,27 @@
               <div class="mx-auto alert alert-info">No prescriptions prescribed to you yet</div>
         </div>
     <div class="" v-else>
+      <div class="mt-3 mb-5 text-center">
+
+        <download-excel
+          class="btn btn-default"
+          :data="entidade"
+          :fields="json_fields"
+          worksheet="Prescriptions"
+          :name="'prescriptions.'+typeExcel"
+          :type="typeExcel"
+        >
+          <b-dropdown id="dropdown-1" text="Download Data" class="m-md-2" variant="success">
+            <b-dropdown-item @click.prevent="typeExcel = 'xls'">.xls</b-dropdown-item>
+            <b-dropdown-item @click.prevent="typeExcel = 'csv'">.csv</b-dropdown-item>
+          </b-dropdown>
+        </download-excel>
+      </div>
+
       <b-form-input v-model="filter" type="search" placeholder="Search..."></b-form-input>
       <b-table
         class="mt-5"
-        id="tablePrincipal"
+        id="table"
         :per-page="perPage"
         :current-page="currentPagePaginatePrincipal"
         :items="this.entidade"
@@ -44,7 +61,7 @@
         v-model="currentPagePaginatePrincipal"
         :total-rows="rows"
         :per-page="perPage"
-        aria-controls="tablePrincipal"
+        aria-controls="table"
       ></b-pagination>
     </div>
         </b-container>
@@ -82,6 +99,18 @@ export default {
       totalRows: null,
       perPage: 6,
       currentPagePaginatePrincipal: 1,
+      json_fields: {
+        Code: "code",
+        "Emission Date": "emissionDate",
+        "Expire Date": "expireDate",
+        Pharmacological: "isPharmacological",
+        Title: "title",
+        "Treatment Information": "treatmentInfo",
+        Observations: "observations",
+        PatientUsername: "usernamePatient",
+        HealthcareProfessional: "usernameHealthcareProfessional",
+      },
+      typeExcel:"",
     };
   },
   created() {

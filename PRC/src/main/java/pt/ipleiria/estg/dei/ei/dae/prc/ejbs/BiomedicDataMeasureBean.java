@@ -17,10 +17,10 @@ public class BiomedicDataMeasureBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public long create(double value, String date, String hour, String usernamePatient, long biomedicDataTypeCode) throws MyEntityExistsException, MyEntityNotFoundException {
-        Patient patient = entityManager.find(Patient.class,usernamePatient);
+    public long create(double value, String date, String hour, String username, long biomedicDataTypeCode) throws MyEntityExistsException, MyEntityNotFoundException {
+        Patient patient = entityManager.find(Patient.class,username);
         if(patient == null) {
-            throw new MyEntityNotFoundException("There is no Patient with the username \'" + usernamePatient + "\'");
+            throw new MyEntityNotFoundException("There is no Patient with the username \'" + username + "\'");
         }
         BiomedicDataType biomedicDataType = entityManager.find(BiomedicDataType.class,biomedicDataTypeCode);
         if(biomedicDataType == null) {

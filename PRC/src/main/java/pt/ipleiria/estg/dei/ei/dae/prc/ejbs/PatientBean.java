@@ -30,7 +30,6 @@ public class PatientBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-
     @EJB
     EmailBean emailBean;
 
@@ -43,7 +42,7 @@ public class PatientBean {
         entityManager.persist(patient);
         entityManager.flush();
 
-        emailBean.send(email, "PRC Register - Welcome!", "Thank you for joining our healthcare platform!\n The Credentials for your account are as follows.\nUsername: " + username + "\nPassword: "+password);
+        emailBean.send(email, "PRC Register - Welcome!", "Thank you for joining our healthcare platform!\n The Credentials for your account are as follows.\nUsername: " + username + "\nPassword: " + password);
 
         return patient.getUsername();
     }

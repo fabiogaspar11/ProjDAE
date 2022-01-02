@@ -12,6 +12,29 @@
       <div v-else>
         <b-form-input v-model="filter" type="search" placeholder="Search...">
         </b-form-input>
+
+        <div class="mt-3 mb-5 text-center">
+          <download-excel
+            class="btn btn-default"
+            :data="entidade"
+            :fields="json_fields"
+            worksheet="Biomedic Data Measures"
+            :name="'biomedicDataMeasures.'+typeExcel"
+            :type="typeExcel"
+          >
+            <b-dropdown id="dropdown-1" text="Download Data" class="m-md-2" variant="success">
+              <b-dropdown-item @click.prevent="typeExcel = 'xls'">.xls</b-dropdown-item>
+              <b-dropdown-item @click.prevent="typeExcel = 'csv'">.csv</b-dropdown-item>
+            </b-dropdown>
+          </download-excel>
+
+          <b-form-file
+            placeholder="Import data (.xls,.xlsx,.csv)"
+            @change="onChange"
+            class="w-25 text-lg-left"
+          ></b-form-file>
+        </div>
+
         <b-table
           class="mt-5"
           :items="this.entidade"
@@ -189,11 +212,13 @@
 <script>
 import NavBar from "/components/NavBar.vue";
 import Router from "vue-router";
+import XLSX from "xlsx";
 
 export default {
   components: {
     NavBar,
     Router,
+    XLSX,
   },
   data() {
     return {
@@ -231,7 +256,16 @@ export default {
       hourUpdate: null,
       valueUpdate: null,
       minValueUpdate: null,
-      maxValueUpdate: null
+      maxValueUpdate: null,
+      json_fields: {
+        Code: "code",
+        PatientUsername: "usernamePatient",
+        "Biomedic Data Type": "biomedicDataType",
+        Value: "value",
+        Date: "date",
+        Hour: "hour",
+      },
+      typeExcel:"",
     };
   },
   computed: {
@@ -639,6 +673,81 @@ export default {
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
+    onChange(event) {
+      this.file = event.target.files ? event.target.files[0] : null;
+      if (this.file && (this.file.name.endsWith('.xls') || this.file.name.endsWith('.xlsx') || this.file.name.endsWith('.csv'))) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+          /* Parse data */
+          const bstr = e.target.result;
+          const wb = XLSX.read(bstr, { type: 'binary' });
+          /* Get first worksheet */
+          const wsname = wb.SheetNames[0];
+          const ws = wb.Sheets[wsname];
+          /* Convert array of arrays */
+          const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+
+          for (let i = 1; i < data.length; i++){
+            let usernameHealthcareProfessional = data[i][1].slice(1);
+            let biomedicDataType = data[i][2]
+            let biomedicDataTypeNumber = this.getBiomedicDataTypeNumber(biomedicDataType)
+            let value = data[i][3]
+            let date = data[i][4].toString()
+            if (!date.includes("/")){
+              date = this.convertToDate(data[i][4])
+            }
+            let hour = data[i][5].toString()
+
+
+            this.$axios
+              .$post("/api/biomedicDataMeasures", {
+                date: date,
+                hour: hour,
+                biomedicDataTypeCode: biomedicDataTypeNumber,
+                value: value,
+                usernamePatient: usernameHealthcareProfessional,
+              })
+              .then((response) => {
+                this.$toast.success("Biomedic data Measure " + response.code + " created succesfully!")
+                  .goAway(3000);
+                this.getBiomedicMeasures();
+              })
+              .catch((error) => {
+                this.$toast.error("Error creating Biomedic data Measure - " + error.response.data)
+                  .goAway(3000);
+              });
+
+          }
+        }
+        reader.readAsBinaryString(this.file);
+      }
+      else{
+        this.$toast
+          .error("File type invalid: ")
+          .goAway(3000);
+      }
+    },
+    convertToDate(serial) {
+      const utc_days  = Math.floor(serial - 25569);
+      const utc_value = utc_days * 86400;
+      const date_info = new Date(utc_value * 1000);
+
+      return new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate()+1).toLocaleDateString('en-US');
+    },
+    getBiomedicDataTypeNumber(biomedicDataTypeName){
+      this.$axios.$get("/api/biomedicDataTypes").then((entidade) => {
+        this.biomedicDataTypes = entidade;
+      });
+
+      for (let item of this.biomedicDataTypes){
+        if (item.name === biomedicDataTypeName){
+          return item.code
+        }
+      }
+
+      return this.biomedicDataTypes
+    }
   },
   created() {
     this.getBiomedicMeasures();
