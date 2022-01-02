@@ -31,7 +31,7 @@
  <b-form-file
           placeholder="Import data (.xls,.xlsx,.csv)"
           @change="onChange"
-          plain
+          class="w-25"
         ></b-form-file>
       </div>
     </b-container>
@@ -531,7 +531,7 @@ export default {
             // console.log("Contact: " + contact)
             // console.log("Email: " + email)
             // console.log("---------------------------------------------------------------------------------")
-            this.$axios.$post("/api/patients", {
+              this.$axios.$post("/api/patients", {
                 email: email,
                 birthDate: birthDate,
                 name: name,

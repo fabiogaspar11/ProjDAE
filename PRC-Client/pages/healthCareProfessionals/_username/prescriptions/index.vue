@@ -79,7 +79,7 @@
             @filtered="search"
             id="tableAssociateds"
             :current-page="currentPagePaginateSecondary"
-            :per-page="perPage"
+            :per-page="perPagePatients"
             :select-mode="'single'"
             selectable
             @row-selected="onRowSelected"
@@ -89,7 +89,7 @@
             class="justify-content-center"
             v-model="currentPagePaginateSecondary"
             :total-rows="rows"
-            :per-page="perPage"
+            :per-page="perPagePatients"
             aria-controls="tableAssociateds"
           ></b-pagination>
 
@@ -226,12 +226,6 @@ export default {
       fieldsPatient: [
         { key: "name", label: "Name", sortable: true, sortDirection: "desc" },
         {
-          key: "birthDate",
-          label: "Birthdate",
-          sortable: true,
-          sortDirection: "desc",
-        },
-        {
           key: "healthNumber",
           label: "Health Number",
           sortable: true,
@@ -255,6 +249,7 @@ export default {
       totalRows: null,
       emissionDate: null,
       perPage: 6,
+      perPagePatients: 3,
       currentPagePaginatePrincipal: 1,
       currentPagePaginateSecondary: 1,
       json_fields: {
@@ -400,7 +395,8 @@ export default {
       return true;
     },
     rows() {
-      return this.entidade.length;
+  console.log(this.patients.length)
+      return this.patients.length;
     },
   },
   methods: {

@@ -60,7 +60,8 @@ public class ConfigBean {
 
         biomedicDataTypeBean.create("Temperatura Corporal","ºC",30,45);
         biomedicDataTypeBean.create( "Obesidade", "Kilogramas", 40, 100);
-        biomedicDataTypeBean.create( "Pressão arterial", "mmHg", 85, 89);
+        biomedicDataTypeBean.create( "Pressão arterial sistólica", "mmHg", 0, 210);
+        biomedicDataTypeBean.create( "Pressão arterial diastólica", "mmHg", 0, 100);
         biomedicDataTypeBean.create( "Frequência Cardíaca", "Batimentos", 73, 76);
         biomedicDataTypeBean.create( "Frequência Respiratória", "mpm", 20, 25);
 
