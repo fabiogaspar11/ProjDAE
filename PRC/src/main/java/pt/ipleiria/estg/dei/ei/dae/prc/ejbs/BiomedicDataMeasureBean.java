@@ -31,15 +31,13 @@ public class BiomedicDataMeasureBean {
         if(userRegister == null) {
             throw new MyEntityNotFoundException("There is no User with the username \'" + usernameRegister + "\'");
         }
-        String classification = "Value in the bounds of reference";
 
-        float normalMinValue = biomedicDataType.getNormalMinValue();
-        float normalMaxValue = biomedicDataType.getNormalMaxValue();
+        String classification = "Undefined";
+
         float genderDiff = biomedicDataType.getGenderValuedifferentiation();
         float ageDiff = biomedicDataType.getAgeValuedifferentiation();
-
-        float minimumValueMeasure = normalMinValue;
-        float maximumValueMeasure = normalMaxValue;
+        float minimumValueMeasure = biomedicDataType.getNormalMinValue();;
+        float maximumValueMeasure = biomedicDataType.getNormalMaxValue();;
 
         if(patient.getGender().equals("Feminino")){
             minimumValueMeasure -= genderDiff;
@@ -67,12 +65,17 @@ public class BiomedicDataMeasureBean {
         //intervalo de 19 a 65 é o normal
 
 
+        if(minimumValueMeasure <= biomedicDataType.getMinValue())
+            minimumValueMeasure = biomedicDataType.getMinValue();
+        if(maximumValueMeasure >= biomedicDataType.getMaxValue())
+            maximumValueMeasure = biomedicDataType.getMaxValue();
+
         if(value < minimumValueMeasure){
-            classification = "Value below the minimum reference value";
+            classification = "Inferior";
         }else if(value >= minimumValueMeasure && value <=maximumValueMeasure){
-            classification = "Value in the bounds of reference";
+            classification = "Normal";
         }else if(value > minimumValueMeasure){
-            classification = "Value above the minimum reference value";
+            classification = "Superior";
         }
 
 
