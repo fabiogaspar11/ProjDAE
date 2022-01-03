@@ -208,6 +208,7 @@ import XLSX from "xlsx"
 import moment from 'moment';
 
 export default {
+  middleware: "isHealthcareProfessionalAccessingHisData",
   components: {
     NavBar,
     XLSX
@@ -538,6 +539,9 @@ export default {
       return new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate()+1).toLocaleDateString('en-US');
     },
     onContext(ctx) {
+       if(ctx.selectedDate == null){
+        return null;
+    }
       // The date formatted in the locale, or the `label-no-date-selected` string
       this.birthDate = ctx.selectedFormatted
     }

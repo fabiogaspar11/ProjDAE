@@ -53,6 +53,7 @@ public class PatientDTO implements Serializable {
         this.gender = gender;
     }
 
+
     //Constructor with password
     public PatientDTO(String name, String email, String password, String birthDate, String contact, long healthNumber,String gender) {
         this(name, email, birthDate, contact, healthNumber,gender);

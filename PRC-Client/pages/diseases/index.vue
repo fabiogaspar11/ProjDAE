@@ -79,6 +79,7 @@ import NavBar from "/components/NavBar.vue";
 import Router from "vue-router";
 
 export default {
+  middleware: "isAdministrator",
   components: {
     NavBar,
     Router,

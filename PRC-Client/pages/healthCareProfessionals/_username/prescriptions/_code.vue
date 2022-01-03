@@ -22,7 +22,7 @@
         </b-list-group-item>
       </b-list-group>
       <br />
-      <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
+      <b-button v-if="usernameHealthcareProfessional == username" v-b-modal.modal-1 class="text-center">Edit</b-button>
 
       <b-modal id="modal-1" title="Edit Prescription" @ok.prevent="update()">
         <div class="input-group mb-4">
@@ -101,6 +101,7 @@
 
 <script>
 export default {
+  middleware: "isHealthcareProfessionalAccessingHisData",
   data() {
     return {
       entidade: [],
@@ -141,6 +142,9 @@ export default {
     url: String,
   },
   computed: {
+    username(){
+      return this.$auth.user.sub;
+    },
     code() {
       return this.$route.params.code;
     },
@@ -282,7 +286,6 @@ export default {
             this.usernamePatient = null;
             this.usernameHealthcareProfessional = null;
             this.getData();
-            this.getData();
           })
           .catch((error) => {
             this.$toast.error(`Error updating Prescription - ${error.response.data}`).goAway(3000);
@@ -300,9 +303,19 @@ export default {
         this.currentExpireDate = entidade.expireDate;
         this.currentIsPharmacological = entidade.isPharmacological;
         this.currentObservations = entidade.observations;
-      });
+        this.usernameHealthcareProfessional = entidade.usernameHealthcareProfessional;
+      })
+      .catch((error)=>{
+      if(error.response.status == 403 || error.response.status == 404){
+            this.$router.push("./../prescriptions");
+            return;
+          }
+        });
     },
     onContext(ctx) {
+       if(ctx.selectedDate == null){
+        return null;
+    }
       // The date formatted in the locale, or the `label-no-date-selected` string
       this.expireDate = ctx.selectedFormatted
     }

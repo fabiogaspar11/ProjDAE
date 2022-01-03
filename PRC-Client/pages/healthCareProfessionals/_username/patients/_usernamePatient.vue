@@ -173,7 +173,7 @@
       >
         <template v-slot:cell(operations)="row">
           <b-button
-            :to="`/healthCareProfessionals/${username}/prescriptions/${row.item.code}`"
+            :to="`/healthCareProfessionals/${$auth.user.sub}/prescriptions/${row.item.code}`"
             variant="info"
           >
             <font-awesome-icon icon="eye" /> Details
@@ -192,6 +192,45 @@
       <div v-if="this.tableLength == 0" class="w-75 mx-auto alert alert-info">
         No Prescriptions created yet
       </div>
+
+
+ <!---------------------------------------------BIOMEDIC MEASURES ---------------------------------------------->
+
+      <h3 class="mt-5">Biomedic Measures ({{ tableLengthBiomedicMeasures }})</h3>
+      <b-table
+        v-if="this.tableLengthBiomedicMeasures != 0"
+        class="mt-1"
+        id="table"
+        :per-page="perPage"
+        :current-page="currentPagePaginateBiomedicMeasures"
+        :items="this.patientBiomedicMeasures"
+        :fields="fieldsBiomedicMeasures"
+        striped
+        responsive="sm"
+      >
+        <template v-slot:cell(operations)="row">
+          <b-button
+            :to="`/healthCareProfessionals/${$auth.user.sub}/biomedicMeasures/${row.item.code}`"
+            variant="info"
+          >
+            <font-awesome-icon icon="eye" /> Details
+          </b-button>
+        </template>
+      </b-table>
+      <b-pagination
+        v-if="this.tableLengthBiomedicMeasures != 0"
+        class="justify-content-center"
+        v-model="currentPagePaginateBiomedicMeasures"
+        :total-rows="tableLengthBiomedicMeasures"
+        :per-page="perPage"
+        aria-controls="table"
+      ></b-pagination>
+      <br />
+      <div v-if="this.tableLengthBiomedicMeasures == 0" class="w-75 mx-auto alert alert-info">
+        No Biomedic Measures created yet
+      </div>
+
+
     </b-container>
   </div>
 </template>
@@ -200,6 +239,7 @@
 
 <script>
 export default {
+  middleware: "isHealthcareProfessionalAccessingHisData",
   data() {
     return {
       fields: [
@@ -222,6 +262,13 @@ export default {
 
         "operations",
       ],
+      fieldsBiomedicMeasures:[
+        { key: "code", label: "Code" ,sortable: true, sortDirection: "desc" },
+        { key: "usernamePatient", label: "Patient Username",sortable: true, sortDirection: "desc"  },
+        { key: "value", label: "Value",sortable: true, sortDirection: "desc"  },
+        { key: "date", label: "Date" ,sortable: true, sortDirection: "desc" },
+        "operations",
+      ],
       fieldsDiseases: ["code", "name", "operations"],
       fieldsDiseasesTable: ["code", "name"],
       diseasesAll: [],
@@ -234,9 +281,11 @@ export default {
       birthDate: null,
       contact: null,
       patientPrescriptions: [],
+      patientBiomedicMeasures: [],
       currentPagePaginate: 1,
       currentPagePaginateDiseases:1,
       currentPagePaginateDiseasesAll:1,
+      currentPagePaginateBiomedicMeasures:1,
       perPage: 5,
       perPageDiseases: 3,
       currentName: null,
@@ -252,7 +301,10 @@ export default {
     tableLength: function () {
       return this.patientPrescriptions.length;
     },
-    username() {
+    tableLengthBiomedicMeasures(){
+      return this.patientBiomedicMeasures.length
+    },
+    usernamePatient() {
       return this.$route.params.usernamePatient;
     },
     isNameValidFeedback() {
@@ -375,14 +427,14 @@ export default {
   methods: {
     diagnose(diseaseCode) {
       this.$axios
-        .$put(`/api/patients/${this.username}/addDisease/${diseaseCode}`)
+        .$put(`/api/patients/${this.usernamePatient}/addDisease/${diseaseCode}`)
         .then(() => {
           this.getPatient();
         });
     },
     undiagnose(diseaseCode) {
       this.$axios
-        .put(`/api/patients/${this.username}/removeDisease/${diseaseCode}`)
+        .put(`/api/patients/${this.usernamePatient}/removeDisease/${diseaseCode}`)
         .then(() => {
           this.getPatient();
         });
@@ -399,7 +451,7 @@ export default {
       this.totalRows = filteredItems.length;
     },
     getPatient() {
-      this.$axios.$get(`/api/patients/${this.username}`).then((entidade) => {
+      this.$axios.$get(`/api/patients/${this.usernamePatient}`).then((entidade) => {
         this.entidade = [entidade];
         this.currentName = entidade.name;
         this.currentBirthDate = entidade.birthDate;
@@ -408,18 +460,31 @@ export default {
         this.$axios.$get(`/api/diseases`).then((response) => {
           this.diseasesAll = response;
         });
-      });
+      })
+      .catch((error)=>{
+      if(error.response.status == 403 || error.response.status == 404){
+            this.$router.push("./../patients");
+            return;
+          }
+        });
       this.$axios
-        .$get(`/api/patients/${this.username}/diseases`)
+        .$get(`/api/patients/${this.usernamePatient}/diseases`)
         .then((response) => {
           this.diseases = response;
         });
 
       this.$axios
-        .$get(`/api/patients/${this.username}/prescriptions`)
+        .$get(`/api/patients/${this.usernamePatient}/prescriptions`)
         .then((response) => {
           this.patientPrescriptions = response;
         });
+
+       this.$axios
+        .$get(`/api/patients/${this.usernamePatient}/biomedicMeasures`)
+        .then((response) => {
+          this.patientBiomedicMeasures = response;
+        });
+
     },
     update() {
       let patientUpdated = {};
@@ -440,18 +505,21 @@ export default {
         return;
       }
       this.$axios
-        .$put(`/api/patients/${this.username}`, patientUpdated)
+        .$put(`/api/patients/${this.usernamePatient}`, patientUpdated)
         .then(() => {
           this.name = null;
           this.email = null;
           this.contact = null;
           this.birthDate = null;
-          this.$toast.info(`Patient ${this.username}  updated!`).goAway(3000);
+          this.$toast.info(`Patient ${this.usernamePatient}  updated!`).goAway(3000);
 
           this.getPatient();
         });
     },
     onContext(ctx) {
+       if(ctx.selectedDate == null){
+        return null;
+    }
       // The date formatted in the locale, or the `label-no-date-selected` string
       this.birthDate = ctx.selectedFormatted
     }

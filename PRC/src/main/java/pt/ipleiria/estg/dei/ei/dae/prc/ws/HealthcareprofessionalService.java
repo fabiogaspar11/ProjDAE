@@ -213,11 +213,14 @@ public class HealthcareprofessionalService {
         if( !principal.getName().equals(healthcareProfessional.getUsername())){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
+
         List<BiomedicDataMeasure> biomedicDataMeasures = new ArrayList<>();
         for (Patient p: healthcareProfessional.getPatients()
              ) {
             for (BiomedicDataMeasure b: p.getBiomedicDataMeasures()) {
-                biomedicDataMeasures.add(b);
+                if(b.getUserRegister().getUsername().equals(principal.getName())){
+                    biomedicDataMeasures.add(b);
+                }
             }
         }
         return Response.status(Response.Status.OK)

@@ -239,6 +239,9 @@ export default {
   },
   methods: {
     onContext(ctx) {
+       if(ctx.selectedDate == null){
+        return null;
+    }
       // The date formatted in the locale, or the `label-no-date-selected` string
       this.dateEdit = ctx.selectedFormatted
     },
@@ -267,7 +270,7 @@ export default {
             })
           })
             .catch((error)=>{
-              if(error.response.status == 403){
+      if(error.response.status == 403 || error.response.status == 404){
                 this.$router.push("./../biomedicMeasures");
                 return;
               }

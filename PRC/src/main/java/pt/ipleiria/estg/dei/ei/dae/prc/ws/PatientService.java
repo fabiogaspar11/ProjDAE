@@ -351,7 +351,6 @@ public class PatientService {
             if (!hasHealthcareProfessionalAssociated){
                 return Response.status(Response.Status.FORBIDDEN).build();
             }
-                return Response.ok(prescriptionsToDTOs(healthcareProfessionalBean.getHealthcareProfessionalPatientPrescriptions(principal.getName(),username))).build();
         }
 
         return Response.ok(prescriptionsToDTOs(patient.getPrescriptions())).build();
