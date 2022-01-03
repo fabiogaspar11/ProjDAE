@@ -87,7 +87,7 @@ public class ConfigBean {
         }
 
         long code = diseaseBean.create("Hipertensão");
-        diseaseBean.addDiseaseToPatient(code, usernameP1);
+        patientBean.addDiseaseToPatient(usernameP1,code);
 
 
 

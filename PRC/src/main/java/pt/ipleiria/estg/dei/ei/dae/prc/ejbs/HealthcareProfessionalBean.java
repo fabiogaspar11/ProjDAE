@@ -36,14 +36,13 @@ public class HealthcareProfessionalBean {
         return healthcareProfessional.getUsername();
     }
 
-    public void remove(String username) throws MyEntityNotFoundException {
+    public void remove(String username) throws MyEntityNotFoundException, MyConstraintViolationException {
         HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class, username);
-        for (Patient p: healthcareProfessional.getPatients()) {
-            removePatientFromHealthcareprofessional(p.getUsername(), healthcareProfessional.getUsername());
+        if(!healthcareProfessional.getPatients().isEmpty()){
+            throw new MyConstraintViolationException("Cannot delete Healthcare Professional - There are Patients associated with this Healthcare Professional");
         }
-        for (Prescription p: healthcareProfessional.getPrescriptions()) {
-            removePrescriptionFromHealthcareprofessional(p.getCode(), healthcareProfessional.getUsername());
-            entityManager.remove(entityManager.merge(p));
+        if(!healthcareProfessional.getPrescriptions().isEmpty()){
+            throw new MyConstraintViolationException("Cannot delete Healthcare Professional - There are Prescription associated with this Healthcare Professional");
         }
         entityManager.remove(entityManager.merge(healthcareProfessional));
     }

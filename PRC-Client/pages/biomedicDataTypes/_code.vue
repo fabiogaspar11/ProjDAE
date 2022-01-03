@@ -23,8 +23,8 @@
             :state="isNameValid"
             placeholder="Enter name"
           />
-          <p>{{ isNameValidFeedback }}</p>
         </div>
+          <p>{{ isNameValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Unit Measure:</span>
           <b-input
@@ -35,8 +35,8 @@
             :state="isUnitValid"
             placeholder="Enter unit"
           />
-          <p>{{ isUnitValidFeedback }}</p>
         </div>
+          <p>{{ isUnitValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Minimum value:</span>
           <b-input
@@ -47,8 +47,8 @@
             :state="isMinValueValid"
             placeholder="Enter minimum value"
           />
-          <p>{{ isMinValueValidFeedback }}</p>
         </div>
+          <p>{{ isMinValueValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Maximum value:</span>
           <b-input
@@ -59,8 +59,8 @@
             aria-describedby="basic-addon1"
             placeholder="Enter maximum value"
           />
-          <p>{{ isMaxValueValidFeedback }}</p>
         </div>
+          <p>{{ isMaxValueValidFeedback }}</p>
       </b-modal>
     </div>
   </div>

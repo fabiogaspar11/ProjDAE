@@ -151,7 +151,7 @@ public class HealthcareprofessionalService {
     @DELETE
     @Path("/{username}")
     @RolesAllowed({"Administrator"})
-    public Response deleteHealthcareprofessional(@PathParam("username") String username) throws MyEntityNotFoundException {
+    public Response deleteHealthcareprofessional(@PathParam("username") String username) throws MyEntityNotFoundException, MyConstraintViolationException {
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         healthcareProfessionalBean.remove(username);
         return Response.status(Response.Status.OK)

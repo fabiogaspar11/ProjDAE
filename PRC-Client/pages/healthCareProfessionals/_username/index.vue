@@ -29,8 +29,8 @@
       <div class="input-group mb-4">
         <span class="input-group-text">Name</span>
         <b-input required v-model.trim="name" type="text" :state="isNameValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your name"/>
-        <p>{{isNameValidFeedback}}</p>
       </div>
+        <p>{{isNameValidFeedback}}</p>
       <div class="input-group mb-4">
         <span class="input-group-text">Birthdate</span>
         <b-input required  v-model.trim="birthDate" type="text" :state="isbirthDateValid"  placeholder="dd/mm/yyyy" class="form-control" aria-describedby="basic-addon1"/>
@@ -46,18 +46,18 @@
       <div class="input-group mb-4">
         <span class="input-group-text">Type</span>
         <b-input required  v-model.trim="type" type="text" :state="isTypeValid"  placeholder="Enter the professional type" class="form-control" aria-describedby="basic-addon1"/>
-        <p>{{isTypeValidFeedback}}</p>
       </div>
+        <p>{{isTypeValidFeedback}}</p>
       <div class="input-group mb-4">
         <span class="input-group-text">Email</span>
         <b-input required v-model.trim="email" ref="email" type="email" :state="isEmailValid" class="form-control" aria-describedby="basic-addon1" placeholder="Enter your email"/>
-        <p>{{isEmailValidFeedback}}</p>
       </div>
+        <p>{{isEmailValidFeedback}}</p>
       <div class="input-group mb-4">
         <span class="input-group-text">Contact</span>
         <b-input required v-model.trim="contact" type="number" :state="isContactValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your contact"/>
-        <p>{{isContactValidFeedback}}</p>
       </div>
+        <p>{{isContactValidFeedback}}</p>
       <b-alert v-model="showDismissibleAlertEdit" variant="danger" dismissible>
         <p> {{alertData}}</p>
       </b-alert>
@@ -67,13 +67,13 @@
       <div class="input-group mb-4">
         <span class="input-group-text">Password</span>
         <b-input required v-model.trim="passwordOld" type="password" :state="isPasswordOldValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your old password"/>
-        <p>{{isPasswordOldValidFeedback}}</p>
       </div>
+        <p>{{isPasswordOldValidFeedback}}</p>
       <div class="input-group mb-4">
         <span class="input-group-text">New Password</span>
         <b-input required  v-model.trim="passwordNew" type="password" :state="isPasswordNewValid" class="form-control" aria-describedby="basic-addon1" placeholder="Enter your new password"/>
-        <p>{{isPasswordNewValidFeedback}}</p>
       </div>
+        <p>{{isPasswordNewValidFeedback}}</p>
       <b-alert v-model="showDismissibleAlertPassword" variant="danger" dismissible>
         {{alertPasswordInvalid}}
       </b-alert>

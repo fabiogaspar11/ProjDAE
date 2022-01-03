@@ -22,8 +22,8 @@
               placeholder="Enter your name"
               :state="isNameValid"
             />
-             <p>{{isNameValidFeedback}}</p>
           </div>
+             <p>{{isNameValidFeedback}}</p>
 
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -43,8 +43,8 @@
               :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
               @context="onContext"
             ></b-form-datepicker>
-            <p>{{isbirthDateValidFeedback}}</p>
           </div>
+            <p>{{isbirthDateValidFeedback}}</p>
 
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -59,8 +59,8 @@
               placeholder="Enter your email"
               :state="isEmailValid"
             />
-              <p>{{isEmailValidFeedback}}</p>
           </div>
+              <p>{{isEmailValidFeedback}}</p>
 
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -74,20 +74,20 @@
               placeholder="Enter your contact"
               :state="isContactValid"
             />
-              <p>{{isContactValidFeedback}}</p>
           </div>
+              <p>{{isContactValidFeedback}}</p>
         </b-modal>
           <b-modal id="modal-2" title="Edit" @ok="updatePassword()">
             <div class="input-group mb-4">
               <span class="input-group-text">Current Password</span>
               <b-input required v-model.trim="oldPassword" type="password" :state="isOLDPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your old password"/>
-              <p>{{isOLDPasswordValidFeedback}}</p>
           </div>
+              <p>{{isOLDPasswordValidFeedback}}</p>
           <div class="input-group mb-4">
               <span class="input-group-text">New Password</span>
               <b-input required v-model.trim="newPassword" type="password" :state="isPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your new password"/>
-              <p>{{isPasswordValidFeedback}}</p>
           </div>
+              <p>{{isPasswordValidFeedback}}</p>
       </b-modal>
       </div>
     </div>

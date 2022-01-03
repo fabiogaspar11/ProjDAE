@@ -12,7 +12,10 @@
     <div class="col mr-2">
       <Card :element="'administrators'" :text="'Administrators'" :url="'administrators'"></Card>
     </div>
-    <div class="col mr-2">
+       <div class="col mr-2">
+      <Card :element="'patients'" :text="'Patients'" :url="'patients'"></Card>
+    </div>
+    <div class="col mr-2 mt-5">
       <Card :element="'biomedicDataTypes'" :text="'Biomedic Types'" :url="'biomedicDataTypes'"></Card>
     </div>
   </div>

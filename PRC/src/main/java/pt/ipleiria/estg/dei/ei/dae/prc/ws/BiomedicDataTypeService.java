@@ -7,6 +7,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.BiomedicDataTypeBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Administrator;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.BiomedicDataType;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyIllegalArgumentException;
@@ -88,7 +89,7 @@ public class BiomedicDataTypeService {
     @DELETE
     @Path("/{code}")
     @RolesAllowed({"Administrator"})
-    public Response deleteBiomedicDataType(@PathParam("code") long code) throws MyEntityNotFoundException {
+    public Response deleteBiomedicDataType(@PathParam("code") long code) throws MyEntityNotFoundException, MyConstraintViolationException {
         BiomedicDataType biomedicDataType = bDataTypeBean.findBiomedicDataType(code);
         bDataTypeBean.delete(code);
         return Response.status(Response.Status.OK)

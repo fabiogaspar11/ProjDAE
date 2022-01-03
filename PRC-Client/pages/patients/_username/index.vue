@@ -14,35 +14,35 @@
       <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
           <b-input required v-model.trim="name" type="text" :state="isNameValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your name"/>
-          <p>{{isNameValidFeedback}}</p>
       </div>
+          <p>{{isNameValidFeedback}}</p>
        <div class="input-group mb-4">
           <span class="input-group-text">Birthdate</span>
           <b-input required  v-model.trim="birthDate" type="text" :state="isbirthDateValid"  placeholder="dd/mm/yyyy" class="form-control" aria-describedby="basic-addon1"/>
-          <p>{{isbirthDateValidFeedback}}</p>
       </div>
+          <p>{{isbirthDateValidFeedback}}</p>
       <div class="input-group mb-4">
           <span class="input-group-text">Email</span>
           <b-input required v-model.trim="email" ref="email" type="email" :state="isEmailValid" class="form-control" aria-describedby="basic-addon1" placeholder="Enter your email"/>
-           <p>{{isEmailValidFeedback}}</p>
       </div>
+           <p>{{isEmailValidFeedback}}</p>
        <div class="input-group mb-4">
           <span class="input-group-text">Contact</span>
           <b-input required v-model.trim="contact" type="number"  :state="isContactValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your contact"/>
-          <p>{{isContactValidFeedback}}</p>
       </div>
+          <p>{{isContactValidFeedback}}</p>
       </b-modal>
           <b-modal id="modal-2" title="Edit" @ok="updatePassword()">
             <div class="input-group mb-4">
               <span class="input-group-text">Current Password</span>
               <b-input required v-model.trim="oldPassword" type="password" :state="isOLDPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your old password"/>
-              <p>{{isOLDPasswordValidFeedback}}</p>
           </div>
+              <p>{{isOLDPasswordValidFeedback}}</p>
           <div class="input-group mb-4">
               <span class="input-group-text">New Password</span>
               <b-input required v-model.trim="newPassword" type="password" :state="isPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your new password"/>
-              <p>{{isPasswordValidFeedback}}</p>
           </div>
+              <p>{{isPasswordValidFeedback}}</p>
       </b-modal>
     </div>
   </div>

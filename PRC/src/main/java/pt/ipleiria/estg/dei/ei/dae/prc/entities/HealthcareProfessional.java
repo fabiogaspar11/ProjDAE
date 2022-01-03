@@ -17,7 +17,7 @@ import java.util.List;
 public class HealthcareProfessional extends User implements Serializable {
     @NotNull
     private String type;
-
+    @Version private int version;
     @ManyToMany
     @JoinTable(name = "HEALTHCAREPROFESSIONALS_PATIENTS",
             joinColumns = @JoinColumn(name = "USERNAME_HEALTHCAREPROFESSIONAL", referencedColumnName = "USERNAME"),

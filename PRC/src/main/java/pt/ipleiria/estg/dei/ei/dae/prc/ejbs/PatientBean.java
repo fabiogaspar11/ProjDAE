@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.prc.ejbs;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.HealthcareProfessionalDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PatientDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.*;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyIllegalArgumentException;
@@ -97,33 +98,20 @@ public class PatientBean {
         return true;
     }
 
-    public void remove(Patient patient) throws MyEntityNotFoundException {
-        for (HealthcareProfessional p:
-                patient.getHealthcareProfessionals()) {
-            removeHealthcareprofessionalFromPatient(p.getUsername(), patient.getUsername());
-            patient=entityManager.find(Patient.class,patient.getUsername());
+    public void remove(Patient patient) throws MyEntityNotFoundException, MyConstraintViolationException {
+        if(!patient.getPrescriptions().isEmpty()){
+            throw new MyConstraintViolationException("Cannot delete Patient - There are Prescriptions associated with this Patient");
         }
-
-        for (Disease d:
-                patient.getDiseases()) {
-            removeDiseaseFromPatient(patient.getUsername(),d.getCode());
-            patient=entityManager.find(Patient.class,patient.getUsername());
+        if(!patient.getHealthcareProfessionals().isEmpty()){
+            throw new MyConstraintViolationException("Cannot delete Patient - This Patient is associated with Healthcare Professionals");
         }
-
+        if(!patient.getDiseases().isEmpty()){
+            throw new MyConstraintViolationException("Cannot delete Patient - This Patient is diagnosed with diseases");
+        }
+        if(!patient.getBiomedicDataMeasures().isEmpty()){
+            throw new MyConstraintViolationException("Cannot delete Patient - There are Biomedic Measures associated with this Patient");
+        }
         entityManager.remove(entityManager.merge(patient));
-    }
-
-    public boolean removeHealthcareprofessionalFromPatient(String usernamePatient, String usernameHealthcareprofessional) throws MyEntityNotFoundException {
-        Patient patient = findPatient(usernamePatient);
-        HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class, usernameHealthcareprofessional);
-        if (healthcareProfessional == null){
-            throw new MyEntityNotFoundException("There is no Healthcare professional with the username: \'"+usernamePatient+"\'");
-        }
-        patient.removeHealthcareProfessional(healthcareProfessional);
-        healthcareProfessional.removePatient(patient);
-        entityManager.merge(patient);
-        entityManager.merge(healthcareProfessional);
-        return true;
     }
 
     public void update(Patient patient, PatientDTO patientDTO) {

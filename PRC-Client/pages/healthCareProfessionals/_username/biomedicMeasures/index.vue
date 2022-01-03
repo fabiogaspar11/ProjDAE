@@ -111,8 +111,8 @@
               aria-describedby="basic-addon1 "
             />
           </b-input-group>
-          <p>{{ isValueValidFeedback }}</p>
         </div>
+          <p>{{ isValueValidFeedback }}</p>
         <div class="input-group mb-4">
           <b-select v-model="patient" :state="isPatientValid">
             <template v-slot:first>
@@ -144,19 +144,21 @@
         >
           <template v-slot:cell(operations)="row">
             <b-button
-              :to="`./biomedicMeasures/${row.item.code}`"
+              :to="`biomedicMeasures/${row.item.code}`"
               variant="info"
             >
-              <font-awesome-icon icon="eye" /> Details
+            <font-awesome-icon icon="eye" /> Details
             </b-button>
-
             <b-button
-              v-b-modal.modal-3
+             v-if="row.item.usernameRegister==row.item.usernamePatient || row.item.usernameRegister == username"
               variant="danger"
               @click="remove(row.item.code)"
             >
               <font-awesome-icon icon="trash" /> Remove
             </b-button>
+             <div v-else>
+              Delete - Not avaliable
+            </div>
           </template>
         </b-table>
         <b-pagination
@@ -228,7 +230,9 @@ export default {
     };
   },
   computed: {
-
+    username() {
+      return this.$auth.user.sub;
+    },
     tableLength: function () {
       return this.entidade.length;
     },

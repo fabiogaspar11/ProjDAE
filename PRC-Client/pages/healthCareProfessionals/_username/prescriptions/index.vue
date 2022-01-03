@@ -67,8 +67,8 @@
             aria-describedby="basic-addon1"
             placeholder="Enter patient health number"
           />
-          <p>{{ ishealthNumberPatientValidFeedback }}</p>
         </div>
+          <p>{{ ishealthNumberPatientValidFeedback }}</p>
 
         <div class="overflow-auto">
           <b-form-input
@@ -119,8 +119,8 @@
             aria-describedby="basic-addon1"
             placeholder="Enter prescription title"
           />
-          <p>{{ isTitleValidFeedback }}</p>
         </div>
+          <p>{{ isTitleValidFeedback }}</p>
         <div>
           Pharmacological prescription:
           <b-form-select
@@ -128,8 +128,8 @@
             :options="options"
             :state="isOptionValid"
           ></b-form-select>
-          <p>{{ isOptionValidFeedback }}</p>
         </div>
+          <p>{{ isOptionValidFeedback }}</p>
         <br />
         <span>Treatment information:</span>
         <div>
@@ -141,8 +141,8 @@
             rows="3"
             max-rows="6"
           ></b-form-textarea>
-          <p>{{ isTreatmentInfoValidFeedback }}</p>
         </div>
+          <p>{{ isTreatmentInfoValidFeedback }}</p>
         <br />
         <span>Observations:</span>
         <div>
@@ -175,8 +175,8 @@
             ></b-form-datepicker>
           </b-input-group-append>
         </div>
-        <p>{{ isDateValidFeedback }}</p>
       </b-modal>
+        <p>{{ isDateValidFeedback }}</p>
       <div class="mt-1"  v-if="this.tableLength != 0">
         <b-table
           id="table"

@@ -150,7 +150,7 @@ public class PatientService {
 
     @GET
     @Path("/")
-    @RolesAllowed({"HealthcareProfessional"})
+    @RolesAllowed({"HealthcareProfessional","Administrator"})
     public List<PatientDTO> getAllPatientsWS() throws MyEntityNotFoundException {
 
         Principal principal = securityContext.getUserPrincipal();
@@ -158,9 +158,13 @@ public class PatientService {
         List<PatientDTO> patientDTOS = new LinkedList<>();
         PatientDTO patientDTO;
         for (Patient p:patients) {
-            boolean hasHealthcareProfessionalAssociated = healthcareProfIsAssociatedToPatient(principal.getName(), p.getUsername());
-            if(hasHealthcareProfessionalAssociated){
-                patientDTO = toDTOnoDetails(p);
+            if(securityContext.isUserInRole("HealthcareProfessional")){
+                boolean hasHealthcareProfessionalAssociated = healthcareProfIsAssociatedToPatient(principal.getName(), p.getUsername());
+                if(hasHealthcareProfessionalAssociated){
+                    patientDTO = toDTOnoDetails(p);
+                }else{
+                    patientDTO = toDTOBasic(p);
+                }
             }else{
                 patientDTO = toDTOBasic(p);
             }
@@ -218,14 +222,9 @@ public class PatientService {
 
     @DELETE
     @Path("/{username}")
-    @RolesAllowed({"HealthcareProfessional"})
-    public Response deletePatient(@PathParam("username") String username) throws MyEntityNotFoundException {
-        Principal principal = securityContext.getUserPrincipal();
+    @RolesAllowed({"Administrator"})
+    public Response deletePatient(@PathParam("username") String username) throws MyEntityNotFoundException, MyConstraintViolationException {
         Patient patient  = patientBean.findPatient(username);
-        boolean hasHealthcareProfessionalAssociated = healthcareProfIsAssociatedToPatient(principal.getName(), username);
-        if (!hasHealthcareProfessionalAssociated){
-            return Response.status(Response.Status.FORBIDDEN).build();
-        }
         patientBean.remove(patient);
         return Response.status(Response.Status.OK)
                 .entity(toDTOnoDetails(patient))

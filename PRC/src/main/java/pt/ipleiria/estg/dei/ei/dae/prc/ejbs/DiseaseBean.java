@@ -24,8 +24,11 @@ public class DiseaseBean {
         return disease.getCode();
     }
 
-    public void delete(int code) throws MyEntityNotFoundException {
+    public void delete(int code) throws MyEntityNotFoundException, MyConstraintViolationException {
         Disease disease = findDisease(code);
+        if(!disease.getPatients().isEmpty()){
+            throw new MyConstraintViolationException("Cannot delete Disease - There are Patients diagnosed with this Disease");
+        }
         entityManager.remove(entityManager.merge(disease));
     }
 
@@ -47,32 +50,5 @@ public class DiseaseBean {
         return disease;
     }
 
-    public void addDiseaseToPatient(long code, String username) throws MyEntityNotFoundException {
-        Disease disease = findDisease(code);
-        Patient patient = entityManager.find(Patient.class, username);
-        if (patient != null) {
-            if (!patient.getDiseases().contains(disease)){
-                disease.addPatient(patient);
-                patient.addDisease(disease);
-                entityManager.merge(disease);
-                entityManager.merge(patient);
-            }
-        }
-    }
 
-    public void removeDiseaseFromPatient(long code, String username) throws MyEntityNotFoundException {
-        Disease disease = findDisease(code);
-        Patient patient = entityManager.find(Patient.class, username);
-        if (patient != null) {
-            if (patient.getDiseases().contains(disease)){
-                disease.removePatient(patient);
-                patient.removeDisease(disease);
-                entityManager.merge(disease);
-                entityManager.merge(patient);
-            }
-        }
-        else{
-            throw new MyEntityNotFoundException("Patient with username: " + username + " not found.");
-        }
-    }
 }

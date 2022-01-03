@@ -75,21 +75,13 @@
         >
           <template v-slot:cell(operations)="row">
             <b-button
-              v-if="!isPatient"
-              :to="`/biomedicMeasures/${row.item.code}`"
+              :to="`biomedicMeasures/${row.item.code}`"
               variant="info"
             >
               <font-awesome-icon icon="eye" /> Details
             </b-button>
-            <div v-if="!isPatient || row.item.usernameRegister == username">
+            <div v-if="row.item.usernameRegister == username">
               <b-button
-                @click="sendInfo(row.item)"
-                v-b-modal.modal-2
-                variant="info"
-                >Edit</b-button
-              >
-              <b-button
-                v-b-modal.modal-3
                 variant="danger"
                 @click="remove(row.item.code)"
               >
@@ -97,7 +89,7 @@
               </b-button>
             </div>
             <div v-else>
-              No operations available
+              Delete - Not avaliable
             </div>
           </template>
         </b-table>
@@ -198,72 +190,6 @@
           </b-input-group>
         </div>
         <p>{{ isValueValidFeedback }}</p>
-      </b-modal>
-
-      <b-modal
-        v-if="this.biomedicUpdate != null"
-        id="modal-2"
-        :title="'Edit Biomedic Measure nº ' + this.biomedicUpdate.code"
-        @ok="update()"
-      >
-        <div class="input-group mb-4">
-          <span class="input-group-text">Date</span>
-          <b-input
-            required
-            v-model.trim="dateEdit"
-            type="text"
-            :state="isDateEditValid"
-            placeholder="dd/mm/yyyy"
-            class="form-control"
-            aria-describedby="basic-addon1"
-          />
-          <b-form-datepicker
-            id="ex-disabled-readonly"
-            button-only
-            :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-            @context="onContextEdit"
-          ></b-form-datepicker>
-          <p>{{ isDateEditValidFeedback }}</p>
-        </div>
-        <div class="input-group mb-4">
-          <span class="input-group-text">Hour</span>
-          <b-input
-            required
-            v-model.trim="hourEdit"
-            type="text"
-            :state="isHourEditValid"
-            placeholder="HH:MM"
-            class="form-control"
-            aria-describedby="basic-addon1 "
-          />
-          <p>{{ isHourEditValidFeedback }}</p>
-        </div>
-        <div class="input-group mb-4 justify-content-center">
-          <span class="input-group-text">Value</span>
-          <b-input
-            v-model="valueEdit"
-            :state="this.isValueEditValid"
-            class="col-md-2"
-            >{{ this.value }}</b-input
-          >
-          <b-input-group
-            :prepend="this.minVal"
-            :append="this.maxVal"
-            class="mt-3"
-          >
-            <b-input
-              required
-              v-model.trim="valueEdit"
-              type="range"
-              :min="minVal"
-              :max="maxVal"
-              placeholder="Enter the value"
-              class="form-control"
-              aria-describedby="basic-addon1 "
-            />
-          </b-input-group>
-          <p>{{ isValueEditValidFeedback }}</p>
-        </div>
       </b-modal>
     </b-container>
   </div>
