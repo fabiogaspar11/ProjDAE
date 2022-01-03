@@ -60,7 +60,7 @@
           <span class="input-group-text">Patient Health Number</span>
           <b-input
             required
-            v-model="healthNumberPatient"
+            v-model.trim="healthNumberPatient"
             type="number"
             :state="ishealthNumberPatientValid"
             class="form-control"
@@ -112,7 +112,7 @@
           <span class="input-group-text">Title</span>
           <b-input
             required
-            v-model="title"
+            v-model.trim="title"
             type="text"
             :state="isTitleValid"
             class="form-control"
@@ -135,7 +135,7 @@
         <div>
           <b-form-textarea
             id="textarea"
-            v-model="treatmentInfo"
+            v-model.trim="treatmentInfo"
             :state="isTreatmentInfoValid"
             placeholder="Treatment information..."
             rows="3"
@@ -311,6 +311,10 @@ export default {
       if (!this.title) {
         return null;
       }
+      let length = this.title.length;
+      if (length < 3 || length > 25) {
+        return "The title is mandatory and must have between 3 and 25 letters";
+      }
       return "";
     },
     isTreatmentInfoValid() {
@@ -322,6 +326,10 @@ export default {
     isTreatmentInfoValidFeedback() {
       if (!this.treatmentInfo) {
         return null;
+      }
+       let length = this.treatmentInfo.length;
+      if (length < 3 || length > 25) {
+        return "The treatment information is mandatory and must have between 3 and 25 letters";
       }
       return "";
     },
@@ -450,13 +458,6 @@ export default {
           .goAway(3000);
         return;
       }
-      console.log(this.expireDate);
-      console.log(this.isPharmacological);
-      console.log(this.observations);
-      console.log(this.title);
-      console.log(this.treatmentInfo);
-      console.log(this.healthNumberPatient);
-      console.log(this.usernameHealthcareProfessional);
 
       this.$axios
         .$post("/api/prescriptions", {

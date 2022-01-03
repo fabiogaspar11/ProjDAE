@@ -201,7 +201,7 @@ export default {
     remove(username, name) {
       this.$axios.$delete(`/api/administrators/${username}`).then(() => {
         this.$toast
-          .info(`Administrator ${this.username} was successfully removed!`)
+          .info(`Administrator ${name} was successfully removed!`)
           .goAway(3000);
 
         this.getAdministrators();

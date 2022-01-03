@@ -536,7 +536,7 @@ export default {
       if (!this.valueEdit) {
         return null;
       }
-      if (this.minValueUpdate == this.valueEdit)
+      if (this.valueUpdate == this.valueEdit)
         return "New value is the same as the old one";
       let valueLen = this.valueEdit.length;
       if (valueLen < 1 || valueLen > 25) {

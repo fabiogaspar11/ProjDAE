@@ -29,27 +29,27 @@
       <div class="input-group mb-4">
         <span class="input-group-text">Name</span>
         <b-input required v-model.trim="name" type="text" :state="isNameValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your name"/>
-        <p style="color: #dc3545;">{{isNameValidFeedback}}</p>
+        <p>{{isNameValidFeedback}}</p>
       </div>
       <div class="input-group mb-4">
         <span class="input-group-text">Birthdate</span>
         <b-input required  v-model.trim="birthDate" type="text" :state="isbirthDateValid"  placeholder="dd/mm/yyyy" class="form-control" aria-describedby="basic-addon1"/>
-        <p style="color: #dc3545;">{{isbirthDateValidFeedback}}</p>
+        <p>{{isbirthDateValidFeedback}}</p>
       </div>
       <div class="input-group mb-4">
         <span class="input-group-text">Type</span>
         <b-input required  v-model.trim="type" type="text" :state="isTypeValid"  placeholder="Enter the professional type" class="form-control" aria-describedby="basic-addon1"/>
-        <p style="color: #dc3545;">{{isTypeValidFeedback}}</p>
+        <p>{{isTypeValidFeedback}}</p>
       </div>
       <div class="input-group mb-4">
         <span class="input-group-text">Email</span>
         <b-input required v-model.trim="email" ref="email" type="email" :state="isEmailValid" class="form-control" aria-describedby="basic-addon1" placeholder="Enter your email"/>
-        <p style="color: #dc3545;">{{isEmailValidFeedback}}</p>
+        <p>{{isEmailValidFeedback}}</p>
       </div>
       <div class="input-group mb-4">
         <span class="input-group-text">Contact</span>
         <b-input required v-model.trim="contact" type="number" :state="isContactValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your contact"/>
-        <p style="color: #dc3545;">{{isContactValidFeedback}}</p>
+        <p>{{isContactValidFeedback}}</p>
       </div>
       <b-alert v-model="showDismissibleAlertEdit" variant="danger" dismissible>
         <p> {{alertData}}</p>
@@ -60,12 +60,12 @@
       <div class="input-group mb-4">
         <span class="input-group-text">Password</span>
         <b-input required v-model.trim="passwordOld" type="password" :state="isPasswordOldValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your old password"/>
-        <p style="color: #dc3545;">{{isPasswordOldValidFeedback}}</p>
+        <p>{{isPasswordOldValidFeedback}}</p>
       </div>
       <div class="input-group mb-4">
         <span class="input-group-text">New Password</span>
         <b-input required  v-model.trim="passwordNew" type="password" :state="isPasswordNewValid" class="form-control" aria-describedby="basic-addon1" placeholder="Enter your new password"/>
-        <p style="color: #dc3545;">{{isPasswordNewValidFeedback}}</p>
+        <p>{{isPasswordNewValidFeedback}}</p>
       </div>
       <b-alert v-model="showDismissibleAlertPassword" variant="danger" dismissible>
         {{alertPasswordInvalid}}
@@ -236,18 +236,11 @@ export default {
     },
     isbirthDateValidFeedback () {
       if (!this.birthDate) {
-        return null
-      }
-       if(this.birthDate == this.currentBirthDate){
-        return "Birthdate is equal to current birthdate";
-      }
-      var date_regex = /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/;
-      return date_regex.test(this.birthDate) ? '':'The birth date is invalid - format dd/mm/yyyy';
-    },
-    isbirthDateValid () {
-       if (!this.birthDate) {
           return null
         }
+         if(this.birthDate == this.currentBirthDate){
+        return "Birthdate is equal to current birthdate";
+      }
        var date_regex = /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
        var currentdate = new Date();
        var dateSplitted = this.birthDate.split('/');
@@ -263,6 +256,13 @@ export default {
           return '';
        }
        return 'The date is bigger than todays date';
+     },
+    isbirthDateValid () {
+          if (this.isbirthDateValidFeedback === null) {
+        return null;
+      }
+      return this.isbirthDateValidFeedback === "";
+
     },
     isFormValid () {
       this.showDismissibleAlertEdit = false;
@@ -292,9 +292,11 @@ export default {
         this.alertPasswordInvalid = 'You must fill all the fields to update password'
         return false
       }
-      this.alertPasswordInvalid = 'Every Data must be correct'
       if (this.isPasswordOldValid === false) {
         return false
+      }
+      if(this.isPasswordNewValid === false){
+        return false;
       }
       return true;
     }
@@ -304,6 +306,7 @@ export default {
       this.$axios.$get(`/api/healthcareProfessionals/${this.username}`).then((entidade) => {
         this.healthCareProfessional = [entidade];
         this.currentName = entidade.name;
+        this.currentType = entidade.type;
         this.currentBirthDate = entidade.birthDate;
         this.currentEmail = entidade.email;
         this.currentContact = entidade.contact;
@@ -356,6 +359,7 @@ export default {
           })
       }
       else{
+        this.alertPasswordInvalid = 'Every Data must be correct';
         this.showDismissibleAlertPassword = true;
       }
     },

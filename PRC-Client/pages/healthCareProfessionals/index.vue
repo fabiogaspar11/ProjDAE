@@ -26,6 +26,7 @@
             :state="isHealthNumberValid"
             class="form-control"
             aria-describedby="basic-addon1"
+            placeholder="Enter the health Number"
           />
           <p>{{ isHealthNumberValidFeedback }}</p>
         </div>
@@ -38,6 +39,7 @@
             :state="isbirthDateValid"
             class="form-control"
             aria-describedby="basic-addon1"
+            placeholder="dd/mm/yyyy"
           />
           <p>{{ isbirthDateValidFeedback }}</p>
         </div>
@@ -50,27 +52,28 @@
             :state="isTypeValid"
             class="form-control"
             aria-describedby="basic-addon1"
+             placeholder="Enter the type"
           />
           <p>{{ isTypeValidFeedback }}</p>
         </div>
         <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
-        <b-input required v-model.trim="name" type="text" :state="isNameValid" class="form-control" aria-describedby="basic-addon1"/>
+        <b-input required v-model.trim="name" type="text" :state="isNameValid" class="form-control" aria-describedby="basic-addon1"     placeholder="Enter the Name"/>
         <p>{{isNameValidFeedback}}</p>
       </div>
       <div class="input-group mb-4">
         <span class="input-group-text">Email</span>
-        <b-input required v-model.trim="email" type="email"  ref="email" :state="isEmailValid" class="form-control" aria-describedby="basic-addon1"/>
+        <b-input required v-model.trim="email" type="email"  ref="email" :state="isEmailValid" class="form-control" aria-describedby="basic-addon1"     placeholder="Enter the email"/>
         <p>{{isEmailValidFeedback}}</p>
       </div>
       <div class="input-group mb-4">
         <span class="input-group-text">Contact</span>
-        <b-input required v-model.trim="contact" type="number" :state="isContactValid" class="form-control" aria-describedby="basic-addon1"/>
+        <b-input required v-model.trim="contact" type="number" :state="isContactValid" class="form-control" aria-describedby="basic-addon1" placeholder="Enter the Contact"/>
         <p>{{isContactValidFeedback}}</p>
       </div>
       <div class="input-group mb-4">
         <span class="input-group-text">Password</span>
-        <b-input required v-model.trim="password" type="password" :state="isPasswordValid" class="form-control" aria-describedby="basic-addon1"/>
+        <b-input required v-model.trim="password" type="password" :state="isPasswordValid" class="form-control" aria-describedby="basic-addon1"  placeholder="Enter the Password"/>
         <p>{{isPasswordValidFeedback}}</p>
       </div>
       <b-alert v-model="showDismissibleAlert" variant="danger" dismissible>
@@ -386,6 +389,11 @@ export default {
       this.$axios
         .$delete("/api/healthcareProfessionals/" + username)
         .then(() => {
+           this.$toast
+              .info(
+                "Healthcare professional " + username + " was deleted succesfully"
+              )
+              .goAway(3000);
           this.getHealthCareProfessionalData();
         });
     },
