@@ -220,6 +220,9 @@ export default {
         .then(() => {
             this.$toast.info("Disease: "+ code + " removed with success").goAway(3000);
             this.getDiseases();
+        })
+        .catch(error => {
+            this.$toast.info("Error: "+ error.response.data).goAway(3000);
         });
     },
     search(filteredItems) {

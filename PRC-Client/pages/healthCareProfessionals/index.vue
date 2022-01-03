@@ -402,7 +402,10 @@ export default {
               .goAway(3000);
           this.getHealthCareProfessionalData();
         }
-       );
+       )
+        .catch(error => {
+            this.$toast.info("Error: "+ error.response.data).goAway(3000);
+        });
     },
     update(username) {
       this.$axios

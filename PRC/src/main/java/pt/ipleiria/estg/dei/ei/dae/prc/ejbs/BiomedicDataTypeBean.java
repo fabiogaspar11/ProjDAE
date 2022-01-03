@@ -1,10 +1,8 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.ejbs;
 
-import pt.ipleiria.estg.dei.ei.dae.prc.dtos.AdministratorDTO;
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.BiomedicDataTypeDTO;
-import pt.ipleiria.estg.dei.ei.dae.prc.entities.Administrator;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.BiomedicDataType;
-import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
 
@@ -12,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
+import javax.persistence.RollbackException;
 import java.util.List;
 
 @Stateless
@@ -40,9 +39,13 @@ public class BiomedicDataTypeBean {
         }
     }
 
-    public void delete(long code) throws MyEntityNotFoundException {
+    public void delete(long code) throws MyEntityNotFoundException, MyConstraintViolationException {
         BiomedicDataType biomedicDataType = findBiomedicDataType(code);
-        entityManager.remove(biomedicDataType);
+        try{
+            entityManager.remove(biomedicDataType);
+        }catch(RollbackException e){
+            throw new MyConstraintViolationException("Cannot delete Biomedic Type - There are Biomedic Measures associated with this Biomedic Type");
+        }
     }
 
     public void update(BiomedicDataType biomedicDataType, BiomedicDataTypeDTO biomedicDataTypeDTO) throws MyEntityNotFoundException {

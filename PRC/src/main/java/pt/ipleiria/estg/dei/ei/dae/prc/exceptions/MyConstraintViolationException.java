@@ -5,8 +5,8 @@ import javax.validation.ConstraintViolationException;
 import java.util.Set;
 
 public class MyConstraintViolationException extends Exception {
-    public MyConstraintViolationException(ConstraintViolationException e) {
-        super(e.getMessage());
+    public MyConstraintViolationException(String messsage) {
+        super(messsage);
     }
 }
 

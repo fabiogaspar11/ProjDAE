@@ -102,7 +102,7 @@ public class DiseaseService {
     @DELETE
     @Path("/{code}")
     @RolesAllowed({"Administrator"})
-    public Response deleteDiseaseWS(@PathParam("code") int code) throws MyEntityNotFoundException {
+    public Response deleteDiseaseWS(@PathParam("code") int code) throws MyEntityNotFoundException, MyConstraintViolationException {
         Disease disease = diseaseBean.findDisease(code);
         diseaseBean.delete(code);
         return Response.status(Response.Status.OK)
