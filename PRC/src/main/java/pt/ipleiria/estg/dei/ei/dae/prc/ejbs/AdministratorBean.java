@@ -45,7 +45,7 @@ public class AdministratorBean {
     }
 
     public void update(Administrator administrator, AdministratorDTO administratorDTO) throws MyEntityNotFoundException {
-        entityManager.lock(entityManager.merge(administrator), LockModeType.PESSIMISTIC_READ);
+        entityManager.lock(entityManager.merge(administrator), LockModeType.OPTIMISTIC);
         if(administratorDTO.getName() != null && !administrator.getName().equals(administratorDTO.getName())){
             administrator.setName(administratorDTO.getName());
         }

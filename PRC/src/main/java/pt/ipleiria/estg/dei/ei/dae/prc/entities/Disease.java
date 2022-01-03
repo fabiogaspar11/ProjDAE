@@ -20,6 +20,8 @@ public class Disease {
     @NotNull
     private String name;
 
+    @Version private int version;
+
 
     @ManyToMany
     @JoinTable(name = "DISEASES_PATIENTS",

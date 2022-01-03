@@ -30,7 +30,7 @@ public class DiseaseBean {
     }
 
     public void update(Disease disease, DiseaseDTO diseaseDTO) throws MyEntityNotFoundException {
-        entityManager.lock(entityManager.merge(disease), LockModeType.PESSIMISTIC_READ);
+        entityManager.lock(entityManager.merge(disease), LockModeType.OPTIMISTIC);
         if(diseaseDTO.getName() != null && !disease.getName().equals(diseaseDTO.getName())){
             disease.setName(diseaseDTO.getName());
         }
