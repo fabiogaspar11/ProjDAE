@@ -1,10 +1,15 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.dtos;
 
+import javax.validation.constraints.NotNull;
+
 public class BiomedicDataMeasureDTO {
     private long code;
     private double value;
     private String date;
     private String hour;
+    private float normalMinValue;
+    private float normalMaxValue;
+    private String classification;
     private String usernamePatient;
     private long biomedicDataTypeCode;
     private String usernameRegister;
@@ -12,7 +17,7 @@ public class BiomedicDataMeasureDTO {
     public BiomedicDataMeasureDTO() {
     }
 
-    public BiomedicDataMeasureDTO(long code, double value, String date, String hour,String usernamePatient, long biomedicDataTypeCode, String usernameRegister) {
+    public BiomedicDataMeasureDTO(long code, double value, String date, String hour,String usernamePatient, long biomedicDataTypeCode, String usernameRegister,String classification,float normalMinValue, float normalMaxValue) {
         this.code = code;
         this.value = value;
         this.date = date;
@@ -20,6 +25,9 @@ public class BiomedicDataMeasureDTO {
         this.usernamePatient = usernamePatient;
         this.biomedicDataTypeCode = biomedicDataTypeCode;
         this.usernameRegister = usernameRegister;
+        this.classification = classification;
+        this.normalMinValue = normalMinValue;
+        this.normalMaxValue = normalMaxValue;
     }
 
     public String getUsernameRegister() {
@@ -76,5 +84,29 @@ public class BiomedicDataMeasureDTO {
 
     public void setBiomedicDataTypeCode(long biomedicDataTypeCode) {
         this.biomedicDataTypeCode = biomedicDataTypeCode;
+    }
+
+    public float getNormalMinValue() {
+        return normalMinValue;
+    }
+
+    public void setNormalMinValue(float normalMinValue) {
+        this.normalMinValue = normalMinValue;
+    }
+
+    public float getNormalMaxValue() {
+        return normalMaxValue;
+    }
+
+    public void setNormalMaxValue(float normalMaxValue) {
+        this.normalMaxValue = normalMaxValue;
+    }
+
+    public String getClassification() {
+        return classification;
+    }
+
+    public void setClassification(String classification) {
+        this.classification = classification;
     }
 }

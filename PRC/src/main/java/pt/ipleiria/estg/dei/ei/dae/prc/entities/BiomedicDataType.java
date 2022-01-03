@@ -26,6 +26,14 @@ public class BiomedicDataType implements Serializable {
     @NotNull
     private String unitMeasure;
     @NotNull
+    private float normalMinValue;
+    @NotNull
+    private float normalMaxValue;
+    @NotNull
+    private float genderValuedifferentiation;
+    @NotNull
+    private float ageValuedifferentiation;
+    @NotNull
     private float minValue;
     @NotNull
     private float maxValue;
@@ -33,15 +41,35 @@ public class BiomedicDataType implements Serializable {
     public BiomedicDataType() {
     }
 
-    public BiomedicDataType(String name, String unitMeasure, float minValue, float maxValue) {
+    public BiomedicDataType(String name, String unitMeasure,float normalMinValue, float normalMaxValue, float minValue, float maxValue,float genderValuedifferentiation,float ageValuedifferentiation) {
         this.name = name;
         this.unitMeasure = unitMeasure;
+        this.normalMaxValue =normalMaxValue;
+        this.normalMinValue=normalMinValue;
         this.minValue = minValue;
         this.maxValue = maxValue;
+        this.genderValuedifferentiation = genderValuedifferentiation;
+        this.ageValuedifferentiation = ageValuedifferentiation;
     }
 
-    public BiomedicDataType(long code, String name, String unitMeasure, float minValue, float maxValue) {
-        this(name,unitMeasure,minValue, maxValue);
+    public float getNormalMinValue() {
+        return normalMinValue;
+    }
+
+    public void setNormalMinValue(float normalMinValue) {
+        this.normalMinValue = normalMinValue;
+    }
+
+    public float getNormalMaxValue() {
+        return normalMaxValue;
+    }
+
+    public void setNormalMaxValue(float normalMaxValue) {
+        this.normalMaxValue = normalMaxValue;
+    }
+
+    public BiomedicDataType(long code, String name, String unitMeasure, float normalMinValue, float normalMaxValue, float minValue, float maxValue, float genderValuedifferentiation,float ageValuedifferentiation) {
+        this(name,unitMeasure,normalMinValue,normalMaxValue,minValue, maxValue, genderValuedifferentiation, ageValuedifferentiation);
         this.code = code;
     }
 
@@ -83,5 +111,21 @@ public class BiomedicDataType implements Serializable {
 
     public void setMaxValue(float maxValue) {
         this.maxValue = maxValue;
+    }
+
+    public float getGenderValuedifferentiation() {
+        return genderValuedifferentiation;
+    }
+
+    public void setGenderValuedifferentiation(float genderValuedifferentiation) {
+        this.genderValuedifferentiation = genderValuedifferentiation;
+    }
+
+    public float getAgeValuedifferentiation() {
+        return ageValuedifferentiation;
+    }
+
+    public void setAgeValuedifferentiation(float ageValuedifferentiation) {
+        this.ageValuedifferentiation = ageValuedifferentiation;
     }
 }

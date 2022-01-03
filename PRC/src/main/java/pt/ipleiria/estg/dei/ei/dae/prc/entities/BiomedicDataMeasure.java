@@ -22,6 +22,12 @@ public class BiomedicDataMeasure implements Serializable {
     @NotNull
     private String date;
     @NotNull
+    private String classification;
+    @NotNull
+    private float normalMinValue;
+    @NotNull
+    private float normalMaxValue;
+    @NotNull
     private String hour;
     @ManyToOne
     @NotNull
@@ -39,17 +45,20 @@ public class BiomedicDataMeasure implements Serializable {
     public BiomedicDataMeasure() {
     }
 
-    public BiomedicDataMeasure(double value, String date, String hour, Patient patient, BiomedicDataType biomedicDataType, User userRegister) {
+    public BiomedicDataMeasure(double value, String date, String hour, Patient patient, BiomedicDataType biomedicDataType, User userRegister,String classification,float normalMinValue, float normalMaxValue) {
         this.value = value;
         this.date = date;
         this.hour = hour;
         this.patient = patient;
         this.biomedicDataType = biomedicDataType;
         this.userRegister = userRegister;
+        this.classification = classification;
+        this.normalMinValue = normalMinValue;
+        this.normalMaxValue = normalMaxValue;
     }
 
-    public BiomedicDataMeasure(long code, double value, String date, String hour, Patient patient, BiomedicDataType biomedicDataType,User userRegister) {
-        this(value,date,hour, patient,biomedicDataType,userRegister);
+    public BiomedicDataMeasure(long code, double value, String date, String hour, Patient patient, BiomedicDataType biomedicDataType,User userRegister,String classification,float normalMinValue, float normalMaxValue) {
+        this(value,date,hour, patient,biomedicDataType,userRegister,classification,normalMinValue,normalMaxValue);
         this.code = code;
     }
 
@@ -107,5 +116,29 @@ public class BiomedicDataMeasure implements Serializable {
 
     public void setBiomedicDataType(BiomedicDataType biomedicDataType) {
         this.biomedicDataType = biomedicDataType;
+    }
+
+    public String getClassification() {
+        return classification;
+    }
+
+    public void setClassification(String classification) {
+        this.classification = classification;
+    }
+
+    public float getNormalMinValue() {
+        return normalMinValue;
+    }
+
+    public void setNormalMinValue(float normalMinValue) {
+        this.normalMinValue = normalMinValue;
+    }
+
+    public float getNormalMaxValue() {
+        return normalMaxValue;
+    }
+
+    public void setNormalMaxValue(float normalMaxValue) {
+        this.normalMaxValue = normalMaxValue;
     }
 }

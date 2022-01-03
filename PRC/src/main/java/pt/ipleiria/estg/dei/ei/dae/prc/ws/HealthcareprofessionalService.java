@@ -74,7 +74,8 @@ public class HealthcareprofessionalService {
                 patient.getPassword(),
                 patient.getBirthDate(),
                 patient.getContact(),
-                patient.getHealthNumber()
+                patient.getHealthNumber(),
+                patient.getGender()
         );
     }
 
@@ -86,7 +87,10 @@ public class HealthcareprofessionalService {
                 biomedicDataMeasure.getHour(),
                 biomedicDataMeasure.getPatient().getUsername(),
                 biomedicDataMeasure.getBiomedicDataType().getCode(),
-                biomedicDataMeasure.getUserRegister().getUsername()
+                biomedicDataMeasure.getUserRegister().getUsername(),
+                biomedicDataMeasure.getClassification(),
+                biomedicDataMeasure.getNormalMinValue(),
+                biomedicDataMeasure.getNormalMaxValue()
         );
     }
     private List<HealthcareProfessionalDTO> toDTOs(List<HealthcareProfessional> healthcareProfessionals) {

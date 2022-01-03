@@ -50,7 +50,8 @@ public class DiseaseService {
                 patient.getPassword(),
                 patient.getBirthDate(),
                 patient.getContact(),
-                patient.getHealthNumber()
+                patient.getHealthNumber(),
+                patient.getGender()
         );
     }
 

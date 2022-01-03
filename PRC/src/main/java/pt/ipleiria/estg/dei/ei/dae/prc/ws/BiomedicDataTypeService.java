@@ -9,6 +9,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.entities.BiomedicDataType;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.Patient;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyIllegalArgumentException;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
@@ -31,8 +32,12 @@ public class BiomedicDataTypeService {
                 bDataType.getCode(),
                 bDataType.getName(),
                 bDataType.getUnitMeasure(),
+                bDataType.getNormalMinValue(),
+                bDataType.getNormalMaxValue(),
                 bDataType.getMinValue(),
-                bDataType.getMaxValue()
+                bDataType.getMaxValue(),
+                bDataType.getGenderValuedifferentiation(),
+                bDataType.getAgeValuedifferentiation()
         );
     }
 
@@ -60,8 +65,8 @@ public class BiomedicDataTypeService {
     @POST
     @Path("/")
     @RolesAllowed({"Administrator"})
-    public Response createNewBiomedicDataType(BiomedicDataTypeDTO bDataTypeDTO) throws MyEntityExistsException, MyEntityNotFoundException {
-        long code = bDataTypeBean.create(bDataTypeDTO.getName(),bDataTypeDTO.getUnitMeasure(),bDataTypeDTO.getMinValue(),bDataTypeDTO.getMaxValue());
+    public Response createNewBiomedicDataType(BiomedicDataTypeDTO bDataTypeDTO) throws MyEntityExistsException, MyEntityNotFoundException, MyIllegalArgumentException {
+        long code = bDataTypeBean.create(bDataTypeDTO.getName(),bDataTypeDTO.getUnitMeasure(),bDataTypeDTO.getNormalMinValue(),bDataTypeDTO.getNormalMaxValue(),bDataTypeDTO.getMinValue(),bDataTypeDTO.getMaxValue(),bDataTypeDTO.getGenderValuedifferentiation(),bDataTypeDTO.getAgeValuedifferentiation());
         BiomedicDataType biomedicDataType = bDataTypeBean.findBiomedicDataType(code);
         return Response.status(Response.Status.CREATED)
                 .entity(toDTO(biomedicDataType))

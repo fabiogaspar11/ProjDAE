@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.ei.dae.prc.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -24,6 +25,8 @@ public class Patient extends User implements Serializable {
     private List<HealthcareProfessional> healthcareProfessionals;
     @ManyToMany(mappedBy = "patients")
     private List<Disease> diseases;
+    @NotNull
+    private String gender;
 
     public Patient() {
         this.prescriptions = new LinkedList<>();
@@ -32,8 +35,9 @@ public class Patient extends User implements Serializable {
         this.diseases = new LinkedList<>();
     }
 
-    public Patient(String username, String name, String email, String password, String birthDate, String contact, long healthNumber) {
+    public Patient(String username, String name, String email, String password, String birthDate, String contact, long healthNumber,String gender) {
         super(username, name, email, password, birthDate, contact, healthNumber);
+        this.gender = gender;
         this.healthcareProfessionals = new LinkedList<>();
         this.prescriptions = new LinkedList<>();
         this.biomedicDataMeasures = new LinkedList<>();
@@ -123,5 +127,13 @@ public class Patient extends User implements Serializable {
             return;
         }
         biomedicDataMeasures.remove(biomedicDataMeasure);
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }
