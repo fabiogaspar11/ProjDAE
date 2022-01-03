@@ -114,9 +114,9 @@
   {
     "name": "patients-username-biomedicMeasures",
     "path": "/patients/:username/biomedicMeasures",
-    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\_username\\\\biomedicMeasures.vue",
-    "chunkName": "pages/patients/_username/biomedicMeasures",
-    "_name": "_54dd067e"
+    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\_username\\\\biomedicMeasures\\\\index.vue",
+    "chunkName": "pages/patients/_username/biomedicMeasures/index",
+    "_name": "_5a202ca1"
   },
   {
     "name": "patients-username-diseases",
@@ -159,6 +159,13 @@
     "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\healthCareProfessionals\\\\_username\\\\prescriptions\\\\_code.vue",
     "chunkName": "pages/healthCareProfessionals/_username/prescriptions/_code",
     "_name": "_c17c375c"
+  },
+  {
+    "name": "patients-username-biomedicMeasures-code",
+    "path": "/patients/:username/biomedicMeasures/:code",
+    "component": "C:\\\\GitRepository\\\\ProjDAE\\\\PRC-Client\\\\pages\\\\patients\\\\_username\\\\biomedicMeasures\\\\_code.vue",
+    "chunkName": "pages/patients/_username/biomedicMeasures/_code",
+    "_name": "_5beadd9b"
   },
   {
     "name": "index",

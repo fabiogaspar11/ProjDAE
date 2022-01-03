@@ -62,6 +62,56 @@
           />
         </div>
           <p>{{ isMaxValueValidFeedback }}</p>
+           <div class="input-group mb-4">
+          <span class="input-group-text">Minimum Normal value:</span>
+          <b-input
+            v-model="normalMinValue"
+            type="number"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            :state="isNormalMinValid"
+            placeholder="Enter maximum value"
+          />
+        </div>
+          <p>{{ isNormalMinValidFeedback }}</p>
+            <div class="input-group mb-4">
+          <span class="input-group-text">Maximum Normal value:</span>
+          <b-input
+            v-model="normalMaxValue"
+            type="number"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            :state="isNormalMaxValid"
+            placeholder="Enter maximum value"
+          />
+        </div>
+          <p>{{ isNormalMaxValidFeedback }}</p>
+    <div class="input-group mb-4">
+          <span class="input-group-text">Gender value differentiation:</span>
+          <p>This value indicates how much the normal range will vary if the gender is female.</p>
+          <b-input
+            v-model="genderValuedifferentiation"
+            type="number"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            :state="isGenderValuedifferentiationValid"
+            placeholder="Enter maximum value"
+          />
+        </div>
+          <p>{{ isGenderValuedifferentiationValidFeedback }}</p>
+          <div class="input-group mb-4">
+          <span class="input-group-text">Age value differentiation:</span>
+          <p>This value indicates how much the normal range will vary in the different group ages</p>
+          <b-input
+            v-model="ageValuedifferentiation"
+            type="number"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            :state="isAgeValuedifferentiationValid"
+            placeholder="Enter maximum value"
+          />
+        </div>
+          <p>{{ isAgeValuedifferentiationValidFeedback }}</p>
       </b-modal>
 
     <div  v-if="this.tableLength != 0" class="mt-3">
@@ -137,6 +187,10 @@ export default {
       totalRows: null,
       perPage: 5,
       currentPagePaginate: 1,
+      normalMinValue:null,
+      normalMaxValue:null,
+      ageValuedifferentiation:null,
+      genderValuedifferentiation:null
     };
   },
   computed: {
@@ -179,6 +233,9 @@ export default {
       if (!this.minValue) {
         return null;
       }
+      if(this.minValue >= this.maxValue){
+        return "Minimum value should be smaller than the maximum"
+      }
       let minValueLen = this.minValue.length;
       if (minValueLen <= 0 || minValueLen > 25) {
         return "The minimum value is mandatory or is too big in size";
@@ -195,6 +252,9 @@ export default {
       if (!this.maxValue) {
         return null;
       }
+      if(this.maxValue <= this.minValue){
+        return "Maximum value should be bigger than the minimum"
+      }
       let maxValueLen = this.maxValue.length;
       if (maxValueLen <= 0 || maxValueLen > 25) {
         return "The maximum value is mandatory or is too big in size";
@@ -207,6 +267,74 @@ export default {
       }
       return this.isMaxValueValidFeedback === "";
     },
+    isNormalMinValid(){
+      if (this.isNormalMinValidFeedback === null) {
+        return null;
+      }
+      return this.isNormalMinValidFeedback === "";
+    },
+    isNormalMinValidFeedback(){
+      if (!this.normalMinValue) {
+        return null;
+      }
+      console.log("Normal min:" + this.normalMinValue)
+      console.log("Min value;" + this.minValue)
+      if(this.normalMinValue > this.maxValue)
+        return "The normal minimum value should be smaller than the maximum value"
+      if(this.normalMinValue < this.minValue)
+        return "The normal minimum value should be bigger than the minimum value"
+      if(this.normalMinValue >= this.normalMaxValue){
+        return "The normal minimum value should be smaller than the normal maximum value"
+      }
+      return ""
+    },
+    isNormalMaxValid(){
+      if (this.isNormalMaxValidFeedback === null) {
+        return null;
+      }
+      return this.isNormalMaxValidFeedback === "";
+    },
+    isNormalMaxValidFeedback(){
+      if (!this.normalMaxValue) {
+        return null;
+      }
+       console.log("Normal max:" + this.normalMaxValue)
+      console.log("max value;" + this.maxValue)
+      console.log(this.normalMaxValue)
+      console.log(this.maxValue)
+      if(this.normalMaxValue < this.minValue)
+        return "The normal maximum value should be bigger than the minimum value"
+      if(this.normalMaxValue > this.maxValue)
+        return "The normal maximum value should be smaller than the maximum value"
+
+      if(this.normalMaxValue <= this.normalMinValue){
+        return "The normal maximum value should be bigger than the minimum value"
+      }
+      return ""
+    },
+    isGenderValuedifferentiationValid(){
+      if(this.isGenderValuedifferentiationValidFeedback == null)
+        return null
+      return this.isGenderValuedifferentiationValidFeedback === ""
+    },
+    isGenderValuedifferentiationValidFeedback(){
+      if (!this.genderValuedifferentiation) {
+        return null;
+      }
+      return "";
+    },
+
+    isAgeValuedifferentiationValid(){
+      if(this.isAgeValuedifferentiationValidFeedback === null)
+          return null
+      return this.isAgeValuedifferentiationValidFeedback === ""
+    },
+    isAgeValuedifferentiationValidFeedback(){
+      if (!this.ageValuedifferentiation) {
+        return null;
+      }
+      return ""
+    },
     isFormValid() {
       if (!this.isNameValid) {
         return false;
@@ -218,6 +346,18 @@ export default {
         return false;
       }
       if (!this.isMaxValueValid) {
+        return false;
+      }
+      if (!this.isNormalMaxValid) {
+        return false;
+      }
+      if (!this.isNormalMinValid) {
+        return false;
+      }
+      if (!this.isGenderValuedifferentiationValid) {
+        return false;
+      }
+      if (!this.isAgeValuedifferentiationValid) {
         return false;
       }
       return true;
@@ -248,6 +388,10 @@ export default {
           unitMeasure: this.unitMeasure,
           minValue: this.minValue,
           maxValue: this.maxValue,
+          normalMinValue:this.normalMinValue,
+          normalMaxValue:this.normalMaxValue,
+          ageValuedifferentiation:this.ageValuedifferentiation,
+          genderValuedifferentiation:this.genderValuedifferentiation
         })
         .then((response) => {
           this.$toast
