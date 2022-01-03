@@ -22,6 +22,12 @@
             class="form-control"
             aria-describedby="basic-addon1 "
           />
+          <b-form-datepicker
+            id="ex-disabled-readonly"
+            button-only
+            :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+            @context="onContext"
+          ></b-form-datepicker>
           <p>{{ isDateValidFeedback }}</p>
         </div>
         <div class="input-group mb-4">
@@ -273,6 +279,10 @@ export default {
           this.getBiomedicMeasure();
         });
     },
+    onContext(ctx) {
+      // The date formatted in the locale, or the `label-no-date-selected` string
+      this.dateEdit = ctx.selectedFormatted
+    }
   },
 };
 </script>

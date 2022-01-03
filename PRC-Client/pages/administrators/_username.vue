@@ -37,7 +37,13 @@
               placeholder="dd/mm/yyyy"
               :state="isbirthDateValid"
             />
-                <p>{{isbirthDateValidFeedback}}</p>
+            <b-form-datepicker
+              id="ex-disabled-readonly"
+              button-only
+              :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+              @context="onContext"
+            ></b-form-datepicker>
+            <p>{{isbirthDateValidFeedback}}</p>
           </div>
 
           <div class="input-group mb-3">
@@ -249,7 +255,7 @@ export default {
       ) {
         return "";
       }
-      return "The date is bigger than todays date";
+      return "The birthdate date is bigger than todays date";
     },
     isbirthDateValid() {
       if (this.isbirthDateValidFeedback === null) {
@@ -307,8 +313,8 @@ export default {
           console.log(error.response.data);
         });
     },
-      updatePassword(){
-       let administrator = {};
+    updatePassword(){
+      let administrator = {};
       if(this.isOLDPasswordValid){
           administrator.passwordOld = this.oldPassword;
       }
@@ -331,6 +337,10 @@ export default {
             this.$toast.info(`Error - ${response.response.data}`).goAway(3000);
              this.getAdministrator();
         });
+    },
+    onContext(ctx) {
+      // The date formatted in the locale, or the `label-no-date-selected` string
+      this.birthDate = ctx.selectedFormatted
     }
   },
 };

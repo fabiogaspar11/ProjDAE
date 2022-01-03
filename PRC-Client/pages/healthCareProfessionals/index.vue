@@ -39,6 +39,12 @@
             class="form-control"
             aria-describedby="basic-addon1"
           />
+          <b-form-datepicker
+            id="ex-disabled-readonly"
+            button-only
+            :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+            @context="onContext"
+          ></b-form-datepicker>
           <p>{{ isbirthDateValidFeedback }}</p>
         </div>
         <div class="input-group mb-4">
@@ -295,7 +301,7 @@ export default {
       ) {
         return "";
       }
-      return "The date is bigger than todays date";
+      return "The birthdate date is bigger than todays date";
     },
     isbirthDateValid() {
       if (this.isbirthDateValidFeedback === null) {
@@ -405,6 +411,10 @@ export default {
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
+    onContext(ctx) {
+      // The date formatted in the locale, or the `label-no-date-selected` string
+      this.birthDate = ctx.selectedFormatted
+    }
   },
 };
 </script>
