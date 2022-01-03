@@ -32,20 +32,14 @@ export default {
   methods:{
     signOut() {
       this.$auth.logout()
-      this.$router.push('/')
+      this.$router.push('/login')
     },
   },
   computed: {
     username() {
-      if(!this.$auth.user){
-          return "";
-        }
       return this.$auth.user.sub;
     },
-      urlDashboard() {
-        if(!this.$auth.user){
-          return "";
-        }
+    urlDashboard() {
       if (this.$auth.user.groups.includes("Patient")) {
         return "/dashboard";
       } else if (this.$auth.user.groups.includes("HealthcareProfessional")) {
@@ -55,9 +49,6 @@ export default {
       }
     },
     urlUser() {
-      if(!this.$auth.user){
-          return "";
-        }
         if (this.$auth.user.groups.includes("Patient")) {
           return "patients";
         } else if (this.$auth.user.groups.includes("HealthcareProfessional")) {

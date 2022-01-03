@@ -201,6 +201,7 @@ import Router from "vue-router";
 import XLSX from "xlsx";
 
 export default {
+  middleware: ['isPatient', "isPatientAccessingHisData"],
   components: {
     NavBar,
     Router,
@@ -261,9 +262,6 @@ export default {
   computed: {
     username() {
       return this.$auth.user.sub;
-    },
-    isPatient() {
-      return this.$auth.user.groups.includes("Patient");
     },
     tableLength: function () {
       return this.entidade.length;

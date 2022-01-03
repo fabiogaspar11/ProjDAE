@@ -1,7 +1,6 @@
 <template>
   <div>
-    <NavBar v-if="!isPatient"></NavBar>
-    <NavBar v-else></NavBar>
+    <NavBar></NavBar>
     <b-container class="mt-3">
       <h3>Patient</h3>
       <template>
@@ -250,9 +249,6 @@ export default {
     url: String,
   },
   computed: {
-    isPatient() {
-      return this.$auth.user.groups.includes("Patient");
-    },
     tableLength: function () {
       return this.patientPrescriptions.length;
     },

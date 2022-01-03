@@ -82,6 +82,7 @@
 
 <script>
 export default {
+  middleware: ['isPatient', "isPatientAccessingHisData"],
   data() {
     return {
       fields: [
@@ -263,8 +264,14 @@ export default {
                 this.minVal = b.minValue;
                 this.maxVal = b.maxValue;
               }
+            })
+          })
+            .catch((error)=>{
+              if(error.response.status == 403){
+                this.$router.push("./../biomedicMeasures");
+                return;
+              }
             });
-          });
       });
     },
     update() {

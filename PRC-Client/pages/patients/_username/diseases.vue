@@ -42,6 +42,7 @@ import NavBar from "/components/NavBar.vue";
 import Router from "vue-router";
 
 export default {
+  middleware: ['isPatient', "isPatientAccessingHisData"],
   components: {
     NavBar,
     Router,
