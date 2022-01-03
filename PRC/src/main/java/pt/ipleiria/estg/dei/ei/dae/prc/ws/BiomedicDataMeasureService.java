@@ -42,7 +42,10 @@ public class BiomedicDataMeasureService {
                biomedicDataMeasure.getHour(),
                biomedicDataMeasure.getPatient().getUsername(),
                biomedicDataMeasure.getBiomedicDataType().getCode(),
-               biomedicDataMeasure.getUserRegister().getUsername()
+               biomedicDataMeasure.getUserRegister().getUsername(),
+               biomedicDataMeasure.getClassification(),
+               biomedicDataMeasure.getNormalMinValue(),
+               biomedicDataMeasure.getNormalMaxValue()
        );
     }
 

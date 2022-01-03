@@ -5,6 +5,7 @@ import pt.ipleiria.estg.dei.ei.dae.prc.entities.BiomedicDataType;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyConstraintViolationException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyEntityNotFoundException;
+import pt.ipleiria.estg.dei.ei.dae.prc.exceptions.MyIllegalArgumentException;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -18,8 +19,15 @@ public class BiomedicDataTypeBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public long create(String name,String unitMeasure, float minValue, float maxValue) throws MyEntityExistsException {
-        BiomedicDataType biomedicDataType = new BiomedicDataType(name,unitMeasure,minValue,maxValue);
+    public long create(String name,String unitMeasure, float normalMinValue, float normalMaxValue, float minValue, float maxValue,float genderValuedifferentiation,float ageValuedifferentiation) throws MyEntityExistsException, MyIllegalArgumentException {
+        if(normalMinValue < minValue){
+            throw new MyIllegalArgumentException("Datatype minimum normal value should be bigger than the minimum datatype value");
+        }
+        if(normalMaxValue > maxValue){
+            throw new MyIllegalArgumentException("Datatype maximum normal value should be bigger than the maximum datatype value");
+        }
+
+        BiomedicDataType biomedicDataType = new BiomedicDataType(name,unitMeasure,normalMinValue,normalMaxValue,minValue,maxValue,genderValuedifferentiation,ageValuedifferentiation);
         entityManager.persist(biomedicDataType);
         entityManager.flush();
         return biomedicDataType.getCode();

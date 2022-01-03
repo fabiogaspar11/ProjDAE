@@ -40,6 +40,7 @@ public class User {
     @NotNull
     private long healthNumber;
 
+
     public User(String username, String name, String email, String password, String birthDate, String contact, long healthNumber) {
         this.username = username;
         this.name = name;

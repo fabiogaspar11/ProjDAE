@@ -34,12 +34,12 @@ public class PatientBean {
     @EJB
     EmailBean emailBean;
 
-    public String create(String name, String email, String birthDate, String contact, long healthNumber) throws MyEntityExistsException, MessagingException {
+    public String create(String name, String email, String birthDate, String contact, long healthNumber,String gender) throws MyEntityExistsException, MessagingException {
         String username = "P"+healthNumber;
         String password = generatePassword(); //"12345"; //generatePassword();
         Patient patient = entityManager.find(Patient.class, username);
         if(patient != null) throw new MyEntityExistsException("A patient with the username \'" + username + "\' already exists");
-        patient = new Patient(username,name,email,password,birthDate,contact,healthNumber);
+        patient = new Patient(username,name,email,password,birthDate,contact,healthNumber,gender);
         entityManager.persist(patient);
         entityManager.flush();
 

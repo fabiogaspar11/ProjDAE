@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
+import java.util.Calendar;
 import java.util.List;
 
 @Stateless
@@ -30,13 +31,83 @@ public class BiomedicDataMeasureBean {
         if(userRegister == null) {
             throw new MyEntityNotFoundException("There is no User with the username \'" + usernameRegister + "\'");
         }
-        BiomedicDataMeasure biomedicDataMeasure = new BiomedicDataMeasure(value, date, hour, patient, biomedicDataType, userRegister);
+        String classification = "Value in the bounds of reference";
+
+        float normalMinValue = biomedicDataType.getNormalMinValue();
+        float normalMaxValue = biomedicDataType.getNormalMaxValue();
+        float genderDiff = biomedicDataType.getGenderValuedifferentiation();
+        float ageDiff = biomedicDataType.getAgeValuedifferentiation();
+
+        float minimumValueMeasure = normalMinValue;
+        float maximumValueMeasure = normalMaxValue;
+
+        if(patient.getGender().equals("Feminino")){
+            minimumValueMeasure -= genderDiff;
+            maximumValueMeasure -= genderDiff;
+        }
+
+        int age = this.getAge(patient.getBirthDate());
+
+        if(age<=2){
+            minimumValueMeasure += ageDiff*4;
+            maximumValueMeasure += ageDiff*4;
+        }
+        else if(age<=10){
+            minimumValueMeasure += ageDiff*3;
+            maximumValueMeasure += ageDiff*3;
+        }
+        else if(age>=11 && age<19){
+            minimumValueMeasure += ageDiff*2;
+            maximumValueMeasure += ageDiff*2;
+        }
+        else if(age>=65){
+            minimumValueMeasure -= ageDiff;
+            maximumValueMeasure -= ageDiff;
+        }
+        //intervalo de 19 a 65 é o normal
+
+
+        if(value < minimumValueMeasure){
+            classification = "Value below the minimum reference value";
+        }else if(value >= minimumValueMeasure && value <=maximumValueMeasure){
+            classification = "Value in the bounds of reference";
+        }else if(value > minimumValueMeasure){
+            classification = "Value above the minimum reference value";
+        }
+
+
+        BiomedicDataMeasure biomedicDataMeasure = new BiomedicDataMeasure(value, date, hour, patient, biomedicDataType, userRegister,classification,minimumValueMeasure,maximumValueMeasure);
         entityManager.persist(biomedicDataMeasure);
         entityManager.flush();
         patient.addBiomedicDataMeasure(biomedicDataMeasure);
         entityManager.merge(patient);
 
         return biomedicDataMeasure.getCode();
+    }
+
+    public int getAge(String birthdate){
+        String[] birthdateArray =birthdate.split("/");
+        int day = Integer.parseInt(birthdateArray[0]);
+        int month = Integer.parseInt(birthdateArray[1]);
+        int year = Integer.parseInt(birthdateArray[2]);
+
+        Calendar today = Calendar.getInstance();
+
+        int curYear = today.get(Calendar.YEAR);
+
+        int age = curYear - year;
+
+
+        int curMonth = today.get(Calendar.MONTH);
+        if (month > curMonth) { // this year can't be counted!
+            age--;
+        } else if (month == curMonth) { // same month? check for day
+            int curDay = today.get(Calendar.DAY_OF_MONTH);
+            if (day > curDay) { // this year can't be counted!
+                age--;
+            }
+        }
+        return age;
     }
 
     public List<BiomedicDataMeasure> getAllBiomedicDataMeasures() {
