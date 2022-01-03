@@ -7,48 +7,53 @@
           <b-table striped hover :items="entidade" :fields="fields"></b-table>
         </div>
       </template>
-          <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
-          <b-button v-b-modal.modal-2 class="text-center" variant="primary">Change Password</b-button>
+
+      <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
+      <b-button v-b-modal.modal-2 class="text-center" variant="primary">Change Password</b-button>
+
       <b-modal id="modal-1" title="Edit" @ok="update()">
-      <div class="input-group mb-4">
+        <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
           <b-input required v-model.trim="name" type="text" :state="isNameValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your name"/>
-      </div>
           <p>{{isNameValidFeedback}}</p>
-       <div class="input-group mb-4">
+        </div>
+        <div class="input-group mb-4">
           <span class="input-group-text">Birthdate</span>
           <b-input required  v-model.trim="birthDate" type="text" :state="isbirthDateValid"  placeholder="dd/mm/yyyy" class="form-control" aria-describedby="basic-addon1"/>
-      </div>
           <p>{{isbirthDateValidFeedback}}</p>
-      <div class="input-group mb-4">
+        </div>
+        <div class="input-group mb-4">
           <span class="input-group-text">Email</span>
           <b-input required v-model.trim="email" ref="email" type="email" :state="isEmailValid" class="form-control" aria-describedby="basic-addon1" placeholder="Enter your email"/>
-      </div>
-           <p>{{isEmailValidFeedback}}</p>
-       <div class="input-group mb-4">
+          <p>{{isEmailValidFeedback}}</p>
+        </div>
+        <div class="input-group mb-4">
           <span class="input-group-text">Contact</span>
           <b-input required v-model.trim="contact" type="number"  :state="isContactValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your contact"/>
-      </div>
           <p>{{isContactValidFeedback}}</p>
+        </div>
+        <div class="input-group mb-4 d-flex justify-content-center" >
+          <span class="input-group-text">Gender</span>
+          <b-form-select v-model="gender" :options="optionsGender"></b-form-select>
+          <p>{{isGenderValidFeedback}}</p>
+        </div>
       </b-modal>
-          <b-modal id="modal-2" title="Edit" @ok="updatePassword()">
-            <div class="input-group mb-4">
-              <span class="input-group-text">Current Password</span>
-              <b-input required v-model.trim="oldPassword" type="password" :state="isOLDPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your old password"/>
-          </div>
-              <p>{{isOLDPasswordValidFeedback}}</p>
-          <div class="input-group mb-4">
-              <span class="input-group-text">New Password</span>
-              <b-input required v-model.trim="newPassword" type="password" :state="isPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your new password"/>
-          </div>
-              <p>{{isPasswordValidFeedback}}</p>
+
+      <b-modal id="modal-2" title="Edit" @ok="updatePassword()">
+        <div class="input-group mb-4">
+          <span class="input-group-text">Current Password</span>
+          <b-input required v-model.trim="oldPassword" type="password" :state="isOLDPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your old password"/>
+          <p>{{isOLDPasswordValidFeedback}}</p>
+        </div>
+        <div class="input-group mb-4">
+          <span class="input-group-text">New Password</span>
+          <b-input required v-model.trim="newPassword" type="password" :state="isPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your new password"/>
+          <p>{{isPasswordValidFeedback}}</p>
+        </div>
       </b-modal>
     </div>
   </div>
-
 </template>
-
-
 
 <script>
 export default {
@@ -59,6 +64,7 @@ export default {
         "username",
         "name",
         "birthDate",
+        "gender",
         "healthNumber",
         "contact",
         "email",
@@ -68,13 +74,19 @@ export default {
       name: null,
       email: null,
       birthDate: null,
+      gender: null,
       contact: null,
       newPassword: null,
       oldPassword: null,
        currentName:null,
       currentBirthDate: null,
       currentEmail: null,
-      currentContact: null
+      currentContact: null,
+      optionsGender: [
+        { value: null, text: 'Please select an option' },
+        { value: 'Masculino', text: 'Masculino' },
+        { value: 'Feminino', text: 'Feminino' },
+      ]
     };
   },
   props: {
@@ -213,6 +225,19 @@ export default {
       }
       return this.isbirthDateValidFeedback === "";
     },
+    isGenderValidFeedback() {
+      if (!this.gender) {
+        return null;
+      }
+
+      return "";
+    },
+    isGenderValid() {
+      if (this.isGenderValidFeedback === null) {
+        return null;
+      }
+      return this.isGenderValidFeedback === "";
+    },
   },
   created() {
     this.getPatient();
@@ -242,10 +267,14 @@ export default {
       if(this.isbirthDateValid){
         patient.birthDate = this.birthDate;
       }
+      if(this.isGenderValid){
+        patient.gender = this.gender;
+      }
       if(Object.keys(patient).length == 0){
         this.$toast.error(`Nothing to update!`).goAway(3000);
         return;
       }
+
       this.$axios
         .$put(`/api/patients/${this.username}`, patient)
         .then(() => {
@@ -253,6 +282,7 @@ export default {
           this.email = null;
           this.contact = null;
           this.birthDate = null;
+          this.gender = null;
           this.$toast.info(`Patient ${this.username}  updated!`).goAway(3000);
           this.getPatient();
         })
@@ -262,7 +292,7 @@ export default {
         });
     },
     updatePassword(){
-       let patient = {};
+      let patient = {};
       if(this.isOLDPasswordValid){
           patient.passwordOld = this.oldPassword;
       }

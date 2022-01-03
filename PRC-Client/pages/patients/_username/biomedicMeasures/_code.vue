@@ -8,6 +8,15 @@
         </div>
       </template>
 
+      <div class="d-flex justify-content-center">
+        <div v-if="classification === 'Value below the minimum reference value' || classification  === 'Value above the minimum reference value'" class="bg-danger w-50 text-center"  style="border-radius: 10px">
+          <h5 style="color: white; margin-top: 1%; margin-bottom: 1%">Classification: {{ classification }}</h5>
+        </div>
+        <div v-else class="bg-success w-50 text-center"  style="border-radius: 10px">
+          <h5 style="color: white; margin-top: 1%; margin-bottom: 1%">Classification: {{ classification }}</h5>
+        </div>
+      </div>
+
       <b-button v-if="canEdit" v-b-modal.modal-1 class="text-center">Edit</b-button>
       <div v-else class="w-75 mx-auto alert alert-info">
             Cannot Edit this Biomedic Data
@@ -89,6 +98,8 @@ export default {
         { key: "code", label: "Code" },
         { key: "usernamePatient", label: "Patient Username" },
         { key: "biomedicDataType", label: "Biomedic Data Type" },
+        { key: "normalMinValue", label: "Normal Minimum Value" },
+        { key: "normalMaxValue", label: "Normal Maximum Value" },
         { key: "minValue", label: "Minimum Value" },
         { key: "maxValue", label: "Maximum Value" },
         { key: "value", label: "Value" },
@@ -102,11 +113,14 @@ export default {
       value: null,
       biomedicDataMeasure: {},
       biomedicDataTypes: [],
-       dateEdit: "",
+      dateEdit: "",
       hourEdit: "",
       valueEdit: "",
       minVal: null,
       maxVal: null,
+      normalMinValue: null,
+      normalMaxValue: null,
+      classification: null,
       canEdit:false
     };
   },
@@ -252,17 +266,23 @@ export default {
             this.hour = entidade.hour;
             this.date = entidade.date;
             this.value = entidade.value;
+            this.classification = entidade.classification;
             if(this.entidade[0].usernameRegister == this.$auth.user.sub){
               this.canEdit = true;
             }
             this.biomedicDataTypes.forEach((b) => {
               if (this.entidade[0].biomedicDataTypeCode === b.code) {
                 this.entidade[0].biomedicDataType = b.name;
+                this.entidade[0].normalMinValue = b.normalMinValue + " " + b.unitMeasure;
+                this.entidade[0].normalMaxValue = b.normalMaxValue + " " + b.unitMeasure;
                 this.entidade[0].minValue = b.minValue + " " + b.unitMeasure;
                 this.entidade[0].maxValue = b.maxValue + " " + b.unitMeasure;
                 this.entidade[0].value += " " + b.unitMeasure;
+                this.normalMinValue = b.normalMinValue;
+                this.normalMaxValue = b.normalMaxValue;
                 this.minVal = b.minValue;
                 this.maxVal = b.maxValue;
+
               }
             })
           })
@@ -285,16 +305,18 @@ export default {
       if (this.isValueValid) {
         this.biomedicDataMeasure.value = this.valueEdit;
       }
-      if (Object.keys(this.biomedicDataMeasure).length == 0 || valid == false) {
+
+      if (Object.keys(this.biomedicDataMeasure).length === 0) {
         this.$toast.error("Error - Nothing to update").goAway(3000);
         return;
       }
+
       this.$axios
         .$put(
           `/api/biomedicDataMeasures/${this.code}`,
           this.biomedicDataMeasure
         )
-        .then(() => {
+        .then((response) => {
 
           this.$toast.info("Biomedic data Measure "+response.code+" updated succesfully!").goAway(3000);
 
@@ -303,7 +325,12 @@ export default {
           this.hour = null;
           this.value = null;
           this.getBiomedicMeasure();
+        })
+        .catch((response) => {
+          this.$toast.info(`Could not update Biomedic data Measure ` + response).goAway(3000);
+          this.getPatient();
         });
+
     },
   },
 };
