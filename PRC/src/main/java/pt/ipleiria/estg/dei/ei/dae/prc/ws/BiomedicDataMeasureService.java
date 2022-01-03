@@ -103,7 +103,7 @@ public class BiomedicDataMeasureService {
         if (securityContext.isUserInRole("Patient") && !principal.getName().equals(biomedicDataMeasure.getPatient().getUsername())){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        if (securityContext.isUserInRole("Patient") && principal.getName().equals(biomedicDataMeasure.getPatient().getUsername()) && !principal.getName().equals(biomedicDataMeasure.getUserRegister().getUsername())){
+        if (securityContext.isUserInRole("Patient") && !principal.getName().equals(biomedicDataMeasure.getUserRegister().getUsername())){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         if(securityContext.isUserInRole("HealthcareProfessional")){
@@ -131,7 +131,7 @@ public class BiomedicDataMeasureService {
         if (securityContext.isUserInRole("Patient") && !principal.getName().equals(biomedicDataMeasure.getPatient().getUsername())){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-        if (securityContext.isUserInRole("Patient") && principal.getName().equals(biomedicDataMeasure.getPatient().getUsername()) && !principal.getName().equals(biomedicDataMeasure.getUserRegister().getUsername())){
+        if (securityContext.isUserInRole("Patient") && !principal.getName().equals(biomedicDataMeasure.getUserRegister().getUsername())){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         if(securityContext.isUserInRole("HealthcareProfessional")){
