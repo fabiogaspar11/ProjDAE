@@ -82,7 +82,7 @@ public class ConfigBean {
                 prescriptionBean.create("Acumulação de gordura abdominal","","Yes","Caminhadas 6 dias por semana. O paciente deve ainda tomar vitaminas B12 durante 10 dias","03/10/2021","10/12/2022","P90000001" + codePatient,"H90000000" + code);
                 prescriptionBean.create("Pressão arterial - Controlo","","Yes","O paciente deve continuar com as caminhadas 6 dias por semana. O paciente deve ainda tomar vitaminas B12 e C até a proxima consulta","28/12/2021","28/12/2022","P90000001" + codePatient,"H90000000" + code);
                 value = 30+j;
-                biomedicDataMeasureBean.create(value,"01/01/2022","11:"+value,"P90000001" + code,1);
+                biomedicDataMeasureBean.create(value,"01/01/2022","11:"+value,"P90000001" + code,1, "P90000001" + code);
             }
 
         }

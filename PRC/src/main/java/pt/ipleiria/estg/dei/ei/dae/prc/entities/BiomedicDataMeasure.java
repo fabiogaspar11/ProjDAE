@@ -31,25 +31,34 @@ public class BiomedicDataMeasure implements Serializable {
     @NotNull
     @JoinColumn(name = "biomedicdatatype_code")
     private BiomedicDataType biomedicDataType;
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name = "username_register")
+    private User userRegister;
 
     public BiomedicDataMeasure() {
     }
 
-    public BiomedicDataMeasure(double value, String date, String hour, Patient patient, BiomedicDataType biomedicDataType) {
+    public BiomedicDataMeasure(double value, String date, String hour, Patient patient, BiomedicDataType biomedicDataType, User userRegister) {
         this.value = value;
         this.date = date;
         this.hour = hour;
         this.patient = patient;
         this.biomedicDataType = biomedicDataType;
+        this.userRegister = userRegister;
     }
 
-    public BiomedicDataMeasure(long code, double value, String date, String hour, Patient patient, BiomedicDataType biomedicDataType) {
+    public BiomedicDataMeasure(long code, double value, String date, String hour, Patient patient, BiomedicDataType biomedicDataType,User userRegister) {
+        this(value,date,hour, patient,biomedicDataType,userRegister);
         this.code = code;
-        this.value = value;
-        this.date = date;
-        this.hour = hour;
-        this.patient = patient;
-        this.biomedicDataType = biomedicDataType;
+    }
+
+    public User getUserRegister() {
+        return userRegister;
+    }
+
+    public void setUserRegister(User userRegister) {
+        this.userRegister = userRegister;
     }
 
     public String getHour() {

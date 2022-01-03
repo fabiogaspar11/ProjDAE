@@ -41,7 +41,8 @@ public class BiomedicDataMeasureService {
                biomedicDataMeasure.getDate(),
                biomedicDataMeasure.getHour(),
                biomedicDataMeasure.getPatient().getUsername(),
-               biomedicDataMeasure.getBiomedicDataType().getCode()
+               biomedicDataMeasure.getBiomedicDataType().getCode(),
+               biomedicDataMeasure.getUserRegister().getUsername()
        );
     }
 
@@ -84,7 +85,8 @@ public class BiomedicDataMeasureService {
                 biomedicDataMeasureDTO.getDate(),
                 biomedicDataMeasureDTO.getHour(),
                 biomedicDataMeasureDTO.getUsernamePatient(),
-                biomedicDataMeasureDTO.getBiomedicDataTypeCode());
+                biomedicDataMeasureDTO.getBiomedicDataTypeCode(),
+                biomedicDataMeasureDTO.getUsernameRegister());
         BiomedicDataMeasure biomedicDataMeasure = biomedicDataMeasureBean.findBiomedicDataMeasure(code);
         return Response.status(Response.Status.CREATED)
                 .entity(toDTO(biomedicDataMeasure))

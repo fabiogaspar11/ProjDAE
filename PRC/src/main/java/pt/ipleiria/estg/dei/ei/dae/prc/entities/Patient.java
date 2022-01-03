@@ -67,7 +67,6 @@ public class Patient extends User implements Serializable {
     public List<BiomedicDataMeasure> getBiomedicDataMeasures() {
         return biomedicDataMeasures;
     }
-
     public void setBiomedicDataMeasures(List<BiomedicDataMeasure> biomedicDataList) {
         this.biomedicDataMeasures = biomedicDataList;
     }

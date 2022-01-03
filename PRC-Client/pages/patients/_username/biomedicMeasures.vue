@@ -5,7 +5,6 @@
 
     <b-container>
       <h3 class="mt-3">Biomedic Data Measures ({{ tableLength }})</h3>
-
       <div
         class="mt-3 text-center"
         v-if="Object.keys(biomedicDataTypes).length != 0"
@@ -82,20 +81,24 @@
             >
               <font-awesome-icon icon="eye" /> Details
             </b-button>
-            <b-button
-              v-else
-              @click="sendInfo(row.item)"
-              v-b-modal.modal-2
-              variant="info"
-              >Edit</b-button
-            >
-            <b-button
-              v-b-modal.modal-3
-              variant="danger"
-              @click="remove(row.item.code)"
-            >
-              <font-awesome-icon icon="trash" /> Remove
-            </b-button>
+            <div v-if="!isPatient || row.item.usernameRegister == username">
+              <b-button
+                @click="sendInfo(row.item)"
+                v-b-modal.modal-2
+                variant="info"
+                >Edit</b-button
+              >
+              <b-button
+                v-b-modal.modal-3
+                variant="danger"
+                @click="remove(row.item.code)"
+              >
+                <font-awesome-icon icon="trash" /> Remove
+              </b-button>
+            </div>
+            <div v-else>
+              No operations available
+            </div>
           </template>
         </b-table>
          <b-pagination
@@ -311,6 +314,7 @@ export default {
         Value: "value",
         Date: "date",
         Hour: "hour",
+        UsernameRegister: "usernameRegister"
       },
       typeExcel: "",
 
@@ -625,6 +629,7 @@ export default {
           biomedicDataTypeCode: this.biomedicDataType,
           value: this.value,
           usernamePatient: this.username,
+          usernameRegister: this.$auth.user.sub
         })
         .then((response) => {
           this.$toast
@@ -763,6 +768,7 @@ export default {
                 biomedicDataTypeCode: biomedicDataTypeNumber,
                 value: value,
                 usernamePatient: usernameHealthcareProfessional,
+                usernameRegister: this.$auth.user.sub
               })
               .then((response) => {
                 this.$toast

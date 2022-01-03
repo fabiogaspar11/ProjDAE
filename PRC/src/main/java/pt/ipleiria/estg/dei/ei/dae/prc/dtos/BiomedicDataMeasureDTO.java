@@ -7,17 +7,27 @@ public class BiomedicDataMeasureDTO {
     private String hour;
     private String usernamePatient;
     private long biomedicDataTypeCode;
+    private String usernameRegister;
 
     public BiomedicDataMeasureDTO() {
     }
 
-    public BiomedicDataMeasureDTO(long code, double value, String date, String hour,String usernamePatient, long biomedicDataTypeCode) {
+    public BiomedicDataMeasureDTO(long code, double value, String date, String hour,String usernamePatient, long biomedicDataTypeCode, String usernameRegister) {
         this.code = code;
         this.value = value;
         this.date = date;
         this.hour = hour;
         this.usernamePatient = usernamePatient;
         this.biomedicDataTypeCode = biomedicDataTypeCode;
+        this.usernameRegister = usernameRegister;
+    }
+
+    public String getUsernameRegister() {
+        return usernameRegister;
+    }
+
+    public void setUsernameRegister(String usernameRegister) {
+        this.usernameRegister = usernameRegister;
     }
 
     public String getHour() {

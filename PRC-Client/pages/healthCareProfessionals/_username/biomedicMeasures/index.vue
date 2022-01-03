@@ -196,6 +196,7 @@ export default {
         },
         { key: "date", label: "Date", sortable: true, sortDirection: "desc" },
         { key: "hour", label: "Hour", sortable: true, sortDirection: "desc" },
+        { key: "usernameRegister", label: "Username Register" ,sortable: true, sortDirection: "desc" },
         "operations",
       ],
       entidade: [],
@@ -220,6 +221,7 @@ export default {
         Value: "value",
         Date: "date",
         Hour: "hour",
+         UsernameRegister: "usernameRegister"
       },
       typeExcel:"",
     };
@@ -405,6 +407,7 @@ export default {
           biomedicDataTypeCode: this.biomedicDataType,
           value: this.value,
           usernamePatient: this.patient,
+          usernameRegister: this.$auth.user.sub
         })
         .then((response) => {
           console.log(response);
@@ -474,6 +477,7 @@ export default {
                 biomedicDataTypeCode: biomedicDataTypeNumber,
                 value: value,
                 usernamePatient: usernameHealthcareProfessional,
+                usernameRegister: this.$auth.user.sub
               })
               .then((response) => {
                 this.$toast.success("Biomedic data Measure " + response.code + " created succesfully!")

@@ -133,7 +133,8 @@ public class PatientService {
                 biomedicDataMeasure.getDate(),
                 biomedicDataMeasure.getHour(),
                 biomedicDataMeasure.getPatient().getUsername(),
-                biomedicDataMeasure.getBiomedicDataType().getCode()
+                biomedicDataMeasure.getBiomedicDataType().getCode(),
+                biomedicDataMeasure.getUserRegister().getUsername()
         );
     }
 

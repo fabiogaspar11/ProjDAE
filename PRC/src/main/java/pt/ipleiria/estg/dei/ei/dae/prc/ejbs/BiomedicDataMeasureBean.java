@@ -17,7 +17,7 @@ public class BiomedicDataMeasureBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public long create(double value, String date, String hour, String username, long biomedicDataTypeCode) throws MyEntityExistsException, MyEntityNotFoundException {
+    public long create(double value, String date, String hour, String username, long biomedicDataTypeCode, String usernameRegister) throws MyEntityExistsException, MyEntityNotFoundException {
         Patient patient = entityManager.find(Patient.class,username);
         if(patient == null) {
             throw new MyEntityNotFoundException("There is no Patient with the username \'" + username + "\'");
@@ -26,7 +26,11 @@ public class BiomedicDataMeasureBean {
         if(biomedicDataType == null) {
             throw new MyEntityNotFoundException("There is no Biomedic Data Type with the code \'" + biomedicDataTypeCode + "\'");
         }
-        BiomedicDataMeasure biomedicDataMeasure = new BiomedicDataMeasure(value, date, hour, patient, biomedicDataType);
+        User userRegister = entityManager.find(User.class,usernameRegister);
+        if(userRegister == null) {
+            throw new MyEntityNotFoundException("There is no User with the username \'" + usernameRegister + "\'");
+        }
+        BiomedicDataMeasure biomedicDataMeasure = new BiomedicDataMeasure(value, date, hour, patient, biomedicDataType, userRegister);
         entityManager.persist(biomedicDataMeasure);
         entityManager.flush();
         patient.addBiomedicDataMeasure(biomedicDataMeasure);

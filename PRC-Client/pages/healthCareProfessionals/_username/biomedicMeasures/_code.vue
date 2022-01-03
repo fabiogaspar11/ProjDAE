@@ -78,6 +78,7 @@ export default {
         { key: "value", label: "Value" },
         { key: "date", label: "Date" },
         { key: "hour", label: "Hour" },
+        { key: "usernameRegister", label: "Username Register" },
       ],
       entidade: [],
       biomedicDataTypes: [],
