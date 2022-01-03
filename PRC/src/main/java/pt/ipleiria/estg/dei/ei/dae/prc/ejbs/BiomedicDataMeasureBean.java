@@ -139,6 +139,19 @@ public class BiomedicDataMeasureBean {
         if(biomedicDataMeasureDTO.getHour() != null && !biomedicDataMeasure.getDate().equals(biomedicDataMeasureDTO.getHour())){
             biomedicDataMeasure.setHour(biomedicDataMeasureDTO.getHour());
         }
+
+        if (biomedicDataMeasureDTO.getValue() > biomedicDataMeasure.getNormalMaxValue()){
+            biomedicDataMeasure.setClassification("Superior");
+        }
+        else if (biomedicDataMeasureDTO.getValue() < biomedicDataMeasure.getNormalMinValue()){
+            biomedicDataMeasure.setClassification("Inferior");
+        }
+        else{
+            biomedicDataMeasure.setClassification("Normal");
+        }
+
+        biomedicDataMeasure.setClassification(biomedicDataMeasure.getClassification());
+
         entityManager.merge(biomedicDataMeasure);
     }
 

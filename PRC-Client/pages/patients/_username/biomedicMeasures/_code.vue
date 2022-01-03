@@ -9,11 +9,14 @@
       </template>
 
       <div class="d-flex justify-content-center">
-        <div v-if="classification === 'Value below the minimum reference value' || classification  === 'Value above the minimum reference value'" class="bg-danger w-50 text-center"  style="border-radius: 10px">
-          <h5 style="color: white; margin-top: 1%; margin-bottom: 1%">Classification: {{ classification }}</h5>
+        <div v-if="classification === 'Normal'" class="bg-success w-50 text-center"  style="border-radius: 10px">
+          <h5 style="color: white; margin-top: 1%; margin-bottom: 1%">Classification: Value in the bounds of reference</h5>
         </div>
-        <div v-else class="bg-success w-50 text-center"  style="border-radius: 10px">
-          <h5 style="color: white; margin-top: 1%; margin-bottom: 1%">Classification: {{ classification }}</h5>
+        <div v-else-if="classification === 'Inferior'" class="bg-danger w-50 text-center" style="border-radius: 10px">
+          <h5 style="color: white; margin-top: 1%; margin-bottom: 1%">Classifications: Value below the minimum reference value</h5>
+        </div>
+        <div v-else class="bg-danger w-50 text-center" style="border-radius: 10px">
+          <h5 style="color: white; margin-top: 1%; margin-bottom: 1%">Classifications: Value above the minimum reference value</h5>
         </div>
       </div>
 
