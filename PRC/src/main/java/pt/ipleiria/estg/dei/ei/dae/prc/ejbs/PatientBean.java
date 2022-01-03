@@ -132,6 +132,10 @@ public class PatientBean {
             patient.setContact(patientDTO.getContact());
         }
 
+        if(patientDTO.getGender() != null && !patient.getGender().equals(patientDTO.getGender())){
+            patient.setGender(patientDTO.getGender());
+        }
+
         entityManager.merge(patient);
     }
 

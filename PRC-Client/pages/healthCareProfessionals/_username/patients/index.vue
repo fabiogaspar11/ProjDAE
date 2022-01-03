@@ -110,6 +110,12 @@
         />
       </div>
         <p>{{ isHealthNumberValidFeedback }}</p>
+
+      <div class="input-group mb-4 d-flex justify-content-center" >
+        <span class="input-group-text">Gender</span>
+        <b-form-select v-model="gender" :options="optionsGender"></b-form-select>
+        <p>{{isGenderValidFeedback}}</p>
+      </div>
     </b-modal>
 
     <b-modal ok-only ok-title="Close" id="modal-2" title="Associate Patient">
@@ -124,7 +130,7 @@
           </b-form-input>
 
           <b-table
-          v-if="this.tableLength != 0"
+          v-if="this.rows != 0"
             striped
             hover
             :items="this.patientsAll"
@@ -153,14 +159,14 @@
             </template>
           </b-table>
           <b-pagination
-            v-if="this.tableLength != 0"
+            v-if="this.rows != 0"
             class="justify-content-center"
             v-model="currentPagePaginateSecondary"
             :total-rows="rows"
             :per-page="perPage"
             aria-controls="tableAssociateds"
           ></b-pagination>
-            <div v-if="this.tableLength == 0" class="w-75 mx-auto alert alert-info">
+            <div v-if="this.rows == 0" class="w-75 mx-auto alert alert-info">
             No Patients created yet
         </div>
         </div>
@@ -196,7 +202,7 @@
         aria-controls="tablePrincipal"
       ></b-pagination>
         <div v-if="this.tableLength == 0" class="w-75 mx-auto alert alert-info">
-            No Patients created yet
+          No Patients associated yet
         </div>
     </b-container>
 
@@ -242,6 +248,7 @@ export default {
       contact: null,
       email: null,
       healthNumber: null,
+      gender: null,
       filter: null,
       filterAssociateds: null,
       totalRows: null,
@@ -258,9 +265,15 @@ export default {
         HealthNumber: "healthNumber",
         Contact: "contact",
         Email: "email",
+        Gender: "gender",
       },
       typeExcel:"",
       file: null,
+      optionsGender: [
+        { value: null, text: 'Please select an option' },
+        { value: 'Masculino', text: 'Masculino' },
+        { value: 'Feminino', text: 'Feminino' },
+      ]
     };
   },
   computed: {
@@ -372,6 +385,19 @@ export default {
       }
       return this.isbirthDateValidFeedback === "";
     },
+    isGenderValidFeedback() {
+      if (!this.gender) {
+        return null;
+      }
+
+      return "";
+    },
+    isGenderValid() {
+      if (this.isGenderValidFeedback === null) {
+        return null;
+      }
+      return this.isGenderValidFeedback === "";
+    },
     isFormValid() {
       if (!this.isNameValid) {
         return false;
@@ -386,6 +412,9 @@ export default {
         return false;
       }
       if (!this.isHealthNumberValid) {
+        return false;
+      }
+      if (!this.isGenderValid) {
         return false;
       }
       return true;
@@ -430,6 +459,7 @@ export default {
           name: this.name,
           contact: this.contact,
           healthNumber: this.healthNumber,
+          gender: this.gender
         })
         .then((response) => {
           this.$toast
@@ -441,6 +471,7 @@ export default {
           this.contact = null;
           this.email = null;
           this.healthNumber = null;
+          this.gender = null;
           this.getAllPatients();
         })
         .catch((error) => {
@@ -503,12 +534,14 @@ export default {
             let healthNumber = data[i][2]
             let contact = data[i][3]
             let email = data[i][4]
+            let gender = data[i][5]
              this.$axios.$post("/api/patients", {
                 email: email,
                 birthDate: birthDate,
                 name: name,
                 contact: contact,
                 healthNumber: healthNumber,
+                gender: gender,
               })
               .then((response) => {
                 this.$toast.success("Patient " + name + " created succesfully").goAway(3000);
