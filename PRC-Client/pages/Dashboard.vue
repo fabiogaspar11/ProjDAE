@@ -22,6 +22,7 @@
 
 <script>
 export default {
+  middleware: 'isPatient',
   computed: {
     username() {
       return this.$auth.user.sub

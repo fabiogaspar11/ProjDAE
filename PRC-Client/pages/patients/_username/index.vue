@@ -1,7 +1,6 @@
 <template>
   <div>
-    <NavBar v-if="!isPatient"></NavBar>
-    <NavBar v-else></NavBar>
+    <NavBar></NavBar>
     <div class="container" style="margin-top: 4%">
       <template>
         <div>
@@ -53,6 +52,7 @@
 
 <script>
 export default {
+  middleware: ['isPatient', "isPatientAccessingHisData"],
   data() {
     return {
       fields: [
@@ -81,9 +81,6 @@ export default {
     url: String,
   },
   computed: {
-    isPatient(){
-      return this.$auth.user.groups.includes("Patient");
-    },
     username() {
       return this.$route.params.username;
     },

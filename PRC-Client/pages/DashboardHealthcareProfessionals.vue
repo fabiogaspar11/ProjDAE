@@ -19,6 +19,7 @@
 
 <script>
 export default {
+  middleware: "isHealthcareProfessional",
   computed: {
     username() {
       return this.$auth.user.sub;

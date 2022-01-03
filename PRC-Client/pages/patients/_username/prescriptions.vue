@@ -72,6 +72,7 @@
 import NavBar from "/components/NavBar.vue";
 
 export default {
+  middleware: ['isPatient', "isPatientAccessingHisData"],
   components: {
     NavBar,
   },

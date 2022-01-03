@@ -73,7 +73,7 @@ export default {
           this.$router.push("/dashboard");
         } else if (this.$auth.user.groups.includes("HealthcareProfessional")) {
           this.$router.push("/dashboardHealthcareProfessionals");
-        } else {
+        } else if (this.$auth.user.groups.includes("Administrator")){
           this.$router.push("/dashboardAdministrators");
         }
       });
