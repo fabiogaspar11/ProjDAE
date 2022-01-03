@@ -35,8 +35,8 @@
             aria-describedby="basic-addon1"
             placeholder="Enter prescription title"
           />
-          <p>{{ isTitleValidFeedback }}</p>
         </div>
+          <p>{{ isTitleValidFeedback }}</p>
         <div>
           Pharmacological prescription:
           <b-form-select
@@ -44,8 +44,8 @@
             :options="options"
             :state="isOptionValid"
           ></b-form-select>
-          <p>{{ isOptionValidFeedback }}</p>
         </div>
+          <p>{{ isOptionValidFeedback }}</p>
         <br />
         <span>Treatment information:</span>
         <div>
@@ -58,8 +58,8 @@
             max-rows="6"
           ></b-form-textarea>
 
-          <p>{{ isTreatmentInfoValidFeedback }}</p>
         </div>
+          <p>{{ isTreatmentInfoValidFeedback }}</p>
         <br />
         <div>
           <span>Observations:</span>
@@ -90,8 +90,8 @@
               @context="onContext"
             ></b-form-datepicker>
           </b-input-group-append>
-          <p>{{ isDateValidFeedback }}</p>
         </div>
+          <p>{{ isDateValidFeedback }}</p>
       </b-modal>
     </div>
   </div>

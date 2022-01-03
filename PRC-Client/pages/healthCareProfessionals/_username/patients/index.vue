@@ -47,8 +47,8 @@
           aria-describedby="basic-addon1"
           placeholder="Enter your name"
         />
-        <p>{{ isNameValidFeedback }}</p>
       </div>
+        <p>{{ isNameValidFeedback }}</p>
       <div class="input-group mb-4">
         <span class="input-group-text">Email</span>
         <b-input
@@ -61,8 +61,8 @@
           aria-describedby="basic-addon1"
           placeholder="Enter your email"
         />
-        <p>{{ isEmailValidFeedback }}</p>
       </div>
+        <p>{{ isEmailValidFeedback }}</p>
       <div class="input-group mb-4">
         <span class="input-group-text">Birthdate</span>
         <b-input
@@ -82,8 +82,8 @@
               @context="onContext"
             ></b-form-datepicker>
           </b-input-group-append>
-        <p>{{ isbirthDateValidFeedback }}</p>
       </div>
+        <p>{{ isbirthDateValidFeedback }}</p>
       <div class="input-group mb-4">
         <span class="input-group-text">Contact</span>
         <b-input
@@ -95,8 +95,8 @@
           aria-describedby="basic-addon1"
           placeholder="Enter your contact"
         />
-        <p>{{ isContactValidFeedback }}</p>
       </div>
+        <p>{{ isContactValidFeedback }}</p>
       <div class="input-group mb-4">
         <span class="input-group-text">Health Number</span>
         <b-input
@@ -108,8 +108,8 @@
           aria-describedby="basic-addon1"
           placeholder="Enter your health number"
         />
-        <p>{{ isHealthNumberValidFeedback }}</p>
       </div>
+        <p>{{ isHealthNumberValidFeedback }}</p>
     </b-modal>
 
     <b-modal ok-only ok-title="Close" id="modal-2" title="Associate Patient">

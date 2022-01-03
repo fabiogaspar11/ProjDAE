@@ -12,10 +12,8 @@
       <div v-else class="w-75 mx-auto alert alert-info">
             Cannot Edit this Biomedic Data
       </div>
-
-      </div>
       <b-modal id="modal-1" title="Edit Biomedic Measure" @ok="update()">
-        <div class="input-group mb-4">
+       <div class="input-group mb-4">
           <span class="input-group-text">Date</span>
           <b-input
             required
@@ -32,7 +30,6 @@
             :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
             @context="onContext"
           ></b-form-datepicker>
-          <p>{{ isDateValidFeedback }}</p>
         </div>
           <p>{{ isDateValidFeedback }}</p>
         <div class="input-group mb-4">
@@ -49,7 +46,7 @@
         </div>
           <p>{{ isHourValidFeedback }}</p>
         <div class="input-group mb-4">
-                     <span class="input-group-text">Value</span>
+            <span class="input-group-text">Value</span>
           <b-input
             v-model="valueEdit"
             :state="this.isValueValid"
@@ -73,11 +70,15 @@
             />
           </b-input-group>
         </div>
-          <p>{{ isValueValidFeedback }}</p>
+        <p>{{ isValueValidFeedback }}</p>
+
       </b-modal>
     </div>
   </div>
 </template>
+
+
+
 
 <script>
 export default {
@@ -95,15 +96,16 @@ export default {
         { key: "usernameRegister", label: "Username Register" },
       ],
       entidade: [],
-      biomedicDataTypes: [],
       date: null,
       hour: null,
       value: null,
-      minVal: null,
-      maxVal: null,
-      dateEdit: "",
+      biomedicDataMeasure: {},
+      biomedicDataTypes: [],
+       dateEdit: "",
       hourEdit: "",
       valueEdit: "",
+      minVal: null,
+      maxVal: null,
       canEdit:false
     };
   },
@@ -111,7 +113,6 @@ export default {
     url: String,
   },
   computed: {
-
     code() {
       return this.$route.params.code;
     },
@@ -119,18 +120,14 @@ export default {
       if (!this.dateEdit) {
         return null;
       }
-
-      if (this.dateEdit == this.date) {
+        if (this.dateEdit == this.date) {
         return "New Date is the same as the old one";
       }
-
       var date_regex =
         /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
-
       var currentdate = new Date();
       var dateSplitted = this.dateEdit.split("/");
       var dateRegexValid = date_regex.test(this.dateEdit);
-
       if (!dateRegexValid) {
         return "The date is invalid - format dd/mm/yyyy";
       }
@@ -157,7 +154,7 @@ export default {
       return this.isDateValidFeedback === "";
     },
     isHourValidFeedback() {
-      if (!this.hourEdit) {
+       if (!this.hourEdit) {
         return null;
       }
 
@@ -207,7 +204,7 @@ export default {
       return this.isHourValidFeedback === "";
     },
     isValueValidFeedback() {
-      if (!this.valueEdit) {
+       if (!this.valueEdit) {
         return null;
       }
       if(this.value == this.valueEdit)
@@ -240,6 +237,10 @@ export default {
     this.getBiomedicMeasure();
   },
   methods: {
+    onContext(ctx) {
+      // The date formatted in the locale, or the `label-no-date-selected` string
+      this.dateEdit = ctx.selectedFormatted
+    },
     getBiomedicMeasure() {
       this.$axios.$get("/api/biomedicDataTypes").then((entidade) => {
         this.biomedicDataTypes = entidade;
@@ -247,12 +248,12 @@ export default {
           .$get(`/api/biomedicDataMeasures/${this.code}`)
           .then((entidade) => {
             this.entidade = [entidade];
-            if(this.entidade[0].usernameRegister[0]=="P" || this.entidade[0].usernameRegister == this.$auth.user.sub){
-              this.canEdit = true;
-            }
             this.hour = entidade.hour;
             this.date = entidade.date;
             this.value = entidade.value;
+            if(this.entidade[0].usernameRegister == this.$auth.user.sub){
+              this.canEdit = true;
+            }
             this.biomedicDataTypes.forEach((b) => {
               if (this.entidade[0].biomedicDataTypeCode === b.code) {
                 this.entidade[0].biomedicDataType = b.name;
@@ -267,43 +268,36 @@ export default {
       });
     },
     update() {
-      let biomedicDataMeasure = {};
-      let valid = true;
-
-      if (this.isDateValid)
-        biomedicDataMeasure.date = this.dateEdit;
-      if (this.isHourValid)
-        biomedicDataMeasure.hour = this.hourEdit;
-      if (this.isValueValid)
-        biomedicDataMeasure.value = this.valueEdit;
-
-
-      if(!this.isDateValid && this.dateEdit != ""|| !this.isHourValid && this.hourEdit != "" || !this.isValueValid && this.valueEdit != "" )
-        valid = false
-
-      if (Object.keys(biomedicDataMeasure).length == 0 || valid == false) {
+      this.biomedicDataMeasure = {};
+      if (this.isDateValid) {
+        this.biomedicDataMeasure.date = this.dateEdit;
+      }
+      if (this.isHourValid) {
+        this.biomedicDataMeasure.hour = this.hourEdit;
+      }
+      if (this.isValueValid) {
+        this.biomedicDataMeasure.value = this.valueEdit;
+      }
+      if (Object.keys(this.biomedicDataMeasure).length == 0 || valid == false) {
         this.$toast.error("Error - Nothing to update").goAway(3000);
         return;
       }
       this.$axios
-        .$put(`/api/biomedicDataMeasures/${this.code}`, biomedicDataMeasure)
-        .then((response) => {
-          this.$toast
-            .info(
-              "Biomedic data Measure " + response.code + " updated succesfully!"
-            )
-            .goAway(3000);
-          biomedicDataMeasure = {};
-          this.dateEdit = "";
-          this.hourEdit = "";
-          this.valueEdit = "";
+        .$put(
+          `/api/biomedicDataMeasures/${this.code}`,
+          this.biomedicDataMeasure
+        )
+        .then(() => {
+
+          this.$toast.info("Biomedic data Measure "+response.code+" updated succesfully!").goAway(3000);
+
+          this.biomedicDataMeasure = {};
+          this.date = null;
+          this.hour = null;
+          this.value = null;
           this.getBiomedicMeasure();
         });
     },
-    onContext(ctx) {
-      // The date formatted in the locale, or the `label-no-date-selected` string
-      this.dateEdit = ctx.selectedFormatted
-    }
   },
 };
 </script>

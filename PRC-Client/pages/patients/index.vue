@@ -23,33 +23,33 @@
       <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
           <b-input required v-model.trim="name" type="text" :state="isNameValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your name"/>
-          <p>{{isNameValidFeedback}}</p>
       </div>
+          <p>{{isNameValidFeedback}}</p>
       <div class="input-group mb-4">
           <span class="input-group-text">Email</span>
           <b-input required v-model.trim="email" ref="email" type="email" :state="isEmailValid" class="form-control" aria-describedby="basic-addon1" placeholder="Enter your email"/>
-           <p>{{isEmailValidFeedback}}</p>
       </div>
+           <p>{{isEmailValidFeedback}}</p>
        <div class="input-group mb-4">
           <span class="input-group-text">Password</span>
           <b-input required v-model.trim="password" type="password" :state="isPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your password"/>
-          <p>{{isPasswordValidFeedback}}</p>
       </div>
+          <p>{{isPasswordValidFeedback}}</p>
        <div class="input-group mb-4">
           <span class="input-group-text">Birthdate</span>
           <b-input required  v-model.trim="birthDate" type="text" :state="isbirthDateValid"  placeholder="dd/mm/yyyy" class="form-control" aria-describedby="basic-addon1"/>
-          <p>{{isbirthDateValidFeedback}}</p>
       </div>
+          <p>{{isbirthDateValidFeedback}}</p>
        <div class="input-group mb-4">
           <span class="input-group-text">Contact</span>
           <b-input required v-model.trim="contact" type="number"  :state="isContactValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your contact"/>
-          <p>{{isContactValidFeedback}}</p>
       </div>
+          <p>{{isContactValidFeedback}}</p>
        <div class="input-group mb-4">
           <span class="input-group-text">Health Number</span>
           <b-input required v-model.trim="healthNumber" type="number" :state="isHealthNumberValid" class="form-control" aria-describedby="basic-addon1" placeholder="Enter your health number"/>
-          <p>{{isHealthNumberValidFeedback}}</p>
       </div>
+          <p>{{isHealthNumberValidFeedback}}</p>
     </b-modal>
 
    <hr style="width: 73%" />

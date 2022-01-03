@@ -27,8 +27,8 @@
             required
             aria-describedby="basic-addon1"
           />
-          <p>{{ isNameValidFeedback }}</p>
         </div>
+          <p>{{ isNameValidFeedback }}</p>
       </b-modal>
 
       <b-table v-if="this.tableLength != 0"
@@ -58,8 +58,8 @@
         <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
           <b-input v-model.trim="nameEdit" type="text" :state="isNameEditValid" placeholder="Enter name" class="form-control" required aria-describedby="basic-addon1"/>
-          <p>{{isNameEditValidFeedback}}</p>
         </div>
+          <p>{{isNameEditValidFeedback}}</p>
       </b-modal>
     </div>
     </div>
@@ -183,7 +183,7 @@ export default {
           name: this.nameEdit
         })
         .then(() => {
-          this.$toast.info("Disease " + this.name + " updated succesfully").goAway(3000);
+          this.$toast.info("Disease " + this.nameEdit + " updated succesfully").goAway(3000);
           this.nameEdit = null;
           this.currentName = null;
           this.currentCode = null;
