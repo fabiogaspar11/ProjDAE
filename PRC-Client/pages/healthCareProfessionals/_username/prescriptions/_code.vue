@@ -133,6 +133,8 @@ export default {
       currentTitle: null,
       currentTreatmentInfo: null,
       currentObservations: null,
+      currentExpireDate: null,
+      currentIsPharmacological: null,
     };
   },
   props: {
@@ -142,12 +144,13 @@ export default {
     code() {
       return this.$route.params.code;
     },
-    tableLength: function () {
-      return this.entidade.length;
-    },
     isTitleValid() {
       if (this.isTitleValidFeedback === null) {
         return null;
+      }
+      let length = this.title.length;
+      if (length < 1 || length > 25) {
+        return "The title is mandatory and must have between 1 and 25 letters";
       }
       return this.isTitleValidFeedback === "";
     },
@@ -166,6 +169,10 @@ export default {
     isTreatmentInfoValidFeedback() {
       if (!this.treatmentInfo) {
         return null;
+      }
+       let length = this.treatmentInfo.length;
+      if (length < 1 || length > 25) {
+        return "The treatment information is mandatory and must have between 1 and 25 letters";
       }
       return "";
     },
@@ -291,7 +298,6 @@ export default {
         this.currentTitle = entidade.title;
         this.currentTreatmentInfo = entidade.treatmentInfo;
         this.currentExpireDate = entidade.expireDate;
-        this.currentUsernamePatient = entidade.usernamePatient;
         this.currentIsPharmacological = entidade.isPharmacological;
         this.currentObservations = entidade.observations;
       });

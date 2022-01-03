@@ -106,7 +106,7 @@
         </div>
       </b-modal>
 
-      <div class="mt-3">
+      <div v-if="this.tableLength != 0" class="mt-3">
         <b-table
           :items="this.entidade"
           :fields="fields"
@@ -142,6 +142,9 @@
           :per-page="perPage"
           aria-controls="table"
         ></b-pagination>
+      </div>
+       <div v-else class="w-75 mx-auto alert alert-info">
+            No administrators created yet
       </div>
     </b-container>
   </div>
@@ -181,7 +184,7 @@ export default {
       healthNumber: null,
       filter: null,
       totalRows: null,
-      perPage: 6,
+      perPage: 5,
       currentPagePaginate: 1,
     };
   },
@@ -206,7 +209,7 @@ export default {
     remove(username, name) {
       this.$axios.$delete(`/api/administrators/${username}`).then(() => {
         this.$toast
-          .info(`Administrator ${this.username} was successfully removed!`)
+          .info(`Administrator ${name} was successfully removed!`)
           .goAway(3000);
 
         this.getAdministrators();

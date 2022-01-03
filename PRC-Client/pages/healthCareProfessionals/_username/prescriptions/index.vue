@@ -60,7 +60,7 @@
           <span class="input-group-text">Patient Health Number</span>
           <b-input
             required
-            v-model="healthNumberPatient"
+            v-model.trim="healthNumberPatient"
             type="number"
             :state="ishealthNumberPatientValid"
             class="form-control"
@@ -80,6 +80,7 @@
           </b-form-input>
 
           <b-table
+          v-if="this.tableLength != 0"
             striped
             hover
             :items="this.patients"
@@ -95,19 +96,23 @@
           >
           </b-table>
           <b-pagination
+            v-if="this.tableLength != 0"
             class="justify-content-center"
             v-model="currentPagePaginateSecondary"
             :total-rows="rows"
             :per-page="perPagePatients"
             aria-controls="tableAssociateds"
           ></b-pagination>
+          <div  v-if="this.tableLength == 0" class="w-75 mx-auto alert alert-info">
+            No Patients created yet
+          </div>
         </div>
         <hr />
         <div class="input-group mb-4">
           <span class="input-group-text">Title</span>
           <b-input
             required
-            v-model="title"
+            v-model.trim="title"
             type="text"
             :state="isTitleValid"
             class="form-control"
@@ -130,7 +135,7 @@
         <div>
           <b-form-textarea
             id="textarea"
-            v-model="treatmentInfo"
+            v-model.trim="treatmentInfo"
             :state="isTreatmentInfoValid"
             placeholder="Treatment information..."
             rows="3"
@@ -172,7 +177,7 @@
         </div>
         <p>{{ isDateValidFeedback }}</p>
       </b-modal>
-      <div class="mt-1">
+      <div class="mt-1"  v-if="this.tableLength != 0">
         <b-table
           id="table"
           :per-page="perPage"
@@ -206,6 +211,9 @@
           aria-controls="table"
         ></b-pagination>
       </div>
+        <div  v-else class="w-75 mx-auto alert alert-info">
+          No prescriptions created yet
+        </div>
     </b-container>
   </div>
 </template>
@@ -264,7 +272,7 @@ export default {
       filter: null,
       totalRows: null,
       emissionDate: null,
-      perPage: 6,
+      perPage: 5,
       perPagePatients: 3,
       currentPagePaginatePrincipal: 1,
       currentPagePaginateSecondary: 1,
@@ -304,6 +312,10 @@ export default {
       if (!this.title) {
         return null;
       }
+      let length = this.title.length;
+      if (length < 3 || length > 25) {
+        return "The title is mandatory and must have between 3 and 25 letters";
+      }
       return "";
     },
     isTreatmentInfoValid() {
@@ -315,6 +327,10 @@ export default {
     isTreatmentInfoValidFeedback() {
       if (!this.treatmentInfo) {
         return null;
+      }
+       let length = this.treatmentInfo.length;
+      if (length < 3 || length > 25) {
+        return "The treatment information is mandatory and must have between 3 and 25 letters";
       }
       return "";
     },
@@ -411,7 +427,6 @@ export default {
       return true;
     },
     rows() {
-      console.log(this.patients.length);
       return this.patients.length;
     },
   },
@@ -443,13 +458,6 @@ export default {
           .goAway(3000);
         return;
       }
-      console.log(this.expireDate);
-      console.log(this.isPharmacological);
-      console.log(this.observations);
-      console.log(this.title);
-      console.log(this.treatmentInfo);
-      console.log(this.healthNumberPatient);
-      console.log(this.usernameHealthcareProfessional);
 
       this.$axios
         .$post("/api/prescriptions", {

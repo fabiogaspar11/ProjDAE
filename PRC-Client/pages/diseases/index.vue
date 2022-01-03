@@ -14,8 +14,7 @@
         </b-button>
       </div>
 
-    <hr style="width:73%;">
-    <div class="d-flex justify-content-center" style="margin-top: 3%">
+    <div class="mt-3">
       <b-modal id="modal-1" title="New disease" @ok="create()">
         <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
@@ -101,7 +100,7 @@ export default {
       currentPage: null,
       currentName: null,
       currentCode:null,
-      perPage: 6,
+      perPage: 5,
       currentPagePaginatePrincipal: 1,
     };
   },

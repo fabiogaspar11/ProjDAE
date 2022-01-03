@@ -44,7 +44,7 @@
         <b-pagination
         class="fixed-bottom justify-content-center"
         v-model="currentPagePaginatePrincipal"
-        :total-rows="rows"
+        :total-rows="tableLength"
         :per-page="perPage"
         aria-controls="table"
       ></b-pagination>

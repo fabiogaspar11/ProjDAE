@@ -57,7 +57,7 @@
             class="form-control"
             aria-describedby="basic-addon1 "
           />
-             <b-input-group-append>
+            <b-input-group-append>
             <b-form-datepicker
               id="ex-disabled-readonly"
               button-only
@@ -130,7 +130,7 @@
           </b-select>
         </div>
       </b-modal>
-      <div class="mt-1">
+      <div v-if="this.tableLength != 0" class="mt-1">
         <b-table
           id="table"
           :per-page="perPage"
@@ -166,6 +166,9 @@
           :per-page="perPage"
           aria-controls="table"
         ></b-pagination>
+      </div>
+      <div v-else class="w-75 mx-auto alert alert-info">
+          No Biomedic Measures created yet
       </div>
     </b-container>
   </div>
@@ -209,7 +212,7 @@ export default {
       totalRows: null,
       minVal: null,
       maxVal: null,
-      perPage: 6,
+      perPage: 5,
       currentPagePaginatePrincipal: 1,
       json_fields: {
         Code: "code",

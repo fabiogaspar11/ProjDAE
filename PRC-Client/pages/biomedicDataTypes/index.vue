@@ -64,38 +64,43 @@
         </div>
       </b-modal>
 
-      <b-table
-        :items="this.entidade"
-        :fields="fields"
-        striped
-        responsive="sm"
-        :filter="filter"
-        @filtered="search"
-        id="table"
-        :current-page="currentPagePaginate"
-        :per-page="perPage"
-      >
-        <template v-slot:cell(operations)="row">
-          <b-button :to="`/biomedicDataTypes/${row.item.code}`" variant="info">
-            <font-awesome-icon icon="eye" /> Details
-          </b-button>
-
-          <b-button
-            v-b-modal.modal-3
-            variant="danger"
-            @click="remove(row.item.code)"
+    <div  v-if="this.tableLength != 0" class="mt-3">
+          <b-table
+            :items="this.entidade"
+            :fields="fields"
+            striped
+            responsive="sm"
+            :filter="filter"
+            @filtered="search"
+            id="table"
+            :current-page="currentPagePaginate"
+            :per-page="perPage"
           >
-            <font-awesome-icon icon="trash" /> Remove
-          </b-button>
-        </template>
-      </b-table>
-      <b-pagination
-        class="fixed-bottom justify-content-center"
-        v-model="currentPagePaginate"
-        :total-rows="tableLength"
-        :per-page="perPage"
-        aria-controls="table"
-      ></b-pagination>
+            <template v-slot:cell(operations)="row">
+              <b-button :to="`/biomedicDataTypes/${row.item.code}`" variant="info">
+                <font-awesome-icon icon="eye" /> Details
+              </b-button>
+
+              <b-button
+                v-b-modal.modal-3
+                variant="danger"
+                @click="remove(row.item.code)"
+              >
+                <font-awesome-icon icon="trash" /> Remove
+              </b-button>
+            </template>
+          </b-table>
+          <b-pagination
+            class="fixed-bottom justify-content-center"
+            v-model="currentPagePaginate"
+            :total-rows="tableLength"
+            :per-page="perPage"
+            aria-controls="table"
+          ></b-pagination>
+    </div>
+    <div v-else class="w-75 mx-auto alert alert-info">
+          No Biomedic Data Types created yet
+    </div>
     </b-container>
   </div>
 </template>
@@ -130,7 +135,7 @@ export default {
       minValue: null,
       filter: null,
       totalRows: null,
-      perPage: 6,
+      perPage: 5,
       currentPagePaginate: 1,
     };
   },

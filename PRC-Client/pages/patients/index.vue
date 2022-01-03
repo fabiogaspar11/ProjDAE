@@ -20,7 +20,6 @@
     </b-container>
 
     <b-modal id="modal-1" title="New Patient" @ok.prevent="createPatient()">
-      dsad
       <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
           <b-input required v-model.trim="name" type="text" :state="isNameValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your name"/>
@@ -54,7 +53,7 @@
     </b-modal>
 
    <hr style="width: 73%" />
-    <div class="d-flex justify-content-center" style="margin-top: 3%">
+    <div v-if="this.tableLength != 0" class="d-flex justify-content-center" style="margin-top: 3%">
       <b-table
         :items="this.entidade"
         :fields="fields"
@@ -75,6 +74,9 @@
           </b-button>
         </template>
       </b-table>
+    </div>
+      <div v-else class="w-75 mx-auto alert alert-info">
+      No Patients created yet
     </div>
   </div>
 </template>

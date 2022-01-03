@@ -25,7 +25,7 @@
          <b-pagination
         class="fixed-bottom justify-content-center"
         v-model="currentPagePaginatePrincipal"
-        :total-rows="rows"
+        :total-rows="tableLength"
         :per-page="perPage"
         aria-controls="table"
       ></b-pagination>
@@ -56,14 +56,11 @@ export default {
       noDiseases: false,
       filter: null,
       totalRows: null,
-      perPage: 6,
+      perPage: 5,
       currentPagePaginatePrincipal: 1,
     };
   },
   computed: {
-        rows() {
-      return this.entidade.length;
-    },
     username() {
       return this.$auth.user.sub;
     },
