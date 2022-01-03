@@ -126,6 +126,12 @@
             class="form-control"
             aria-describedby="basic-addon1 "
           />
+          <b-form-datepicker
+            id="ex-disabled-readonly"
+            button-only
+            :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+            @context="onContext"
+          ></b-form-datepicker>
         </div>
         <p>{{ isDateValidFeedback }}</p>
 
@@ -211,6 +217,12 @@
             class="form-control"
             aria-describedby="basic-addon1"
           />
+          <b-form-datepicker
+            id="ex-disabled-readonly"
+            button-only
+            :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+            @context="onContextEdit"
+          ></b-form-datepicker>
           <p>{{ isDateEditValidFeedback }}</p>
         </div>
         <div class="input-group mb-4">
@@ -365,7 +377,7 @@ export default {
       return this.isDateValidFeedback === "";
     },
     isDateEditValidFeedback() {
-      if (!this.dateEdit) {
+      if (!this.dateEdit || this.dateEdit === "No date selected") {
         return null;
       }
 
@@ -819,6 +831,14 @@ export default {
 
       return this.biomedicDataTypes;
     },
+    onContext(ctx) {
+      // The date formatted in the locale, or the `label-no-date-selected` string
+      this.date = ctx.selectedFormatted
+    },
+    onContextEdit(ctx) {
+      // The date formatted in the locale, or the `label-no-date-selected` string
+      this.dateEdit = ctx.selectedFormatted
+    }
   },
   created() {
     this.getBiomedicMeasures();

@@ -34,7 +34,14 @@
       <div class="input-group mb-4">
         <span class="input-group-text">Birthdate</span>
         <b-input required  v-model.trim="birthDate" type="text" :state="isbirthDateValid"  placeholder="dd/mm/yyyy" class="form-control" aria-describedby="basic-addon1"/>
-        <p>{{isbirthDateValidFeedback}}</p>
+        <b-form-datepicker
+          id="ex-disabled-readonly"
+          button-only
+          :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+          @context="onContext"
+        ></b-form-datepicker>
+        <p style="color: #dc3545;">{{isbirthDateValidFeedback}}</p>
+
       </div>
       <div class="input-group mb-4">
         <span class="input-group-text">Type</span>
@@ -234,35 +241,40 @@ export default {
       }
       return this.isEmailValidFeedback === ''
     },
-    isbirthDateValidFeedback () {
-      if (!this.birthDate) {
-          return null
-        }
-         if(this.birthDate == this.currentBirthDate){
-        return "Birthdate is equal to current birthdate";
+    isbirthDateValidFeedback() {
+      console.log(this.birthDate)
+      if (!this.birthDate || this.birthDate === "No date selected") {
+        return null;
       }
-       var date_regex = /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
-       var currentdate = new Date();
-       var dateSplitted = this.birthDate.split('/');
-       var dateRegexValid = date_regex.test(this.birthDate);
-       if(!dateRegexValid){
-         return 'The date is invalid - format dd/mm/yyyy';
-       }
-       if(parseInt(dateSplitted[2]) < currentdate.getFullYear()){
-          return '';
-       }else if(parseInt(dateSplitted[2]) == currentdate.getFullYear() && parseInt(dateSplitted[1]) < (currentdate.getMonth()+1)){
-          return '';
-       }else if(parseInt(dateSplitted[2]) == currentdate.getFullYear() && parseInt(dateSplitted[1]) == (currentdate.getMonth()+1) && parseInt(dateSplitted[0]) <= currentdate.getDate()){
-          return '';
-       }
-       return 'The date is bigger than todays date';
-     },
-    isbirthDateValid () {
-          if (this.isbirthDateValidFeedback === null) {
+      var date_regex =
+        /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
+      var currentdate = new Date();
+      var dateSplitted = this.birthDate.split("/");
+      var dateRegexValid = date_regex.test(this.birthDate);
+      if (!dateRegexValid) {
+        return "The date is invalid - format dd/mm/yyyy";
+      }
+      if (parseInt(dateSplitted[2]) < currentdate.getFullYear()) {
+        return "";
+      } else if (
+        parseInt(dateSplitted[2]) == currentdate.getFullYear() &&
+        parseInt(dateSplitted[1]) < currentdate.getMonth() + 1
+      ) {
+        return "";
+      } else if (
+        parseInt(dateSplitted[2]) == currentdate.getFullYear() &&
+        parseInt(dateSplitted[1]) == currentdate.getMonth() + 1 &&
+        parseInt(dateSplitted[0]) <= currentdate.getDate()
+      ) {
+        return "";
+      }
+      return "The birthdate date is bigger than todays date";
+    },
+    isbirthDateValid() {
+      if (this.isbirthDateValidFeedback === null) {
         return null;
       }
       return this.isbirthDateValidFeedback === "";
-
     },
     isFormValid () {
       this.showDismissibleAlertEdit = false;
@@ -363,6 +375,10 @@ export default {
         this.showDismissibleAlertPassword = true;
       }
     },
+    onContext(ctx) {
+      // The date formatted in the locale, or the `label-no-date-selected` string
+      this.birthDate = ctx.selectedFormatted
+    }
   },
 };
 </script>

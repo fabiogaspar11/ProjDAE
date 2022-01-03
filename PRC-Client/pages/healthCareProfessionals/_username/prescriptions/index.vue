@@ -170,7 +170,8 @@
             <b-form-datepicker
               id="ex-disabled-readonly"
               button-only
-              readonly
+              :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+              @context="onContext"
             ></b-form-datepicker>
           </b-input-group-append>
         </div>
@@ -564,6 +565,10 @@ export default {
         date_info.getDate() + 1
       ).toLocaleDateString("en-US");
     },
+    onContext(ctx) {
+      // The date formatted in the locale, or the `label-no-date-selected` string
+      this.expireDate = ctx.selectedFormatted
+    }
   },
 };
 </script>

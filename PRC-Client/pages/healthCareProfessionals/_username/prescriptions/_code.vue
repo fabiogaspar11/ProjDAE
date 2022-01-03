@@ -57,6 +57,7 @@
             rows="3"
             max-rows="6"
           ></b-form-textarea>
+
           <p>{{ isTreatmentInfoValidFeedback }}</p>
         </div>
         <br />
@@ -85,7 +86,8 @@
             <b-form-datepicker
               id="ex-disabled-readonly"
               button-only
-              readonly
+              :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+              @context="onContext"
             ></b-form-datepicker>
           </b-input-group-append>
           <p>{{ isDateValidFeedback }}</p>
@@ -300,6 +302,10 @@ export default {
         this.currentObservations = entidade.observations;
       });
     },
+    onContext(ctx) {
+      // The date formatted in the locale, or the `label-no-date-selected` string
+      this.expireDate = ctx.selectedFormatted
+    }
   },
 };
 </script>

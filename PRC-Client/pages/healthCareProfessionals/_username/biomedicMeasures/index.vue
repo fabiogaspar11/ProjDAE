@@ -12,7 +12,7 @@
       ></b-form-input>
       <div class="mt-3 mb-5 text-center">
         <b-button
-          v-if="biomedicDataTypes != [] && patients != []"
+          v-if="biomedicDataTypes !== [] && patients !== []"
           v-b-modal.modal-1
           variant="info"
         >
@@ -50,7 +50,7 @@
           <span class="input-group-text">Date</span>
           <b-input
             required
-            v-model.trim="date"
+            v-model="date"
             type="text"
             :state="isDateValid"
             placeholder="dd/mm/yyyy"
@@ -61,7 +61,8 @@
             <b-form-datepicker
               id="ex-disabled-readonly"
               button-only
-              readonly
+              :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+              @context="onContext"
             ></b-form-datepicker>
           </b-input-group-append>
         </div>
@@ -227,6 +228,7 @@ export default {
     };
   },
   computed: {
+
     tableLength: function () {
       return this.entidade.length;
     },
@@ -459,7 +461,7 @@ export default {
           const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
           for (let i = 1; i < data.length; i++){
-            let usernameHealthcareProfessional = data[i][1].slice(1);
+            let usernameHealthcareProfessional = data[i][1];
             let biomedicDataType = data[i][2]
             let biomedicDataTypeNumber = this.getBiomedicDataTypeNumber(biomedicDataType)
             let value = data[i][3]
@@ -468,7 +470,6 @@ export default {
               date = this.convertToDate(data[i][4])
             }
             let hour = data[i][5].toString()
-
 
             this.$axios
               .$post("/api/biomedicDataMeasures", {
@@ -488,7 +489,6 @@ export default {
                 this.$toast.error("Error creating Biomedic data Measure - " + error.response.data)
                   .goAway(3000);
               });
-
           }
         }
         reader.readAsBinaryString(this.file);
@@ -518,6 +518,10 @@ export default {
       }
 
       return this.biomedicDataTypes
+    },
+    onContext(ctx) {
+      // The date formatted in the locale, or the `label-no-date-selected` string
+      this.date = ctx.selectedFormatted
     }
   },
   created() {

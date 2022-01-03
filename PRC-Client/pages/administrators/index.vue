@@ -68,6 +68,14 @@
             class="form-control"
             aria-describedby="basic-addon1 "
           />
+          <b-input-group-append>
+            <b-form-datepicker
+              id="ex-disabled-readonly"
+              button-only
+              :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+              @context="onContext"
+            ></b-form-datepicker>
+          </b-input-group-append>
           <p>{{ isbirthDateValidFeedback }}</p>
         </div>
         <div class="input-group mb-4">
@@ -242,6 +250,10 @@ export default {
             .goAway(3000);
         });
     },
+    onContext(ctx) {
+      // The date formatted in the locale, or the `label-no-date-selected` string
+      this.birthDate = ctx.selectedFormatted
+    }
   },
   created() {
     this.getAdministrators();
@@ -346,7 +358,7 @@ export default {
       ) {
         return "";
       }
-      return "The date is bigger than todays date";
+      return "The birthdate date is bigger than todays date";
     },
     isbirthDateValid() {
       if (this.isbirthDateValidFeedback === null) {
@@ -361,7 +373,7 @@ export default {
       let healthNumberString = this.healthNumber.toString();
       let healthNumberLen = healthNumberString.length;
       if (healthNumberLen != 9) {
-        return "The healh number is invalid - the number must have 9 digits";
+        return "The health number is invalid - the number must have 9 digits";
       }
       return "";
     },
