@@ -73,6 +73,21 @@ public class BiomedicDataTypeBean {
                 biomedicDataType.setMaxValue(biomedicDataTypeDTO.getMaxValue());
             }
         }
+        if(biomedicDataTypeDTO.getNormalMinValue() < biomedicDataTypeDTO.getNormalMaxValue())
+        {
+            if(biomedicDataTypeDTO.getNormalMinValue() < Float.MAX_VALUE && biomedicDataTypeDTO.getNormalMinValue() > Float.MIN_VALUE  && biomedicDataType.getNormalMinValue() != (biomedicDataTypeDTO.getNormalMinValue())){
+                biomedicDataType.setNormalMinValue(biomedicDataTypeDTO.getNormalMinValue());
+            }
+            if(biomedicDataTypeDTO.getNormalMaxValue() < Float.MAX_VALUE && biomedicDataTypeDTO.getNormalMaxValue() > Float.MIN_VALUE && biomedicDataType.getNormalMaxValue() != (biomedicDataTypeDTO.getNormalMaxValue())){
+                biomedicDataType.setNormalMaxValue(biomedicDataTypeDTO.getNormalMaxValue());
+            }
+        }
+        if(biomedicDataType.getAgeValuedifferentiation() != (biomedicDataTypeDTO.getAgeValuedifferentiation())){
+            biomedicDataType.setAgeValuedifferentiation(biomedicDataTypeDTO.getAgeValuedifferentiation());
+        }
+        if(biomedicDataType.getGenderValuedifferentiation() != (biomedicDataTypeDTO.getGenderValuedifferentiation())){
+            biomedicDataType.setGenderValuedifferentiation(biomedicDataTypeDTO.getGenderValuedifferentiation());
+        }
 
         entityManager.merge(biomedicDataType);
     }

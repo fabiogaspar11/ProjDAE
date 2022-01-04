@@ -65,19 +65,34 @@
             placeholder="Enter maximum value"
           />
         </div>
-        <p>{{ isMaxValueValidFeedback }}</p>
+          <p>{{ isMaxValueValidFeedback }}</p>
         <div class="input-group mb-4 justify-content-center">
           <span class="input-group-text">Minimum Normal value:</span>
+           <b-input v-model.number="normalMinValue"  :disabled="!isMinValueValid || !isMaxValueValid"  :state="this.isNormalMinValid" class="col-md-2">{{this.normalMinValue}}</b-input>
+           <b-input-group
+            :prepend="(this.minValue+1).toString()"
+            :append="(this.maxValue-1).toString()"
+            class="mt-3"
+          >
           <b-input
             v-model.number="normalMinValue"
-            :disabled="!isMinValueValid || !isMaxValueValid"
-            :state="this.isNormalMinValid"
-            class="col-md-2"
-            >{{ this.normalMinValue }}</b-input
-          >
-          <b-input-group
-            :prepend="this.minValue + 1"
-            :append="this.maxValue - 1"
+            type="range"
+            step="0.5"
+            :min="minValue+1"
+            :max="maxValue-1"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            placeholder="Enter minimum value"
+          />
+           </b-input-group>
+        </div>
+          <p>{{ isNormalMinValidFeedback }}</p>
+            <div class="input-group mb-4 justify-content-center">
+          <span class="input-group-text">Maximum Normal value:</span>
+          <b-input v-model.number="normalMaxValue"  :disabled="!isMinValueValid || !isMaxValueValid"  :state="this.isNormalMaxValid" class="col-md-2">{{this.normalMaxValue}}</b-input>
+           <b-input-group
+            :prepend="(this.minValue+1).toString()"
+            :append="(this.maxValue-1).toString()"
             class="mt-3"
           >
             <b-input
@@ -121,15 +136,15 @@
             />
           </b-input-group>
         </div>
-        <p>{{ isNormalMaxValidFeedback }}</p>
-        <div class="input-group mb-4">
+          <p>{{ isNormalMaxValidFeedback }}</p>
+          <div class="input-group mb-4">
           <span class="input-group-text">Gender value differentiation:</span>
           <div class="mx-auto mt-2 alert alert-info">
             This value indicates how much the normal range of values will change
             depending if the gender of the patient is female.
           </div>
           <b-input
-            v-model="genderValuedifferentiation"
+            v-model.number="genderValuedifferentiation"
             type="number"
             class="form-control"
             aria-describedby="basic-addon1"
@@ -145,7 +160,7 @@
             depending on the age group of the patient.
           </div>
           <b-input
-            v-model="ageValuedifferentiation"
+            v-model.number="ageValuedifferentiation"
             type="number"
             class="form-control"
             aria-describedby="basic-addon1"
@@ -326,18 +341,16 @@ export default {
         return null;
       }
 
-      if (this.normalMinValue < this.minValue)
-        return "The normal minimum value should be bigger than the minimum value";
-      if (this.normalMinValue >= this.normalMaxValue) {
-        return "The normal minimum value should be smaller than the normal maximum value";
+      if(this.normalMinValue < this.minValue)
+        return "The normal minimum value should be bigger than the minimum value"
+      if(this.normalMinValue >= this.normalMaxValue){
+        return "The normal minimum value should be smaller than the normal maximum value"
       }
-      console.log("Normal Min value: " + this.normalMinValue);
-      console.log("Max value: " + this.maxValue);
-      console.log(this.normalMinValue + " > " + this.maxValue);
-      if (this.normalMinValue > this.maxValue) {
-        return "The normal minimum value should be smaller than the maximum value";
+
+      if(this.normalMinValue > this.maxValue) {
+        return "The normal minimum value should be smaller than the maximum value"
       }
-      return "";
+      return ""
     },
     isNormalMaxValid() {
       if (this.isNormalMaxValidFeedback === null) {
@@ -349,13 +362,11 @@ export default {
       if (!this.normalMaxValue) {
         return null;
       }
-      if (this.normalMaxValue < this.minValue)
-        return "The normal maximum value should be bigger than the minimum value";
-      console.log("Normal Max value: " + this.normalMaxValue);
-      console.log("Max value: " + this.maxValue);
-      console.log(this.normalMaxValue > this.maxValue);
-      if (parseInt(this.normalMaxValue) > parseInt(this.maxValue)) {
-        return "The normal maximum value should be smaller than the maximum value";
+      if(this.normalMaxValue < this.minValue)
+        return "The normal maximum value should be bigger than the minimum value"
+
+      if(this.normalMaxValue > this.maxValue) {
+        return "The normal maximum value should be smaller than the maximum value"
       }
       if (this.normalMaxValue <= this.normalMinValue) {
         return "The normal maximum value should be bigger than the minimum value";

@@ -40,7 +40,7 @@
         <div class="input-group mb-4">
           <span class="input-group-text">Minimum value:</span>
           <b-input
-            v-model="minValue"
+            v-model.number="minValue"
             type="number"
             class="form-control"
             aria-describedby="basic-addon1"
@@ -52,7 +52,7 @@
         <div class="input-group mb-4">
           <span class="input-group-text">Maximum value:</span>
           <b-input
-            v-model="maxValue"
+            v-model.number="maxValue"
             type="number"
             class="form-control"
              :state="isMaxValueValid"
@@ -61,6 +61,78 @@
           />
         </div>
           <p>{{ isMaxValueValidFeedback }}</p>
+              <div class="input-group mb-4 justify-content-center">
+          <span class="input-group-text">Minimum Normal value:</span>
+           <b-input v-model.number="normalMinValue"   :state="this.isNormalMinValid" class="col-md-3">{{this.normalMinValue}}</b-input>
+           <b-input-group
+            :prepend="minLimit"
+            :append="maxLimit"
+            class="mt-3"
+          >
+          <b-input
+            v-model.number="normalMinValue"
+            type="range"
+            step="0.5"
+            :min="minLimit"
+            :max="maxLimit"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            placeholder="Enter minimum value"
+          />
+           </b-input-group>
+        </div>
+          <p>{{ isNormalMinValidFeedback }}</p>
+            <div class="input-group mb-4 justify-content-center">
+          <span class="input-group-text">Maximum Normal value:</span>
+          <b-input v-model.number="normalMaxValue" :state="this.isNormalMaxValid" class="col-md-3">{{this.normalMaxValue}}</b-input>
+           <b-input-group
+            :prepend="minLimit"
+            :append="maxLimit"
+            class="mt-3"
+          >
+          <b-input
+            v-model.number="normalMaxValue"
+            type="range"
+             step="0.5"
+            :min="minLimit"
+            :max="maxLimit"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            placeholder="Enter maximum value"
+          />
+            </b-input-group>
+        </div>
+          <p>{{ isNormalMaxValidFeedback }}</p>
+          <div class="input-group mb-4">
+          <span class="input-group-text">Gender value differentiation:</span>
+           <div class="mx-auto   mt-2 alert alert-info">
+            This value indicates how much the normal range of values will change depending if the gender of the patient is female.
+           </div>
+          <b-input
+            v-model.number="genderValuedifferentiation"
+            type="number"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            :state="isGenderValuedifferentiationValid"
+            placeholder="Enter Gender Value Difference"
+          />
+        </div>
+          <p>{{ isGenderValuedifferentiationValidFeedback }}</p>
+          <div class="input-group mb-4">
+          <span class="input-group-text">Age value differentiation:</span>
+          <div class="mx-auto mt-2 alert alert-info">
+            This value indicates how much the normal range of values will change depending on the age group of the patient.
+           </div>
+          <b-input
+            v-model.number="ageValuedifferentiation"
+            type="number"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            :state="isAgeValuedifferentiationValid"
+            placeholder="Enter Age Value Difference"
+          />
+        </div>
+          <p>{{ isAgeValuedifferentiationValidFeedback }}</p>
       </b-modal>
     </b-container>
   </div>
@@ -90,16 +162,32 @@ export default {
       unitMeasure: null,
       minValue: null,
       maxValue: null,
+      normalMinValue:null,
+      normalMaxValue:null,
+      genderValuedifferentiation:null,
+      ageValuedifferentiation:null,
       currentName: null,
       currentUnitMeasure: null,
       currentMinValue: null,
       currentMaxValue: null,
+      currentNormalMinValue: null,
+      currentNormalMaxValue: null,
+      currentAgeValuedifferentiation: null,
+      currentGenderValuedifferentiation: null,
     };
   },
   props: {
     url: String,
   },
   computed: {
+    minLimit(){
+        if(this.minValue==null || this.minValue=="") return (this.currentMinValue+1).toString();
+        return (this.minValue+1).toString();
+    },
+    maxLimit(){
+         if(this.maxValue==null || this.maxValue=="") return (this.currentMaxValue-1).toString();
+        return (this.maxValue-1).toString();
+    },
     code() {
       return this.$route.params.code;
     },
@@ -171,6 +259,12 @@ export default {
       if (maxValueLen <= 0 || maxValueLen > 25) {
         return "The maximum value is mandatory or is too big in size";
       }
+      if(this.minValue != null && this.maxValue <= this.minValue){
+        return "Maximum value should be bigger than the minimum"
+      }else if(this.minValue == null && this.maxValue <= this.currentMinValue){
+        return "Maximum value should be bigger than the minimum"
+      }
+
       return "";
     },
     isMaxValueValid() {
@@ -179,14 +273,116 @@ export default {
       }
       return this.isMaxValueValidFeedback === "";
     },
+    isNormalMinValid(){
+      if (this.isNormalMinValidFeedback === null) {
+        return null;
+      }
+      return this.isNormalMinValidFeedback === "";
+    },
+    isNormalMinValidFeedback(){
+      if (!this.normalMinValue) {
+        return null;
+      }
+      if(this.normalMinValue == this.currentNormalMinValue){
+         return "The normal minimum value is equal to the current  normal minimum value "
+      }
+
+      if(this.minValue != null && this.normalMinValue < this.minValue)
+        return "The normal minimum value should be bigger than the minimum value"
+      else if(this.minValue == null && this.normalMinValue < this.currentMinValue){
+            return "The normal minimum value should be bigger than the current minimum value (" + this.currentMinValue + ")";
+      }
+
+      if(this.normalMaxValue != null && this.normalMinValue >= this.normalMaxValue){
+        return "The normal minimum value should be smaller than the normal maximum value"
+      }else if(this.normalMaxValue == null && this.normalMinValue >= this.currentNormalMaxValue){
+        return "The normal minimum value should be smaller than the current normal maximum value (" + this.currentNormalMaxValue + ")";
+      }
+
+      if( this.maxValue != null && this.normalMinValue > this.maxValue) {
+        return "The normal minimum value should be smaller than the maximum value"
+      }else if(this.maxValue == null && this.normalMinValue > this.currentMaxValue){
+        return "The normal minimum value should be smaller than the current maximum value (" + this.currentMaxValue + ")";
+      }
+      return ""
+    },
+    isNormalMaxValid(){
+      if (this.isNormalMaxValidFeedback === null) {
+        return null;
+      }
+      return this.isNormalMaxValidFeedback === "";
+    },
+    isNormalMaxValidFeedback(){
+      if (!this.normalMaxValue) {
+        return null;
+      }
+       if(this.normalMaxValue == this.currentNormalMaxValue){
+         return "The normal maximum value is equal to the current  normal maximum value "
+      }
+      if( this.minValue != null && this.normalMaxValue < this.minValue)
+        return "The normal maximum value should be bigger than the minimum value"
+      else if( this.minValue == null && this.normalMaxValue < this.currentMinValue){
+        return "The normal maximum value should be bigger than the current minimum value (" + this.currentMinValue + ")";
+      }
+
+      if(this.maxValue != null && this.normalMaxValue > this.maxValue) {
+        return "The normal maximum value should be smaller than the maximum value"
+      }else if(this.maxValue == null && this.normalMaxValue > this.currentMaxValue){
+        return "The normal maximum value should be smaller than the current maximum value (" + this.currentMaxValue + ")";
+      }
+
+      if(this.normalMinValue != null && this.normalMaxValue <= this.normalMinValue){
+        return "The normal maximum value should be bigger than the minimum value"
+      }else if(this.normalMinValue == null && this.normalMaxValue <= this.currentNormalMinValue){
+        return "The normal maximum value should be bigger than the current minimum value (" + this.currentNormalMinValue + ")";
+      }
+      return ""
+    },
+    isGenderValuedifferentiationValid(){
+      if(this.isGenderValuedifferentiationValidFeedback == null)
+        return null
+      return this.isGenderValuedifferentiationValidFeedback === ""
+    },
+    isGenderValuedifferentiationValidFeedback(){
+      if (!this.genderValuedifferentiation && this.genderValuedifferentiation!=0) {
+        return null;
+      }
+      if(this.genderValuedifferentiation == this.currentGenderValuedifferentiation){
+         return "The gender value differentiation is equal to the current gender value differentiation "
+      }
+      return "";
+    },
+    isAgeValuedifferentiationValid(){
+      if(this.isAgeValuedifferentiationValidFeedback === null)
+          return null
+      return this.isAgeValuedifferentiationValidFeedback === ""
+    },
+    isAgeValuedifferentiationValidFeedback(){
+      if (!this.ageValuedifferentiation && this.ageValuedifferentiation!=0) {
+        return null;
+      }
+      if(this.ageValuedifferentiation == this.currentAgeValuedifferentiation
+      ){
+         return "The age value differentiation is equal to the current age value differentiation "
+      }
+      return ""
+    }
   },
   created() {
-    this.$axios.$get(`/api/biomedicDataTypes/${this.code}`).then((entidade) => {
+    this.getBiomedicDataType();
+  },
+  methods: {
+    getBiomedicDataType(){
+      this.$axios.$get(`/api/biomedicDataTypes/${this.code}`).then((entidade) => {
       this.entidade = [entidade];
       this.currentName = entidade.name;
       this.currentUnitMeasure = entidade.unitMeasure;
       this.currentMinValue = entidade.minValue;
       this.currentMaxValue = entidade.maxValue;
+      this.currentNormalMinValue = entidade.normalMinValue;
+      this.currentNormalMaxValue = entidade.normalMaxValue;
+      this.currentAgeValuedifferentiation = entidade.ageValuedifferentiation;
+      this.currentGenderValuedifferentiation = entidade.genderValuedifferentiation;
     })
     .catch((error)=>{
       if(error.response.status == 403 || error.response.status == 404){
@@ -194,8 +390,7 @@ export default {
         return;
       }
     });
-  },
-  methods: {
+    },
     update() {
          let biomedicDataUpdated = {};
       if (this.isNameValid) {
@@ -209,6 +404,19 @@ export default {
       }
       if (this.isMaxValueValid) {
         biomedicDataUpdated.maxValue = this.maxValue;
+      }
+
+      if (this.isNormalMinValid) {
+        biomedicDataUpdated.normalMinValue = this.normalMinValue;
+      }
+      if (this.isNormalMaxValid) {
+        biomedicDataUpdated.normalMaxValue = this.normalMaxValue;
+      }
+      if(this.isGenderValuedifferentiationValid){
+        biomedicDataUpdated.genderValuedifferentiation = this.genderValuedifferentiation;
+      }
+      if(this.isAgeValuedifferentiationValid){
+        biomedicDataUpdated.ageValuedifferentiation = this.ageValuedifferentiation;
       }
       if(Object.keys(biomedicDataUpdated).length == 0){
         this.$toast.error(`Nothing to update!`).goAway(3000);
@@ -224,11 +432,12 @@ export default {
           this.unitMeasure = null;
           this.minValue = null;
           this.maxValue = null;
-          this.$axios
-            .$get(`/api/biomedicDataTypes/${this.code}`)
-            .then((entidade) => {
-              this.entidade = [entidade];
-            });
+          this.normalMaxValue = null;
+          this.normalMinValue = null;
+         this.genderValuedifferentiation = null;
+         this.ageValuedifferentiation = null;
+          this.getBiomedicDataType();
+
         });
     },
   },
