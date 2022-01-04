@@ -49,6 +49,7 @@
             aria-describedby="basic-addon1"
             :state="isMinValueValid"
             placeholder="Enter minimum value"
+
           />
         </div>
           <p>{{ isMinValueValidFeedback }}</p>
@@ -66,7 +67,8 @@
           <p>{{ isMaxValueValidFeedback }}</p>
               <div class="input-group mb-4 justify-content-center">
           <span class="input-group-text">Minimum Normal value:</span>
-           <b-input v-model.number="normalMinValue"   :state="this.isNormalMinValid" class="col-md-3">{{this.normalMinValue}}</b-input>
+           <b-input
+             v-model.number="normalMinValue"   :state="this.isNormalMinValid" class="col-md-3">{{this.normalMinValue}}</b-input>
            <b-input-group
             :prepend="minLimit"
             :append="maxLimit"
@@ -96,7 +98,7 @@
           <b-input
             v-model.number="normalMaxValue"
             type="range"
-             step="0.5"
+            step="0.5"
             :min="minLimit"
             :max="maxLimit"
             class="form-control"
@@ -184,12 +186,16 @@ export default {
   },
   computed: {
     minLimit(){
-        if(this.minValue==null || this.minValue=="") return (this.currentMinValue+1).toString();
-        return (this.minValue+1).toString();
+      if(this.minValue==null || this.maxValue==null || this.minValue==="" || this.maxValue === "") {
+        return (this.currentMinValue + 1).toString();
+      }
+      return (this.minValue+1).toString();
     },
     maxLimit(){
-         if(this.maxValue==null || this.maxValue=="") return (this.currentMaxValue-1).toString();
-        return (this.maxValue-1).toString();
+      if(this.minValue==null || this.maxValue==null || this.maxValue==="" ||this.minValue==="" ) {
+        return (this.currentMaxValue-1).toString();
+      }
+      return (this.maxValue-1).toString();
     },
     code() {
       return this.$route.params.code;
@@ -243,6 +249,13 @@ export default {
       if (minValueLen <= 0 || minValueLen > 25) {
         return "The minimum value is mandatory or is too big in size";
       }
+
+      let minValueDotIndex = this.minValue.toString().indexOf(".") || this.minValue.toString().indexOf(",")
+      let minValueDot = this.minValue.toString().slice(minValueDotIndex+1)
+      if (minValueDotIndex >= 0 && minValueDot != 5){
+        return "the minimum value must be positive or positive with decimal case (.5)";
+      }
+
       return "";
     },
     isMinValueValid() {
@@ -262,10 +275,20 @@ export default {
       if (maxValueLen <= 0 || maxValueLen > 25) {
         return "The maximum value is mandatory or is too big in size";
       }
+
       if(this.minValue != null && this.maxValue <= this.minValue){
         return "Maximum value should be bigger than the minimum"
       }else if(this.minValue == null && this.maxValue <= this.currentMinValue){
         return "Maximum value should be bigger than the minimum"
+      }
+      else if(this.maxValue <= this.minValue+2) {
+        return "There must be a difference of (+2) in maximum value than minimum value"
+      }
+
+      let maxValueDotIndex = this.maxValue.toString().indexOf(".") || this.maxValue.toString().indexOf(",")
+      let maxValueDot = this.maxValue.toString().slice(maxValueDotIndex+1)
+      if (maxValueDotIndex >= 0 && maxValueDot != 5){
+        return "the maximum value must be positive or positive with decimal case (.5)";
       }
 
       return "";
