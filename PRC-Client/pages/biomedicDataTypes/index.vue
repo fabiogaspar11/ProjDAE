@@ -79,6 +79,7 @@
             class="mt-3"
           >
           <b-input
+            :disabled="!isMinValueValid || !isMaxValueValid"
             v-model.number="normalMinValue"
             type="range"
             step="0.5"
