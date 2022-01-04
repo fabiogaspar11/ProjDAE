@@ -265,6 +265,7 @@ export default {
             this.hour = entidade.hour;
             this.date = entidade.date;
             this.value = entidade.value;
+            console.log(entidade.classification)
             this.classification = entidade.classification;
             this.biomedicDataTypes.forEach((b) => {
               if (this.entidade[0].biomedicDataTypeCode === b.code) {
@@ -312,6 +313,7 @@ export default {
           this.dateEdit = "";
           this.hourEdit = "";
           this.valueEdit = "";
+           console.log(this.classification)
           this.getBiomedicMeasure();
         })
         .catch((response) => {

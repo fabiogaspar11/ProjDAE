@@ -533,6 +533,7 @@ export default {
           .then((entidade) => {
             if (entidade.length == 0) {
               this.noBiomedicMeasures = true;
+              this.entidade = [];
               return;
             } else {
               this.noBiomedicMeasures = false;

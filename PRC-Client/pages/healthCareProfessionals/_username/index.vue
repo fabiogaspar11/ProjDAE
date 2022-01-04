@@ -317,7 +317,10 @@ export default {
               .goAway(3000);
 
             this.getHealthCareProfessionalData();
-          });
+          })
+          .catch(() => {
+            this.$toast.error(`HealthCare Professional ${this.username} could not be updated!`).goAway(3000);
+        });
       } else {
         bvModalEvt.preventDefault();
         this.showDismissibleAlertEdit = true;

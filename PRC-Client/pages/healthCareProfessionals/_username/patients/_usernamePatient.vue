@@ -532,6 +532,9 @@ export default {
           this.$toast.info(`Patient ${this.usernamePatient}  updated!`).goAway(3000);
 
           this.getPatient();
+        })
+         .catch(() => {
+            this.$toast.error(`Patient ${this.usernamePatient} could not be updated!`).goAway(3000);
         });
     },
     onContext(ctx) {
