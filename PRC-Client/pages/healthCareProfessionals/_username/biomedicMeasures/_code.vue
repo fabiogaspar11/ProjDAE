@@ -41,8 +41,8 @@
             :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
             @context="onContext"
           ></b-form-datepicker>
-          <p>{{ isDateValidFeedback }}</p>
         </div>
+          <p>{{ isDateValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Hour</span>
           <b-input
