@@ -452,56 +452,95 @@ export default {
     },
     onChange(event) {
       this.file = event.target.files ? event.target.files[0] : null;
-      if (this.file && (this.file.name.endsWith('.xls') || this.file.name.endsWith('.xlsx') || this.file.name.endsWith('.csv'))) {
+      if (
+        this.file &&
+        (this.file.name.endsWith(".xls") ||
+          this.file.name.endsWith(".xlsx") ||
+          this.file.name.endsWith(".csv"))
+      ) {
         const reader = new FileReader();
 
         reader.onload = (e) => {
           /* Parse data */
           const bstr = e.target.result;
-          const wb = XLSX.read(bstr, { type: 'binary' });
+          const wb = XLSX.read(bstr, { type: "binary" });
           /* Get first worksheet */
           const wsname = wb.SheetNames[0];
           const ws = wb.Sheets[wsname];
           /* Convert array of arrays */
           const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
-
-          for (let i = 1; i < data.length; i++){
-            let usernameHealthcareProfessional = data[i][1];
-            let biomedicDataType = data[i][2]
-            let biomedicDataTypeNumber = this.getBiomedicDataTypeNumber(biomedicDataType)
-            let value = data[i][3]
-            let date = data[i][4].toString()
-            if (!date.includes("/")){
-              date = this.convertToDate(data[i][4])
+          for (let i = 1; i < data.length; i++) {
+            if(this.file.name.endsWith(".xls") || this.file.name.endsWith(".xlsx")){
+              if(data[0].length != 7){
+                 this.$toast.error("Invalid number of columns in excel file").goAway(3000);
+                break;
+              }
+              if(data[0][0] != "Code" || data[0][1] != "PatientUsername" || data[0][2] != "Biomedic Data Type"  || data[0][3] != "Value" || data[0][4] != "Date" || data[0][5] != "Hour" || data[0][6] != "UsernameRegister" ){
+                this.$toast.error("Excel columns not in the right format").goAway(3000);
+                break;
+              }
+            }else{
+              if(data[0].length != 1){
+                this.$toast.error("Excel file .csv should have 1 column only").goAway(3000);
+                break;
+              }
+              if(data[0][0] != "Code,PatientUsername,Biomedic Data Type,Value,Date,Hour,UsernameRegister"){
+                this.$toast.error("Excel file .csv column with invalid name").goAway(3000);
+                break;
+              }
             }
-            let hour = data[i][5].toString()
 
+            let usernamePatient = data[i][1];
+            let biomedicDataType = data[i][2];
+            let biomedicDataTypeNumber = this.getBiomedicDataTypeNumber(biomedicDataType);
+            let value = data[i][3].split(" ")[0];
+            let date = null;
+            if (!data[i][4].toString().includes("/")) {
+              date = this.convertToDate(data[i][4]);
+            }else{
+              date = data[i][4].toString();
+            }
+            let hour = null;
+            if (data[i][5].toString().includes(":")) {
+             hour = data[i][5].toString();
+            }else{
+              let currentDate = new Date();
+              hour = currentDate.getHours().toString()+":"+(currentDate.getMinutes()).toString();
+            }
+            let usernameRegister =  data[i][6]
             this.$axios
               .$post("/api/biomedicDataMeasures", {
                 date: date,
                 hour: hour,
                 biomedicDataTypeCode: biomedicDataTypeNumber,
                 value: value,
-                usernamePatient: usernameHealthcareProfessional,
-                usernameRegister: this.$auth.user.sub
+                usernamePatient: usernamePatient,
+                usernameRegister: usernameRegister
               })
               .then((response) => {
-                this.$toast.success("Biomedic data Measure " + response.code + " created succesfully!")
+                this.$toast
+                  .success(
+                    "Biomedic data Measure " +
+                      response.code +
+                      " created succesfully!"
+                  )
                   .goAway(3000);
                 this.getBiomedicMeasures();
               })
               .catch((error) => {
-                this.$toast.error("Error creating Biomedic data Measure - " + error.response.data)
-                  .goAway(3000);
+                let message = "";
+                if(error.response.status == 403){
+                    message = "Action is Forbidden"
+                }else{
+                    message = error.response.data
+                }
+                this.$toast.error("Error creating Biomedic data Measure - " + message).goAway(3000);
               });
           }
-        }
+        };
         reader.readAsBinaryString(this.file);
-      }
-      else{
-        this.$toast
-          .error("File type invalid: ")
-          .goAway(3000);
+      } else {
+        this.$toast.error("File type invalid: ").goAway(3000);
       }
     },
     convertToDate(serial) {

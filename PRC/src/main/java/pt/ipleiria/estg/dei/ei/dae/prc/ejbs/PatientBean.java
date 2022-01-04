@@ -34,9 +34,12 @@ public class PatientBean {
     @EJB
     EmailBean emailBean;
 
-    public String create(String name, String email, String birthDate, String contact, long healthNumber,String gender) throws MyEntityExistsException, MessagingException {
+    public String create(String name, String email, String birthDate, String contact, long healthNumber,String gender) throws MyEntityExistsException, MessagingException, MyConstraintViolationException {
+        if(Long.toString(healthNumber).length() != 9){
+            throw new MyConstraintViolationException("Health Number can only have 9 digits");
+        }
         String username = "P"+healthNumber;
-        String password = generatePassword(); //"12345"; //generatePassword();
+        String password = generatePassword();
         Patient patient = entityManager.find(Patient.class, username);
         if(patient != null) throw new MyEntityExistsException("A patient with the username \'" + username + "\' already exists");
         patient = new Patient(username,name,email,password,birthDate,contact,healthNumber,gender);

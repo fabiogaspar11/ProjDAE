@@ -82,7 +82,7 @@ public class AdministratorService {
     @POST // means: to call this endpoint, we need to use the HTTP POST method
     @Path("/")
     @RolesAllowed({"Administrator"})
-    public Response createNewAdministrator(AdministratorDTO administratorDTO) throws MyEntityExistsException, MyEntityNotFoundException {
+    public Response createNewAdministrator(AdministratorDTO administratorDTO) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
         String username = administratorBean.create(administratorDTO.getName(), administratorDTO.getEmail(), administratorDTO.getPassword(), administratorDTO.getBirthDate(), administratorDTO.getContact(), administratorDTO.getHealthNumber());
         Administrator administrator = administratorBean.findAdministrator(username);
         return Response.status(Response.Status.CREATED)
@@ -94,7 +94,6 @@ public class AdministratorService {
     @Path("/{username}")
     @RolesAllowed({"Administrator"})
     public Response updateAdministrator(@PathParam("username") String username, AdministratorDTO administratorDTO) throws MyEntityNotFoundException {
-        Principal principal = securityContext.getUserPrincipal();
         Administrator administrator  = administratorBean.findAdministrator(username);
         administratorBean.update(administrator,administratorDTO);
         return Response.status(Response.Status.OK)

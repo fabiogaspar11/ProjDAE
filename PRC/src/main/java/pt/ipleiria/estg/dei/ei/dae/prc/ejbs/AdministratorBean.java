@@ -26,7 +26,10 @@ public class AdministratorBean {
     @PersistenceContext
     EntityManager entityManager;
 
-    public String create(String name, String email, String password, String birthDate, String contact, long healthNumber) throws MyEntityExistsException, MyEntityNotFoundException {
+    public String create(String name, String email, String password, String birthDate, String contact, long healthNumber) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
+        if(Long.toString(healthNumber).length() != 9){
+            throw new MyConstraintViolationException("Health Number can only have 9 digits");
+        }
         String username = "A"+ healthNumber;
         Administrator administratorExists = entityManager.find(Administrator.class,username);
         if (administratorExists == null) {

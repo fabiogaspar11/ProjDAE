@@ -117,7 +117,7 @@ public class HealthcareprofessionalService {
     @POST
     @Path("/")
     @RolesAllowed({"Administrator"})
-    public Response createNewHealthcareprofessional(HealthcareProfessionalDTO healthcareProfessionalDTO) throws MyEntityExistsException, MyEntityNotFoundException {
+    public Response createNewHealthcareprofessional(HealthcareProfessionalDTO healthcareProfessionalDTO) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
         String username = healthcareProfessionalBean.create(
                 healthcareProfessionalDTO.getHealthNumber(),
                 healthcareProfessionalDTO.getName(),

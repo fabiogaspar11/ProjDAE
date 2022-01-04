@@ -73,12 +73,12 @@ public class BiomedicDataMeasureService {
     @RolesAllowed({"HealthcareProfessional","Patient"})
     public Response createBiomedicDataMeasure(BiomedicDataMeasureDTO biomedicDataMeasureDTO) throws MyEntityExistsException, MyEntityNotFoundException {
         Principal principal = securityContext.getUserPrincipal();
-        if (securityContext.isUserInRole("Patient") && !principal.getName().equals(biomedicDataMeasureDTO.getUsernamePatient())){
+        if (securityContext.isUserInRole("Patient") && (!principal.getName().equals(biomedicDataMeasureDTO.getUsernamePatient()) || !principal.getName().equals(biomedicDataMeasureDTO.getUsernameRegister()))){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
         if(securityContext.isUserInRole("HealthcareProfessional")){
             boolean hasHealthcareProfessionalAssociated = healthcareProfIsAssociatedToPatient(principal.getName(), biomedicDataMeasureDTO.getUsernamePatient());
-            if (!hasHealthcareProfessionalAssociated){
+            if (!hasHealthcareProfessionalAssociated || !principal.getName().equals(biomedicDataMeasureDTO.getUsernameRegister())){
                 return Response.status(Response.Status.FORBIDDEN).build();
             }
         }

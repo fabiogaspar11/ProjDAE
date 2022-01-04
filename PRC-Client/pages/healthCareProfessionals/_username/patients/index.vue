@@ -526,13 +526,40 @@ export default {
           const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
           for (let i = 1; i < data.length; i++){
-            let name = data[i][0]
-            console.log("DATA ANTES: " + data[i][1])
-            let birthDate = data[i][1].toString()
-            if (!birthDate.includes("/")){
-              birthDate = this.convertToDate(data[i][1])
+            if(this.file.name.endsWith(".xls") || this.file.name.endsWith(".xlsx")){
+              if(data[0].length != 6){
+                 this.$toast.error("Invalid number of columns in excel file").goAway(3000);
+                break;
+              }
+              if(data[0][0] != "Name" || data[0][1] != "BirthDate" || data[0][2] != "HealthNumber"  || data[0][3] != "Contact" || data[0][4] != "Email" || data[0][5] != "Gender"){
+                this.$toast.error("Excel columns not in the right format").goAway(3000);
+                break;
+              }
+            }else{
+              if(data[0].length != 1){
+                this.$toast.error("Excel file .csv should have 1 column only").goAway(3000);
+                break;
+              }
+              if(data[0][0] != "Name,BirthDate,HealthNumber,Contact,Email,Gender"){
+                this.$toast.error("Excel file .csv column with invalid name").goAway(3000);
+                break;
+              }
             }
-            let healthNumber = data[i][2]
+
+            let name = data[i][0]
+            let birthDate= null;
+            if (!data[i][1].toString().includes("/")){
+              birthDate = this.convertToDate(data[i][1])
+            }else{
+              birthDate = data[i][1].toString();
+            }
+
+            if(data[i][2].toString().length != 9){
+              this.$toast.error("Health Number can only have 9 digits").goAway(3000);
+              break;
+            }
+            let healthNumber = data[i][2];
+
             let contact = data[i][3]
             let email = data[i][4]
             let gender = data[i][5]
@@ -544,14 +571,18 @@ export default {
                 healthNumber: healthNumber,
                 gender: gender,
               })
-              .then((response) => {
+              .then(() => {
                 this.$toast.success("Patient " + name + " created succesfully").goAway(3000);
                 this.associate(healthNumber)
               })
               .catch((error) => {
-                this.$toast
-                  .error("Error when creating Patient: " + error.response.data)
-                  .goAway(3000);
+                let message = "";
+                if(error.response.status == 403){
+                    message = "Action is Forbidden"
+                }else{
+                    message = error.response.data
+                }
+                this.$toast.error("Error creating Patient - " + message).goAway(3000);
               });
 
             }

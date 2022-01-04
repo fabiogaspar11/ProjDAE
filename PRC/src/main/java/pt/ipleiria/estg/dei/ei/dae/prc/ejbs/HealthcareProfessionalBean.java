@@ -27,7 +27,10 @@ public class HealthcareProfessionalBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public String create(long healthNumber, String name, String email, String password, String birthDate, String contact) throws MyEntityExistsException, MyEntityNotFoundException {
+    public String create(long healthNumber, String name, String email, String password, String birthDate, String contact) throws MyEntityExistsException, MyEntityNotFoundException, MyConstraintViolationException {
+        if(Long.toString(healthNumber).length() != 9){
+            throw new MyConstraintViolationException("Health Number can only have 9 digits");
+        }
         String username = "H"+healthNumber;
         HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class,username);
         if(healthcareProfessional != null) throw new MyEntityExistsException("A healthcare professional with the username \'" + username + "\' already exists");

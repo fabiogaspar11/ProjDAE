@@ -350,3 +350,18 @@ POST http://localhost:8080/PRC/api/auth/login
 Content-Type: application/x-www-form-urlencoded
 
 username=H987654321&password=1234
+
+##### Get patients list
+POST http://localhost:8080/PRC/api/patients
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJIOTAwMDAwMDA3IiwiaXNzIjoicXVpY2tzdGFydC1qd3QtaXNzdWVyIiwiYXVkIjoiand0LWF1ZGllbmNlIiwiZ3JvdXBzIjpbIkhlYWx0aGNhcmVQcm9mZXNzaW9uYWwiXSwiZXhwIjoxNjQxMzMzMzk3fQ.gNHp_KcSWNhQiO-Gq4gte1LQ3MTMO_hiwEtB22QEcEMkF67M85eN1hkpi6EXnjI-wHB6eeN9KSdGbddwzMWZpQHitRyyX-5PMeIjwD_wB7d1LWBkFUODhoM_-ePbcdKcS5C3aOc45iqiCuVRwHQXRnJQn26LcYbcs4ZJ7_QlbxseJoDufeTtgc-pHyqXpsmy-LcCd5AsOMeeBVjYVGGXHSp-zT_fppuy3z1bPvNM20lwIfHVUyl4C5JfSmXlmYlHlPrDtzooLkmJ1eCPqzJ-Bxm56e9k5mr0NSxklkVVOy9C3YBO3Qe2-DPLh-V_2YVG17f1Whj6r8pL_DmfL1p7_A
+Content-Type: application/json
+
+{
+  "healthNumber": 248364182,
+  "name": "Levi Ackerman",
+  "email": "ackerman@outlook.com",
+  "birthDate": "11/12/1994",
+  "contact": "948364182",
+  "gender": "Masculino"
+}
