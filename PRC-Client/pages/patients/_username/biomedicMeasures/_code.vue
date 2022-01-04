@@ -1,14 +1,17 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <div class="container" style="margin-top: 4%">
-      <template>
-        <div>
-          <b-table striped hover :items="entidade" :fields="fields"></b-table>
-        </div>
-      </template>
+    <b-container class="mt-3">
+      <h3>Details</h3>
+      <b-table small striped hover :items="entidade" :fields="fields"></b-table>
 
-      <div class="d-flex justify-content-center">
+       <b-button v-if="canEdit" v-b-modal.modal-1 class="text-center">Edit</b-button>
+      <div v-else class="w-75 mx-auto alert alert-info">
+            Cannot Edit this Biomedic Data
+      </div>
+
+
+      <div class="d-flex justify-content-center mt-5">
         <div v-if="classification === 'Normal'" class="bg-success w-50 text-center"  style="border-radius: 10px">
           <h5 style="color: white; margin-top: 1%; margin-bottom: 1%">Classification: Value in the bounds of reference</h5>
         </div>
@@ -20,10 +23,7 @@
         </div>
       </div>
 
-      <b-button v-if="canEdit" v-b-modal.modal-1 class="text-center">Edit</b-button>
-      <div v-else class="w-75 mx-auto alert alert-info">
-            Cannot Edit this Biomedic Data
-      </div>
+
       <b-modal id="modal-1" title="Edit Biomedic Measure" @ok="update()">
        <div class="input-group mb-4">
           <span class="input-group-text">Date</span>
@@ -85,7 +85,7 @@
         <p>{{ isValueValidFeedback }}</p>
 
       </b-modal>
-    </div>
+    </b-container>
   </div>
 </template>
 
@@ -101,10 +101,8 @@ export default {
         { key: "code", label: "Code" },
         { key: "usernamePatient", label: "Patient Username" },
         { key: "biomedicDataType", label: "Biomedic Data Type" },
-        { key: "normalMinValue", label: "Normal Minimum Value" },
-        { key: "normalMaxValue", label: "Normal Maximum Value" },
-        { key: "minValue", label: "Minimum Value" },
-        { key: "maxValue", label: "Maximum Value" },
+        { key: "normalMinValue", label: "Normal Minimum" },
+        { key: "normalMaxValue", label: "Normal Maximum" },
         { key: "value", label: "Value" },
         { key: "date", label: "Date" },
         { key: "hour", label: "Hour" },

@@ -2,7 +2,7 @@
   <div>
     <NavBar></NavBar>
     <b-container class="mt-3">
-       <h3>Patients ({{ tableLength }})</h3>
+      <h3>Patients ({{ tableLength }})</h3>
       <b-form-input v-model="filter" type="search" placeholder="Search...">
       </b-form-input>
 
@@ -19,12 +19,21 @@
           :data="entidade"
           :fields="json_fields"
           worksheet="Patients"
-          :name="'patients.'+typeExcel"
+          :name="'patients.' + typeExcel"
           :type="typeExcel"
         >
-          <b-dropdown id="dropdown-1" text="Download Data" class="m-md-2" variant="success">
-            <b-dropdown-item @click.prevent="typeExcel = 'xls'">.xls</b-dropdown-item>
-            <b-dropdown-item @click.prevent="typeExcel = 'csv'">.csv</b-dropdown-item>
+          <b-dropdown
+            id="dropdown-1"
+            text="Download Data"
+            class="m-md-2"
+            variant="success"
+          >
+            <b-dropdown-item @click.prevent="typeExcel = 'xls'"
+              >.xls</b-dropdown-item
+            >
+            <b-dropdown-item @click.prevent="typeExcel = 'csv'"
+              >.csv</b-dropdown-item
+            >
           </b-dropdown>
         </download-excel>
 
@@ -48,7 +57,7 @@
           placeholder="Enter your name"
         />
       </div>
-        <p>{{ isNameValidFeedback }}</p>
+      <p>{{ isNameValidFeedback }}</p>
       <div class="input-group mb-4">
         <span class="input-group-text">Email</span>
         <b-input
@@ -62,7 +71,7 @@
           placeholder="Enter your email"
         />
       </div>
-        <p>{{ isEmailValidFeedback }}</p>
+      <p>{{ isEmailValidFeedback }}</p>
       <div class="input-group mb-4">
         <span class="input-group-text">Birthdate</span>
         <b-input
@@ -74,16 +83,20 @@
           class="form-control"
           aria-describedby="basic-addon1"
         />
-           <b-input-group-append>
-            <b-form-datepicker
-              id="ex-disabled-readonly"
-              button-only
-              :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-              @context="onContext"
-            ></b-form-datepicker>
-          </b-input-group-append>
+        <b-input-group-append>
+          <b-form-datepicker
+            id="ex-disabled-readonly"
+            button-only
+            :date-format-options="{
+              year: 'numeric',
+              month: 'numeric',
+              day: 'numeric',
+            }"
+            @context="onContext"
+          ></b-form-datepicker>
+        </b-input-group-append>
       </div>
-        <p>{{ isbirthDateValidFeedback }}</p>
+      <p>{{ isbirthDateValidFeedback }}</p>
       <div class="input-group mb-4">
         <span class="input-group-text">Contact</span>
         <b-input
@@ -96,7 +109,7 @@
           placeholder="Enter your contact"
         />
       </div>
-        <p>{{ isContactValidFeedback }}</p>
+      <p>{{ isContactValidFeedback }}</p>
       <div class="input-group mb-4">
         <span class="input-group-text">Health Number</span>
         <b-input
@@ -109,12 +122,15 @@
           placeholder="Enter your health number"
         />
       </div>
-        <p>{{ isHealthNumberValidFeedback }}</p>
+      <p>{{ isHealthNumberValidFeedback }}</p>
 
-      <div class="input-group mb-4 d-flex justify-content-center" >
+      <div class="input-group mb-4 d-flex justify-content-center">
         <span class="input-group-text">Gender</span>
-        <b-form-select v-model="gender" :options="optionsGender"></b-form-select>
-        <p>{{isGenderValidFeedback}}</p>
+        <b-form-select
+          v-model="gender"
+          :options="optionsGender"
+        ></b-form-select>
+        <p>{{ isGenderValidFeedback }}</p>
       </div>
     </b-modal>
 
@@ -130,7 +146,8 @@
           </b-form-input>
 
           <b-table
-          v-if="this.rows != 0"
+            v-if="this.rows != 0"
+            small
             striped
             hover
             :items="this.patientsAll"
@@ -166,17 +183,18 @@
             :per-page="perPage"
             aria-controls="tableAssociateds"
           ></b-pagination>
-            <div v-if="this.rows == 0" class="w-75 mx-auto alert alert-info">
+          <div v-if="this.rows == 0" class="w-75 mx-auto alert alert-info">
             No Patients created yet
-        </div>
+          </div>
         </div>
       </b-container>
     </b-modal>
 
     <b-container class="mt-1">
       <b-table
+        small
         id="tablePrincipal"
-         v-if="this.tableLength != 0"
+        v-if="this.tableLength != 0"
         :per-page="perPage"
         :current-page="currentPagePaginatePrincipal"
         :items="this.entidade"
@@ -194,30 +212,29 @@
       </b-table>
 
       <b-pagination
-       v-if="this.tableLength != 0"
+        v-if="this.tableLength != 0"
         class="fixed-bottom justify-content-center"
         v-model="currentPagePaginatePrincipal"
         :total-rows="rowsPrincipal"
         :per-page="perPage"
         aria-controls="tablePrincipal"
       ></b-pagination>
-        <div v-if="this.tableLength == 0" class="w-75 mx-auto alert alert-info">
-          No Patients associated yet
-        </div>
+      <div v-if="this.tableLength == 0" class="w-75 mx-auto alert alert-info">
+        No Patients associated yet
+      </div>
     </b-container>
-
   </div>
 </template>
 <script>
 import NavBar from "/components/NavBar.vue";
-import XLSX from "xlsx"
-import moment from 'moment';
+import XLSX from "xlsx";
+import moment from "moment";
 
 export default {
   middleware: "isHealthcareProfessionalAccessingHisData",
   components: {
     NavBar,
-    XLSX
+    XLSX,
   },
   data() {
     return {
@@ -268,13 +285,13 @@ export default {
         Email: "email",
         Gender: "gender",
       },
-      typeExcel:"",
+      typeExcel: "",
       file: null,
       optionsGender: [
-        { value: null, text: 'Please select an option' },
-        { value: 'Masculino', text: 'Masculino' },
-        { value: 'Feminino', text: 'Feminino' },
-      ]
+        { value: null, text: "Please select an option" },
+        { value: "Masculino", text: "Masculino" },
+        { value: "Feminino", text: "Feminino" },
+      ],
     };
   },
   computed: {
@@ -460,13 +477,13 @@ export default {
           name: this.name,
           contact: this.contact,
           healthNumber: this.healthNumber,
-          gender: this.gender
+          gender: this.gender,
         })
         .then((response) => {
           this.$toast
             .success("Patient " + this.name + " created succesfully")
             .goAway(3000);
-          this.associate(this.healthNumber)
+          this.associate(this.healthNumber);
           this.name = null;
           this.birthDate = null;
           this.contact = null;
@@ -491,7 +508,7 @@ export default {
       return false;
     },
     associate(usernamePatient) {
-      usernamePatient = 'P'+usernamePatient;
+      usernamePatient = "P" + usernamePatient;
       this.$axios
         .$put(
           `/api/healthcareProfessionals/${this.$auth.user.sub}/AddPatient/${usernamePatient}`
@@ -501,7 +518,7 @@ export default {
         });
     },
     dissociate(usernamePatient) {
-      usernamePatient = 'P' + usernamePatient;
+      usernamePatient = "P" + usernamePatient;
       this.$axios
         .put(
           `/api/healthcareProfessionals/${this.$auth.user.sub}/RemovePatient/${usernamePatient}`
@@ -512,31 +529,37 @@ export default {
     },
     onChange(event) {
       this.file = event.target.files ? event.target.files[0] : null;
-      if (this.file && (this.file.name.endsWith('.xls') || this.file.name.endsWith('.xlsx') || this.file.name.endsWith('.csv'))) {
+      if (
+        this.file &&
+        (this.file.name.endsWith(".xls") ||
+          this.file.name.endsWith(".xlsx") ||
+          this.file.name.endsWith(".csv"))
+      ) {
         const reader = new FileReader();
 
         reader.onload = (e) => {
           /* Parse data */
           const bstr = e.target.result;
-          const wb = XLSX.read(bstr, { type: 'binary' });
+          const wb = XLSX.read(bstr, { type: "binary" });
           /* Get first worksheet */
           const wsname = wb.SheetNames[0];
           const ws = wb.Sheets[wsname];
           /* Convert array of arrays */
           const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
-          for (let i = 1; i < data.length; i++){
-            let name = data[i][0]
-            console.log("DATA ANTES: " + data[i][1])
-            let birthDate = data[i][1].toString()
-            if (!birthDate.includes("/")){
-              birthDate = this.convertToDate(data[i][1])
+          for (let i = 1; i < data.length; i++) {
+            let name = data[i][0];
+            console.log("DATA ANTES: " + data[i][1]);
+            let birthDate = data[i][1].toString();
+            if (!birthDate.includes("/")) {
+              birthDate = this.convertToDate(data[i][1]);
             }
-            let healthNumber = data[i][2]
-            let contact = data[i][3]
-            let email = data[i][4]
-            let gender = data[i][5]
-             this.$axios.$post("/api/patients", {
+            let healthNumber = data[i][2];
+            let contact = data[i][3];
+            let email = data[i][4];
+            let gender = data[i][5];
+            this.$axios
+              .$post("/api/patients", {
                 email: email,
                 birthDate: birthDate,
                 name: name,
@@ -545,39 +568,41 @@ export default {
                 gender: gender,
               })
               .then((response) => {
-                this.$toast.success("Patient " + name + " created succesfully").goAway(3000);
-                this.associate(healthNumber)
+                this.$toast
+                  .success("Patient " + name + " created succesfully")
+                  .goAway(3000);
+                this.associate(healthNumber);
               })
               .catch((error) => {
                 this.$toast
                   .error("Error when creating Patient: " + error.response.data)
                   .goAway(3000);
               });
-
-            }
           }
+        };
         reader.readAsBinaryString(this.file);
-      }
-      else{
-        this.$toast
-          .error("File type invalid: ")
-          .goAway(3000);
+      } else {
+        this.$toast.error("File type invalid: ").goAway(3000);
       }
     },
     convertToDate(serial) {
-      const utc_days  = Math.floor(serial - 25569);
+      const utc_days = Math.floor(serial - 25569);
       const utc_value = utc_days * 86400;
       const date_info = new Date(utc_value * 1000);
 
-      return new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate()+1).toLocaleDateString('en-US');
+      return new Date(
+        date_info.getFullYear(),
+        date_info.getMonth(),
+        date_info.getDate() + 1
+      ).toLocaleDateString("en-US");
     },
     onContext(ctx) {
-       if(ctx.selectedDate == null){
+      if (ctx.selectedDate == null) {
         return null;
-    }
+      }
       // The date formatted in the locale, or the `label-no-date-selected` string
-      this.birthDate = ctx.selectedFormatted
-    }
+      this.birthDate = ctx.selectedFormatted;
+    },
   },
 };
 </script>

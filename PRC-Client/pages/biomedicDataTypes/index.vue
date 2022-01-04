@@ -14,9 +14,10 @@
         </b-button>
       </div>
       <b-modal id="modal-1" title="New Biomedic Data Type" @ok="create(code)">
-          <div class="mx-auto alert alert-info">
-            The normal values ​​should be created based on the normal values ​​for adult patients males
-         </div>
+        <div class="mx-auto alert alert-info">
+          The normal values ​​should be created based on the normal values ​​for
+          adult patients males
+        </div>
         <div class="input-group mb-4">
           <span class="input-group-text">Name:</span>
           <b-input
@@ -28,7 +29,7 @@
             placeholder="Enter name"
           />
         </div>
-          <p>{{ isNameValidFeedback }}</p>
+        <p>{{ isNameValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Unit Measure:</span>
           <b-input
@@ -40,7 +41,7 @@
             placeholder="Enter unit"
           />
         </div>
-          <p>{{ isUnitValidFeedback }}</p>
+        <p>{{ isUnitValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Minimum value:</span>
           <b-input
@@ -52,7 +53,7 @@
             placeholder="Enter minimum value"
           />
         </div>
-          <p>{{ isMinValueValidFeedback }}</p>
+        <p>{{ isMinValueValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Maximum value:</span>
           <b-input
@@ -74,7 +75,6 @@
             class="mt-3"
           >
           <b-input
-           :disabled="!isMinValueValid || !isMaxValueValid"
             v-model.number="normalMinValue"
             type="range"
             step="0.5"
@@ -95,25 +95,54 @@
             :append="(this.maxValue-1).toString()"
             class="mt-3"
           >
+            <b-input
+              :disabled="!isMinValueValid || !isMaxValueValid"
+              v-model.number="normalMinValue"
+              type="range"
+              step="0.5"
+              :min="minValue + 1"
+              :max="maxValue - 1"
+              class="form-control"
+              aria-describedby="basic-addon1"
+              placeholder="Enter minimum value"
+            />
+          </b-input-group>
+        </div>
+        <p>{{ isNormalMinValidFeedback }}</p>
+        <div class="input-group mb-4 justify-content-center">
+          <span class="input-group-text">Maximum Normal value:</span>
           <b-input
-           :disabled="!isMinValueValid || !isMaxValueValid"
             v-model.number="normalMaxValue"
-            type="range"
-             step="0.5"
-            :min="minValue+1"
-            :max="maxValue-1"
-            class="form-control"
-            aria-describedby="basic-addon1"
-            placeholder="Enter maximum value"
-          />
-            </b-input-group>
+            :disabled="!isMinValueValid || !isMaxValueValid"
+            :state="this.isNormalMaxValid"
+            class="col-md-2"
+            >{{ this.normalMaxValue }}</b-input
+          >
+          <b-input-group
+            :prepend="this.minValue + 1"
+            :append="this.maxValue - 1"
+            class="mt-3"
+          >
+            <b-input
+              :disabled="!isMinValueValid || !isMaxValueValid"
+              v-model.number="normalMaxValue"
+              type="range"
+              step="0.5"
+              :min="minValue + 1"
+              :max="maxValue - 1"
+              class="form-control"
+              aria-describedby="basic-addon1"
+              placeholder="Enter maximum value"
+            />
+          </b-input-group>
         </div>
           <p>{{ isNormalMaxValidFeedback }}</p>
           <div class="input-group mb-4">
           <span class="input-group-text">Gender value differentiation:</span>
-           <div class="mx-auto   mt-2 alert alert-info">
-            This value indicates how much the normal range of values will change depending if the gender of the patient is female.
-           </div>
+          <div class="mx-auto mt-2 alert alert-info">
+            This value indicates how much the normal range of values will change
+            depending if the gender of the patient is female.
+          </div>
           <b-input
             v-model.number="genderValuedifferentiation"
             type="number"
@@ -123,12 +152,13 @@
             placeholder="Enter Gender Value Difference"
           />
         </div>
-          <p>{{ isGenderValuedifferentiationValidFeedback }}</p>
-          <div class="input-group mb-4">
+        <p>{{ isGenderValuedifferentiationValidFeedback }}</p>
+        <div class="input-group mb-4">
           <span class="input-group-text">Age value differentiation:</span>
           <div class="mx-auto mt-2 alert alert-info">
-            This value indicates how much the normal range of values will change depending on the age group of the patient.
-           </div>
+            This value indicates how much the normal range of values will change
+            depending on the age group of the patient.
+          </div>
           <b-input
             v-model.number="ageValuedifferentiation"
             type="number"
@@ -138,46 +168,50 @@
             placeholder="Enter Age Value Difference"
           />
         </div>
-          <p>{{ isAgeValuedifferentiationValidFeedback }}</p>
+        <p>{{ isAgeValuedifferentiationValidFeedback }}</p>
       </b-modal>
 
-    <div  v-if="this.tableLength != 0" class="mt-3">
-          <b-table
-            :items="this.entidade"
-            :fields="fields"
-            striped
-            responsive="sm"
-            :filter="filter"
-            @filtered="search"
-            id="table"
-            :current-page="currentPagePaginate"
-            :per-page="perPage"
-          >
-            <template v-slot:cell(operations)="row">
-              <b-button :to="`/biomedicDataTypes/${row.item.code}`" variant="info">
-                <font-awesome-icon icon="eye" /> Details
-              </b-button>
+      <div v-if="this.tableLength != 0" class="mt-3">
+        <b-table
+          small
+          :items="this.entidade"
+          :fields="fields"
+          striped
+          responsive="sm"
+          :filter="filter"
+          @filtered="search"
+          id="table"
+          :current-page="currentPagePaginate"
+          :per-page="perPage"
+        >
+          <template v-slot:cell(operations)="row">
+            <b-button
+              :to="`/biomedicDataTypes/${row.item.code}`"
+              variant="info"
+            >
+              <font-awesome-icon icon="eye" /> Details
+            </b-button>
 
-              <b-button
-                v-b-modal.modal-3
-                variant="danger"
-                @click="remove(row.item.code)"
-              >
-                <font-awesome-icon icon="trash" /> Remove
-              </b-button>
-            </template>
-          </b-table>
-          <b-pagination
-            class="fixed-bottom justify-content-center"
-            v-model="currentPagePaginate"
-            :total-rows="tableLength"
-            :per-page="perPage"
-            aria-controls="table"
-          ></b-pagination>
-    </div>
-    <div v-else class="w-75 mx-auto alert alert-info">
-          No Biomedic Data Types created yet
-    </div>
+            <b-button
+              v-b-modal.modal-3
+              variant="danger"
+              @click="remove(row.item.code)"
+            >
+              <font-awesome-icon icon="trash" /> Remove
+            </b-button>
+          </template>
+        </b-table>
+        <b-pagination
+          class="fixed-bottom justify-content-center"
+          v-model="currentPagePaginate"
+          :total-rows="tableLength"
+          :per-page="perPage"
+          aria-controls="table"
+        ></b-pagination>
+      </div>
+      <div v-else class="w-75 mx-auto alert alert-info">
+        No Biomedic Data Types created yet
+      </div>
     </b-container>
   </div>
 </template>
@@ -215,10 +249,10 @@ export default {
       totalRows: null,
       perPage: 5,
       currentPagePaginate: 1,
-      normalMinValue:null,
-      normalMaxValue:null,
-      ageValuedifferentiation:null,
-      genderValuedifferentiation:null
+      normalMinValue: null,
+      normalMaxValue: null,
+      ageValuedifferentiation: null,
+      genderValuedifferentiation: null,
     };
   },
   computed: {
@@ -261,8 +295,8 @@ export default {
       if (!this.minValue) {
         return null;
       }
-      if(this.maxValue != null && this.minValue >= this.maxValue){
-        return "Minimum value should be smaller than the maximum"
+      if (this.maxValue != null && this.minValue >= this.maxValue) {
+        return "Minimum value should be smaller than the maximum";
       }
       let minValueLen = this.minValue.length;
       if (minValueLen <= 0 || minValueLen > 25) {
@@ -280,8 +314,8 @@ export default {
       if (!this.maxValue) {
         return null;
       }
-      if(this.minValue != null && this.maxValue <= this.minValue){
-        return "Maximum value should be bigger than the minimum"
+      if (this.minValue != null && this.maxValue <= this.minValue) {
+        return "Maximum value should be bigger than the minimum";
       }
 
       let maxValueLen = this.maxValue.length;
@@ -296,13 +330,13 @@ export default {
       }
       return this.isMaxValueValidFeedback === "";
     },
-    isNormalMinValid(){
+    isNormalMinValid() {
       if (this.isNormalMinValidFeedback === null) {
         return null;
       }
       return this.isNormalMinValidFeedback === "";
     },
-    isNormalMinValidFeedback(){
+    isNormalMinValidFeedback() {
       if (!this.normalMinValue) {
         return null;
       }
@@ -318,13 +352,13 @@ export default {
       }
       return ""
     },
-    isNormalMaxValid(){
+    isNormalMaxValid() {
       if (this.isNormalMaxValidFeedback === null) {
         return null;
       }
       return this.isNormalMaxValidFeedback === "";
     },
-    isNormalMaxValidFeedback(){
+    isNormalMaxValidFeedback() {
       if (!this.normalMaxValue) {
         return null;
       }
@@ -334,33 +368,31 @@ export default {
       if(this.normalMaxValue > this.maxValue) {
         return "The normal maximum value should be smaller than the maximum value"
       }
-      if(this.normalMaxValue <= this.normalMinValue){
-        return "The normal maximum value should be bigger than the minimum value"
+      if (this.normalMaxValue <= this.normalMinValue) {
+        return "The normal maximum value should be bigger than the minimum value";
       }
-      return ""
+      return "";
     },
-    isGenderValuedifferentiationValid(){
-      if(this.isGenderValuedifferentiationValidFeedback == null)
-        return null
-      return this.isGenderValuedifferentiationValidFeedback === ""
+    isGenderValuedifferentiationValid() {
+      if (this.isGenderValuedifferentiationValidFeedback == null) return null;
+      return this.isGenderValuedifferentiationValidFeedback === "";
     },
-    isGenderValuedifferentiationValidFeedback(){
+    isGenderValuedifferentiationValidFeedback() {
       if (!this.genderValuedifferentiation) {
         return null;
       }
       return "";
     },
 
-    isAgeValuedifferentiationValid(){
-      if(this.isAgeValuedifferentiationValidFeedback === null)
-          return null
-      return this.isAgeValuedifferentiationValidFeedback === ""
+    isAgeValuedifferentiationValid() {
+      if (this.isAgeValuedifferentiationValidFeedback === null) return null;
+      return this.isAgeValuedifferentiationValidFeedback === "";
     },
-    isAgeValuedifferentiationValidFeedback(){
+    isAgeValuedifferentiationValidFeedback() {
       if (!this.ageValuedifferentiation) {
         return null;
       }
-      return ""
+      return "";
     },
     isFormValid() {
       if (!this.isNameValid) {
@@ -394,10 +426,10 @@ export default {
     this.getBiomedicDataType();
   },
   methods: {
-    getBiomedicDataType(){
+    getBiomedicDataType() {
       this.$axios.$get("/api/biomedicDataTypes").then((entidade) => {
-      this.entidade = entidade;
-    });
+        this.entidade = entidade;
+      });
     },
     getCode(code) {
       this.code = code;
@@ -415,10 +447,10 @@ export default {
           unitMeasure: this.unitMeasure,
           minValue: this.minValue,
           maxValue: this.maxValue,
-          normalMinValue:this.normalMinValue,
-          normalMaxValue:this.normalMaxValue,
-          ageValuedifferentiation:this.ageValuedifferentiation,
-          genderValuedifferentiation:this.genderValuedifferentiation
+          normalMinValue: this.normalMinValue,
+          normalMaxValue: this.normalMaxValue,
+          ageValuedifferentiation: this.ageValuedifferentiation,
+          genderValuedifferentiation: this.genderValuedifferentiation,
         })
         .then((response) => {
           this.$toast
@@ -436,18 +468,20 @@ export default {
         });
     },
     remove(code) {
-      this.$axios.$delete(`/api/biomedicDataTypes/${code}`).then(() => {
-        this.$toast
-          .info("Biomedic data type " + code + " deleted with success!")
-          .goAway(3000);
+      this.$axios
+        .$delete(`/api/biomedicDataTypes/${code}`)
+        .then(() => {
+          this.$toast
+            .info("Biomedic data type " + code + " deleted with success!")
+            .goAway(3000);
 
-        this.$axios.$get("/api/biomedicDataTypes").then((entidade) => {
-          this.entidade = entidade;
-        });
-      })
-      .catch((response) => {
-            this.$toast.info(`Error - ${response.response.data}`).goAway(3000);
-              this.getBiomedicDataType();
+          this.$axios.$get("/api/biomedicDataTypes").then((entidade) => {
+            this.entidade = entidade;
+          });
+        })
+        .catch((response) => {
+          this.$toast.info(`Error - ${response.response.data}`).goAway(3000);
+          this.getBiomedicDataType();
         });
     },
     search(filteredItems) {
