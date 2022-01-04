@@ -315,9 +315,6 @@ export default {
           this.$toast.info(`Administrator ${this.username}  updated!`).goAway(3000);
           this.getAdministrator();
         })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
     },
     updatePassword(){
       let administrator = {};

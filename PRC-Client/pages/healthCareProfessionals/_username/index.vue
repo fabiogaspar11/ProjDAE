@@ -294,34 +294,37 @@ export default {
           }
         });
     },
-    update(bvModalEvt) {
-      if (this.isFormValid) {
-        this.$axios
-          .$put(`/api/healthcareProfessionals/${this.username}`, {
-            name: this.name,
-            email: this.email,
-            contact: this.contact,
-            birthDate: this.birthDate,
-          })
-          .then(() => {
-            this.name = null;
-            this.email = null;
-            this.contact = null;
-            this.birthDate = null;
-            this.$toast
-              .info(
-                "HealthCare Professional " +
-                  this.username +
-                  " updated succesfully"
-              )
-              .goAway(3000);
+    update() {
+      let healthcareProfessionalUpdated = {};
 
-            this.getHealthCareProfessionalData();
-          });
-      } else {
-        bvModalEvt.preventDefault();
-        this.showDismissibleAlertEdit = true;
+      if (this.isNameValid) {
+        healthcareProfessionalUpdated.name = this.name;
       }
+      if (this.isEmailValid) {
+        healthcareProfessionalUpdated.email = this.email;
+      }
+      if (this.isContactValid) {
+        healthcareProfessionalUpdated.contact = this.contact;
+      }
+      if (this.isbirthDateValid) {
+        healthcareProfessionalUpdated.birthDate = this.birthDate;
+      }
+      if(Object.keys(healthcareProfessionalUpdated).length == 0){
+        this.$toast.error(`Nothing to update!`).goAway(3000);
+        return;
+      }
+
+      this.$axios
+        .$put(`/api/healthcareProfessionals/${this.username}`, healthcareProfessionalUpdated)
+        .then(() => {
+          this.name = null;
+          this.email = null;
+          this.contact = null;
+          this.birthDate = null;
+          this.$toast.info("HealthCare Professional " + this.username + " updated succesfully")
+            .goAway(3000);
+          this.getHealthCareProfessionalData();
+        })
     },
     updatePassword(bvModalEvt) {
       bvModalEvt.preventDefault();
