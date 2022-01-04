@@ -452,7 +452,7 @@ export default {
       this.$axios
         .$put(`/api/biomedicDataTypes/${this.code}`,biomedicDataUpdated)
         .then(() => {
-           this.$toast.info("Biomedic data type " + this.name + " updated succesfully!").goAway(3000);
+           this.$toast.info("Biomedic data type " + this.code + " updated succesfully!").goAway(3000);
 
           this.name = null;
           this.unitMeasure = null;
