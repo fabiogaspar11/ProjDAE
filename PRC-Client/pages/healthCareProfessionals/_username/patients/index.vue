@@ -137,52 +137,52 @@
     <b-modal ok-only ok-title="Close" id="modal-2" title="Associate Patient">
       <b-container>
         <div class="overflow-auto">
-          <b-form-input
-            class="mb-3"
-            v-model="filterAssociateds"
-            type="search"
-            placeholder="Search..."
-          >
-          </b-form-input>
+          <div v-if="this.rows != 0">
+            <b-form-input
+              class="mb-3"
+              v-model="filterAssociateds"
+              type="search"
+              placeholder="Search..."
+            >
+            </b-form-input>
 
-          <b-table
-            v-if="this.rows != 0"
-            small
-            striped
-            hover
-            :items="this.patientsAll"
-            :fields="fieldsPatient"
-            :filter="filterAssociateds"
-            @filtered="search"
-            id="tableAssociateds"
-            :current-page="currentPagePaginateSecondary"
-            :per-page="perPage"
-          >
-            <template v-slot:cell(operations)="row">
-              <b-button
-                v-if="isExist(row.item)"
-                @click.prevent="dissociate(row.item.healthNumber)"
-                variant="dark"
-              >
-                <font-awesome-icon icon="times" /> Remove
-              </b-button>
-              <b-button
-                v-else
-                @click.prevent="associate(row.item.healthNumber)"
-                variant="success"
-              >
-                <font-awesome-icon icon="check" /> Associate
-              </b-button>
-            </template>
-          </b-table>
-          <b-pagination
-            v-if="this.rows != 0"
-            class="justify-content-center"
-            v-model="currentPagePaginateSecondary"
-            :total-rows="rows"
-            :per-page="perPage"
-            aria-controls="tableAssociateds"
-          ></b-pagination>
+            <b-table
+              small
+              striped
+              hover
+              :items="this.patientsAll"
+              :fields="fieldsPatient"
+              :filter="filterAssociateds"
+              @filtered="search"
+              id="tableAssociateds"
+              :current-page="currentPagePaginateSecondary"
+              :per-page="perPage"
+            >
+              <template v-slot:cell(operations)="row">
+                <b-button
+                  v-if="isExist(row.item)"
+                  @click.prevent="dissociate(row.item.healthNumber)"
+                  variant="dark"
+                >
+                  <font-awesome-icon icon="times" /> Remove
+                </b-button>
+                <b-button
+                  v-else
+                  @click.prevent="associate(row.item.healthNumber)"
+                  variant="success"
+                >
+                  <font-awesome-icon icon="check" /> Associate
+                </b-button>
+              </template>
+            </b-table>
+            <b-pagination
+              class="justify-content-center"
+              v-model="currentPagePaginateSecondary"
+              :total-rows="rows"
+              :per-page="perPage"
+              aria-controls="tableAssociateds"
+            ></b-pagination>
+          </div>
           <div v-if="this.rows == 0" class="w-75 mx-auto alert alert-info">
             No Patients created yet
           </div>
@@ -550,35 +550,48 @@ export default {
           /* Convert array of arrays */
           const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
-          for (let i = 1; i < data.length; i++){
-             if(data[0].length != 6){
-                 this.$toast.error("Invalid number of columns in excel file").goAway(3000);
-                break;
-              }
-              if(data[0][0] != "Name" || data[0][1] != "BirthDate" || data[0][2] != "HealthNumber"  || data[0][3] != "Contact" || data[0][4] != "Email" || data[0][5] != "Gender"){
-                this.$toast.error("Excel columns not in the right format").goAway(3000);
-                break;
-              }
+          for (let i = 1; i < data.length; i++) {
+            if (data[0].length != 6) {
+              this.$toast
+                .error("Invalid number of columns in excel file")
+                .goAway(3000);
+              break;
+            }
+            if (
+              data[0][0] != "Name" ||
+              data[0][1] != "BirthDate" ||
+              data[0][2] != "HealthNumber" ||
+              data[0][3] != "Contact" ||
+              data[0][4] != "Email" ||
+              data[0][5] != "Gender"
+            ) {
+              this.$toast
+                .error("Excel columns not in the right format")
+                .goAway(3000);
+              break;
+            }
 
-
-            let name = data[i][0]
-            let birthDate= null;
-            if (!data[i][1].toString().includes("/")){
-              birthDate = this.convertToDate(data[i][1])
-            }else{
+            let name = data[i][0];
+            let birthDate = null;
+            if (!data[i][1].toString().includes("/")) {
+              birthDate = this.convertToDate(data[i][1]);
+            } else {
               birthDate = data[i][1].toString();
             }
 
-            if(data[i][2].toString().length != 9){
-              this.$toast.error("Health Number can only have 9 digits").goAway(3000);
+            if (data[i][2].toString().length != 9) {
+              this.$toast
+                .error("Health Number can only have 9 digits")
+                .goAway(3000);
               break;
             }
             let healthNumber = data[i][2];
 
-            let contact = data[i][3]
-            let email = data[i][4]
-            let gender = data[i][5]
-             this.$axios.$post("/api/patients", {
+            let contact = data[i][3];
+            let email = data[i][4];
+            let gender = data[i][5];
+            this.$axios
+              .$post("/api/patients", {
                 email: email,
                 birthDate: birthDate,
                 name: name,
@@ -587,17 +600,21 @@ export default {
                 gender: gender,
               })
               .then(() => {
-                this.$toast.success("Patient " + name + " created succesfully").goAway(3000);
-                this.associate(healthNumber)
+                this.$toast
+                  .success("Patient " + name + " created succesfully")
+                  .goAway(3000);
+                this.associate(healthNumber);
               })
               .catch((error) => {
                 let message = "";
-                if(error.response.status == 403){
-                    message = "Action is Forbidden"
-                }else{
-                    message = error.response.data
+                if (error.response.status == 403) {
+                  message = "Action is Forbidden";
+                } else {
+                  message = error.response.data;
                 }
-                this.$toast.error("Error creating Patient - " + message).goAway(3000);
+                this.$toast
+                  .error("Error creating Patient - " + message)
+                  .goAway(3000);
               });
           }
         };
