@@ -201,7 +201,6 @@ export default {
         let i = 0;
         entidade.forEach((a) => {
           if (a.username == this.$auth.user.sub) {
-            console.log(a.username);
             this.entidade.splice(i, 1);
           }
           i++;

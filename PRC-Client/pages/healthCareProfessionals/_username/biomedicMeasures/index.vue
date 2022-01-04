@@ -417,7 +417,6 @@ export default {
           usernameRegister: this.$auth.user.sub
         })
         .then((response) => {
-          console.log(response);
           this.$toast
             .success(
               "Biomedic data Measure " + response.code + " created succesfully!"

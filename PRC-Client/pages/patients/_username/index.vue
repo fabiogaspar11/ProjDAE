@@ -21,8 +21,8 @@
             aria-describedby="basic-addon1"
             placeholder="Enter your name"
           />
-          <p>{{ isNameValidFeedback }}</p>
         </div>
+          <p>{{ isNameValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Birthdate</span>
           <b-input
@@ -34,8 +34,8 @@
             class="form-control"
             aria-describedby="basic-addon1"
           />
-          <p>{{ isbirthDateValidFeedback }}</p>
         </div>
+          <p>{{ isbirthDateValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Email</span>
           <b-input
@@ -48,8 +48,8 @@
             aria-describedby="basic-addon1"
             placeholder="Enter your email"
           />
-          <p>{{ isEmailValidFeedback }}</p>
         </div>
+          <p>{{ isEmailValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Contact</span>
           <b-input
@@ -61,8 +61,8 @@
             aria-describedby="basic-addon1"
             placeholder="Enter your contact"
           />
-          <p>{{ isContactValidFeedback }}</p>
         </div>
+          <p>{{ isContactValidFeedback }}</p>
         <div class="input-group mb-4 d-flex justify-content-center">
           <span class="input-group-text">Gender</span>
           <b-form-select
@@ -85,8 +85,8 @@
             aria-describedby="basic-addon1"
             placeholder="Enter your old password"
           />
-          <p>{{ isOLDPasswordValidFeedback }}</p>
         </div>
+          <p>{{ isOLDPasswordValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">New Password</span>
           <b-input
@@ -98,8 +98,8 @@
             aria-describedby="basic-addon1"
             placeholder="Enter your new password"
           />
-          <p>{{ isPasswordValidFeedback }}</p>
         </div>
+          <p>{{ isPasswordValidFeedback }}</p>
       </b-modal>
     </b-container>
   </div>
