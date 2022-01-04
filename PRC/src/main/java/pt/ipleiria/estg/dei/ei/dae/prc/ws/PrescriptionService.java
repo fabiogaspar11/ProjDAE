@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.dae.prc.ws;
 
 
 import pt.ipleiria.estg.dei.ei.dae.prc.dtos.PrescriptionDTO;
+import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.HealthcareProfessionalBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.PatientBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.ejbs.PrescriptionBean;
 import pt.ipleiria.estg.dei.ei.dae.prc.entities.HealthcareProfessional;
@@ -32,6 +33,9 @@ import java.util.stream.Collectors;
 public class PrescriptionService {
     @EJB
     private PrescriptionBean prescriptionBean;
+
+    @EJB
+    private HealthcareProfessionalBean healthcareProfessionalBean;
     @Context
     private SecurityContext securityContext;
     @EJB
@@ -88,7 +92,7 @@ public class PrescriptionService {
     @RolesAllowed({"HealthcareProfessional","Patient"})
     public Response getPrescriptionDetails(@PathParam("code") long code) throws MyEntityNotFoundException {
         Prescription prescription = prescriptionBean.findPrescription(code);
-        if (verifyRoles(prescription)) return Response.status(Response.Status.FORBIDDEN).build();
+        if (!verifyCanSeePrescription(prescription)) return Response.status(Response.Status.FORBIDDEN).build();
 
         return Response.status(Response.Status.OK)
                 .entity(toDTO(prescription))
@@ -129,6 +133,24 @@ public class PrescriptionService {
             return true;
         }
         return securityContext.isUserInRole("HealthcareProfessional") && !principal.getName().equals(prescription.getHealthcareProfessional().getUsername());
+    }
+
+    private boolean verifyCanSeePrescription(Prescription prescription) throws MyEntityNotFoundException {
+        Principal principal = securityContext.getUserPrincipal();
+
+        if(securityContext.isUserInRole("Patient") && principal.getName().equals(prescription.getPatient().getUsername())){
+            return true;
+        }
+        if(securityContext.isUserInRole("HealthcareProfessional")){
+            HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(principal.getName());
+          String usernamePatient =  prescription.getPatient().getUsername();
+            for (Patient p:healthcareProfessional.getPatients()) {
+                if(p.getUsername().equals(usernamePatient)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private boolean healthcareProfIsAssociatedToPatient(String usernameHealthcareProf, String usernamePatient) throws MyEntityNotFoundException {

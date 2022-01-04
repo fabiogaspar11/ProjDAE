@@ -71,6 +71,7 @@
 
 <script>
 export default {
+  middleware: "isAdministrator",
   data() {
     return {
       entidade: [],
@@ -175,6 +176,12 @@ export default {
       this.currentUnitMeasure = entidade.unitMeasure;
       this.currentMinValue = entidade.minValue;
       this.currentMaxValue = entidade.maxValue;
+    })
+    .catch((error)=>{
+      if(error.response.status == 403 || error.response.status == 404){
+        this.$router.push("./../biomedicDataTypes");
+        return;
+      }
     });
   },
   methods: {

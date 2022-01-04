@@ -223,6 +223,7 @@ import NavBar from "/components/NavBar.vue";
 import XLSX from "xlsx";
 
 export default {
+  middleware: "isHealthcareProfessionalAccessingHisData",
   components: {
     NavBar,
     XLSX,
@@ -566,6 +567,9 @@ export default {
       ).toLocaleDateString("en-US");
     },
     onContext(ctx) {
+       if(ctx.selectedDate == null){
+        return null;
+    }
       // The date formatted in the locale, or the `label-no-date-selected` string
       this.expireDate = ctx.selectedFormatted
     }

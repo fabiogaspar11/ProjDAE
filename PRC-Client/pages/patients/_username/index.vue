@@ -94,7 +94,7 @@ export default {
   },
   computed: {
     username() {
-      return this.$route.params.username;
+      return this.$auth.user.sub;
     },
     isNameValidFeedback() {
       if (!this.name) {

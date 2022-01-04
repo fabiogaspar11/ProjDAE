@@ -182,6 +182,7 @@ import Router from "vue-router";
 import XLSX from "xlsx";
 
 export default {
+  middleware: "isHealthcareProfessionalAccessingHisData",
   components: {
     NavBar,
     Router,
@@ -383,7 +384,7 @@ export default {
   methods: {
     getBiomedicMeasures() {
       this.$axios.$get("/api/biomedicDataTypes").then((entidade) => {
-        this.biomedicDataTypes = entidade; //TODO missing route!!!
+        this.biomedicDataTypes = entidade;
         this.$axios.$get(`/api/healthcareProfessionals/${this.$auth.user.sub}/biomedicDataMeasures`).then((entidade) => {
           this.entidade = entidade;
           let i = 0;
@@ -524,6 +525,9 @@ export default {
       return this.biomedicDataTypes
     },
     onContext(ctx) {
+    if(ctx.selectedDate == null){
+        return null;
+    }
       // The date formatted in the locale, or the `label-no-date-selected` string
       this.date = ctx.selectedFormatted
     }
