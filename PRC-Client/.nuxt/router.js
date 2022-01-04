@@ -4,31 +4,31 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _f130b6da = () => interopDefault(import('..\\pages\\administrators\\index.vue' /* webpackChunkName: "pages/administrators/index" */))
-const _1f8f9a8a = () => interopDefault(import('..\\pages\\biomedicDataTypes\\index.vue' /* webpackChunkName: "pages/biomedicDataTypes/index" */))
-const _3dbb0e3b = () => interopDefault(import('..\\pages\\Dashboard.vue' /* webpackChunkName: "pages/Dashboard" */))
-const _b6f0953e = () => interopDefault(import('..\\pages\\DashboardAdministrators.vue' /* webpackChunkName: "pages/DashboardAdministrators" */))
-const _21c3fe98 = () => interopDefault(import('..\\pages\\DashboardHealthcareProfessionals.vue' /* webpackChunkName: "pages/DashboardHealthcareProfessionals" */))
-const _0fd73402 = () => interopDefault(import('..\\pages\\diseases\\index.vue' /* webpackChunkName: "pages/diseases/index" */))
-const _d8dd55c8 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/index" */))
-const _5dfc280b = () => interopDefault(import('..\\pages\\patients\\index.vue' /* webpackChunkName: "pages/patients/index" */))
-const _7fa1eea8 = () => interopDefault(import('..\\pages\\auth\\Login.vue' /* webpackChunkName: "pages/auth/Login" */))
-const _436e8ff6 = () => interopDefault(import('..\\pages\\administrators\\_username.vue' /* webpackChunkName: "pages/administrators/_username" */))
-const _215a4b84 = () => interopDefault(import('..\\pages\\biomedicDataTypes\\_code.vue' /* webpackChunkName: "pages/biomedicDataTypes/_code" */))
-const _718fd3a3 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/index" */))
-const _6d31b558 = () => interopDefault(import('..\\pages\\patients\\_username\\index.vue' /* webpackChunkName: "pages/patients/_username/index" */))
-const _e364f5a0 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\biomedicMeasures\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/biomedicMeasures/index" */))
-const _6a61cbd6 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\patients\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/patients/index" */))
-const _c5119950 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\prescriptions\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/prescriptions/index" */))
-const _5a202ca1 = () => interopDefault(import('..\\pages\\patients\\_username\\biomedicMeasures\\index.vue' /* webpackChunkName: "pages/patients/_username/biomedicMeasures/index" */))
-const _e9a80b36 = () => interopDefault(import('..\\pages\\patients\\_username\\diseases.vue' /* webpackChunkName: "pages/patients/_username/diseases" */))
-const _4637b841 = () => interopDefault(import('..\\pages\\patients\\_username\\healthcareProfessionals.vue' /* webpackChunkName: "pages/patients/_username/healthcareProfessionals" */))
-const _e2f4d2ca = () => interopDefault(import('..\\pages\\patients\\_username\\prescriptions.vue' /* webpackChunkName: "pages/patients/_username/prescriptions" */))
-const _dfcf93ac = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\biomedicMeasures\\_code.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/biomedicMeasures/_code" */))
-const _26e49d1d = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\patients\\_usernamePatient.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/patients/_usernamePatient" */))
-const _c17c375c = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\prescriptions\\_code.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/prescriptions/_code" */))
-const _5beadd9b = () => interopDefault(import('..\\pages\\patients\\_username\\biomedicMeasures\\_code.vue' /* webpackChunkName: "pages/patients/_username/biomedicMeasures/_code" */))
-const _a43c85ce = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
+const _a42c148a = () => interopDefault(import('..\\pages\\administrators\\index.vue' /* webpackChunkName: "pages/administrators/index" */))
+const _76b1d862 = () => interopDefault(import('..\\pages\\biomedicDataTypes\\index.vue' /* webpackChunkName: "pages/biomedicDataTypes/index" */))
+const _518fdb63 = () => interopDefault(import('..\\pages\\Dashboard.vue' /* webpackChunkName: "pages/Dashboard" */))
+const _33ba5c89 = () => interopDefault(import('..\\pages\\DashboardAdministrators.vue' /* webpackChunkName: "pages/DashboardAdministrators" */))
+const _6c70e68c = () => interopDefault(import('..\\pages\\DashboardHealthcareProfessionals.vue' /* webpackChunkName: "pages/DashboardHealthcareProfessionals" */))
+const _d3d0f9ac = () => interopDefault(import('..\\pages\\diseases\\index.vue' /* webpackChunkName: "pages/diseases/index" */))
+const _0793d0f4 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/index" */))
+const _3787119a = () => interopDefault(import('..\\pages\\patients\\index.vue' /* webpackChunkName: "pages/patients/index" */))
+const _1d0fdc60 = () => interopDefault(import('..\\pages\\auth\\Login.vue' /* webpackChunkName: "pages/auth/Login" */))
+const _5ed7e5c4 = () => interopDefault(import('..\\pages\\administrators\\_username.vue' /* webpackChunkName: "pages/administrators/_username" */))
+const _787c895c = () => interopDefault(import('..\\pages\\biomedicDataTypes\\_code.vue' /* webpackChunkName: "pages/biomedicDataTypes/_code" */))
+const _beb3fe6a = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/index" */))
+const _3e1d65a8 = () => interopDefault(import('..\\pages\\patients\\_username\\index.vue' /* webpackChunkName: "pages/patients/_username/index" */))
+const _79b1b858 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\biomedicMeasures\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/biomedicMeasures/index" */))
+const _0d8cf53d = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\patients\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/patients/index" */))
+const _fb27dda0 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\prescriptions\\index.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/prescriptions/index" */))
+const _405de30e = () => interopDefault(import('..\\pages\\patients\\_username\\biomedicMeasures\\index.vue' /* webpackChunkName: "pages/patients/_username/biomedicMeasures/index" */))
+const _3d02b8e6 = () => interopDefault(import('..\\pages\\patients\\_username\\diseases.vue' /* webpackChunkName: "pages/patients/_username/diseases" */))
+const _682ecbce = () => interopDefault(import('..\\pages\\patients\\_username\\healthcareProfessionals.vue' /* webpackChunkName: "pages/patients/_username/healthcareProfessionals" */))
+const _02b66673 = () => interopDefault(import('..\\pages\\patients\\_username\\prescriptions.vue' /* webpackChunkName: "pages/patients/_username/prescriptions" */))
+const _7b7c6952 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\biomedicMeasures\\_code.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/biomedicMeasures/_code" */))
+const _2f7c8e16 = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\patients\\_usernamePatient.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/patients/_usernamePatient" */))
+const _f7927bac = () => interopDefault(import('..\\pages\\healthCareProfessionals\\_username\\prescriptions\\_code.vue' /* webpackChunkName: "pages/healthCareProfessionals/_username/prescriptions/_code" */))
+const _3cc8811a = () => interopDefault(import('..\\pages\\patients\\_username\\biomedicMeasures\\_code.vue' /* webpackChunkName: "pages/patients/_username/biomedicMeasures/_code" */))
+const _373b5e41 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
 
@@ -43,103 +43,103 @@ export const routerOptions = {
 
   routes: [{
     path: "/administrators",
-    component: _f130b6da,
+    component: _a42c148a,
     name: "administrators"
   }, {
     path: "/biomedicDataTypes",
-    component: _1f8f9a8a,
+    component: _76b1d862,
     name: "biomedicDataTypes"
   }, {
     path: "/Dashboard",
-    component: _3dbb0e3b,
+    component: _518fdb63,
     name: "Dashboard"
   }, {
     path: "/DashboardAdministrators",
-    component: _b6f0953e,
+    component: _33ba5c89,
     name: "DashboardAdministrators"
   }, {
     path: "/DashboardHealthcareProfessionals",
-    component: _21c3fe98,
+    component: _6c70e68c,
     name: "DashboardHealthcareProfessionals"
   }, {
     path: "/diseases",
-    component: _0fd73402,
+    component: _d3d0f9ac,
     name: "diseases"
   }, {
     path: "/healthCareProfessionals",
-    component: _d8dd55c8,
+    component: _0793d0f4,
     name: "healthCareProfessionals"
   }, {
     path: "/patients",
-    component: _5dfc280b,
+    component: _3787119a,
     name: "patients"
   }, {
     path: "/auth/Login",
-    component: _7fa1eea8,
+    component: _1d0fdc60,
     name: "auth-Login"
   }, {
     path: "/administrators/:username",
-    component: _436e8ff6,
+    component: _5ed7e5c4,
     name: "administrators-username"
   }, {
     path: "/biomedicDataTypes/:code",
-    component: _215a4b84,
+    component: _787c895c,
     name: "biomedicDataTypes-code"
   }, {
     path: "/healthCareProfessionals/:username",
-    component: _718fd3a3,
+    component: _beb3fe6a,
     name: "healthCareProfessionals-username"
   }, {
     path: "/patients/:username",
-    component: _6d31b558,
+    component: _3e1d65a8,
     name: "patients-username"
   }, {
     path: "/healthCareProfessionals/:username/biomedicMeasures",
-    component: _e364f5a0,
+    component: _79b1b858,
     name: "healthCareProfessionals-username-biomedicMeasures"
   }, {
     path: "/healthCareProfessionals/:username/patients",
-    component: _6a61cbd6,
+    component: _0d8cf53d,
     name: "healthCareProfessionals-username-patients"
   }, {
     path: "/healthCareProfessionals/:username/prescriptions",
-    component: _c5119950,
+    component: _fb27dda0,
     name: "healthCareProfessionals-username-prescriptions"
   }, {
     path: "/patients/:username/biomedicMeasures",
-    component: _5a202ca1,
+    component: _405de30e,
     name: "patients-username-biomedicMeasures"
   }, {
     path: "/patients/:username/diseases",
-    component: _e9a80b36,
+    component: _3d02b8e6,
     name: "patients-username-diseases"
   }, {
     path: "/patients/:username/healthcareProfessionals",
-    component: _4637b841,
+    component: _682ecbce,
     name: "patients-username-healthcareProfessionals"
   }, {
     path: "/patients/:username/prescriptions",
-    component: _e2f4d2ca,
+    component: _02b66673,
     name: "patients-username-prescriptions"
   }, {
     path: "/healthCareProfessionals/:username/biomedicMeasures/:code",
-    component: _dfcf93ac,
+    component: _7b7c6952,
     name: "healthCareProfessionals-username-biomedicMeasures-code"
   }, {
     path: "/healthCareProfessionals/:username/patients/:usernamePatient",
-    component: _26e49d1d,
+    component: _2f7c8e16,
     name: "healthCareProfessionals-username-patients-usernamePatient"
   }, {
     path: "/healthCareProfessionals/:username/prescriptions/:code",
-    component: _c17c375c,
+    component: _f7927bac,
     name: "healthCareProfessionals-username-prescriptions-code"
   }, {
     path: "/patients/:username/biomedicMeasures/:code",
-    component: _5beadd9b,
+    component: _3cc8811a,
     name: "patients-username-biomedicMeasures-code"
   }, {
     path: "/",
-    component: _a43c85ce,
+    component: _373b5e41,
     name: "index"
   }],
 

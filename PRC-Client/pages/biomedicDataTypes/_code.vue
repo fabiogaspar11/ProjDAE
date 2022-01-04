@@ -4,7 +4,7 @@
     <div class="container" style="margin-top: 4%">
       <template>
         <div>
-          <b-table striped hover :items="entidade"></b-table>
+          <b-table striped hover :items="entidade" :fields="fields"></b-table>
         </div>
       </template>
 
@@ -13,6 +13,9 @@
       </div>
 
       <b-modal id="modal-1" title="Edit Biomedic Data Type" @ok="update()">
+        <div class="mx-auto alert alert-info">
+          The normal values ​​should be created based on the normal values ​​for adult patients males
+        </div>
         <div class="input-group mb-4">
           <span class="input-group-text">Name:</span>
           <b-input
@@ -74,6 +77,17 @@ export default {
   middleware: "isAdministrator",
   data() {
     return {
+      fields: [
+        { key: "code", label: "Code", sortable: true, sortDirection: "desc" },
+        { key: "name", label: "Name", sortable: true, sortDirection: "desc" },
+        { key: "unitMeasure", label: "Unit Measure", sortable: true, sortDirection: "desc"},
+        { key: "minValue", label: "Min Value", sortable: true, sortDirection: "desc"},
+        { key: "maxValue", label: "Max Value", sortable: true, sortDirection: "desc"},
+        { key: "normalMinValue", label: "Normal Min Value", sortable: true, sortDirection: "desc"},
+        { key: "normalMaxValue", label: "Normal Max Value", sortable: true, sortDirection: "desc"},
+        { key: "genderValuedifferentiation", label: "Gender Value difference", sortable: true, sortDirection: "desc"},
+        { key: "ageValuedifferentiation", label: "Age Value difference", sortable: true, sortDirection: "desc"},
+      ],
       entidade: [],
       name: null,
       unitMeasure: null,
