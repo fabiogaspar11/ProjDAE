@@ -57,11 +57,11 @@ public class ConfigBean {
 
         administratorBean.create("Ricardo Reis","ricardo.reis@clinic.com", "12345", "17/04/1960", "919191911", 978675432);
         administratorBean.create("Alicia Mendes","alicia.mendes@clinic.com", "12345", "02/10/1966", "918347563", 156789014);
-        administratorBean.create("José Sousa","josesousa@clinic.com", "12345", "01/01/1977", "912147285", 156789999);
+        administratorBean.create("Jose Sousa","josesousa@clinic.com", "12345", "01/01/1977", "912147285", 156789999);
 
 
         biomedicDataTypeBean.create( "Temperatura Corporal","ºC",35,37.5F,30,48,0,0);
-        biomedicDataTypeBean.create( "Obesidade", "Kilogramas", 60, 100,0,300,-5,-5);
+        biomedicDataTypeBean.create( "Peso", "Kilogramas", 60, 100,0,300,-5,-5);
         biomedicDataTypeBean.create( "Pressão arterial sistólica", "mmHg", 100, 130,0,210,2,2);
         biomedicDataTypeBean.create( "Pressão arterial diastólica", "mmHg", 50, 80,0,100,2,2);
         biomedicDataTypeBean.create( "Frequência Cardíaca", "Batimentos", 70, 73,60,80,1,1);

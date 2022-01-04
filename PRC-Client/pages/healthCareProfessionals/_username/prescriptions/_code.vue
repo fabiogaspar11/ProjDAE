@@ -154,8 +154,8 @@ export default {
         return null;
       }
       let length = this.title.length;
-      if (length < 1 || length > 25) {
-        return "The title is mandatory and must have between 1 and 25 letters";
+      if (length < 3 || length > 25) {
+        return "The title is mandatory and must have between 3 and 25 letters";
       }
       return this.isTitleValidFeedback === "";
     },
