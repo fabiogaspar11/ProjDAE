@@ -36,8 +36,8 @@ public class BiomedicDataMeasureBean {
 
         float genderDiff = biomedicDataType.getGenderValuedifferentiation();
         float ageDiff = biomedicDataType.getAgeValuedifferentiation();
-        float minimumValueMeasure = biomedicDataType.getNormalMinValue();;
-        float maximumValueMeasure = biomedicDataType.getNormalMaxValue();;
+        float minimumValueMeasure = biomedicDataType.getNormalMinValue();
+        float maximumValueMeasure = biomedicDataType.getNormalMaxValue();
 
         if(patient.getGender().equals("Feminino")){
             minimumValueMeasure -= genderDiff;
@@ -52,7 +52,6 @@ public class BiomedicDataMeasureBean {
         else if(age<=10){
             minimumValueMeasure += ageDiff*3;
             maximumValueMeasure += ageDiff*3;
-
         }
         else if(age<19){
             minimumValueMeasure += ageDiff*2;
@@ -67,10 +66,13 @@ public class BiomedicDataMeasureBean {
         //intervalo de 19 a 65 é o normal
 
 
-        if(minimumValueMeasure <= biomedicDataType.getMinValue() || minimumValueMeasure >= biomedicDataType.getMaxValue())
+        if(minimumValueMeasure <= biomedicDataType.getMinValue() || minimumValueMeasure >= biomedicDataType.getMaxValue()){
             minimumValueMeasure = biomedicDataType.getMinValue();
-        if(maximumValueMeasure >= biomedicDataType.getMaxValue() || minimumValueMeasure <= biomedicDataType.getMinValue())
+        }
+
+        if(maximumValueMeasure >= biomedicDataType.getMaxValue() || minimumValueMeasure <= biomedicDataType.getMinValue()){
             maximumValueMeasure = biomedicDataType.getMaxValue();
+        }
 
         if(value < minimumValueMeasure){
             classification = "Inferior";

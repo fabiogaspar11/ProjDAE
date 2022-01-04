@@ -2,30 +2,23 @@
   <div>
     <NavBar></NavBar>
 
-    <b-container class="bv-example-row" style="margin-top: 5%">
-      <b-row>
-        <b-col sm="3">
-          <h1>Patients ({{ tableLength }})</h1>
-        </b-col>
-        <b-col sm="5">
+    <b-container class="mt-3">
+          <h3>Patients ({{ tableLength }})</h3>
           <b-form-input v-model="filter" type="search" placeholder="Search...">
           </b-form-input>
-        </b-col>
-      </b-row>
-    </b-container>
 
-   <hr style="width: 73%" />
-    <div v-if="this.tableLength != 0" class="d-flex justify-content-center" style="margin-top: 3%">
+    <div v-if="this.tableLength != 0" class="mt-5">
       <b-table
+        id="table"
+        :per-page="perPage"
+        :current-page="currentPagePaginate"
         :items="this.entidade"
         :fields="fields"
         striped
         responsive="sm"
-        class="w-75 p-3"
         :filter="filter"
         @filtered="search"
       >
-
         <template v-slot:cell(operations)="row">
             <b-button variant="danger" @click="remove('P'+row.item.healthNumber)">
             <font-awesome-icon icon="trash" /> Remove
@@ -36,6 +29,14 @@
       <div v-else class="w-75 mx-auto alert alert-info">
       No Patients created yet
     </div>
+    </b-container>
+      <b-pagination
+          class="fixed-bottom justify-content-center"
+          v-model="currentPagePaginate"
+          :total-rows="tableLength"
+          :per-page="perPage"
+          aria-controls="table"
+        ></b-pagination>
   </div>
 </template>
 <script>
@@ -62,6 +63,8 @@ export default {
       filter: null,
       totalRows: null,
       currentPage: null,
+      perPage: 5,
+      currentPagePaginate: 1,
     };
   },
   created() {

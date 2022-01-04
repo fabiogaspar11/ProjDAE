@@ -48,8 +48,7 @@ public class HealthcareprofessionalService {
                 healthcareProfessional.getEmail(),
                 healthcareProfessional.getBirthDate(),
                 healthcareProfessional.getContact(),
-                healthcareProfessional.getHealthNumber(),
-                healthcareProfessional.getType()
+                healthcareProfessional.getHealthNumber()
         );
     }
 
@@ -125,8 +124,7 @@ public class HealthcareprofessionalService {
                 healthcareProfessionalDTO.getEmail(),
                 healthcareProfessionalDTO.getPassword(),
                 healthcareProfessionalDTO.getBirthDate(),
-                healthcareProfessionalDTO.getContact(),
-                healthcareProfessionalDTO.getType()
+                healthcareProfessionalDTO.getContact()
         );
         HealthcareProfessional healthcareProfessional = healthcareProfessionalBean.findHealthcareProfessional(username);
         return Response.status(Response.Status.CREATED)

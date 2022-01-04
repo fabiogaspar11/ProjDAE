@@ -11,9 +11,6 @@
         <b-button v-b-modal.modal-1 variant="info">
           <font-awesome-icon icon="plus" /> New professional
         </b-button>
-        <b-button v-b-modal.modal-3 variant="success" @click="">
-          <font-awesome-icon icon="trash" /> Export to excel
-        </b-button>
       </div>
 
       <b-modal id="modal-1" title="New Healthcare Professional" @ok="create">
@@ -49,19 +46,6 @@
           ></b-form-datepicker>
         </div>
           <p>{{ isbirthDateValidFeedback }}</p>
-        <div class="input-group mb-4">
-          <span class="input-group-text">Type</span>
-          <b-input
-            required
-            v-model.trim="type"
-            type="text"
-            :state="isTypeValid"
-            class="form-control"
-            aria-describedby="basic-addon1"
-             placeholder="Enter the type"
-          />
-        </div>
-          <p>{{ isTypeValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
         <b-input required v-model.trim="name" type="text" :state="isNameValid" class="form-control" aria-describedby="basic-addon1"     placeholder="Enter the Name"/>
@@ -153,7 +137,6 @@ export default {
           sortable: true,
           sortDirection: "desc",
         },
-        { key: "type", label: "Type", sortable: true, sortDirection: "desc" },
         "actions",
       ],
       entidade: [],
@@ -163,7 +146,6 @@ export default {
       birthDate: null,
       email: null,
       name: null,
-      type: null,
       password: null,
       contact: null,
       filter: null,
@@ -211,22 +193,6 @@ export default {
         return null;
       }
       return this.isNameValidFeedback === "";
-    },
-    isTypeValidFeedback() {
-      if (!this.type) {
-        return null;
-      }
-      let typeLen = this.type.length;
-      if (typeLen > 25) {
-        return "The type is too short - length must be under 25";
-      }
-      return "";
-    },
-    isTypeValid() {
-      if (this.isTypeValidFeedback === null) {
-        return null;
-      }
-      return this.isTypeValidFeedback === "";
     },
     isContactValidFeedback() {
       if (!this.contact) {
@@ -318,7 +284,6 @@ export default {
       if (
         this.healthNumber == null ||
         this.name == null ||
-        this.type == null ||
         this.email == null ||
         this.contact == null ||
         this.birthDate == null ||
@@ -366,7 +331,6 @@ export default {
             healthNumber: this.healthNumber,
             birthDate: this.birthDate,
             name: this.name,
-            type: this.type,
             email: this.email,
             contact: this.contact,
             password: this.password,
@@ -381,7 +345,6 @@ export default {
             this.healthNumber = null;
             this.birthDate = null;
             this.name = null;
-            this.type = null;
             this.email = null;
             this.contact = null;
             this.password = null;
@@ -412,12 +375,10 @@ export default {
       this.$axios
         .$put("/api/healthcareProfessionals/" + username, {
           name: this.name,
-          type: this.type,
         })
         .then((response) => {
           this.username = null;
           this.name = null;
-          this.type = null;
         });
     },
     search(filteredItems) {
