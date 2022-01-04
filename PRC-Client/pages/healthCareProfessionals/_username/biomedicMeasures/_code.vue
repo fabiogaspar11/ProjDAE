@@ -8,12 +8,23 @@
         </div>
       </template>
 
+      <div class="d-flex justify-content-center">
+        <div v-if="classification === 'Normal'" class="bg-success w-50 text-center"  style="border-radius: 10px">
+          <h5 style="color: white; margin-top: 1%; margin-bottom: 1%">Classification: Value in the bounds of reference</h5>
+        </div>
+        <div v-else-if="classification === 'Inferior'" class="bg-danger w-50 text-center" style="border-radius: 10px">
+          <h5 style="color: white; margin-top: 1%; margin-bottom: 1%">Classifications: Value below the minimum reference value</h5>
+        </div>
+        <div v-else class="bg-danger w-50 text-center" style="border-radius: 10px">
+          <h5 style="color: white; margin-top: 1%; margin-bottom: 1%">Classifications: Value above the minimum reference value</h5>
+        </div>
+      </div>
+
       <b-button v-if="canEdit" v-b-modal.modal-1 class="text-center">Edit</b-button>
       <div v-else class="w-75 mx-auto alert alert-info">
             Cannot Edit this Biomedic Data
       </div>
 
-      </div>
       <b-modal id="modal-1" title="Edit Biomedic Measure" @ok="update()">
         <div class="input-group mb-4">
           <span class="input-group-text">Date</span>
@@ -34,7 +45,6 @@
           ></b-form-datepicker>
           <p>{{ isDateValidFeedback }}</p>
         </div>
-          <p>{{ isDateValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Hour</span>
           <b-input
@@ -87,6 +97,8 @@ export default {
         { key: "code", label: "Code" },
         { key: "usernamePatient", label: "Patient Username" },
         { key: "biomedicDataType", label: "Biomedic Data Type" },
+        { key: "normalMinValue", label: "Normal Minimum Value" },
+        { key: "normalMaxValue", label: "Normal Maximum Value" },
         { key: "minValue", label: "Minimum Value" },
         { key: "maxValue", label: "Maximum Value" },
         { key: "value", label: "Value" },
@@ -99,6 +111,9 @@ export default {
       date: null,
       hour: null,
       value: null,
+      normalMinValue: null,
+      normalMaxValue: null,
+      classification: null,
       minVal: null,
       maxVal: null,
       dateEdit: "",
@@ -132,7 +147,7 @@ export default {
       var dateRegexValid = date_regex.test(this.dateEdit);
 
       if (!dateRegexValid) {
-        return "The date is invalid - format dd/mm/yyyy";
+        return "The date is invalid - the correct format is dd/mm/yyyy";
       }
       if (parseInt(dateSplitted[2]) < currentdate.getFullYear()) {
         return "";
@@ -176,7 +191,7 @@ export default {
         var dateSplitted = this.date.split("/");
       } else {
         if (!this.isDateValid) {
-          return "Date is incorrent. Correct it first";
+          return "Date is incorrect. Correct it first";
         }
         var dateSplitted = this.dateEdit.split("/");
       }
@@ -253,6 +268,7 @@ export default {
             this.hour = entidade.hour;
             this.date = entidade.date;
             this.value = entidade.value;
+            this.classification = entidade.classification;
             this.biomedicDataTypes.forEach((b) => {
               if (this.entidade[0].biomedicDataTypeCode === b.code) {
                 this.entidade[0].biomedicDataType = b.name;
@@ -274,8 +290,6 @@ export default {
     },
     update() {
       let biomedicDataMeasure = {};
-      let valid = true;
-
       if (this.isDateValid)
         biomedicDataMeasure.date = this.dateEdit;
       if (this.isHourValid)
@@ -283,11 +297,7 @@ export default {
       if (this.isValueValid)
         biomedicDataMeasure.value = this.valueEdit;
 
-
-      if(!this.isDateValid && this.dateEdit != ""|| !this.isHourValid && this.hourEdit != "" || !this.isValueValid && this.valueEdit != "" )
-        valid = false
-
-      if (Object.keys(biomedicDataMeasure).length == 0 || valid == false) {
+      if (Object.keys(biomedicDataMeasure).length === 0 ) {
         this.$toast.error("Error - Nothing to update").goAway(3000);
         return;
       }
@@ -304,6 +314,10 @@ export default {
           this.hourEdit = "";
           this.valueEdit = "";
           this.getBiomedicMeasure();
+        })
+        .catch((response) => {
+          this.$toast.info(`Could not update Biomedic data Measure ` + response).goAway(3000);
+          this.getPatient();
         });
     },
     onContext(ctx) {

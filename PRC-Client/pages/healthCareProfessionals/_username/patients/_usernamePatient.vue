@@ -131,6 +131,11 @@
           />
         </div>
         <p>{{ isContactValidFeedback }}</p>
+        <div class="input-group mb-4 d-flex justify-content-center" >
+          <span class="input-group-text">Gender</span>
+          <b-form-select v-model="gender" :options="optionsGender"></b-form-select>
+          <p>{{isGenderValidFeedback}}</p>
+        </div>
       </b-modal>
 
       <b-container class="mt-1">
@@ -246,6 +251,7 @@ export default {
         "username",
         "name",
         "birthDate",
+        "gender",
         "healthNumber",
         "contact",
         "email",
@@ -279,6 +285,7 @@ export default {
       name: null,
       email: null,
       birthDate: null,
+      gender: null,
       contact: null,
       patientPrescriptions: [],
       patientBiomedicMeasures: [],
@@ -292,6 +299,11 @@ export default {
       currentBirthDate: null,
       currentEmail: null,
       currentContact: null,
+      optionsGender: [
+        { value: null, text: 'Please select an option' },
+        { value: 'Masculino', text: 'Masculino' },
+        { value: 'Feminino', text: 'Feminino' },
+      ]
     };
   },
   props: {
@@ -405,20 +417,18 @@ export default {
       }
       return this.isbirthDateValidFeedback === "";
     },
-    isFormValid() {
-      if (!this.isNameValid) {
-        return false;
+    isGenderValidFeedback() {
+      if (!this.gender) {
+        return null;
       }
-      if (!this.isEmailValid) {
-        return false;
+
+      return "";
+    },
+    isGenderValid() {
+      if (this.isGenderValidFeedback === null) {
+        return null;
       }
-      if (!this.isbirthDateValid) {
-        return false;
-      }
-      if (!this.isContactValid) {
-        return false;
-      }
-      return true;
+      return this.isGenderValidFeedback === "";
     },
   },
   created() {
@@ -500,6 +510,9 @@ export default {
       if (this.isbirthDateValid) {
         patientUpdated.birthDate = this.birthDate;
       }
+      if (this.isGenderValid) {
+        patientUpdated.gender = this.gender;
+      }
       if (Object.keys(patientUpdated).length == 0) {
         this.$toast.error(`Nothing to update!`).goAway(3000);
         return;
@@ -511,6 +524,7 @@ export default {
           this.email = null;
           this.contact = null;
           this.birthDate = null;
+          this.gender = null;
           this.$toast.info(`Patient ${this.usernamePatient}  updated!`).goAway(3000);
 
           this.getPatient();

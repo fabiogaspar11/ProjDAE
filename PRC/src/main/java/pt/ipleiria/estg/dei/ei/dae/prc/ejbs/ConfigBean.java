@@ -46,13 +46,13 @@ public class ConfigBean {
         healthcareProfessionalBean.create(900000006, "Marco Santos", "vascofranco@mail.com", "12345", "01/09/1990", "900112763", "medic");
         String usernameH1 = healthcareProfessionalBean.create(900000007, "Clara Sousa", "clara@mail.com", "12345", "22/10/2000", "924359214", "medic");
 
-        String usernameP1 = patientBean.create("Fábio Gaspar", "2191264@my.ipleiria.pt", "04/12/2001", "916364061", 900000011,"Masculino");
-        patientBean.create("Carla Mendes","2191111@my.ipleiria.pt","05/06/1999","916345345",900000012,"Feminino");
-        patientBean.create("Carlos Costa","2191131@my.ipleiria.pt","11/04/1984","912343274",900000013,"Masculino");
-        patientBean.create("Daniel Carreira","2191215@my.ipleiria.pt","12/08/2001","917766763",900000014,"Masculino");
-        patientBean.create("Rafael Pereira","2191266@my.ipleiria.pt","14/06/2021","987786541",900000015,"Masculino");
-        patientBean.create("Bruna Leitão","2191268@my.ipleiria.pt","23/06/20012","900086541",900000016,"Feminino");
-        patientBean.create("Rodrigo Domingues","2198732@my.ipleiria.pt","13/06/1950","901236541",900000017,"Masculino");
+        String usernameP1 = patientBean.create("Fábio Gaspar", "2191264@my.ipleiria.pt", "04/12/2001", "916364061", 900000011,"Masculino"); //20 Anos
+        patientBean.create("Carla Mendes","2191111@my.ipleiria.pt","05/06/2021","916345345",900000012,"Feminino");                          //6 Meses
+        patientBean.create("Carlos Costa","2191131@my.ipleiria.pt","11/04/2015","912343274",900000013,"Masculino");                         //6 Anos
+        patientBean.create("Daniel Carreira","2191215@my.ipleiria.pt","12/08/2008","917766763",900000014,"Masculino");                      //13 Anos
+        patientBean.create("Rafael Pereira","2191266@my.ipleiria.pt","14/06/2021","987786541",900000015,"Masculino");                       //6 meses
+        patientBean.create("Bruna Leitão","2191268@my.ipleiria.pt","23/06/20012","900086541",900000016,"Feminino");                         //9 Anos
+        patientBean.create("Rodrigo Domingues","2198732@my.ipleiria.pt","13/06/1950","901236541",900000017,"Masculino");                    //71 Anos
 
 
         administratorBean.create("Ricardo Reis","ricardo.reis@clinic.com", "12345", "17/04/1960", "919191911", 978675432);

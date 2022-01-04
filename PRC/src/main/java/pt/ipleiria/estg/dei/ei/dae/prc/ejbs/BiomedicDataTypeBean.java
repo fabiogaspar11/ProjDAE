@@ -21,10 +21,10 @@ public class BiomedicDataTypeBean {
 
     public long create(String name,String unitMeasure, float normalMinValue, float normalMaxValue, float minValue, float maxValue,float genderValuedifferentiation,float ageValuedifferentiation) throws MyEntityExistsException, MyIllegalArgumentException {
         if(normalMinValue < minValue){
-            throw new MyIllegalArgumentException("Datatype minimum normal value should be bigger than the minimum datatype value");
+            throw new MyIllegalArgumentException("Datatype normal minimum value should be bigger than the minimum datatype value");
         }
         if(normalMaxValue > maxValue){
-            throw new MyIllegalArgumentException("Datatype maximum normal value should be bigger than the maximum datatype value");
+            throw new MyIllegalArgumentException("Datatype normal maximum value should be bigger than the maximum datatype value");
         }
 
         BiomedicDataType biomedicDataType = new BiomedicDataType(name,unitMeasure,normalMinValue,normalMaxValue,minValue,maxValue,genderValuedifferentiation,ageValuedifferentiation);
