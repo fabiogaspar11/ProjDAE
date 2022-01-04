@@ -45,7 +45,6 @@ public class BiomedicDataMeasureBean {
         }
 
         int age = this.getAge(patient.getBirthDate());
-
         if(age<=2){
             minimumValueMeasure += ageDiff*4;
             maximumValueMeasure += ageDiff*4;
@@ -53,21 +52,24 @@ public class BiomedicDataMeasureBean {
         else if(age<=10){
             minimumValueMeasure += ageDiff*3;
             maximumValueMeasure += ageDiff*3;
+
         }
-        else if(age>=11 && age<19){
+        else if(age<19){
             minimumValueMeasure += ageDiff*2;
             maximumValueMeasure += ageDiff*2;
+
         }
         else if(age>=65){
             minimumValueMeasure -= ageDiff;
             maximumValueMeasure -= ageDiff;
+
         }
         //intervalo de 19 a 65 é o normal
 
 
-        if(minimumValueMeasure <= biomedicDataType.getMinValue())
+        if(minimumValueMeasure <= biomedicDataType.getMinValue() || minimumValueMeasure >= biomedicDataType.getMaxValue())
             minimumValueMeasure = biomedicDataType.getMinValue();
-        if(maximumValueMeasure >= biomedicDataType.getMaxValue())
+        if(maximumValueMeasure >= biomedicDataType.getMaxValue() || minimumValueMeasure <= biomedicDataType.getMinValue())
             maximumValueMeasure = biomedicDataType.getMaxValue();
 
         if(value < minimumValueMeasure){
