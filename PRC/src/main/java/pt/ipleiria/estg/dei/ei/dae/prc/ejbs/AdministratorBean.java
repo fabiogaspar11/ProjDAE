@@ -30,6 +30,9 @@ public class AdministratorBean {
         if(Long.toString(healthNumber).length() != 9){
             throw new MyConstraintViolationException("Health Number can only have 9 digits");
         }
+        if(contact.length() != 9 || !contact.startsWith("9")){
+            throw new MyConstraintViolationException("Contact can only have 9 digits and must be according to PT format");
+        }
         String username = "A"+ healthNumber;
         Administrator administratorExists = entityManager.find(Administrator.class,username);
         if (administratorExists == null) {
@@ -62,8 +65,9 @@ public class AdministratorBean {
             administrator.setBirthDate(administratorDTO.getBirthDate());
         }
         if(administratorDTO.getContact() != null && !administrator.getContact().equals(administratorDTO.getContact())){
-            administrator.setContact(administratorDTO.getContact());
-        }
+            if(administratorDTO.getContact().length() == 9 && administratorDTO.getContact().startsWith("9")){
+                administrator.setContact(administratorDTO.getContact());
+            }        }
         entityManager.merge(administrator);
     }
 

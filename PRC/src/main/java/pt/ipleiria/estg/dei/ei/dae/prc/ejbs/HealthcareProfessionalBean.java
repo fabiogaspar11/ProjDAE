@@ -31,6 +31,9 @@ public class HealthcareProfessionalBean {
         if(Long.toString(healthNumber).length() != 9){
             throw new MyConstraintViolationException("Health Number can only have 9 digits");
         }
+        if(contact.length() != 9 || !contact.startsWith("9")){
+            throw new MyConstraintViolationException("Contact can only have 9 digits and must be according to PT format");
+        }
         String username = "H"+healthNumber;
         HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class,username);
         if(healthcareProfessional != null) throw new MyEntityExistsException("A healthcare professional with the username \'" + username + "\' already exists");
@@ -128,7 +131,9 @@ public class HealthcareProfessionalBean {
         }
 
         if(healthcareProfessionalDTO.getContact() != null && !healthcareProfessional.getContact().equals(healthcareProfessionalDTO.getContact())){
-            healthcareProfessional.setContact(healthcareProfessionalDTO.getContact());
+            if(healthcareProfessionalDTO.getContact().length() == 9 && healthcareProfessionalDTO.getContact().startsWith("9")){
+                healthcareProfessional.setContact(healthcareProfessionalDTO.getContact());
+            }
         }
 
         entityManager.merge(healthcareProfessional);

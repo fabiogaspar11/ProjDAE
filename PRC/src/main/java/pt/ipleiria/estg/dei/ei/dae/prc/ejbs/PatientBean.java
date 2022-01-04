@@ -38,6 +38,9 @@ public class PatientBean {
         if(Long.toString(healthNumber).length() != 9){
             throw new MyConstraintViolationException("Health Number can only have 9 digits");
         }
+        if(contact.length() != 9 || !contact.startsWith("9")){
+            throw new MyConstraintViolationException("Contact can only have 9 digits and must be according to PT format");
+        }
         String username = "P"+healthNumber;
         String password = generatePassword();
         Patient patient = entityManager.find(Patient.class, username);
@@ -132,7 +135,9 @@ public class PatientBean {
         }
 
         if(patientDTO.getContact() != null && !patient.getContact().equals(patientDTO.getContact())){
-            patient.setContact(patientDTO.getContact());
+            if(patientDTO.getContact().length() == 9 && patientDTO.getContact().startsWith("9")){
+                patient.setContact(patientDTO.getContact());
+            }
         }
 
         if(patientDTO.getGender() != null && !patient.getGender().equals(patientDTO.getGender())){

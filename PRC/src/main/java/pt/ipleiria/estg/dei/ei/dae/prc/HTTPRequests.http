@@ -358,10 +358,10 @@ Authorization: Bearer eyJ0eXAiOiJqd3QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJIOTAwMDAwM
 Content-Type: application/json
 
 {
-  "healthNumber": 248364182,
+  "healthNumber": 248364133,
   "name": "Levi Ackerman",
-  "email": "ackerman@outlook.com",
+  "email": "ackerman",
   "birthDate": "11/12/1994",
-  "contact": "948364182",
+  "contact": "911111111",
   "gender": "Masculino"
 }
