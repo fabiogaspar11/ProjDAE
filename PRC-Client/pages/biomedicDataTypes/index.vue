@@ -68,7 +68,7 @@
           <p>{{ isMaxValueValidFeedback }}</p>
         <div class="input-group mb-4 justify-content-center">
           <span class="input-group-text">Minimum Normal value:</span>
-           <b-input v-model.number="normalMinValue"  :disabled="!isMinValueValid || !isMaxValueValid"  :state="this.isNormalMinValid" class="col-md-2">{{this.normalMinValue}}</b-input>
+           <b-input v-model.number="normalMinValue"  :disabled="!isMinValueValid || !isMaxValueValid"  :state="this.isNormalMinValid" class="col-md-3">{{this.normalMinValue}}</b-input>
            <b-input-group
             :prepend="(this.minValue+1).toString()"
             :append="(this.maxValue-1).toString()"
@@ -89,38 +89,10 @@
           <p>{{ isNormalMinValidFeedback }}</p>
             <div class="input-group mb-4 justify-content-center">
           <span class="input-group-text">Maximum Normal value:</span>
-          <b-input v-model.number="normalMaxValue"  :disabled="!isMinValueValid || !isMaxValueValid"  :state="this.isNormalMaxValid" class="col-md-2">{{this.normalMaxValue}}</b-input>
+          <b-input v-model.number="normalMaxValue"  :disabled="!isMinValueValid || !isMaxValueValid"  :state="this.isNormalMaxValid" class="col-md-3">{{this.normalMaxValue}}</b-input>
            <b-input-group
             :prepend="(this.minValue+1).toString()"
             :append="(this.maxValue-1).toString()"
-            class="mt-3"
-          >
-            <b-input
-              :disabled="!isMinValueValid || !isMaxValueValid"
-              v-model.number="normalMinValue"
-              type="range"
-              step="0.5"
-              :min="minValue + 1"
-              :max="maxValue - 1"
-              class="form-control"
-              aria-describedby="basic-addon1"
-              placeholder="Enter minimum value"
-            />
-          </b-input-group>
-        </div>
-        <p>{{ isNormalMinValidFeedback }}</p>
-        <div class="input-group mb-4 justify-content-center">
-          <span class="input-group-text">Maximum Normal value:</span>
-          <b-input
-            v-model.number="normalMaxValue"
-            :disabled="!isMinValueValid || !isMaxValueValid"
-            :state="this.isNormalMaxValid"
-            class="col-md-2"
-            >{{ this.normalMaxValue }}</b-input
-          >
-          <b-input-group
-            :prepend="this.minValue + 1"
-            :append="this.maxValue - 1"
             class="mt-3"
           >
             <b-input
@@ -132,7 +104,7 @@
               :max="maxValue - 1"
               class="form-control"
               aria-describedby="basic-addon1"
-              placeholder="Enter maximum value"
+              placeholder="Enter minimum value"
             />
           </b-input-group>
         </div>
@@ -343,7 +315,7 @@ export default {
 
       if(this.normalMinValue < this.minValue)
         return "The normal minimum value should be bigger than the minimum value"
-      if(this.normalMinValue >= this.normalMaxValue){
+      if(this.normalMaxValue!=null && this.normalMinValue >= this.normalMaxValue){
         return "The normal minimum value should be smaller than the normal maximum value"
       }
 
@@ -368,7 +340,7 @@ export default {
       if(this.normalMaxValue > this.maxValue) {
         return "The normal maximum value should be smaller than the maximum value"
       }
-      if (this.normalMaxValue <= this.normalMinValue) {
+      if (this.normalMinValue!=null && this.normalMaxValue <= this.normalMinValue) {
         return "The normal maximum value should be bigger than the minimum value";
       }
       return "";
