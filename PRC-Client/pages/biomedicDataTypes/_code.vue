@@ -183,16 +183,16 @@ export default {
   },
   computed: {
     minLimit(){
-      if(this.minValue==null || this.maxValue==null || this.minValue==="" || this.maxValue === "") {
+      if(this.minValue==null || this.minValue==="") {
         return (this.currentMinValue + 1).toString();
       }
-      return (this.minValue+1).toString();
+      return (this.minValue + 1).toString();
     },
     maxLimit(){
-      if(this.minValue==null || this.maxValue==null || this.maxValue==="" ||this.minValue==="" ) {
-        return (this.currentMaxValue-1).toString();
+      if(this.maxValue==null || this.maxValue==="") {
+        return (this.currentMaxValue - 1).toString();
       }
-      return (this.maxValue-1).toString();
+      return (this.maxValue - 1).toString();
     },
     code() {
       return this.$route.params.code;
