@@ -69,8 +69,8 @@
             v-model="gender"
             :options="optionsGender"
           ></b-form-select>
-          <p>{{ isGenderValidFeedback }}</p>
         </div>
+          <p>{{ isGenderValidFeedback }}</p>
       </b-modal>
 
       <b-modal id="modal-2" title="Edit" @ok="updatePassword()">
@@ -132,6 +132,7 @@ export default {
       currentBirthDate: null,
       currentEmail: null,
       currentContact: null,
+      currentGender: null,
       optionsGender: [
         { value: null, text: "Please select an option" },
         { value: "Masculino", text: "Masculino" },
@@ -279,7 +280,9 @@ export default {
       if (!this.gender) {
         return null;
       }
-
+      if(this.gender == this.currentGender){
+        return "Gender is equal to current gender"
+      }
       return "";
     },
     isGenderValid() {
@@ -300,6 +303,7 @@ export default {
         this.currentBirthDate = entidade.birthDate;
         this.currentEmail = entidade.email;
         this.currentContact = entidade.contact;
+        this.currentGender = entidade.gender;
       });
     },
     update() {

@@ -161,7 +161,7 @@ export default {
       if (!this.observations) {
         return null;
       }
-       if(this.observations != this.currentObservations){
+       if(this.observations == this.currentObservations){
         return "Observations is equal to the current observations";
       }
       return "";
@@ -176,7 +176,7 @@ export default {
       if (!this.title) {
         return null;
       }
-       if(this.title != this.currentTitle){
+       if(this.title == this.currentTitle){
         return "Treatment Information is equal to the current treatment information";
       }
        let length = this.title.length;
@@ -195,7 +195,7 @@ export default {
       if (!this.treatmentInfo) {
         return null;
       }
-       if(this.treatmentInfo != this.currentTreatmentInfo){
+       if(this.treatmentInfo == this.currentTreatmentInfo){
         return "Treatment Information is equal to the current treatment information";
       }
        let length = this.treatmentInfo.length;
@@ -214,7 +214,7 @@ export default {
       if (!this.expireDate) {
         return null;
       }
-       if(this.expireDate != this.currentExpireDate){
+       if(this.expireDate == this.currentExpireDate){
         return "Expire date is equal to the current expire date";
       }
       var date_regex =
@@ -245,7 +245,7 @@ export default {
       if (this.isOptionValidFeedback == null) {
         return null;
       }
-      if(this.isPharmacological != this.currentIsPharmacological){
+      if(this.isPharmacological == this.currentIsPharmacological){
         return "Option is equal to the current option";
       }
       return "";
