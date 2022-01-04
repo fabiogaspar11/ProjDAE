@@ -548,8 +548,7 @@ export default {
           const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
           for (let i = 1; i < data.length; i++){
-            if(this.file.name.endsWith(".xls") || this.file.name.endsWith(".xlsx")){
-              if(data[0].length != 6){
+             if(data[0].length != 6){
                  this.$toast.error("Invalid number of columns in excel file").goAway(3000);
                 break;
               }
@@ -557,16 +556,7 @@ export default {
                 this.$toast.error("Excel columns not in the right format").goAway(3000);
                 break;
               }
-            }else{
-              if(data[0].length != 1){
-                this.$toast.error("Excel file .csv should have 1 column only").goAway(3000);
-                break;
-              }
-              if(data[0][0] != "Name,BirthDate,HealthNumber,Contact,Email,Gender"){
-                this.$toast.error("Excel file .csv column with invalid name").goAway(3000);
-                break;
-              }
-            }
+
 
             let name = data[i][0]
             let birthDate= null;
