@@ -41,7 +41,7 @@
         <div class="input-group mb-4">
           <span class="input-group-text">Minimum value:</span>
           <b-input
-            v-model="minValue"
+            v-model.number="minValue"
             type="number"
             class="form-control"
             aria-describedby="basic-addon1"
@@ -53,7 +53,7 @@
         <div class="input-group mb-4">
           <span class="input-group-text">Maximum value:</span>
           <b-input
-            v-model="maxValue"
+            v-model.number="maxValue"
             type="number"
             class="form-control"
             aria-describedby="basic-addon1"
@@ -65,19 +65,19 @@
            <div class="input-group mb-4">
           <span class="input-group-text">Minimum Normal value:</span>
           <b-input
-            v-model="normalMinValue"
+            v-model.number="normalMinValue"
             type="number"
             class="form-control"
             aria-describedby="basic-addon1"
             :state="isNormalMinValid"
-            placeholder="Enter maximum value"
+            placeholder="Enter minimum value"
           />
         </div>
           <p>{{ isNormalMinValidFeedback }}</p>
             <div class="input-group mb-4">
           <span class="input-group-text">Maximum Normal value:</span>
           <b-input
-            v-model="normalMaxValue"
+            v-model.number="normalMaxValue"
             type="number"
             class="form-control"
             aria-describedby="basic-addon1"
@@ -256,6 +256,7 @@ export default {
       if(this.maxValue <= this.minValue){
         return "Maximum value should be bigger than the minimum"
       }
+
       let maxValueLen = this.maxValue.length;
       if (maxValueLen <= 0 || maxValueLen > 25) {
         return "The maximum value is mandatory or is too big in size";
@@ -278,14 +279,17 @@ export default {
       if (!this.normalMinValue) {
         return null;
       }
-      console.log("Normal min:" + this.normalMinValue)
-      console.log("Min value;" + this.minValue)
-      if(this.normalMinValue > this.maxValue)
-        return "The normal minimum value should be smaller than the maximum value"
+
       if(this.normalMinValue < this.minValue)
         return "The normal minimum value should be bigger than the minimum value"
       if(this.normalMinValue >= this.normalMaxValue){
         return "The normal minimum value should be smaller than the normal maximum value"
+      }
+      console.log("Normal Min value: " + this.normalMinValue)
+      console.log("Max value: " + this.maxValue)
+      console.log(this.normalMinValue + " > " + this.maxValue)
+      if(this.normalMinValue > this.maxValue) {
+        return "The normal minimum value should be smaller than the maximum value"
       }
       return ""
     },
@@ -299,15 +303,14 @@ export default {
       if (!this.normalMaxValue) {
         return null;
       }
-       console.log("Normal max:" + this.normalMaxValue)
-      console.log("max value;" + this.maxValue)
-      console.log(this.normalMaxValue)
-      console.log(this.maxValue)
       if(this.normalMaxValue < this.minValue)
         return "The normal maximum value should be bigger than the minimum value"
-      if(this.normalMaxValue > this.maxValue)
+      console.log("Normal Max value: " + this.normalMaxValue)
+      console.log("Max value: " + this.maxValue)
+      console.log(this.normalMaxValue >  this.maxValue)
+      if(parseInt(this.normalMaxValue) > parseInt(this.maxValue)) {
         return "The normal maximum value should be smaller than the maximum value"
-
+      }
       if(this.normalMaxValue <= this.normalMinValue){
         return "The normal maximum value should be bigger than the minimum value"
       }
