@@ -43,10 +43,6 @@
         <p style="color: #dc3545;">{{isbirthDateValidFeedback}}</p>
 
       </div>
-      <div class="input-group mb-4">
-        <span class="input-group-text">Type</span>
-        <b-input required  v-model.trim="type" type="text" :state="isTypeValid"  placeholder="Enter the professional type" class="form-control" aria-describedby="basic-addon1"/>
-      </div>
         <p>{{isTypeValidFeedback}}</p>
       <div class="input-group mb-4">
         <span class="input-group-text">Email</span>
@@ -90,7 +86,6 @@ export default {
         "healthNumber",
         "name",
         "birthDate",
-        "type",
         "email",
         "contact",
       ],
@@ -99,7 +94,6 @@ export default {
       healthNumber : null,
       name : null,
       birthDate : null,
-      type : null,
       email : null,
       contact : null,
       passwordOld: null,
@@ -109,7 +103,6 @@ export default {
       alertData: '',
       alertPasswordInvalid: '',
       currentName:null,
-      currentType:null,
       currentBirthDate: null,
       currentEmail: null,
       currentContact: null
@@ -150,25 +143,6 @@ export default {
         return null
       }
       return this.isNameValidFeedback === ''
-    },
-    isTypeValidFeedback (){
-      if (!this.type) {
-        return null
-      }
-       if(this.type == this.currentType){
-        return "Type is equal to current type";
-      }
-      let typeLen = this.type.length
-      if (typeLen > 25) {
-        return 'The type is too short - length must be under 25'
-      }
-      return ''
-    },
-    isTypeValid () {
-      if (this.isTypeValidFeedback === null) {
-        return null
-      }
-      return this.isTypeValidFeedback === ''
     },
     isContactValidFeedback (){
       if (!this.contact) {
@@ -278,7 +252,7 @@ export default {
     },
     isFormValid () {
       this.showDismissibleAlertEdit = false;
-      if (this.name == null && this.type == null && this.email == null  && this.contact == null && this.birthDate == null) {
+      if (this.name == null && this.email == null  && this.contact == null && this.birthDate == null) {
         this.alertData = 'You need to change some data to update'
         return false
       }
@@ -318,7 +292,6 @@ export default {
       this.$axios.$get(`/api/healthcareProfessionals/${this.username}`).then((entidade) => {
         this.healthCareProfessional = [entidade];
         this.currentName = entidade.name;
-        this.currentType = entidade.type;
         this.currentBirthDate = entidade.birthDate;
         this.currentEmail = entidade.email;
         this.currentContact = entidade.contact;
@@ -335,14 +308,12 @@ export default {
         this.$axios
           .$put(`/api/healthcareProfessionals/${this.username}`, {
             name: this.name,
-            type: this.type,
             email: this.email,
             contact: this.contact,
             birthDate: this.birthDate,
           })
           .then(() => {
             this.name = null;
-            this.type = null;
             this.email = null;
             this.contact = null;
             this.birthDate = null;

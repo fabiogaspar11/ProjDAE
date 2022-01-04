@@ -2,6 +2,7 @@
   <div>
     <NavBar></NavBar>
     <div class="container" style="margin-top: 4%">
+      <h3> Details</h3>
       <template>
         <div>
           <b-table striped hover :items="entidade" :fields="fields"></b-table>
@@ -12,7 +13,7 @@
         <b-modal id="modal-1" title="Edit" @ok="update()">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">Name</span>
+              <span class="input-group-text">Name</span>
             </div>
             <b-input
               v-model.trim="name"
@@ -27,7 +28,7 @@
 
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">BirthDate</span>
+              <span class="input-group-text">BirthDate</span>
             </div>
             <b-input
               v-model.trim="birthDate"
@@ -48,7 +49,7 @@
 
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">Email</span>
+              <span class="input-group-text">Email</span>
             </div>
             <b-input
               v-model.trim="email"
@@ -64,7 +65,7 @@
 
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">Contact</span>
+              <span class="input-group-text">Contact</span>
             </div>
             <b-input
               v-model.trim="contact"

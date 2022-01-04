@@ -16,7 +16,6 @@ public class HealthcareProfessionalDTO implements Serializable {
     private String birthDate;
     private String contact;
     private long healthNumber;
-    private String type;
     private List<Patient> patients;
     private List<Prescription> prescriptions;
 
@@ -25,7 +24,7 @@ public class HealthcareProfessionalDTO implements Serializable {
         this.prescriptions = new LinkedList<>();
     }
 
-    public HealthcareProfessionalDTO(String name, String email, String password, String birthDate, String contact, long healthNumber, String type) {
+    public HealthcareProfessionalDTO(String name, String email, String password, String birthDate, String contact, long healthNumber) {
         this();
         this.username = "H"+healthNumber;
         this.name = name;
@@ -34,21 +33,19 @@ public class HealthcareProfessionalDTO implements Serializable {
         this.birthDate = birthDate;
         this.contact = contact;
         this.healthNumber = healthNumber;
-        this.type=type;
     }
 
-    public HealthcareProfessionalDTO(String name, String email, String birthDate, String contact, long healthNumber, String type) {
+    public HealthcareProfessionalDTO(String name, String email, String birthDate, String contact, long healthNumber) {
         this.username = "H"+healthNumber;
         this.name = name;
         this.email = email;
         this.birthDate = birthDate;
         this.contact = contact;
         this.healthNumber = healthNumber;
-        this.type=type;
     }
 
-    public HealthcareProfessionalDTO(String name, String email, String password, String birthDate, String contact, long healthNumber, String type, List<Patient> patients, List<Prescription> prescriptions) {
-        this(name, email, password, birthDate, contact, healthNumber, type);
+    public HealthcareProfessionalDTO(String name, String email, String password, String birthDate, String contact, long healthNumber, List<Patient> patients, List<Prescription> prescriptions) {
+        this(name, email, password, birthDate, contact, healthNumber);
         this.patients = patients;
         this.prescriptions = prescriptions;
     }
@@ -86,14 +83,6 @@ public class HealthcareProfessionalDTO implements Serializable {
 
     public void setPatients(List<Patient> patients) {
         this.patients = patients;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getUsername() {
