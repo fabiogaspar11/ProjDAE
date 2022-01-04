@@ -5,7 +5,7 @@
       <h3>Patient</h3>
       <template>
         <div>
-          <b-table striped hover :items="entidade" :fields="fields"></b-table>
+          <b-table small striped hover :items="entidade" :fields="fields"></b-table>
         </div>
       </template>
       <div class="text-center mt-3">
@@ -31,6 +31,7 @@
             </b-form-input>
 
             <b-table
+              small
               striped
               hover
               :items="this.diseasesAll"
@@ -141,6 +142,7 @@
       <b-container class="mt-1">
         <h3 class="mt-3">Diseases ({{ this.diseases.length }})</h3>
         <b-table
+          small
           id="tableDiseases"
           :per-page="perPageDiseases"
           :current-page="currentPagePaginateDiseases"
@@ -166,6 +168,7 @@
 
       <h3 class="mt-5">Prescribed Recipes ({{ tableLength }})</h3>
       <b-table
+        small
         v-if="this.tableLength != 0"
         class="mt-1"
         id="table"
@@ -203,6 +206,7 @@
 
       <h3 class="mt-5">Biomedic Measures ({{ tableLengthBiomedicMeasures }})</h3>
       <b-table
+        small
         v-if="this.tableLengthBiomedicMeasures != 0"
         class="mt-1"
         id="table"

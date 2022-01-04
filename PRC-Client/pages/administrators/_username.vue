@@ -1,11 +1,11 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <div class="container" style="margin-top: 4%">
+    <b-container class="mt-3">
       <h3> Details</h3>
       <template>
         <div>
-          <b-table striped hover :items="entidade" :fields="fields"></b-table>
+          <b-table small striped hover :items="entidade" :fields="fields"></b-table>
         </div>
       </template>
             <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
@@ -90,7 +90,7 @@
           </div>
               <p>{{isPasswordValidFeedback}}</p>
       </b-modal>
-      </div>
+      </b-container>
     </div>
 </template>
 

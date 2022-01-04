@@ -61,7 +61,8 @@
         ></b-form-file>
 
         <b-table
-         v-if="this.tableLength != 0"
+          small
+          v-if="this.tableLength != 0"
           class="mt-5"
           :items="this.entidade"
           :fields="fields"
@@ -219,7 +220,6 @@ export default {
         },
         { key: "value", label: "Value", sortable: true, sortDirection: "desc" },
         { key: "date", label: "Date", sortable: true, sortDirection: "desc" },
-        { key: "hour", label: "Hour", sortable: true, sortDirection: "desc" },
         "Operations",
       ],
       noBiomedicMeasures: false,

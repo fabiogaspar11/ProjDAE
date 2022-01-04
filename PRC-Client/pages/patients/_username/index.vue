@@ -1,63 +1,113 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <div class="container" style="margin-top: 4%">
-      <template>
-        <div>
-          <b-table striped hover :items="entidade" :fields="fields"></b-table>
-        </div>
-      </template>
-
-      <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
-      <b-button v-b-modal.modal-2 class="text-center" variant="primary">Change Password</b-button>
-
+    <b-container class="mt-3">
+      <b-table small striped hover :items="entidade" :fields="fields"></b-table>
+      <div class="mt-3 mb-5 text-center">
+        <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
+        <b-button v-b-modal.modal-2 class="text-center" variant="primary"
+          >Change Password</b-button
+        >
+      </div>
       <b-modal id="modal-1" title="Edit" @ok="update()">
         <div class="input-group mb-4">
           <span class="input-group-text">Name</span>
-          <b-input required v-model.trim="name" type="text" :state="isNameValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your name"/>
-          <p>{{isNameValidFeedback}}</p>
+          <b-input
+            required
+            v-model.trim="name"
+            type="text"
+            :state="isNameValid"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            placeholder="Enter your name"
+          />
+          <p>{{ isNameValidFeedback }}</p>
         </div>
         <div class="input-group mb-4">
           <span class="input-group-text">Birthdate</span>
-          <b-input required  v-model.trim="birthDate" type="text" :state="isbirthDateValid"  placeholder="dd/mm/yyyy" class="form-control" aria-describedby="basic-addon1"/>
-          <p>{{isbirthDateValidFeedback}}</p>
+          <b-input
+            required
+            v-model.trim="birthDate"
+            type="text"
+            :state="isbirthDateValid"
+            placeholder="dd/mm/yyyy"
+            class="form-control"
+            aria-describedby="basic-addon1"
+          />
+          <p>{{ isbirthDateValidFeedback }}</p>
         </div>
         <div class="input-group mb-4">
           <span class="input-group-text">Email</span>
-          <b-input required v-model.trim="email" ref="email" type="email" :state="isEmailValid" class="form-control" aria-describedby="basic-addon1" placeholder="Enter your email"/>
-          <p>{{isEmailValidFeedback}}</p>
+          <b-input
+            required
+            v-model.trim="email"
+            ref="email"
+            type="email"
+            :state="isEmailValid"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            placeholder="Enter your email"
+          />
+          <p>{{ isEmailValidFeedback }}</p>
         </div>
         <div class="input-group mb-4">
           <span class="input-group-text">Contact</span>
-          <b-input required v-model.trim="contact" type="number"  :state="isContactValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your contact"/>
-          <p>{{isContactValidFeedback}}</p>
+          <b-input
+            required
+            v-model.trim="contact"
+            type="number"
+            :state="isContactValid"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            placeholder="Enter your contact"
+          />
+          <p>{{ isContactValidFeedback }}</p>
         </div>
-        <div class="input-group mb-4 d-flex justify-content-center" >
+        <div class="input-group mb-4 d-flex justify-content-center">
           <span class="input-group-text">Gender</span>
-          <b-form-select v-model="gender" :options="optionsGender"></b-form-select>
-          <p>{{isGenderValidFeedback}}</p>
+          <b-form-select
+            v-model="gender"
+            :options="optionsGender"
+          ></b-form-select>
+          <p>{{ isGenderValidFeedback }}</p>
         </div>
       </b-modal>
 
       <b-modal id="modal-2" title="Edit" @ok="updatePassword()">
         <div class="input-group mb-4">
           <span class="input-group-text">Current Password</span>
-          <b-input required v-model.trim="oldPassword" type="password" :state="isOLDPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your old password"/>
-          <p>{{isOLDPasswordValidFeedback}}</p>
+          <b-input
+            required
+            v-model.trim="oldPassword"
+            type="password"
+            :state="isOLDPasswordValid"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            placeholder="Enter your old password"
+          />
+          <p>{{ isOLDPasswordValidFeedback }}</p>
         </div>
         <div class="input-group mb-4">
           <span class="input-group-text">New Password</span>
-          <b-input required v-model.trim="newPassword" type="password" :state="isPasswordValid"  class="form-control" aria-describedby="basic-addon1" placeholder="Enter your new password"/>
-          <p>{{isPasswordValidFeedback}}</p>
+          <b-input
+            required
+            v-model.trim="newPassword"
+            type="password"
+            :state="isPasswordValid"
+            class="form-control"
+            aria-describedby="basic-addon1"
+            placeholder="Enter your new password"
+          />
+          <p>{{ isPasswordValidFeedback }}</p>
         </div>
       </b-modal>
-    </div>
+    </b-container>
   </div>
 </template>
 
 <script>
 export default {
-  middleware: ['isPatient', "isPatientAccessingHisData"],
+  middleware: ["isPatient", "isPatientAccessingHisData"],
   data() {
     return {
       fields: [
@@ -78,15 +128,15 @@ export default {
       contact: null,
       newPassword: null,
       oldPassword: null,
-       currentName:null,
+      currentName: null,
       currentBirthDate: null,
       currentEmail: null,
       currentContact: null,
       optionsGender: [
-        { value: null, text: 'Please select an option' },
-        { value: 'Masculino', text: 'Masculino' },
-        { value: 'Feminino', text: 'Feminino' },
-      ]
+        { value: null, text: "Please select an option" },
+        { value: "Masculino", text: "Masculino" },
+        { value: "Feminino", text: "Feminino" },
+      ],
     };
   },
   props: {
@@ -100,7 +150,7 @@ export default {
       if (!this.name) {
         return null;
       }
-      if(this.name == this.currentName){
+      if (this.name == this.currentName) {
         return "Name is equal to current name";
       }
       let nameLen = this.name.length;
@@ -151,7 +201,7 @@ export default {
       if (!this.contact) {
         return null;
       }
-       if(this.contact == this.currentContact){
+      if (this.contact == this.currentContact) {
         return "Contact is equal to current contact";
       }
       let contactString = this.contact.toString();
@@ -175,7 +225,7 @@ export default {
         return null;
       }
 
-      if(this.email == this.currentEmail){
+      if (this.email == this.currentEmail) {
         return "Email is equal to current email";
       }
       return this.$refs.email.checkValidity()
@@ -192,7 +242,7 @@ export default {
       if (!this.birthDate) {
         return null;
       }
-       if(this.birthDate == this.currentBirthDate){
+      if (this.birthDate == this.currentBirthDate) {
         return "Birthdate is equal to current birthdate";
       }
       var date_regex =
@@ -253,24 +303,23 @@ export default {
       });
     },
     update() {
-
       let patient = {};
-      if(this.isNameValid){
-          patient.name = this.name;
+      if (this.isNameValid) {
+        patient.name = this.name;
       }
-      if(this.isEmailValid){
-          patient.email = this.email;
+      if (this.isEmailValid) {
+        patient.email = this.email;
       }
-      if(this.isContactValid){
+      if (this.isContactValid) {
         patient.contact = this.contact;
       }
-      if(this.isbirthDateValid){
+      if (this.isbirthDateValid) {
         patient.birthDate = this.birthDate;
       }
-      if(this.isGenderValid){
+      if (this.isGenderValid) {
         patient.gender = this.gender;
       }
-      if(Object.keys(patient).length == 0){
+      if (Object.keys(patient).length == 0) {
         this.$toast.error(`Nothing to update!`).goAway(3000);
         return;
       }
@@ -287,19 +336,19 @@ export default {
           this.getPatient();
         })
         .catch(() => {
-            this.$toast.info(`Could not update patient`).goAway(3000);
-             this.getPatient();
+          this.$toast.info(`Could not update patient`).goAway(3000);
+          this.getPatient();
         });
     },
-    updatePassword(){
+    updatePassword() {
       let patient = {};
-      if(this.isOLDPasswordValid){
-          patient.passwordOld = this.oldPassword;
+      if (this.isOLDPasswordValid) {
+        patient.passwordOld = this.oldPassword;
       }
-      if(this.isPasswordValid){
-          patient.password = this.newPassword;
+      if (this.isPasswordValid) {
+        patient.password = this.newPassword;
       }
-      if(Object.keys(patient).length != 2){
+      if (Object.keys(patient).length != 2) {
         this.$toast.error(`Nothing to update!`).goAway(3000);
         return;
       }
@@ -308,14 +357,16 @@ export default {
         .then(() => {
           this.oldPassword = null;
           this.newPassword = null;
-          this.$toast.info(`Patient ${this.username}  password updated!`).goAway(3000);
+          this.$toast
+            .info(`Patient ${this.username}  password updated!`)
+            .goAway(3000);
           this.getPatient();
         })
         .catch((response) => {
-            this.$toast.info(`Error - ${response.response.data}`).goAway(3000);
-             this.getPatient();
+          this.$toast.info(`Error - ${response.response.data}`).goAway(3000);
+          this.getPatient();
         });
-    }
+    },
   },
 };
 </script>

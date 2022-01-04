@@ -26,6 +26,7 @@
       </div>
 
       <b-table
+        small
         class="mt-5"
         id="table"
         :per-page="perPage"

@@ -11,9 +11,10 @@
 
       <div class="mt-5" v-if="this.noDiseases == false">
         <b-table
-              id="table"
-        :per-page="perPage"
-        :current-page="currentPagePaginatePrincipal"
+          small
+          id="table"
+          :per-page="perPage"
+          :current-page="currentPagePaginatePrincipal"
           :items="this.entidade"
           :fields="fields"
           striped

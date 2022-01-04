@@ -1,14 +1,11 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <div class="container" style="margin-top: 4%">
-      <template>
-        <div>
-          <b-table striped hover :items="entidade" :fields="fields"></b-table>
-        </div>
-      </template>
+    <b-container class="mt-3">
+      <h3> Details</h3>
+          <b-table small striped hover :items="entidade" :fields="fields"></b-table>
 
-      <div>
+      <div class="mt-3 mb-5 text-center">
         <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
       </div>
 
@@ -65,7 +62,7 @@
         </div>
           <p>{{ isMaxValueValidFeedback }}</p>
       </b-modal>
-    </div>
+    </b-container>
   </div>
 </template>
 
