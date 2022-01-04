@@ -86,6 +86,7 @@
           <p>{{ isValueValidFeedback }}</p>
       </b-modal>
   </div>
+ </div>
 </template>
 
 <script>
