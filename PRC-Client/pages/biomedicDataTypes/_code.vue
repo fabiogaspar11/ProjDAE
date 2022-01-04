@@ -13,6 +13,9 @@
       </div>
 
       <b-modal id="modal-1" title="Edit Biomedic Data Type" @ok="update()">
+        <div class="mx-auto alert alert-info">
+          The normal values ​​should be created based on the normal values ​​for adult patients males
+        </div>
         <div class="input-group mb-4">
           <span class="input-group-text">Name:</span>
           <b-input

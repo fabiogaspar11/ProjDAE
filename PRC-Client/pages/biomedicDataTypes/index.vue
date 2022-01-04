@@ -13,7 +13,10 @@
           <font-awesome-icon icon="plus" /> New Type
         </b-button>
       </div>
-      <b-modal id="modal-1" title="New disease" @ok="create(code)">
+      <b-modal id="modal-1" title="New Biomedic Data Type" @ok="create(code)">
+          <div class="mx-auto alert alert-info">
+            The normal values ​​should be created based on the normal values ​​for adult patients males
+         </div>
         <div class="input-group mb-4">
           <span class="input-group-text">Name:</span>
           <b-input
