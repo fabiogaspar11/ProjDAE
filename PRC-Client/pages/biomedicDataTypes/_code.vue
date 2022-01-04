@@ -4,7 +4,7 @@
     <div class="container" style="margin-top: 4%">
       <template>
         <div>
-          <b-table striped hover :items="entidade"></b-table>
+          <b-table striped hover :items="entidade" :fields="fields"></b-table>
         </div>
       </template>
 
@@ -77,6 +77,17 @@ export default {
   middleware: "isAdministrator",
   data() {
     return {
+      fields: [
+        { key: "code", label: "Code", sortable: true, sortDirection: "desc" },
+        { key: "name", label: "Name", sortable: true, sortDirection: "desc" },
+        { key: "unitMeasure", label: "Unit Measure", sortable: true, sortDirection: "desc"},
+        { key: "minValue", label: "Min Value", sortable: true, sortDirection: "desc"},
+        { key: "maxValue", label: "Max Value", sortable: true, sortDirection: "desc"},
+        { key: "normalMinValue", label: "Normal Min Value", sortable: true, sortDirection: "desc"},
+        { key: "normalMaxValue", label: "Normal Max Value", sortable: true, sortDirection: "desc"},
+        { key: "genderValuedifferentiation", label: "Gender Value difference", sortable: true, sortDirection: "desc"},
+        { key: "ageValuedifferentiation", label: "Age Value difference", sortable: true, sortDirection: "desc"},
+      ],
       entidade: [],
       name: null,
       unitMeasure: null,

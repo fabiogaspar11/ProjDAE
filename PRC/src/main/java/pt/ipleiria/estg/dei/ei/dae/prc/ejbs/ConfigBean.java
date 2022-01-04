@@ -51,7 +51,7 @@ public class ConfigBean {
         String usernameP3 = patientBean.create("Carlos Costa","2191131@my.ipleiria.pt","11/04/2015","912343274",900000013,"Masculino");                         //6 Anos
         String usernameP4 = patientBean.create("Daniel Carreira","2191215@my.ipleiria.pt","12/08/2008","917766763",900000014,"Masculino");                      //13 Anos
         String usernameP5 = patientBean.create("Rafael Pereira","2191266@my.ipleiria.pt","14/06/2021","987786541",900000015,"Masculino");                       //6 meses
-        String usernameP6 = patientBean.create("Bruna Leitão","2191268@my.ipleiria.pt","23/06/20012","900086541",900000016,"Feminino");                         //9 Anos
+        String usernameP6 = patientBean.create("Bruna Leitão","2191268@my.ipleiria.pt","23/06/2012","900086541",900000016,"Feminino");                         //9 Anos
         patientBean.create("Rodrigo Domingues","2198732@my.ipleiria.pt","13/06/1950","901236541",900000017,"Masculino");                    //71 Anos
 
 

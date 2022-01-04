@@ -65,53 +65,77 @@
           />
         </div>
           <p>{{ isMaxValueValidFeedback }}</p>
-           <div class="input-group mb-4">
+           <div class="input-group mb-4 justify-content-center">
           <span class="input-group-text">Minimum Normal value:</span>
+           <b-input v-model.number="normalMinValue"  :disabled="!isMinValueValid || !isMaxValueValid"  :state="this.isNormalMinValid" class="col-md-2">{{this.normalMinValue}}</b-input>
+           <b-input-group
+            :prepend="this.minValue+1"
+            :append="this.maxValue-1"
+            class="mt-3"
+          >
           <b-input
+           :disabled="!isMinValueValid || !isMaxValueValid"
             v-model.number="normalMinValue"
-            type="number"
+            type="range"
+            step="0.5"
+            :min="minValue+1"
+            :max="maxValue-1"
             class="form-control"
             aria-describedby="basic-addon1"
-            :state="isNormalMinValid"
             placeholder="Enter minimum value"
           />
+           </b-input-group>
         </div>
           <p>{{ isNormalMinValidFeedback }}</p>
-            <div class="input-group mb-4">
+            <div class="input-group mb-4 justify-content-center">
           <span class="input-group-text">Maximum Normal value:</span>
+          <b-input v-model.number="normalMaxValue"  :disabled="!isMinValueValid || !isMaxValueValid"  :state="this.isNormalMaxValid" class="col-md-2">{{this.normalMaxValue}}</b-input>
+           <b-input-group
+            :prepend="this.minValue+1"
+            :append="this.maxValue-1"
+            class="mt-3"
+          >
           <b-input
+           :disabled="!isMinValueValid || !isMaxValueValid"
             v-model.number="normalMaxValue"
-            type="number"
+            type="range"
+             step="0.5"
+            :min="minValue+1"
+            :max="maxValue-1"
             class="form-control"
             aria-describedby="basic-addon1"
-            :state="isNormalMaxValid"
             placeholder="Enter maximum value"
           />
+            </b-input-group>
         </div>
           <p>{{ isNormalMaxValidFeedback }}</p>
     <div class="input-group mb-4">
           <span class="input-group-text">Gender value differentiation:</span>
-          <p>This value indicates how much the normal range will vary if the gender is female.</p>
+           <div class="mx-auto   mt-2 alert alert-info">
+            This value indicates how much the normal range of values will change depending if the gender of the patient is female.
+           </div>
           <b-input
             v-model="genderValuedifferentiation"
             type="number"
             class="form-control"
             aria-describedby="basic-addon1"
             :state="isGenderValuedifferentiationValid"
-            placeholder="Enter maximum value"
+            placeholder="Enter Gender Value Differebce"
           />
         </div>
           <p>{{ isGenderValuedifferentiationValidFeedback }}</p>
           <div class="input-group mb-4">
           <span class="input-group-text">Age value differentiation:</span>
-          <p>This value indicates how much the normal range will vary in the different group ages</p>
+          <div class="mx-auto mt-2 alert alert-info">
+            This value indicates how much the normal range of values will change depending on the age group of the patient.
+           </div>
           <b-input
             v-model="ageValuedifferentiation"
             type="number"
             class="form-control"
             aria-describedby="basic-addon1"
             :state="isAgeValuedifferentiationValid"
-            placeholder="Enter maximum value"
+            placeholder="Enter Age Value Difference"
           />
         </div>
           <p>{{ isAgeValuedifferentiationValidFeedback }}</p>
@@ -237,7 +261,7 @@ export default {
       if (!this.minValue) {
         return null;
       }
-      if(this.minValue >= this.maxValue){
+      if(this.maxValue != null && this.minValue >= this.maxValue){
         return "Minimum value should be smaller than the maximum"
       }
       let minValueLen = this.minValue.length;
@@ -256,7 +280,7 @@ export default {
       if (!this.maxValue) {
         return null;
       }
-      if(this.maxValue <= this.minValue){
+      if(this.minValue != null && this.maxValue <= this.minValue){
         return "Maximum value should be bigger than the minimum"
       }
 
