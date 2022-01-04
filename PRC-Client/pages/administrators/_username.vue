@@ -316,7 +316,7 @@ export default {
           this.getAdministrator();
         })
         .catch((error) => {
-            this.$toast.error(`Administrator ${error.response.data} could not be updated!`).goAway(3000);
+            this.$toast.error(`Administrator ${this.username} could not be updated!`).goAway(3000);
         });
     },
     updatePassword(){
