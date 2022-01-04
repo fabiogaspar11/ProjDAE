@@ -47,11 +47,11 @@ public class ConfigBean {
         String usernameH1 = healthcareProfessionalBean.create(900000007, "Clara Sousa", "clara@mail.com", "12345", "22/10/2000", "924359214", "medic");
 
         String usernameP1 = patientBean.create("Fábio Gaspar", "2191264@my.ipleiria.pt", "04/12/2001", "916364061", 900000011,"Masculino"); //20 Anos
-        patientBean.create("Carla Mendes","2191111@my.ipleiria.pt","05/06/2021","916345345",900000012,"Feminino");                          //6 Meses
-        patientBean.create("Carlos Costa","2191131@my.ipleiria.pt","11/04/2015","912343274",900000013,"Masculino");                         //6 Anos
-        patientBean.create("Daniel Carreira","2191215@my.ipleiria.pt","12/08/2008","917766763",900000014,"Masculino");                      //13 Anos
-        patientBean.create("Rafael Pereira","2191266@my.ipleiria.pt","14/06/2021","987786541",900000015,"Masculino");                       //6 meses
-        patientBean.create("Bruna Leitão","2191268@my.ipleiria.pt","23/06/20012","900086541",900000016,"Feminino");                         //9 Anos
+        String usernameP2 = patientBean.create("Carla Mendes","2191111@my.ipleiria.pt","05/06/2021","916345345",900000012,"Feminino");                          //6 Meses
+        String usernameP3 = patientBean.create("Carlos Costa","2191131@my.ipleiria.pt","11/04/2015","912343274",900000013,"Masculino");                         //6 Anos
+        String usernameP4 = patientBean.create("Daniel Carreira","2191215@my.ipleiria.pt","12/08/2008","917766763",900000014,"Masculino");                      //13 Anos
+        String usernameP5 = patientBean.create("Rafael Pereira","2191266@my.ipleiria.pt","14/06/2021","987786541",900000015,"Masculino");                       //6 meses
+        String usernameP6 = patientBean.create("Bruna Leitão","2191268@my.ipleiria.pt","23/06/20012","900086541",900000016,"Feminino");                         //9 Anos
         patientBean.create("Rodrigo Domingues","2198732@my.ipleiria.pt","13/06/1950","901236541",900000017,"Masculino");                    //71 Anos
 
 
@@ -60,12 +60,12 @@ public class ConfigBean {
         administratorBean.create("José Sousa","josesousa@clinic.com", "12345", "01/01/1977", "91214785", 156789999);
 
 
-        biomedicDataTypeBean.create("Temperatura Corporal","ºC",35,37,30,45,1,1);
-        biomedicDataTypeBean.create( "Obesidade", "Kilogramas", 60, 80,20,150,1,1);
-        biomedicDataTypeBean.create( "Pressão arterial sistólica", "mmHg", 110, 130,0,210,1,1);
-        biomedicDataTypeBean.create( "Pressão arterial diastólica", "mmHg", 50, 80,0,100,1,1);
-        biomedicDataTypeBean.create( "Frequência Cardíaca", "Batimentos", 70, 73,65,80,1,1);
-        biomedicDataTypeBean.create( "Frequência Respiratória", "mpm", 16, 20,14,25,1,1);
+        biomedicDataTypeBean.create("Temperatura Corporal","ºC",35,37.5F,30,45,0,0);
+        biomedicDataTypeBean.create( "Obesidade", "Kilogramas", 60, 100,0,300,-5,-5);
+        biomedicDataTypeBean.create( "Pressão arterial sistólica", "mmHg", 100, 130,0,210,2,2);
+        biomedicDataTypeBean.create( "Pressão arterial diastólica", "mmHg", 50, 80,0,100,2,2);
+        biomedicDataTypeBean.create( "Frequência Cardíaca", "Batimentos", 70, 73,60,80,1,1);
+        biomedicDataTypeBean.create( "Frequência Respiratória", "mpm", 16, 20,12,26,1,2);
 
 
         for(int i = 1; i < 8; i++){
@@ -86,10 +86,22 @@ public class ConfigBean {
 
         }
 
-        long code = diseaseBean.create("Hipertensão");
-        patientBean.addDiseaseToPatient(usernameP1,code);
+        long code1 = diseaseBean.create("Hipertensão");
+        long code2 = diseaseBean.create("Infarto agudo do miocárdio");
+        long code3 = diseaseBean.create("Endocardite");
+        long code4 = diseaseBean.create("Arritmias cardíacas");
+        long code5 = diseaseBean.create("Angina");
+        long code6 = diseaseBean.create("Miocardite");
 
 
+        patientBean.addDiseaseToPatient(usernameP1,code1);
+        patientBean.addDiseaseToPatient(usernameP2,code2);
+        patientBean.addDiseaseToPatient(usernameP3,code3);
+        patientBean.addDiseaseToPatient(usernameP3,code5);
+        patientBean.addDiseaseToPatient(usernameP4,code4);
+        patientBean.addDiseaseToPatient(usernameP5,code5);
+        patientBean.addDiseaseToPatient(usernameP6,code6);
+        patientBean.addDiseaseToPatient(usernameP6,code1);
 
         }catch (Exception e){
             logger.log(Level.SEVERE, e.getMessage());
