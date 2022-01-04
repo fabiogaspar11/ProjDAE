@@ -15,8 +15,6 @@ import java.util.List;
 })
 
 public class HealthcareProfessional extends User implements Serializable {
-    @NotNull
-    private String type;
     @Version private int version;
     @ManyToMany
     @JoinTable(name = "HEALTHCAREPROFESSIONALS_PATIENTS",
@@ -32,9 +30,8 @@ public class HealthcareProfessional extends User implements Serializable {
         this.prescriptions = new LinkedList<>();
     }
 
-    public HealthcareProfessional(String username, long healthNumber, String name, String email, String password, String birthDate, String contact, String type) {
+    public HealthcareProfessional(String username, long healthNumber, String name, String email, String password, String birthDate, String contact) {
         super(username, name, email, password, birthDate, contact, healthNumber);
-        this.type = type;
         this.patients = new LinkedList<>();
         this.prescriptions = new LinkedList<>();
     }
@@ -45,14 +42,6 @@ public class HealthcareProfessional extends User implements Serializable {
 
     public void setPrescriptions(List<Prescription> prescriptions) {
         this.prescriptions = prescriptions;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public List<Patient> getPatients() {

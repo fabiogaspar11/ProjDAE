@@ -5,7 +5,7 @@
     <b-container class="bv-example-row" style="margin-top: 5%">
       <b-row>
         <b-col sm="3">
-          <h1>Patients ({{ tableLength }})</h1>
+          <h3>Patients ({{ tableLength }})</h3>
         </b-col>
         <b-col sm="5">
           <b-form-input v-model="filter" type="search" placeholder="Search...">

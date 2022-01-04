@@ -38,13 +38,13 @@ public class ConfigBean {
     @PostConstruct
     public void populateDB() throws MyEntityExistsException, MyEntityNotFoundException {
         try{
-        healthcareProfessionalBean.create(900000001, "Maria Gomes", "mariagomes@mail.com", "12345", "22/09/1966", "924315414", "medic");
-        healthcareProfessionalBean.create(900000002, "Ricardo Horta", "ricardoHorta@mail.com", "12345", "21/06/1987", "909000712", "medic");
-        healthcareProfessionalBean.create(900000003, "Alicia Malhoa", "aliciaMalhoa@mail.com", "12345", "11/03/1998", "909212312", "medic");
-        healthcareProfessionalBean.create(900000004, "Anibal André", "anibalandre@mail.com", "12345", "12/03/1983", "901345621", "medic");
-        healthcareProfessionalBean.create(900000005, "Vasco Franco", "vascofranco@mail.com", "12345", "15/12/1982", "900000763", "medic");
-        healthcareProfessionalBean.create(900000006, "Marco Santos", "vascofranco@mail.com", "12345", "01/09/1990", "900112763", "medic");
-        String usernameH1 = healthcareProfessionalBean.create(900000007, "Clara Sousa", "clara@mail.com", "12345", "22/10/2000", "924359214", "medic");
+        healthcareProfessionalBean.create(900000001, "Maria Gomes", "mariagomes@mail.com", "12345", "22/09/1966", "924315414");
+        healthcareProfessionalBean.create(900000002, "Ricardo Horta", "ricardoHorta@mail.com", "12345", "21/06/1987", "909000712");
+        healthcareProfessionalBean.create(900000003, "Alicia Malhoa", "aliciaMalhoa@mail.com", "12345", "11/03/1998", "909212312");
+        healthcareProfessionalBean.create(900000004, "Anibal André", "anibalandre@mail.com", "12345", "12/03/1983", "901345621");
+        healthcareProfessionalBean.create(900000005, "Vasco Franco", "vascofranco@mail.com", "12345", "15/12/1982", "900000763");
+        healthcareProfessionalBean.create(900000006, "Marco Santos", "vascofranco@mail.com", "12345", "01/09/1990", "900112763");
+        String usernameH1 = healthcareProfessionalBean.create(900000007, "Clara Sousa", "clara@mail.com", "12345", "22/10/2000", "924359214");
 
         String usernameP1 = patientBean.create("Fábio Gaspar", "2191264@my.ipleiria.pt", "04/12/2001", "916364061", 900000011,"Masculino");                     //20 Anos
         String usernameP2 = patientBean.create("Carla Mendes","2191111@my.ipleiria.pt","05/06/2021","916345345",900000012,"Feminino");                          //6 Meses
@@ -66,7 +66,6 @@ public class ConfigBean {
         biomedicDataTypeBean.create( "Pressão arterial diastólica", "mmHg", 50, 80,0,100,2,2);
         biomedicDataTypeBean.create( "Frequência Cardíaca", "Batimentos", 70, 73,60,80,1,1);
         biomedicDataTypeBean.create( "Frequência Respiratória", "mpm", 16, 20,12,26,1,2);
-
 
         for(int i = 1; i < 8; i++){
             String code = String.valueOf(i);

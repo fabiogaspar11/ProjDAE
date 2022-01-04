@@ -27,11 +27,11 @@ public class HealthcareProfessionalBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public String create(long healthNumber, String name, String email, String password, String birthDate, String contact, String type) throws MyEntityExistsException, MyEntityNotFoundException {
+    public String create(long healthNumber, String name, String email, String password, String birthDate, String contact) throws MyEntityExistsException, MyEntityNotFoundException {
         String username = "H"+healthNumber;
         HealthcareProfessional healthcareProfessional = entityManager.find(HealthcareProfessional.class,username);
         if(healthcareProfessional != null) throw new MyEntityExistsException("A healthcare professional with the username \'" + username + "\' already exists");
-        healthcareProfessional = new HealthcareProfessional(username,healthNumber, name, email, password, birthDate, contact, type);
+        healthcareProfessional = new HealthcareProfessional(username,healthNumber, name, email, password, birthDate, contact);
         entityManager.persist(healthcareProfessional);
         return healthcareProfessional.getUsername();
     }
@@ -128,9 +128,6 @@ public class HealthcareProfessionalBean {
             healthcareProfessional.setContact(healthcareProfessionalDTO.getContact());
         }
 
-        if(healthcareProfessionalDTO.getType() != null && !healthcareProfessional.getType().equals(healthcareProfessionalDTO.getType())){
-            healthcareProfessional.setType(healthcareProfessionalDTO.getType());
-        }
         entityManager.merge(healthcareProfessional);
     }
 
