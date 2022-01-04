@@ -13,7 +13,7 @@
           <font-awesome-icon icon="plus" /> New Type
         </b-button>
       </div>
-      <b-modal id="modal-1" title="New Biomedic Data Type" @ok="create(code)">
+      <b-modal id="modal-1" title="New Biomedic Data Type" @ok="create()">
         <div class="mx-auto alert alert-info">
           The normal values ​​should be created based on the normal values ​​for
           adult patients males
@@ -68,18 +68,22 @@
           <p>{{ isMaxValueValidFeedback }}</p>
         <div class="input-group mb-4 justify-content-center">
           <span class="input-group-text">Minimum Normal value:</span>
-           <b-input v-model.number="normalMinValue"  :disabled="!isMinValueValid || !isMaxValueValid"  :state="this.isNormalMinValid" class="col-md-3">{{this.normalMinValue}}</b-input>
+           <b-input
+             v-model.number="normalMinValue"
+             :disabled="!isMinValueValid || !isMaxValueValid"
+             :state="this.isNormalMinValid"
+             class="col-md-3">{{this.normalMinValue}}</b-input>
            <b-input-group
-            :prepend="(this.minValue+1).toString()"
-            :append="(this.maxValue-1).toString()"
+            :prepend="minLimit"
+            :append="maxLimit"
             class="mt-3"
           >
           <b-input
             v-model.number="normalMinValue"
             type="range"
             step="0.5"
-            :min="minValue+1"
-            :max="maxValue-1"
+            :min="minLimit"
+            :max="maxLimit"
             class="form-control"
             aria-describedby="basic-addon1"
             placeholder="Enter minimum value"
@@ -87,12 +91,18 @@
            </b-input-group>
         </div>
           <p>{{ isNormalMinValidFeedback }}</p>
-            <div class="input-group mb-4 justify-content-center">
+        <div class="input-group mb-4 justify-content-center">
           <span class="input-group-text">Maximum Normal value:</span>
-          <b-input v-model.number="normalMaxValue"  :disabled="!isMinValueValid || !isMaxValueValid"  :state="this.isNormalMaxValid" class="col-md-3">{{this.normalMaxValue}}</b-input>
-           <b-input-group
-            :prepend="(this.minValue+1).toString()"
-            :append="(this.maxValue-1).toString()"
+          <b-input
+            v-model.number="normalMaxValue"
+            :disabled="!isMinValueValid || !isMaxValueValid"
+            :state="this.isNormalMaxValid"
+            class="col-md-3"
+            >{{ this.normalMaxValue }}</b-input
+          >
+          <b-input-group
+            :prepend="minLimit"
+            :append="maxLimit"
             class="mt-3"
           >
             <b-input
@@ -100,8 +110,8 @@
               v-model.number="normalMaxValue"
               type="range"
               step="0.5"
-              :min="minValue + 1"
-              :max="maxValue - 1"
+              :min="minLimit"
+              :max="maxLimit"
               class="form-control"
               aria-describedby="basic-addon1"
               placeholder="Enter minimum value"
@@ -228,6 +238,18 @@ export default {
     };
   },
   computed: {
+    minLimit(){
+      if(this.minValue==null || this.maxValue==null || this.minValue==="" || this.maxValue === "") {
+        return "0";
+      }
+      return (this.minValue+1).toString();
+    },
+    maxLimit(){
+      if(this.minValue==null || this.maxValue==null || this.maxValue==="" ||this.minValue==="" ) {
+        return "0";
+      }
+      return (this.maxValue-1).toString();
+    },
     tableLength: function () {
       return this.entidade.length;
     },
@@ -274,6 +296,13 @@ export default {
       if (minValueLen <= 0 || minValueLen > 25) {
         return "The minimum value is mandatory or is too big in size";
       }
+
+      let minValueDotIndex = this.minValue.toString().indexOf(".") || this.minValue.toString().indexOf(",")
+      let minValueDot = this.minValue.toString().slice(minValueDotIndex+1)
+      if (minValueDotIndex >= 0 && minValueDot != 5){
+        return "the minimum value must be positive or positive with decimal case (.5)";
+      }
+
       return "";
     },
     isMinValueValid() {
@@ -286,13 +315,22 @@ export default {
       if (!this.maxValue) {
         return null;
       }
-      if (this.minValue != null && this.maxValue <= this.minValue) {
-        return "Maximum value should be bigger than the minimum";
-      }
-
       let maxValueLen = this.maxValue.length;
       if (maxValueLen <= 0 || maxValueLen > 25) {
         return "The maximum value is mandatory or is too big in size";
+      }
+
+      if (this.minValue != null && this.maxValue <= this.minValue) {
+        return "Maximum value should be bigger than the minimum";
+      }
+      else if(this.maxValue <= this.minValue+2) {
+        return "There must be a difference of (+2) in maximum value than minimum value"
+      }
+
+      let maxValueDotIndex = this.maxValue.toString().indexOf(".") || this.maxValue.toString().indexOf(",")
+      let maxValueDot = this.maxValue.toString().slice(maxValueDotIndex+1)
+      if (maxValueDotIndex >= 0 && maxValueDot != 5){
+        return "the maximum value must be positive or positive with decimal case (.5)";
       }
       return "";
     },
@@ -313,7 +351,7 @@ export default {
         return null;
       }
 
-      if(this.normalMinValue < this.minValue)
+      if(this.normalMinValue < this.minValue+1)
         return "The normal minimum value should be bigger than the minimum value"
       if(this.normalMaxValue!=null && this.normalMinValue >= this.normalMaxValue){
         return "The normal minimum value should be smaller than the normal maximum value"
@@ -337,7 +375,7 @@ export default {
       if(this.normalMaxValue < this.minValue)
         return "The normal maximum value should be bigger than the minimum value"
 
-      if(this.normalMaxValue > this.maxValue) {
+      if(this.normalMaxValue+1 > this.maxValue) {
         return "The normal maximum value should be smaller than the maximum value"
       }
       if (this.normalMinValue!=null && this.normalMaxValue <= this.normalMinValue) {

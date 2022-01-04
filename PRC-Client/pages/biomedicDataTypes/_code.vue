@@ -265,9 +265,10 @@ export default {
       if (!this.maxValue) {
         return null;
       }
-        if(this.maxValue == this.currentMaxValue){
-          return "Maximum value is equal to current maximum value";
+      if(this.maxValue == this.currentMaxValue){
+        return "Maximum value is equal to current maximum value";
       }
+
       let maxValueLen = this.maxValue.length;
       if (maxValueLen <= 0 || maxValueLen > 25) {
         return "The maximum value is mandatory or is too big in size";
@@ -310,7 +311,7 @@ export default {
          return "The normal minimum value is equal to the current  normal minimum value "
       }
 
-      if(this.minValue != null && this.normalMinValue < this.minValue)
+      if(this.minValue != null && this.normalMinValue < this.minValue+1)
         return "The normal minimum value should be bigger than the minimum value"
       else if(this.minValue == null && this.normalMinValue < this.currentMinValue){
             return "The normal minimum value should be bigger than the current minimum value (" + this.currentMinValue + ")";
@@ -327,6 +328,8 @@ export default {
       }else if(this.maxValue == null && this.normalMinValue > this.currentMaxValue){
         return "The normal minimum value should be smaller than the current maximum value (" + this.currentMaxValue + ")";
       }
+
+
       return ""
     },
     isNormalMaxValid(){
@@ -348,7 +351,7 @@ export default {
         return "The normal maximum value should be bigger than the current minimum value (" + this.currentMinValue + ")";
       }
 
-      if(this.maxValue != null && this.normalMaxValue > this.maxValue) {
+      if(this.maxValue != null && this.normalMaxValue+1 > this.maxValue) {
         return "The normal maximum value should be smaller than the maximum value"
       }else if(this.maxValue == null && this.normalMaxValue > this.currentMaxValue){
         return "The normal maximum value should be smaller than the current maximum value (" + this.currentMaxValue + ")";
