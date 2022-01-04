@@ -7,7 +7,7 @@
      <Card :element="'patients'" :text="'Patients'" :url="'healthCareProfessionals/' + username + '/patients'"></Card>
     </div>
     <div class="col mr-5">
-      <Card :element="'prescriptions'" :text="'Patients Prescriptions'" :url="'healthCareProfessionals/' + username + '/prescriptions'"></Card>
+      <Card :element="'prescriptions'" :text="'Prescriptions'" :url="'healthCareProfessionals/' + username + '/prescriptions'"></Card>
     </div>
     <div class="col mr-5">
       <Card :element="'biomedicMeasures'" :text="'Patients Biomedic Data'" :url="'healthCareProfessionals/' + username + '/biomedicMeasures'"></Card>

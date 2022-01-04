@@ -83,6 +83,7 @@
 
 <script>
 export default {
+  middleware : "isAdminOrHealthcareProfAccessingHisData",
   data() {
     return {
       fields: [
@@ -242,7 +243,6 @@ export default {
       return this.isEmailValidFeedback === ''
     },
     isbirthDateValidFeedback() {
-      console.log(this.birthDate)
       if (!this.birthDate || this.birthDate === "No date selected") {
         return null;
       }
@@ -322,6 +322,12 @@ export default {
         this.currentBirthDate = entidade.birthDate;
         this.currentEmail = entidade.email;
         this.currentContact = entidade.contact;
+      })
+       .catch((error)=>{
+        if(error.response.status == 403 || error.response.status == 404){
+          this.$router.push("./../../healthCareProfessionals");
+          return;
+        }
       });
     },
     update(bvModalEvt) {
@@ -376,6 +382,9 @@ export default {
       }
     },
     onContext(ctx) {
+       if(ctx.selectedDate == null){
+        return null;
+    }
       // The date formatted in the locale, or the `label-no-date-selected` string
       this.birthDate = ctx.selectedFormatted
     }

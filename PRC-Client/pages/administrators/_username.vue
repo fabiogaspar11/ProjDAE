@@ -97,6 +97,7 @@
 
 <script>
 export default {
+  middleware: "isAdministrator",
   data() {
     return {
       fields: [
@@ -277,6 +278,12 @@ export default {
           this.currentBirthDate = entidade.birthDate;
           this.currentEmail = entidade.email;
           this.currentContact = entidade.contact;
+        })
+        .catch((error)=>{
+          if(error.response.status == 403 || error.response.status == 404){
+            this.$router.push("./../administrators");
+            return;
+          }
         });
     },
     remove() {
@@ -339,6 +346,9 @@ export default {
         });
     },
     onContext(ctx) {
+       if(ctx.selectedDate == null){
+        return null;
+    }
       // The date formatted in the locale, or the `label-no-date-selected` string
       this.birthDate = ctx.selectedFormatted
     }

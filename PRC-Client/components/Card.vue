@@ -24,18 +24,13 @@ export default {
     url: String,
   },
   computed: {
-    username() {
-      return this.$auth.user.sub;
-    },
-    userType() {
-      let groupUser = this.$auth.user.groups[0]
-
-      if(groupUser == "HealthcareProfessional")
-        return "healthcareProfessionals"
-      if(groupUser == "Patient")
-        return "patients"
+    isLoggedToUseComputedProps(){
+      return this.$auth.$state.loggedIn;
     },
     textDescription(){
+      if(!this.isLoggedToUseComputedProps){
+        return ""
+      }
       if(this.$auth.user.groups.includes("Administrator")){
         return "the " + this.text;
       }

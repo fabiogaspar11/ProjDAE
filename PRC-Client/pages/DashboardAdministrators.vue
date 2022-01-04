@@ -26,11 +26,6 @@
 <script>
 export default {
   middleware: 'isAdministrator',
-  computed: {
-    username() {
-      return this.$route.params.username;
-  }
-  }
 }
 </script>
 

@@ -154,6 +154,7 @@
 import NavBar from "/components/NavBar.vue";
 
 export default {
+   middleware: "isAdministrator",
   components: {
     NavBar,
   },
@@ -251,6 +252,9 @@ export default {
         });
     },
     onContext(ctx) {
+       if(ctx.selectedDate == null){
+        return null;
+    }
       // The date formatted in the locale, or the `label-no-date-selected` string
       this.birthDate = ctx.selectedFormatted
     }

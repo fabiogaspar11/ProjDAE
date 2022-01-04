@@ -1,15 +1,14 @@
 <template>
   <div>
-    <!--<NavBar/>-->
     <div>
       <b-navbar toggleable="lg" type="dark" variant="info">
-        <b-navbar-brand :to="urlDashboard"
+        <b-navbar-brand v-if='urlDashboard!=""' :to="urlDashboard"
           ><img src="../dist/logoLogin.png" width="50px" height="30px"
         /></b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav class="ml-auto">
-            <b-nav-item :to="'/' + urlUser + '/' + username">
+            <b-nav-item v-if='urlUser!=""' :to="'/' + urlUser + '/' + username">
               <div class="d-flex align-items-center">
                 <div class="p-2">{{ this.$auth.user.sub }}</div>
                 <div class="p-2">
@@ -36,10 +35,19 @@ export default {
     },
   },
   computed: {
+    isLoggedToUseComputedProps(){
+      return this.$auth.$state.loggedIn;
+    },
     username() {
+      if(!this.isLoggedToUseComputedProps){
+        return ""
+      }
       return this.$auth.user.sub;
     },
     urlDashboard() {
+      if(!this.isLoggedToUseComputedProps){
+        return ""
+      }
       if (this.$auth.user.groups.includes("Patient")) {
         return "/dashboard";
       } else if (this.$auth.user.groups.includes("HealthcareProfessional")) {
@@ -49,6 +57,9 @@ export default {
       }
     },
     urlUser() {
+      if(!this.isLoggedToUseComputedProps){
+        return ""
+      }
         if (this.$auth.user.groups.includes("Patient")) {
           return "patients";
         } else if (this.$auth.user.groups.includes("HealthcareProfessional")) {

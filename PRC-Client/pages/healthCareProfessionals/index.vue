@@ -132,6 +132,7 @@ import NavBar from "/components/NavBar.vue";
 import Router from "vue-router";
 
 export default {
+  middleware: "isAdministrator",
   components: {
     NavBar,
     Router,
@@ -424,6 +425,9 @@ export default {
       this.currentPage = 1;
     },
     onContext(ctx) {
+       if(ctx.selectedDate == null){
+        return null;
+    }
       // The date formatted in the locale, or the `label-no-date-selected` string
       this.birthDate = ctx.selectedFormatted
     }

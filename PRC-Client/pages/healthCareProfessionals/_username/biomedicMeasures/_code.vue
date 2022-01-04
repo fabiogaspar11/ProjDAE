@@ -85,12 +85,13 @@
         </div>
           <p>{{ isValueValidFeedback }}</p>
       </b-modal>
-    </div>
   </div>
+ </div>
 </template>
 
 <script>
 export default {
+  middleware: "isHealthcareProfessionalAccessingHisData",
   data() {
     return {
       fields: [
@@ -279,7 +280,13 @@ export default {
                 this.maxVal = b.maxValue;
               }
             });
-          });
+          })
+           .catch((error)=>{
+      if(error.response.status == 403 || error.response.status == 404){
+                this.$router.push("./../biomedicMeasures");
+                return;
+              }
+            });
       });
     },
     update() {
@@ -315,6 +322,9 @@ export default {
         });
     },
     onContext(ctx) {
+       if(ctx.selectedDate == null){
+        return null;
+    }
       // The date formatted in the locale, or the `label-no-date-selected` string
       this.dateEdit = ctx.selectedFormatted
     }

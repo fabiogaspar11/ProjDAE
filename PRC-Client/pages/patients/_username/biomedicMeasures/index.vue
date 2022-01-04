@@ -756,10 +756,16 @@ export default {
       return this.biomedicDataTypes;
     },
     onContext(ctx) {
+       if(ctx.selectedDate == null){
+        return null;
+    }
       // The date formatted in the locale, or the `label-no-date-selected` string
       this.date = ctx.selectedFormatted
     },
     onContextEdit(ctx) {
+       if(ctx.selectedDate == null){
+        return null;
+    }
       // The date formatted in the locale, or the `label-no-date-selected` string
       this.dateEdit = ctx.selectedFormatted
     }
