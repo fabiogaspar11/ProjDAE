@@ -120,7 +120,7 @@
             class="form-control"
             aria-describedby="basic-addon1"
             :state="isGenderValuedifferentiationValid"
-            placeholder="Enter Gender Value Differebce"
+            placeholder="Enter Gender Value Difference"
           />
         </div>
           <p>{{ isGenderValuedifferentiationValidFeedback }}</p>
