@@ -29,7 +29,7 @@
             placeholder="Enter your name"
           />
         </div>
-          <p>{{ isNameValidFeedback }}</p>
+        <p>{{ isNameValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Email</span>
           <b-input
@@ -43,7 +43,7 @@
             placeholder="Enter your email"
           />
         </div>
-          <p>{{ isEmailValidFeedback }}</p>
+        <p>{{ isEmailValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Password</span>
           <b-input
@@ -56,7 +56,7 @@
             placeholder="Enter your password"
           />
         </div>
-          <p>{{ isPasswordValidFeedback }}</p>
+        <p>{{ isPasswordValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Birthdate</span>
           <b-input
@@ -72,12 +72,16 @@
             <b-form-datepicker
               id="ex-disabled-readonly"
               button-only
-              :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+              :date-format-options="{
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+              }"
               @context="onContext"
             ></b-form-datepicker>
           </b-input-group-append>
         </div>
-          <p>{{ isbirthDateValidFeedback }}</p>
+        <p>{{ isbirthDateValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Contact</span>
           <b-input
@@ -90,7 +94,7 @@
             placeholder="Enter your contact"
           />
         </div>
-          <p>{{ isContactValidFeedback }}</p>
+        <p>{{ isContactValidFeedback }}</p>
         <div class="input-group mb-4">
           <span class="input-group-text">Health Number</span>
           <b-input
@@ -103,11 +107,12 @@
             placeholder="Enter your health number"
           />
         </div>
-          <p>{{ isHealthNumberValidFeedback }}</p>
+        <p>{{ isHealthNumberValidFeedback }}</p>
       </b-modal>
 
       <div v-if="this.tableLength != 0" class="mt-3">
         <b-table
+          small
           :items="this.entidade"
           :fields="fields"
           striped
@@ -143,8 +148,8 @@
           aria-controls="table"
         ></b-pagination>
       </div>
-       <div v-else class="w-75 mx-auto alert alert-info">
-            No administrators created yet
+      <div v-else class="w-75 mx-auto alert alert-info">
+        No administrators created yet
       </div>
     </b-container>
   </div>
@@ -154,7 +159,7 @@
 import NavBar from "/components/NavBar.vue";
 
 export default {
-   middleware: "isAdministrator",
+  middleware: "isAdministrator",
   components: {
     NavBar,
   },
@@ -193,11 +198,11 @@ export default {
     getAdministrators() {
       this.$axios.$get("/api/administrators").then((entidade) => {
         this.entidade = entidade;
-        let i=0;
-         entidade.forEach(a => {
-          if(a.username==this.$auth.user.sub){
-            console.log(a.username)
-             this.entidade.splice(i,1);
+        let i = 0;
+        entidade.forEach((a) => {
+          if (a.username == this.$auth.user.sub) {
+            console.log(a.username);
+            this.entidade.splice(i, 1);
           }
           i++;
         });
@@ -252,12 +257,12 @@ export default {
         });
     },
     onContext(ctx) {
-       if(ctx.selectedDate == null){
+      if (ctx.selectedDate == null) {
         return null;
-    }
+      }
       // The date formatted in the locale, or the `label-no-date-selected` string
-      this.birthDate = ctx.selectedFormatted
-    }
+      this.birthDate = ctx.selectedFormatted;
+    },
   },
   created() {
     this.getAdministrators();

@@ -132,6 +132,7 @@
       </b-modal>
       <div v-if="this.tableLength != 0" class="mt-1">
         <b-table
+          small
           id="table"
           :per-page="perPage"
           :current-page="currentPagePaginatePrincipal"
@@ -199,7 +200,6 @@ export default {
           sortDirection: "desc",
         },
         { key: "date", label: "Date", sortable: true, sortDirection: "desc" },
-        { key: "hour", label: "Hour", sortable: true, sortDirection: "desc" },
         { key: "usernameRegister", label: "Username Register" ,sortable: true, sortDirection: "desc" },
         "operations",
       ],

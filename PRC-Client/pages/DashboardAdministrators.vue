@@ -1,7 +1,7 @@
 <template>
 <div>
   <NavBar></NavBar>
-  <div class="container mt-5  d-flex justify-content-around">
+  <z class="container mt-5  d-flex justify-content-around">
   <div class="row">
     <div class="col mr-2">
       <Card :element="'diseases'" :text="'Diseases'" :url="'diseases'"></Card>
@@ -19,7 +19,7 @@
       <Card :element="'biomedicDataTypes'" :text="'Biomedic Types'" :url="'biomedicDataTypes'"></Card>
     </div>
   </div>
-</div>
+</z>
 </div>
 </template>
 

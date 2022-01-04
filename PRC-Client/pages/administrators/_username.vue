@@ -1,11 +1,11 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <div class="container" style="margin-top: 4%">
+    <b-container class="mt-3">
       <h3> Details</h3>
       <template>
         <div>
-          <b-table striped hover :items="entidade" :fields="fields"></b-table>
+          <b-table small striped hover :items="entidade" :fields="fields"></b-table>
         </div>
       </template>
             <b-button v-b-modal.modal-1 class="text-center">Edit</b-button>
@@ -13,7 +13,7 @@
         <b-modal id="modal-1" title="Edit" @ok="update()">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text">Name</span>
+              <span class="input-group-text">Names</span>
             </div>
             <b-input
               v-model.trim="name"
@@ -54,12 +54,13 @@
             <b-input
               v-model.trim="email"
               ref="email"
-              type="text"
+              type="email"
               class="form-control"
               aria-describedby="basic-addon1"
               placeholder="Enter your email"
               :state="isEmailValid"
             />
+
           </div>
               <p>{{isEmailValidFeedback}}</p>
 
@@ -90,7 +91,7 @@
           </div>
               <p>{{isPasswordValidFeedback}}</p>
       </b-modal>
-      </div>
+      </b-container>
     </div>
 </template>
 
@@ -207,18 +208,15 @@ export default {
       }
       return this.isPasswordValidFeedback === "";
     },
-    isEmailValidFeedback() {
+    isEmailValidFeedback () {
       if (!this.email) {
-        return null;
+        return null
       }
-
       if(this.email == this.currentEmail){
         return "Email is equal to current email";
       }
 
-      return this.$refs.email.checkValidity()
-        ? ""
-        : "Email is not valid - the email format must be like name@domain";
+      return this.$refs.email.checkValidity() ? '' : 'Email is not valid - the email format must be like name@domain'
     },
     isEmailValid() {
       if (this.isEmailValidFeedback === null) {

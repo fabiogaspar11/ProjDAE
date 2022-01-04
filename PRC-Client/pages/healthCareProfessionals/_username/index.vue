@@ -1,28 +1,13 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <h1 style="margin-top: 4%" class="d-flex justify-content-center"> HealthCare Professionals </h1>
-    <div class="d-flex justify-content-center" style="margin-top: 2%">
-      <template>
-        <div>
-          <b-table striped hover :items="healthCareProfessional" :fields="fields"></b-table>
+    <b-container class="mt-3">
+    <h3> HealthCare Professionals </h3>
+      <b-table small striped hover :items="healthCareProfessional" :fields="fields"></b-table>
+        <div class="mt-3 mb-5 text-center">
+          <b-button v-b-modal.modal-1>Edit</b-button>
+          <b-button v-if="!this.isAdmin" v-b-modal.modal-2 variant="primary">Change password</b-button>
         </div>
-      </template>
-    </div>
-    <b-container class="bv-example-row">
-      <b-row class="d-flex justify-content-center">
-        <b-col sm="2">
-          <div class="d-flex justify-content-center">
-            <b-button v-b-modal.modal-1>Edit</b-button>
-          </div>
-        </b-col>
-        <b-col sm="2">
-          <div class="d-flex justify-content-center">
-            <b-button v-if="!this.isAdmin" v-b-modal.modal-2 variant="primary">Change password</b-button>
-          </div>
-        </b-col>
-      </b-row>
-    </b-container>
 
 
     <b-modal id="modal-1" title="Edit" @ok="update">
@@ -74,50 +59,44 @@
         {{alertPasswordInvalid}}
       </b-alert>
     </b-modal>
+    </b-container>
   </div>
 </template>
 
 <script>
 export default {
-  middleware : "isAdminOrHealthcareProfAccessingHisData",
+  middleware: "isAdminOrHealthcareProfAccessingHisData",
   data() {
     return {
-      fields: [
-        "healthNumber",
-        "name",
-        "birthDate",
-        "email",
-        "contact",
-      ],
+      fields: ["healthNumber", "name", "birthDate", "email", "contact"],
       healthCareProfessional: [],
       state: true,
-      healthNumber : null,
-      name : null,
-      birthDate : null,
-      email : null,
-      contact : null,
+      healthNumber: null,
+      name: null,
+      birthDate: null,
+      email: null,
+      contact: null,
       passwordOld: null,
-      passwordNew : null,
+      passwordNew: null,
       showDismissibleAlertEdit: false,
       showDismissibleAlertPassword: false,
-      alertData: '',
-      alertPasswordInvalid: '',
-      currentName:null,
+      alertData: "",
+      alertPasswordInvalid: "",
+      currentName: null,
       currentBirthDate: null,
       currentEmail: null,
-      currentContact: null
+      currentContact: null,
     };
   },
   props: {
     url: String,
   },
   created() {
-    this.getHealthCareProfessionalData()
-
+    this.getHealthCareProfessionalData();
   },
   computed: {
-    isAdmin(){
-      if(this.$auth.user.groups.includes("Administrator")){
+    isAdmin() {
+      if (this.$auth.user.groups.includes("Administrator")) {
         return true;
       }
       return false;
@@ -125,96 +104,100 @@ export default {
     username() {
       return this.$route.params.username;
     },
-    isNameValidFeedback (){
+    isNameValidFeedback() {
       if (!this.name) {
-        return null
+        return null;
       }
-       if(this.name == this.currentName){
+      if (this.name == this.currentName) {
         return "Name is equal to current name";
       }
-      let nameLen = this.name.length
+      let nameLen = this.name.length;
       if (nameLen < 3 || nameLen > 25) {
-        return 'The name is too short - length must be between 3 and 25'
+        return "The name is too short - length must be between 3 and 25";
       }
-      return ''
+      return "";
     },
-    isNameValid () {
+    isNameValid() {
       if (this.isNameValidFeedback === null) {
-        return null
+        return null;
       }
-      return this.isNameValidFeedback === ''
+      return this.isNameValidFeedback === "";
     },
-    isContactValidFeedback (){
+    isContactValidFeedback() {
       if (!this.contact) {
-        return null
+        return null;
       }
-       if(this.contact == this.currentContact){
+      if (this.contact == this.currentContact) {
         return "Contact is equal to current contact";
       }
       let contactString = this.contact.toString();
-      let contactLen = contactString.length
+      let contactLen = contactString.length;
       if (contactLen !== 9) {
-        return 'The contact is invalid - contact must have 9 digits exactly'
+        return "The contact is invalid - contact must have 9 digits exactly";
       }
       const phoneRegex = /^(9[0-9])([0-9]{7})?$/;
-      return phoneRegex.test(contactString) ? '':'Contact is invalid - Not in PT format';
+      return phoneRegex.test(contactString)
+        ? ""
+        : "Contact is invalid - Not in PT format";
     },
-    isContactValid () {
+    isContactValid() {
       if (this.isContactValidFeedback === null) {
-        return null
+        return null;
       }
-      return this.isContactValidFeedback === ''
+      return this.isContactValidFeedback === "";
     },
-    isPasswordOldValidFeedback () {
+    isPasswordOldValidFeedback() {
       this.showDismissibleAlertPassword = false;
       if (!this.passwordOld) {
-        return null
+        return null;
       }
-      let passwordLen = this.passwordOld.length
+      let passwordLen = this.passwordOld.length;
       if (passwordLen < 3 || passwordLen > 255) {
-        return 'Password Old is too short, length must be between 3 and 255'
+        return "Password Old is too short, length must be between 3 and 255";
       }
-      return ''
+      return "";
     },
-    isPasswordOldValid () {
+    isPasswordOldValid() {
       if (this.isPasswordOldValidFeedback === null) {
-        return null
+        return null;
       }
-      return this.isPasswordOldValidFeedback === ''
+      return this.isPasswordOldValidFeedback === "";
     },
-    isPasswordNewValidFeedback () {
+    isPasswordNewValidFeedback() {
       this.showDismissibleAlertPassword = false;
       if (!this.passwordNew) {
-        return null
+        return null;
       }
-      let passwordLen = this.passwordNew.length
+      let passwordLen = this.passwordNew.length;
       if (passwordLen < 3 || passwordLen > 255) {
-        return 'Password New is too short, length must be between 3 and 255'
+        return "Password New is too short, length must be between 3 and 255";
       }
-      return ''
+      return "";
     },
-    isPasswordNewValid () {
+    isPasswordNewValid() {
       if (this.isPasswordNewValidFeedback === null) {
-        return null
+        return null;
       }
-      return this.isPasswordNewValidFeedback === ''
+      return this.isPasswordNewValidFeedback === "";
     },
 
-    isEmailValidFeedback () {
+    isEmailValidFeedback() {
       if (!this.email) {
-        return null
+        return null;
       }
-       if(this.email == this.currentEmail){
+      if (this.email == this.currentEmail) {
         return "Email is equal to current email";
       }
 
-      return this.$refs.email.checkValidity() ? '' : 'Email is not valid - the email format must be like name@domain'
+      return this.$refs.email.checkValidity()
+        ? ""
+        : "Email is not valid - the email format must be like name@domain";
     },
-    isEmailValid () {
+    isEmailValid() {
       if (this.isEmailValidFeedback === null) {
-        return null
+        return null;
       }
-      return this.isEmailValidFeedback === ''
+      return this.isEmailValidFeedback === "";
     },
     isbirthDateValidFeedback() {
       if (!this.birthDate || this.birthDate === "No date selected") {
@@ -250,61 +233,69 @@ export default {
       }
       return this.isbirthDateValidFeedback === "";
     },
-    isFormValid () {
+    isFormValid() {
       this.showDismissibleAlertEdit = false;
-      if (this.name == null && this.email == null  && this.contact == null && this.birthDate == null) {
-        this.alertData = 'You need to change some data to update'
-        return false
+      if (
+        this.name == null &&
+        this.email == null &&
+        this.contact == null &&
+        this.birthDate == null
+      ) {
+        this.alertData = "You need to change some data to update";
+        return false;
       }
-      this.alertData = 'Every Data must be correct'
+      this.alertData = "Every Data must be correct";
       if (this.isNameValid === false) {
-        return false
+        return false;
       }
       if (this.isbirthDateValid === false) {
-        return false
+        return false;
       }
-      if (this.isContactValid  === false) {
-        return false
+      if (this.isContactValid === false) {
+        return false;
       }
-      if (this.isEmailValid  === false) {
-        return false
+      if (this.isEmailValid === false) {
+        return false;
       }
       this.showDismissibleAlertEdit = true;
       return true;
     },
-    isFormPasswordValid () {
+    isFormPasswordValid() {
       this.showDismissibleAlertPassword = false;
       if (this.passwordOld == null || this.passwordNew == null) {
-        this.alertPasswordInvalid = 'You must fill all the fields to update password'
-        return false
+        this.alertPasswordInvalid =
+          "You must fill all the fields to update password";
+        return false;
       }
       if (this.isPasswordOldValid === false) {
-        return false
+        return false;
       }
-      if(this.isPasswordNewValid === false){
+      if (this.isPasswordNewValid === false) {
         return false;
       }
       return true;
-    }
+    },
   },
   methods: {
-    getHealthCareProfessionalData(){
-      this.$axios.$get(`/api/healthcareProfessionals/${this.username}`).then((entidade) => {
-        this.healthCareProfessional = [entidade];
-        this.currentName = entidade.name;
-        this.currentBirthDate = entidade.birthDate;
-        this.currentEmail = entidade.email;
-        this.currentContact = entidade.contact;
-      })
-       .catch((error)=>{
-        if(error.response.status == 403 || error.response.status == 404){
-          this.$router.push("./../../healthCareProfessionals");
-          return;
-        }
-      });
+    getHealthCareProfessionalData() {
+      this.$axios
+        .$get(`/api/healthcareProfessionals/${this.username}`)
+        .then((entidade) => {
+          this.healthCareProfessional = [entidade];
+          this.currentName = entidade.name;
+          this.currentBirthDate = entidade.birthDate;
+          this.currentEmail = entidade.email;
+          this.currentContact = entidade.contact;
+        })
+        .catch((error) => {
+          if (error.response.status == 403 || error.response.status == 404) {
+            this.$router.push("./../../healthCareProfessionals");
+            return;
+          }
+        });
     },
     update(bvModalEvt) {
-      if (this.isFormValid){
+      if (this.isFormValid) {
         this.$axios
           .$put(`/api/healthcareProfessionals/${this.username}`, {
             name: this.name,
@@ -317,19 +308,24 @@ export default {
             this.email = null;
             this.contact = null;
             this.birthDate = null;
-            this.$toast.info("HealthCare Professional " + this.username + " updated succesfully").goAway(3000);
+            this.$toast
+              .info(
+                "HealthCare Professional " +
+                  this.username +
+                  " updated succesfully"
+              )
+              .goAway(3000);
 
-            this.getHealthCareProfessionalData()
+            this.getHealthCareProfessionalData();
           });
-      }
-      else{
-        bvModalEvt.preventDefault()
+      } else {
+        bvModalEvt.preventDefault();
         this.showDismissibleAlertEdit = true;
       }
     },
     updatePassword(bvModalEvt) {
-      bvModalEvt.preventDefault()
-      if (this.isFormPasswordValid){
+      bvModalEvt.preventDefault();
+      if (this.isFormPasswordValid) {
         this.$axios
           .$put(`/api/healthcareProfessionals/${this.username}/password`, {
             passwordOld: this.passwordOld,
@@ -338,27 +334,30 @@ export default {
           .then(() => {
             this.passwordOld = null;
             this.passwordNew = null;
-            this.$toast.info(`HealthCare Professional (${this.username}) - password updated!`).goAway(3000);
+            this.$toast
+              .info(
+                `HealthCare Professional (${this.username}) - password updated!`
+              )
+              .goAway(3000);
 
-            this.getHealthCareProfessionalData()
+            this.getHealthCareProfessionalData();
           })
-          .catch(error => {
-            this.alertPasswordInvalid = error.response.data
+          .catch((error) => {
+            this.alertPasswordInvalid = error.response.data;
             this.showDismissibleAlertPassword = true;
-          })
-      }
-      else{
-        this.alertPasswordInvalid = 'Every Data must be correct';
+          });
+      } else {
+        this.alertPasswordInvalid = "Every Data must be correct";
         this.showDismissibleAlertPassword = true;
       }
     },
     onContext(ctx) {
-       if(ctx.selectedDate == null){
+      if (ctx.selectedDate == null) {
         return null;
-    }
+      }
       // The date formatted in the locale, or the `label-no-date-selected` string
-      this.birthDate = ctx.selectedFormatted
-    }
+      this.birthDate = ctx.selectedFormatted;
+    },
   },
 };
 </script>

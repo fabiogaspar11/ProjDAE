@@ -6,9 +6,9 @@
           <h3>Patients ({{ tableLength }})</h3>
           <b-form-input v-model="filter" type="search" placeholder="Search...">
           </b-form-input>
-
     <div v-if="this.tableLength != 0" class="mt-5">
       <b-table
+        small
         id="table"
         :per-page="perPage"
         :current-page="currentPagePaginate"

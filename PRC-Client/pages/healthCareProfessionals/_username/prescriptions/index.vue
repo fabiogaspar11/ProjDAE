@@ -68,7 +68,7 @@
             placeholder="Enter patient health number"
           />
         </div>
-          <p>{{ ishealthNumberPatientValidFeedback }}</p>
+        <p>{{ ishealthNumberPatientValidFeedback }}</p>
 
         <div class="overflow-auto">
           <b-form-input
@@ -80,7 +80,8 @@
           </b-form-input>
 
           <b-table
-          v-if="this.tableLength != 0"
+            v-if="this.tableLength != 0"
+            small
             striped
             hover
             :items="this.patients"
@@ -103,7 +104,10 @@
             :per-page="perPagePatients"
             aria-controls="tableAssociateds"
           ></b-pagination>
-          <div  v-if="this.tableLength == 0" class="w-75 mx-auto alert alert-info">
+          <div
+            v-if="this.tableLength == 0"
+            class="w-75 mx-auto alert alert-info"
+          >
             No Patients created yet
           </div>
         </div>
@@ -120,7 +124,7 @@
             placeholder="Enter prescription title"
           />
         </div>
-          <p>{{ isTitleValidFeedback }}</p>
+        <p>{{ isTitleValidFeedback }}</p>
         <div>
           Pharmacological prescription:
           <b-form-select
@@ -129,7 +133,7 @@
             :state="isOptionValid"
           ></b-form-select>
         </div>
-          <p>{{ isOptionValidFeedback }}</p>
+        <p>{{ isOptionValidFeedback }}</p>
         <br />
         <span>Treatment information:</span>
         <div>
@@ -142,7 +146,7 @@
             max-rows="6"
           ></b-form-textarea>
         </div>
-          <p>{{ isTreatmentInfoValidFeedback }}</p>
+        <p>{{ isTreatmentInfoValidFeedback }}</p>
         <br />
         <span>Observations:</span>
         <div>
@@ -170,15 +174,20 @@
             <b-form-datepicker
               id="ex-disabled-readonly"
               button-only
-              :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+              :date-format-options="{
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+              }"
               @context="onContext"
             ></b-form-datepicker>
           </b-input-group-append>
         </div>
       </b-modal>
-        <p>{{ isDateValidFeedback }}</p>
-      <div class="mt-1"  v-if="this.tableLength != 0">
+      <p>{{ isDateValidFeedback }}</p>
+      <div class="mt-1" v-if="this.tableLength != 0">
         <b-table
+          small
           id="table"
           :per-page="perPage"
           :current-page="currentPagePaginatePrincipal"
@@ -211,9 +220,9 @@
           aria-controls="table"
         ></b-pagination>
       </div>
-        <div  v-else class="w-75 mx-auto alert alert-info">
-          No prescriptions created yet
-        </div>
+      <div v-else class="w-75 mx-auto alert alert-info">
+        No prescriptions created yet
+      </div>
     </b-container>
   </div>
 </template>
@@ -329,7 +338,7 @@ export default {
       if (!this.treatmentInfo) {
         return null;
       }
-       let length = this.treatmentInfo.length;
+      let length = this.treatmentInfo.length;
       if (length < 3 || length > 25) {
         return "The treatment information is mandatory and must have between 3 and 25 letters";
       }
@@ -467,7 +476,7 @@ export default {
           observations: this.observations,
           title: this.title,
           treatmentInfo: this.treatmentInfo,
-          usernamePatient: "P"+ this.healthNumberPatient,
+          usernamePatient: "P" + this.healthNumberPatient,
           usernameHealthcareProfessional: this.usernameHealthcareProfessional,
         })
         .then((response) => {
@@ -567,12 +576,12 @@ export default {
       ).toLocaleDateString("en-US");
     },
     onContext(ctx) {
-       if(ctx.selectedDate == null){
+      if (ctx.selectedDate == null) {
         return null;
-    }
+      }
       // The date formatted in the locale, or the `label-no-date-selected` string
-      this.expireDate = ctx.selectedFormatted
-    }
+      this.expireDate = ctx.selectedFormatted;
+    },
   },
 };
 </script>
