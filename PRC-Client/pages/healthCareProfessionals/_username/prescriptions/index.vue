@@ -522,17 +522,29 @@ export default {
           const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
           for (let i = 1; i < data.length; i++) {
-            let expireDate = data[i][2].toString();
-            if (!expireDate.includes("/")) {
-              expireDate = this.convertToDate(data[i][2]);
+
+            if(data[0].length != 9){
+                this.$toast.error("Invalid number of columns in excel file").goAway(3000);
+              break;
             }
+            if(data[0][0] != "Code" || data[0][1] != "Emission Date" || data[0][2] != "Expire Date"  || data[0][3] != "Pharmacological" || data[0][4] != "Title" || data[0][5] != "Treatment Information" || data[0][6] != "Observations" || data[0][7] != "PatientUsername"  || data[0][8] != "HealthcareProfessional"){
+              this.$toast.error("Excel columns not in the right format").goAway(3000);
+              break;
+            }
+
+            let expireDate= null;
+            if (!data[i][2].toString().includes("/")){
+              expireDate = this.convertToDate(data[i][2])
+            }else{
+              expireDate = data[i][2].toString();
+            }
+
             let isPharmacological = data[i][3];
             let title = data[i][4];
             let treatmentInfo = data[i][5];
             let observations = data[i][6];
-            let usernamePatient = data[i][7].slice(1);
-            let usernameHealthcareProfessional = data[i][8].slice(1);
-            console.log(usernameHealthcareProfessional);
+            let usernamePatient = data[i][7];
+            let usernameHealthcareProfessional = data[i][8];
 
             this.$axios
               .$post("/api/prescriptions", {

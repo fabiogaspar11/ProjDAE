@@ -685,24 +685,13 @@ export default {
           /* Convert array of arrays */
           const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
           for (let i = 1; i < data.length; i++) {
-            if(this.file.name.endsWith(".xls") || this.file.name.endsWith(".xlsx")){
-              if(data[0].length != 7){
-                 this.$toast.error("Invalid number of columns in excel file").goAway(3000);
-                break;
-              }
-              if(data[0][0] != "Code" || data[0][1] != "PatientUsername" || data[0][2] != "Biomedic Data Type"  || data[0][3] != "Value" || data[0][4] != "Date" || data[0][5] != "Hour" || data[0][6] != "UsernameRegister" ){
-                this.$toast.error("Excel columns not in the right format").goAway(3000);
-                break;
-              }
-            }else{
-              if(data[0].length != 1){
-                this.$toast.error("Excel file .csv should have 1 column only").goAway(3000);
-                break;
-              }
-              if(data[0][0] != "Code,PatientUsername,Biomedic Data Type,Value,Date,Hour,UsernameRegister"){
-                this.$toast.error("Excel file .csv column with invalid name").goAway(3000);
-                break;
-              }
+             if(data[0].length != 7){
+                this.$toast.error("Invalid number of columns in excel file").goAway(3000);
+              break;
+            }
+            if(data[0][0] != "Code" || data[0][1] != "PatientUsername" || data[0][2] != "Biomedic Data Type"  || data[0][3] != "Value" || data[0][4] != "Date" || data[0][5] != "Hour" || data[0][6] != "UsernameRegister" ){
+              this.$toast.error("Excel columns not in the right format").goAway(3000);
+              break;
             }
 
             let usernamePatient = data[i][1];
