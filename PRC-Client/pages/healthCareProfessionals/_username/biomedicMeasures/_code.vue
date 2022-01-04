@@ -273,6 +273,8 @@ export default {
             this.biomedicDataTypes.forEach((b) => {
               if (this.entidade[0].biomedicDataTypeCode === b.code) {
                 this.entidade[0].biomedicDataType = b.name;
+                this.entidade[0].normalMinValue = this.entidade[0].normalMinValue + " " + b.unitMeasure;
+                this.entidade[0].normalMaxValue = this.entidade[0].normalMaxValue+ " " + b.unitMeasure;
                 this.entidade[0].minValue = b.minValue + " " + b.unitMeasure;
                 this.entidade[0].maxValue = b.maxValue + " " + b.unitMeasure;
                 this.entidade[0].value += " " + b.unitMeasure;
