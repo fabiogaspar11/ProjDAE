@@ -22,6 +22,7 @@
      <b-modal ok-only ok-title="Close" id="modal-2" title="Diseases">
         <b-container>
           <div class="overflow-auto">
+            <div v-if="diseasesAll.length !=0">
             <b-form-input
               class="mb-3"
               v-model="filterDiseases"
@@ -29,11 +30,11 @@
               placeholder="Search..."
             >
             </b-form-input>
-
             <b-table
               small
               striped
               hover
+              v-if="diseasesAll.lenght !=0"
               :items="this.diseasesAll"
               :fields="fieldsDiseases"
               :filter="filterDiseases"
@@ -66,6 +67,10 @@
               :per-page="perPage"
               aria-controls="tableDiseasesAll"
             ></b-pagination>
+            </div>
+             <div v-if="this.diseasesAll.length == 0" class="w-75 mx-auto alert alert-info">
+        No diseases created yet
+      </div>
           </div>
         </b-container>
       </b-modal>
@@ -141,6 +146,7 @@
 
       <b-container class="mt-1">
         <h3 class="mt-3">Diseases ({{ this.diseases.length }})</h3>
+        <div v-if="diseases.length!=0">
         <b-table
           small
           id="tableDiseases"
@@ -162,6 +168,10 @@
           :per-page="perPageDiseases"
           aria-controls="tableDiseases"
         ></b-pagination>
+        </div>
+         <div v-if="this.diseases == 0" class="w-75 mx-auto alert alert-info">
+        No diseases diagnosed yet
+      </div>
       </b-container>
 
       <!---------------------------------------------PRESCRIPTIONS ---------------------------------------------->
