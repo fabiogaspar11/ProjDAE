@@ -70,8 +70,10 @@
             placeholder="Enter observations..."
             rows="3"
             max-rows="6"
+             :state="isObservationValid"
           ></b-form-textarea>
         </div>
+        <p>{{isObservationValidFeedback}}</p>
         <br />
         <div class="input-group mb-4">
           <span class="input-group-text">Expire Date</span>
@@ -149,19 +151,37 @@ export default {
     code() {
       return this.$route.params.code;
     },
+      isObservationValid() {
+      if (this.isObservationValidFeedback === null) {
+        return null;
+      }
+      return this.isObservationValidFeedback === "";
+    },
+    isObservationValidFeedback() {
+      if (!this.observations) {
+        return null;
+      }
+       if(this.observations != this.currentObservations){
+        return "Observations is equal to the current observations";
+      }
+      return "";
+    },
     isTitleValid() {
       if (this.isTitleValidFeedback === null) {
         return null;
-      }
-      let length = this.title.length;
-      if (length < 1 || length > 25) {
-        return "The title is mandatory and must have between 1 and 25 letters";
       }
       return this.isTitleValidFeedback === "";
     },
     isTitleValidFeedback() {
       if (!this.title) {
         return null;
+      }
+       if(this.title != this.currentTitle){
+        return "Treatment Information is equal to the current treatment information";
+      }
+       let length = this.title.length;
+      if (length < 1 || length > 25) {
+        return "The title is mandatory and must have between 1 and 25 letters";
       }
       return "";
     },
@@ -174,6 +194,9 @@ export default {
     isTreatmentInfoValidFeedback() {
       if (!this.treatmentInfo) {
         return null;
+      }
+       if(this.treatmentInfo != this.currentTreatmentInfo){
+        return "Treatment Information is equal to the current treatment information";
       }
        let length = this.treatmentInfo.length;
       if (length < 1 || length > 25) {
@@ -190,6 +213,9 @@ export default {
     isDateValidFeedback() {
       if (!this.expireDate) {
         return null;
+      }
+       if(this.expireDate != this.currentExpireDate){
+        return "Expire date is equal to the current expire date";
       }
       var date_regex =
         /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/;
@@ -218,6 +244,9 @@ export default {
     isOptionValid() {
       if (this.isOptionValidFeedback == null) {
         return null;
+      }
+      if(this.isPharmacological != this.currentIsPharmacological){
+        return "Option is equal to the current option";
       }
       return "";
     },
@@ -272,7 +301,6 @@ export default {
       if (this.observations != this.currentObservations) {
         prescriptionUpdate.observations = this.observations;
       }
-
       if (Object.keys(prescriptionUpdate).length != 0) { //apenas fazer pedido no caso do objecto ter algo para atualizar
         this.$axios
           .$put(`/api/prescriptions/${this.code}`, prescriptionUpdate)
