@@ -168,7 +168,7 @@
             :disabled="!biomedicDataType"
             v-model="value"
             :state="this.isValueValid"
-            class="col-md-2"
+            class="col-md-3"
             >{{ this.value }}</b-input
           >
           <b-input-group

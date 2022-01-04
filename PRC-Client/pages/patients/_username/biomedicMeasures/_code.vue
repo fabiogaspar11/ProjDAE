@@ -62,7 +62,7 @@
           <b-input
             v-model="valueEdit"
             :state="this.isValueValid"
-            class="col-md-2"
+            class="col-md-3"
             >{{ this.valueEdit }}</b-input
           >
           <b-input-group
